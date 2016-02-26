@@ -30,7 +30,7 @@ public class MapView extends JComponent {
     public void paintComponent(Graphics g){
         //TEST CODE, BUT FOLLOW THIS FORMAT FOR OVERRIDING PAINTCOMPONENT
         //First we inherit the size of the parent
-        System.out.println("Inside MapView");
+        //System.out.println("Inside MapView");
         Graphics2D g2d = (Graphics2D)g.create();
         g2d.setColor(Color.GREEN);
         g2d.fillRect(400,400,50,50);

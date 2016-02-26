@@ -23,7 +23,7 @@ public class AvatarView extends JComponent{
 
     public void paintComponent(Graphics g){
         //TEST CODE, BUT FOLLOW THIS FORMAT FOR OVERRIDING PAINTCOMPONENT
-        System.out.println("Inside AvatarView");
+        //System.out.println("Inside AvatarView");
         Graphics2D g2d = (Graphics2D)g.create();
         //gotta use that AA
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
