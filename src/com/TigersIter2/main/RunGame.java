@@ -1,6 +1,7 @@
 package com.TigersIter2.main;
 
 import com.TigersIter2.entities.Avatar;
+import com.TigersIter2.maps.Map;
 import com.TigersIter2.views.AreaView;
 import com.TigersIter2.views.AvatarView;
 import com.TigersIter2.views.MapView;
@@ -15,6 +16,8 @@ public class RunGame extends JFrame {
 
     //JFrame window;
     private GamePanel gamePanel;
+    //diry way of avatar. disregard this
+    Avatar a;
     private boolean running = false;
 
     private final int FPS = 60;
@@ -43,10 +46,17 @@ public class RunGame extends JFrame {
 //        setSize(1280, 720);
 //    }
 
+    //loads the game
     public void loadGame(){
         setSize(1280, 720);
-        MapView mapView = new MapView();
-        AvatarView avatarView = new AvatarView();
+
+        Map m = new Map();
+        MapView mapView = new MapView(m);
+
+//        Avatar a = new Avatar();
+        a = new Avatar();
+        AvatarView avatarView = new AvatarView(a);
+
         AreaView areaView = new AreaView(mapView,avatarView);
         System.out.println("areaView # of components: " + areaView.getComponentCount());
         gamePanel = new GamePanel();
@@ -104,9 +114,13 @@ public class RunGame extends JFrame {
     }
 
     //calls the update of current panel
+    //for testing purposes, dirty way of updating avatar.
+    //we should prolly have a updateManager class
+    //that holds objects that should be updated, or just use events or w/e
     private void updateGame()
     {
         gamePanel.update();
+        a.update();
     }
 
     //renders the contents of current panel

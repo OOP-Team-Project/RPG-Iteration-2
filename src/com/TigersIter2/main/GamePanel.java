@@ -28,10 +28,10 @@ public class GamePanel extends JPanel {
 
     }
 
-
+    //sams test
     public void update(){
-        testX += 1;
-        testY += 1;
+        testX += 2;
+        testY += 2;
     }
 
     //for now we just paint the gray background for the main panel
@@ -41,8 +41,9 @@ public class GamePanel extends JPanel {
         Graphics2D g2d = (Graphics2D)g.create();
         g2d.setColor(Color.GRAY);
         g2d.fillRect(0,0,1280,720);
-        g2d.setColor(Color.BLUE);
+        g2d.setColor(Color.ORANGE);
         g2d.fillRect(testX,testY,25,25);
+        g2d.drawString("I'm GamePanel", testX, testY);
         g2d.dispose();
     }
 
