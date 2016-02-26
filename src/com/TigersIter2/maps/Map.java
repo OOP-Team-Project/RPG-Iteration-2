@@ -1,4 +1,4 @@
-package com.iter2.maps;
+package com.TigersIter2.maps;
 
 /**
  * Created by slichtenheld on 2/25/2016.

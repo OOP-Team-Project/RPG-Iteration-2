@@ -1,6 +1,6 @@
 package main.states;
 
-import com.iter2.maps.Map;
+import com.TigersIter2.maps.Map;
 
 /**
  * Created by slichtenheld on 2/25/2016.

@@ -1,4 +1,4 @@
-package com.iter2.location;
+package com.TigersIter2.location;
 
 /**
  * Created by slichtenheld on 2/25/2016.

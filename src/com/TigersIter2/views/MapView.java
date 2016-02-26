@@ -1,4 +1,4 @@
-package com.iter2.views;
+package com.TigersIter2.views;
 
 import javax.swing.*;
 import java.awt.*;

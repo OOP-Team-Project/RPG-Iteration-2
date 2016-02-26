@@ -1,7 +1,7 @@
-package com.iter2.main;
+package com.TigersIter2.main;
 
-import com.iter2.views.AreaView;
-import com.iter2.views.MapView;
+import com.TigersIter2.views.AreaView;
+import com.TigersIter2.views.MapView;
 
 import javax.swing.*;
 import java.awt.*;

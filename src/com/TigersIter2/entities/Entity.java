@@ -1,4 +1,4 @@
-package com.iter2.entities;
+package com.TigersIter2.entities;
 
 import java.util.Observable;
 

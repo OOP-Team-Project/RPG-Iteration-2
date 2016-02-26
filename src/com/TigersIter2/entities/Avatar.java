@@ -1,6 +1,6 @@
-package com.iter2.entities;
+package com.TigersIter2.entities;
 
-import com.iter2.location.Location;
+import com.TigersIter2.location.Location;
 
 /**
  * Created by slichtenheld on 2/25/2016.

@@ -1,9 +1,9 @@
-package com.iter2.main;
+package com.TigersIter2.main;
 
-import com.iter2.entities.Avatar;
-import com.iter2.views.AreaView;
-import com.iter2.views.AvatarView;
-import com.iter2.views.MapView;
+import com.TigersIter2.entities.Avatar;
+import com.TigersIter2.views.AreaView;
+import com.TigersIter2.views.AvatarView;
+import com.TigersIter2.views.MapView;
 
 import javax.swing.*;
 import java.awt.*;

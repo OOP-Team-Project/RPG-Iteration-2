@@ -1,6 +1,6 @@
-package com.iter2.views;
+package com.TigersIter2.views;
 
-import com.iter2.entities.Avatar;
+import com.TigersIter2.entities.Avatar;
 
 import javax.swing.*;
 import java.awt.*;
