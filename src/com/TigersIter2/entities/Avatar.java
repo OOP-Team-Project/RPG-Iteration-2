@@ -1,13 +1,14 @@
 package com.TigersIter2.entities;
 
+import com.TigersIter2.assets.items.TakeableItem;
 import com.TigersIter2.location.Location;
 
 
 public class Avatar extends Entity{
 
     private Location location;
-    //private Inventory inventory;
-    //private Equipment equipment;
+    private Inventory inventory;
+    private Equipment equipment;
     //private Stats stats;
     private Occupation occupation;
 
@@ -18,6 +19,8 @@ public class Avatar extends Entity{
         //changed this to actually instantiate location. Not sure what Z is for atm. <-- Z is for hextile stuff in the future (SL)
         location = new Location(100,100,0);
         direction = 270;
+        inventory = new Inventory();
+        equipment = new Equipment();
     }
 
     public void setLocation(Location l) {
@@ -31,6 +34,26 @@ public class Avatar extends Entity{
         changeDirection(xMovement, yMovement);
         //System.out.println(direction);
         //System.out.println(xMovement + ", " + yMovement);
+    }
+
+    public void equipItemAtIndex(int i){
+        TakeableItem item = inventory.removeItemAtIndex(i);
+        equipment.addItem(item);
+    }
+
+    public void unequipItemAtIndex(int i){
+        TakeableItem item = equipment.getItemAtIndex(i);
+        inventory.addItem(item);
+    }
+
+    public void pickUpItem(TakeableItem item){
+        inventory.addItem(item);
+    }
+
+    public void dropItemAtIndex(int i){
+        TakeableItem item = inventory.removeItemAtIndex(i);
+
+        //Do something here to put item on the current tile
     }
 
     public int getDirection(){

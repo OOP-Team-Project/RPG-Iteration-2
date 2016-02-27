@@ -4,6 +4,7 @@ import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.assets.sprites.TerrainSprite;
 import com.TigersIter2.assets.sprites.WizardSprite;
 import com.TigersIter2.entities.Avatar;
+import com.TigersIter2.entities.Inventory;
 import com.TigersIter2.entities.Occupation;
 import com.TigersIter2.entities.Smasher;
 import com.TigersIter2.maps.Map;
