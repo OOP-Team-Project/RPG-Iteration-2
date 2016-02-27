@@ -39,7 +39,7 @@ public class Avatar extends Entity{
     }
 
     public void equipItemAtIndex(int i){
-        if(inventory.getItemAtIndex(i).isEquippable() == true)
+        if(inventory.getItemAtIndex(i).isEquippable())
             equipment.addItem(inventory.removeItemAtIndex(i));
         else
             System.out.println("That item isn't equippable!");
