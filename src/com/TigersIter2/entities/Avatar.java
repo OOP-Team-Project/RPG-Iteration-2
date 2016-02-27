@@ -1,8 +1,6 @@
 package com.TigersIter2.entities;
 
-import com.TigersIter2.assets.items.Armor;
-import com.TigersIter2.assets.items.Potion;
-import com.TigersIter2.assets.items.TakeableItem;
+import com.TigersIter2.items.TakeableItem;
 import com.TigersIter2.location.Location;
 
 
