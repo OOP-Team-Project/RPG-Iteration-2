@@ -11,5 +11,5 @@ public abstract class Entity extends Observable { //does Entity need to extend o
     //updates entity stuff
     public abstract void update(int x, int y);
 
-
+    public abstract int getDirection();
 }

@@ -4,6 +4,8 @@ import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.assets.sprites.TerrainSprite;
 import com.TigersIter2.assets.sprites.WizardSprite;
 import com.TigersIter2.entities.Avatar;
+import com.TigersIter2.entities.Occupation;
+import com.TigersIter2.entities.Smasher;
 import com.TigersIter2.maps.Map;
 import com.TigersIter2.views.AreaView;
 import com.TigersIter2.views.AvatarView;
@@ -64,6 +66,9 @@ public class RunGame extends JFrame {
 
 //        Avatar a = new Avatar();
         a = new Avatar();
+
+        //**************TESTING CODE*********************
+        a.setOccupation(new Smasher());
         AvatarView avatarView = new AvatarView(a);
 
 

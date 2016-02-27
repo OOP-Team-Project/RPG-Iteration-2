@@ -11,41 +11,62 @@ public class Avatar extends Entity{
     //private Stats stats;
     private Occupation occupation;
 
+    private int direction;
+
 
     public Avatar(){
         //changed this to actually instantiate location. Not sure what Z is for atm. <-- Z is for hextile stuff in the future (SL)
         location = new Location(100,100,0);
+        direction = 270;
     }
 
     public void setLocation(Location l) {
         location = l;
     }
 
-
-    //testing purpose variables:
-
     @Override
     public void update(int xMovement, int yMovement) {
-
-        //System.out.println(dx + " located: " + location.getX() + " , " + dy + " located at: " + location.getY());
         location.incrementX(xMovement);
         location.incrementY(yMovement);
-        System.out.println(xMovement + ", " + yMovement);
-        //location.incrementX(dx);
-        //location.incrementY(dy);
-        //if( location.getX() >= 1280 - 50 || location.getX() <= 0 )
-            //dx *= -1;
-        //if( location.getY() >= 720 - 75 || location.getY() <= 0 )
-            //dy *= -1;
+        changeDirection(xMovement, yMovement);
+        //System.out.println(direction);
+        //System.out.println(xMovement + ", " + yMovement);
+    }
+
+    public int getDirection(){
+        return direction;
     }
 
     public Location getLocation() {
         return location;
     }
 
+    public void setOccupation(Occupation o){
+        occupation = o;
+    }
 
+    public Occupation getOccupation(){
+        return occupation;
+    }
 
-    //    public Location getLocation(){
-//        return location;
-//    }
+    private void changeDirection(int x, int y){
+        if(x == 0){
+            if(y == 1)
+                direction = 270;
+            else if(y == -1)
+                direction = 90;
+        }
+        else if(x == 1){
+            if(y == 1)
+                direction = 315;
+            else if(y == -1)
+                direction = 45;
+        }
+        else{
+            if(y == 1)
+                direction = 225;
+            else if(y == -1)
+                direction = 135;
+        }
+    }
 }
