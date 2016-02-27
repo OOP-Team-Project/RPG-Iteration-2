@@ -18,6 +18,9 @@ public class RunGame extends JFrame {
     private GamePanel gamePanel;
     //diry way of avatar. disregard this
     Avatar a;
+
+    //Talks to the controller
+    private Controller controller;
     private boolean running = false;
 
     private final int FPS = 60;
@@ -57,6 +60,7 @@ public class RunGame extends JFrame {
         a = new Avatar();
         AvatarView avatarView = new AvatarView(a);
 
+
         AreaView areaView = new AreaView(mapView,avatarView);
         System.out.println("areaView # of components: " + areaView.getComponentCount());
         gamePanel = new GamePanel();
@@ -65,8 +69,11 @@ public class RunGame extends JFrame {
         System.out.println("JFrame # of components: " + this.getComponentCount());
         this.add(gamePanel);
         this.setVisible(true);
-        this.setFocusable(true);
+        //this.setFocusable(true);
 
+        //Instantiate the controller and bind the default keys
+        controller = new Controller(gamePanel);
+        controller.setBindings();
     }
 
     //Starts a new thread and runs the game loop in it.
@@ -120,7 +127,7 @@ public class RunGame extends JFrame {
     private void updateGame()
     {
         gamePanel.update();
-        a.update();
+        a.update(controller.getXMovement(), controller.getyMovement());
     }
 
     //renders the contents of current panel
@@ -134,7 +141,7 @@ public class RunGame extends JFrame {
         } else {
             SwingUtilities.invokeLater(new Runnable() {
                 public void run() {
-                    System.out.println("Had to invoke repaint from the wrong thread onto EDT");
+                    //System.out.println("Had to invoke repaint from the wrong thread onto EDT");
 
                     gamePanel.repaint();
                 }

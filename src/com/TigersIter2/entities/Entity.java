@@ -11,7 +11,7 @@ public abstract class Entity extends Observable {
     //private Location location;
 
     //updates entity stuff
-    public abstract void update();
+    public abstract void update(int x, int y);
 
 
 }

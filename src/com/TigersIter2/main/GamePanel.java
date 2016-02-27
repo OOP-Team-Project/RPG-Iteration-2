@@ -37,7 +37,7 @@ public class GamePanel extends JPanel {
     //for now we just paint the gray background for the main panel
     @Override
     public void paintComponent(Graphics g){
-        System.out.println("Inside GP PCM");
+        //System.out.println("Inside GP PCM");
         Graphics2D g2d = (Graphics2D)g.create();
         g2d.setColor(Color.GRAY);
         g2d.fillRect(0,0,1280,720);

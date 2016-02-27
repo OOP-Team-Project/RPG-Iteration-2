@@ -23,7 +23,7 @@ public class AreaView extends JComponent {
 
     @Override
     public void paintComponent(Graphics g){
-        System.out.println("Inside AreaView");
+        //System.out.println("Inside AreaView");
 
     }
 
