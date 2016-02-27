@@ -9,7 +9,7 @@ public class Avatar extends Entity{
 
 
     public Avatar(){
-        //changed this to actually instantiate location. Not sure what Z is for atm.
+        //changed this to actually instantiate location. Not sure what Z is for atm. <-- Z is for hextile stuff in the future (SL)
         location = new Location(100,100,0);
     }
 

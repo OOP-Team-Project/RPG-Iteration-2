@@ -1,5 +1,7 @@
 package com.TigersIter2.views;
 
+import com.TigersIter2.assets.StaticVar;
+import com.TigersIter2.assets.sprites.WizardSprite;
 import com.TigersIter2.entities.Avatar;
 
 import javax.swing.*;
@@ -13,12 +15,13 @@ public class AvatarView extends JComponent{
     Avatar aHandle;
 
     public AvatarView(){
-        setPreferredSize(new Dimension(1280, 720));
+        setPreferredSize(new Dimension(StaticVar.gameWidth, StaticVar.gameHeight));
     }
 
     public AvatarView(Avatar a) {
         aHandle = a;
-        setPreferredSize(new Dimension(1280, 720));
+        setPreferredSize(new Dimension(StaticVar.gameWidth, StaticVar.gameHeight));
+
     }
 
     public void paintComponent(Graphics g){
@@ -29,7 +32,8 @@ public class AvatarView extends JComponent{
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setColor(Color.RED);
-        g2d.fillOval(aHandle.getLocation().getX(), aHandle.getLocation().getY(), 50, 50);
+        //g2d.fillOval(aHandle.getLocation().getX(), aHandle.getLocation().getY(), 50, 50);
+        g2d.drawImage(WizardSprite.wizardUp1, aHandle.getLocation().getX(), aHandle.getLocation().getY(), null);
         g2d.drawString("I'm Avatar", aHandle.getLocation().getX(), aHandle.getLocation().getY());
         g2d.dispose();
     }
