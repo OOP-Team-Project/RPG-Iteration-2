@@ -1,6 +1,6 @@
 package com.TigersIter2.entities;
 
-import com.TigersIter2.assets.items.TakeableItem;
+import com.TigersIter2.items.TakeableItem;
 
 import java.util.ArrayList;
 import java.util.List;

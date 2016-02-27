@@ -1,4 +1,4 @@
-package com.TigersIter2.assets.items;
+package com.TigersIter2.items;
 
 import com.TigersIter2.location.Location;
 
