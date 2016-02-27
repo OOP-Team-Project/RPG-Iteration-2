@@ -2,10 +2,8 @@ package com.TigersIter2.entities;
 
 import java.util.Observable;
 
-/**
- * Created by slichtenheld on 2/25/2016.
- */
-public abstract class Entity extends Observable {
+
+public abstract class Entity extends Observable { //does Entity need to extend observable??(SL)
 
 
     //private Location location;

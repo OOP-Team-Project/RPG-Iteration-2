@@ -1,14 +1,13 @@
 package com.TigersIter2.main;
 
+import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.views.AreaView;
 import com.TigersIter2.views.MapView;
 
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * Created by slichtenheld on 2/25/2016.
- */
+
 public class GamePanel extends JPanel {
 
     private int testX, testY;
@@ -20,7 +19,7 @@ public class GamePanel extends JPanel {
     public GamePanel(){
         //initialize everything, initialize State -> calls initialize world/player etc
         this.setLayout(new OverlayLayout(this));
-        this.setPreferredSize(new Dimension(1280, 720));
+        this.setPreferredSize(new Dimension(StaticVar.gameWidth, StaticVar.gameHeight));
 
 
         testX = 0;
@@ -40,7 +39,7 @@ public class GamePanel extends JPanel {
         //System.out.println("Inside GP PCM");
         Graphics2D g2d = (Graphics2D)g.create();
         g2d.setColor(Color.GRAY);
-        g2d.fillRect(0,0,1280,720);
+        g2d.fillRect(0,0, StaticVar.gameWidth,StaticVar.gameHeight);
         g2d.setColor(Color.ORANGE);
         g2d.fillRect(testX,testY,25,25);
         g2d.drawString("I'm GamePanel", testX, testY);

@@ -1,5 +1,6 @@
 package com.TigersIter2.views;
 
+import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.maps.Map;
 
 import javax.swing.*;
@@ -17,10 +18,11 @@ public class MapView extends JComponent {
     //for now only setting preferred size.
     //always set preferred size on JComponents, JPanels, ect.
     public MapView() {
-        setPreferredSize(new Dimension(1280, 720));
+        setPreferredSize(new Dimension(StaticVar.gameWidth, StaticVar.gameHeight));
     }
+
     public MapView(Map map) {
-        setPreferredSize(new Dimension(1280, 720));
+        setPreferredSize(new Dimension(StaticVar.gameWidth, StaticVar.gameHeight));
         mHandle = map;
     }
 
