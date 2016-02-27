@@ -2,9 +2,7 @@ package com.TigersIter2.entities;
 
 import com.TigersIter2.location.Location;
 
-/**
- * Created by slichtenheld on 2/25/2016.
- */
+
 public class Avatar extends Entity{
 
     private Location location;

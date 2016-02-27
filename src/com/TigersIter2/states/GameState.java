@@ -3,9 +3,7 @@ package com.TigersIter2.states;
 import com.TigersIter2.maps.Map;
 import com.TigersIter2.states.State;
 
-/**
- * Created by slichtenheld on 2/25/2016.
- */
+
 public class GameState extends State {
 
     private Map map;
