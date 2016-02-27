@@ -1,5 +1,7 @@
 package com.TigersIter2.entities;
 
+import com.TigersIter2.assets.items.Armor;
+import com.TigersIter2.assets.items.Potion;
 import com.TigersIter2.assets.items.TakeableItem;
 import com.TigersIter2.location.Location;
 
@@ -37,17 +39,17 @@ public class Avatar extends Entity{
     }
 
     public void equipItemAtIndex(int i){
-        TakeableItem item = inventory.removeItemAtIndex(i);
-        equipment.addItem(item);
+        if(inventory.getItemAtIndex(i).isEquippable() == true)
+            equipment.addItem(inventory.removeItemAtIndex(i));
+        else
+            System.out.println("That item isn't equippable!");
     }
 
     public void unequipItemAtIndex(int i){
-        TakeableItem item = equipment.getItemAtIndex(i);
-        inventory.addItem(item);
-    }
-
-    public void pickUpItem(TakeableItem item){
-        inventory.addItem(item);
+        if(!equipment.isEmpty())
+            inventory.addItem(equipment.removeItemAtIndex(i));
+        else
+            System.out.println("There is nothing to unequip!");
     }
 
     public void dropItemAtIndex(int i){

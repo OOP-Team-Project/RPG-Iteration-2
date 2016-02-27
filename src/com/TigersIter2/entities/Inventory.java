@@ -25,6 +25,7 @@ public class Inventory {
         return item;
     }
 
+    // i must be a valid index
     public TakeableItem removeItemAtIndex(int i){
         TakeableItem item = getItemAtIndex(i);
         items.remove(item);
@@ -38,5 +39,11 @@ public class Inventory {
     public void printInventory(){
         for(TakeableItem i : items)
             System.out.println(i);
+        if(items.isEmpty())
+            System.out.println("The inventory is empty!");
+    }
+
+    public boolean isEmpty(){
+        return items.isEmpty();
     }
 }

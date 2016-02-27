@@ -34,5 +34,11 @@ public class Equipment {
     public void printEquipment(){
         for(TakeableItem i : items)
             System.out.println(i);
+        if(items.isEmpty())
+            System.out.println("Nothing is equipped!");
+    }
+
+    public boolean isEmpty(){
+        return items.isEmpty();
     }
 }
