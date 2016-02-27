@@ -1,8 +1,6 @@
 package com.TigersIter2.location;
 
-/**
- * Created by slichtenheld on 2/25/2016.
- */
+//simple location class, has three dimensions for hex tile system
 public class Location {
 
     private int x,y,z;

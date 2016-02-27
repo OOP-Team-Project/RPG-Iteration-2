@@ -1,5 +1,8 @@
 package com.TigersIter2.main;
 
+import com.TigersIter2.assets.StaticVar;
+import com.TigersIter2.assets.sprites.TerrainSprite;
+import com.TigersIter2.assets.sprites.WizardSprite;
 import com.TigersIter2.entities.Avatar;
 import com.TigersIter2.maps.Map;
 import com.TigersIter2.views.AreaView;
@@ -9,9 +12,7 @@ import com.TigersIter2.views.MapView;
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * Created by slichtenheld on 2/25/2016.
- */
+//contains main method, kicks off everything
 public class RunGame extends JFrame {
 
     //JFrame window;
@@ -23,12 +24,12 @@ public class RunGame extends JFrame {
     private Controller controller;
     private boolean running = false;
 
-    private final int FPS = 60;
+    private final int FPS = StaticVar.fps;
     private final int TARGET_TIME = 1000 / FPS;
 
     public static void main(String[] args){
         RunGame runGame = new RunGame();
-        runGame.setLocationRelativeTo(null); //window appears in center of screen
+        //runGame.setLocationRelativeTo(null); //doesn't work here, added to loadGame(SL)
         runGame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //process quits when x button is pressed
         runGame.setResizable(false);
         runGame.runGameLoop();
@@ -51,8 +52,13 @@ public class RunGame extends JFrame {
 
     //loads the game
     public void loadGame(){
-        setSize(1280, 720);
 
+        //load image assets(SL) --> MAY HAVE TO ADD RES LIBRARY TO PROJECT IN INTELLIJ
+        TerrainSprite.init();
+        WizardSprite.init();
+
+        setSize(StaticVar.gameWidth, StaticVar.gameHeight); //added class for static variables
+        setLocationRelativeTo(null); //window appears in center of screen(SL)
         Map m = new Map();
         MapView mapView = new MapView(m);
 

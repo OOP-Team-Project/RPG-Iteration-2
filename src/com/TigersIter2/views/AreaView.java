@@ -1,5 +1,7 @@
 package com.TigersIter2.views;
 
+import com.TigersIter2.assets.StaticVar;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -15,7 +17,7 @@ public class AreaView extends JComponent {
     //and sets the preferred size of this component to same as JFrame
     public AreaView(MapView mapView, AvatarView avatarView){
         setLayout(new OverlayLayout(this));
-        setPreferredSize(new Dimension(1280, 720));
+        setPreferredSize(new Dimension(StaticVar.gameWidth, StaticVar.gameHeight));
         this.add(avatarView);
         this.add(mapView);
     }
