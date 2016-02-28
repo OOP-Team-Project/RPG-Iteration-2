@@ -16,11 +16,11 @@ public class Map {
 
 
 
-        for(int i = 0; i < 200; i++){
+        for(int i = 0; i < 20; i++){
 
             tiles.add(new ArrayList<Tile>());
 
-            for(int j = 0; j < 200; j++){
+            for(int j = 0; j < 20; j++){
                 tiles.get(i).add(new Tile(i, j, new Grass()));
             }
         }

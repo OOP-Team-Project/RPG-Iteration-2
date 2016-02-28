@@ -12,7 +12,7 @@ public class TerrainSprite {
 
     //needs to be called once
     public static void init(){
-        SpriteSheet terrainSheet = new SpriteSheet(SpriteLoader.loadImage("/textures/hexTerrains.png"));
+        SpriteSheet terrainSheet = new SpriteSheet(SpriteLoader.loadImage("/textures/hexTerrains (Miles).png"));
 
         mountain = terrainSheet.cropSheet(0,0, StaticVar.terrainImageWidth, StaticVar.terrainImageHeight);
         grass = terrainSheet.cropSheet(StaticVar.terrainImageWidth*1, 0, StaticVar.terrainImageWidth, StaticVar.terrainImageHeight);

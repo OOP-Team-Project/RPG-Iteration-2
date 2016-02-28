@@ -34,10 +34,10 @@ public class Tile extends JComponent {
 
         //TODO: Make this a lot nicer if possible!!!
         if((currentXLocation % 2) == 0) { //If X is even, draw it one way.
-            g2d.drawImage(terrainType.getTerrainImage(), Math.round(currentXLocation * StaticVar.terrainImageWidth * .75f), (currentYLocation * StaticVar.terrainImageHeight) - (StaticVar.terrainImageHeight/2), null);
+            g2d.drawImage(terrainType.getTerrainImage(), Math.round(currentXLocation * StaticVar.terrainImageWidth * .75f) - (StaticVar.terrainImageWidth/2), (currentYLocation * StaticVar.terrainImageHeight) - (StaticVar.terrainImageHeight/2), null);
         }
         else{
-            g2d.drawImage(terrainType.getTerrainImage(), currentXLocation * StaticVar.terrainImageWidth, (currentYLocation * StaticVar.terrainImageHeight), null);
+            g2d.drawImage(terrainType.getTerrainImage(), Math.round(currentXLocation * StaticVar.terrainImageWidth * .75f) - (StaticVar.terrainImageWidth/2), (currentYLocation * StaticVar.terrainImageHeight), null);
         }
     }
 
