@@ -9,16 +9,22 @@ public class Avatar extends Entity{
     private Location location;
     private Inventory inventory;
     private Equipment equipment;
-    //private Stats stats;
     private Occupation occupation;
+    private Pet pet;
+    private Vehicle vehicle;
+    //private Stats stats;
 
     private int direction;
+    private boolean canPassWater;
+    private boolean canPassMountain;
 
 
     public Avatar(){
         //changed this to actually instantiate location. Not sure what Z is for atm. <-- Z is for hextile stuff in the future (SL)
         location = new Location(100,100,0);
         direction = 270;
+        canPassMountain = false;
+        canPassWater = false;
         inventory = new Inventory();
         equipment = new Equipment();
     }
@@ -56,8 +62,34 @@ public class Avatar extends Entity{
         //Do something here to put item on the current tile
     }
 
+    public void setVehicle(Vehicle v){
+        vehicle = v;
+        canPassWater = v.getCanPassWater();
+        canPassMountain = v.getCanPassMountain();
+    }
+
+    public Vehicle getVehicle(){
+        return vehicle;
+    }
+
+    public void setPet(Pet p){
+        pet = p;
+    }
+
+    public Pet getPet(){
+        return pet;
+    }
+
     public int getDirection(){
         return direction;
+    }
+
+    public boolean getCanPassWater(){
+        return canPassWater;
+    }
+
+    public boolean getCanPassMountain(){
+        return canPassMountain;
     }
 
     public Location getLocation() {
