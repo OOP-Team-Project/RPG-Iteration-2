@@ -26,6 +26,8 @@ public class AvatarView extends JComponent{
 
     }
 
+    //TODO: Fix this code (Miles)
+
     private void drawSmasher(Graphics2D g2d){
         if (aHandle.getDirection() == 45)
             g2d.drawImage(SmasherSprite.smasherUpRight1, aHandle.getLocation().getX(), aHandle.getLocation().getY(), null);
