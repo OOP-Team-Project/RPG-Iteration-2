@@ -1,6 +1,7 @@
 package com.TigersIter2.main;
 
 import com.TigersIter2.assets.StaticVar;
+import com.TigersIter2.assets.sprites.SmasherSprite;
 import com.TigersIter2.assets.sprites.TerrainSprite;
 import com.TigersIter2.assets.sprites.WizardSprite;
 import com.TigersIter2.entities.Avatar;
@@ -59,6 +60,7 @@ public class RunGame extends JFrame {
         //load image assets(SL) --> MAY HAVE TO ADD RES LIBRARY TO PROJECT IN INTELLIJ
         TerrainSprite.init();
         WizardSprite.init();
+        SmasherSprite.init();
 
         setSize(StaticVar.gameWidth, StaticVar.gameHeight); //added class for static variables
         setLocationRelativeTo(null); //window appears in center of screen(SL)

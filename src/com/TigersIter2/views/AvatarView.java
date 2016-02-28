@@ -1,6 +1,7 @@
 package com.TigersIter2.views;
 
 import com.TigersIter2.assets.StaticVar;
+import com.TigersIter2.assets.sprites.SmasherSprite;
 import com.TigersIter2.assets.sprites.WizardSprite;
 import com.TigersIter2.entities.Avatar;
 
@@ -27,17 +28,17 @@ public class AvatarView extends JComponent{
     private void drawSmasher(Graphics2D g2d){
         //Change code to draw sneak, just like the summoner
         if (aHandle.getDirection() == 45)
-            g2d.drawImage(WizardSprite.wizardUpRight1, aHandle.getLocation().getX(), aHandle.getLocation().getY(), null);
+            g2d.drawImage(SmasherSprite.smasherUpRight1, aHandle.getLocation().getX(), aHandle.getLocation().getY(), null);
         else if (aHandle.getDirection() == 90)
-            g2d.drawImage(WizardSprite.wizardUp1, aHandle.getLocation().getX(), aHandle.getLocation().getY(), null);
+            g2d.drawImage(SmasherSprite.smasherUp1, aHandle.getLocation().getX(), aHandle.getLocation().getY(), null);
         else if (aHandle.getDirection() == 135)
-            g2d.drawImage(WizardSprite.wizardUpLeft1, aHandle.getLocation().getX(), aHandle.getLocation().getY(), null);
+            g2d.drawImage(SmasherSprite.smasherUpLeft1, aHandle.getLocation().getX(), aHandle.getLocation().getY(), null);
         else if (aHandle.getDirection() == 225)
-            g2d.drawImage(WizardSprite.wizardDownLeft1, aHandle.getLocation().getX(), aHandle.getLocation().getY(), null);
+            g2d.drawImage(SmasherSprite.smasherDownLeft1, aHandle.getLocation().getX(), aHandle.getLocation().getY(), null);
         else if (aHandle.getDirection() == 270)
-            g2d.drawImage(WizardSprite.wizardDown1, aHandle.getLocation().getX(), aHandle.getLocation().getY(), null);
+            g2d.drawImage(SmasherSprite.smasherDown1, aHandle.getLocation().getX(), aHandle.getLocation().getY(), null);
         else if (aHandle.getDirection() == 315)
-            g2d.drawImage(WizardSprite.wizardDownRight1, aHandle.getLocation().getX(), aHandle.getLocation().getY(), null);
+            g2d.drawImage(SmasherSprite.smasherDownRight1, aHandle.getLocation().getX(), aHandle.getLocation().getY(), null);
     }
 
     private void drawSneak(Graphics2D g2d){
