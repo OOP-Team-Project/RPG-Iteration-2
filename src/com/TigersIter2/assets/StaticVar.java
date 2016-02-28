@@ -19,6 +19,10 @@ public class StaticVar {
     //wizard sprite should be updated to 128x128 pixel standard!
     public static final int wizardImageHeight = 100;
     public static final int wizardImageWidth = 100;
+    public static final int smasherImageHeight = 100;
+    public static final int smasherImageWidth = 100;
+    public static final int sneakImageHeight = 100;
+    public static final int sneakImageWidth = 100;
 
 
 

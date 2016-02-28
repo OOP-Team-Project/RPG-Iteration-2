@@ -1,12 +1,11 @@
 package com.TigersIter2.main;
 
 import com.TigersIter2.assets.StaticVar;
+import com.TigersIter2.assets.sprites.SmasherSprite;
+import com.TigersIter2.assets.sprites.SneakSprite;
 import com.TigersIter2.assets.sprites.TerrainSprite;
 import com.TigersIter2.assets.sprites.WizardSprite;
-import com.TigersIter2.entities.Avatar;
-import com.TigersIter2.entities.Inventory;
-import com.TigersIter2.entities.Occupation;
-import com.TigersIter2.entities.Smasher;
+import com.TigersIter2.entities.*;
 import com.TigersIter2.maps.Map;
 import com.TigersIter2.views.AreaView;
 import com.TigersIter2.views.AvatarView;
@@ -59,6 +58,8 @@ public class RunGame extends JFrame {
         //load image assets(SL) --> MAY HAVE TO ADD RES LIBRARY TO PROJECT IN INTELLIJ
         TerrainSprite.init();
         WizardSprite.init();
+        SmasherSprite.init();
+        SneakSprite.init();
 
         setSize(StaticVar.gameWidth, StaticVar.gameHeight); //added class for static variables
         setLocationRelativeTo(null); //window appears in center of screen(SL)
@@ -69,7 +70,7 @@ public class RunGame extends JFrame {
         a = new Avatar();
 
         //**************TESTING CODE*********************
-        a.setOccupation(new Smasher());
+        a.setOccupation(new Sneak());
         AvatarView avatarView = new AvatarView(a);
 
 
