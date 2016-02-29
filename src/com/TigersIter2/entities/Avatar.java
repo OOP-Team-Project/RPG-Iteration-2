@@ -18,6 +18,8 @@ public class Avatar extends Entity{
     private boolean canPassWater;
     private boolean canPassMountain;
 
+    private boolean currentlyMoving = false;
+
 
     public Avatar(){
         //changed this to actually instantiate location. Not sure what Z is for atm. <-- Z is for hextile stuff in the future (SL)
@@ -35,9 +37,15 @@ public class Avatar extends Entity{
 
     @Override
     public void update(int xMovement, int yMovement) {
-        location.incrementX(xMovement);
-        location.incrementY(yMovement);
-        changeDirection(xMovement, yMovement);
+        if(xMovement == 0 && yMovement == 0){
+            currentlyMoving = false;
+        }
+        else{
+            location.incrementX(xMovement * 3);   //Made it 3 times faster because IT WAS SO SLOOOOOW (Miles)
+            location.incrementY(yMovement * 3);
+            changeDirection(xMovement, yMovement);
+            currentlyMoving = true;
+        }
         //System.out.println(direction);
         //System.out.println(xMovement + ", " + yMovement);
     }
@@ -123,5 +131,9 @@ public class Avatar extends Entity{
             else if(y == -1)
                 direction = 135;
         }
+    }
+
+    public boolean isCurrentlyMoving() {
+        return currentlyMoving;
     }
 }

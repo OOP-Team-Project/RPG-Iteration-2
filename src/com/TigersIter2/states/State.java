@@ -1,6 +1,8 @@
 package com.TigersIter2.states;
 
 
+import java.awt.*;
+
 public abstract class State{
 
     protected StateManager stateManager;
@@ -16,7 +18,7 @@ public abstract class State{
     public abstract void update();
 
     //draw of State should draw everything the State is responsible for
-    public abstract void draw();
+    public abstract void draw(Graphics g);
 
     //takes in input for specific state
     public abstract void handleInput();

@@ -2,6 +2,7 @@ package com.TigersIter2.views;
 
 import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.maps.Map;
+import com.TigersIter2.maps.TerrainMap;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +14,7 @@ import java.awt.*;
 //MapView has just terrains
 public class MapView extends JComponent {
 
-    Map mHandle;
+    TerrainMap mHandle;
 
     //for now only setting preferred size.
     //always set preferred size on JComponents, JPanels, ect.
@@ -21,32 +22,28 @@ public class MapView extends JComponent {
         setPreferredSize(new Dimension(StaticVar.gameWidth, StaticVar.gameHeight));
     }
 
-    public MapView(Map map) {
+    public MapView(TerrainMap map) {
         setPreferredSize(new Dimension(StaticVar.gameWidth, StaticVar.gameHeight));
         mHandle = map;
-    }
 
+        //TODO: Fix this it's so ugly gaaaaaaaaaa
+
+        for(int i = 0; i < mHandle.getTerrainTypes().get(0).size(); i++){
+            for(int j = 0; j < mHandle.getTerrainTypes().size(); j++){
+                this.add(new TileView(i, j, mHandle.getTerrainTypes().get(i).get(j)));
+            }
+        }
+    }
 
 
     @Override
     public void paintComponent(Graphics g){
-        //TEST CODE, BUT FOLLOW THIS FORMAT FOR OVERRIDING PAINTCOMPONENT
-        //First we inherit the size of the parent
-        //System.out.println("Inside MapView");
-        Graphics2D g2d = (Graphics2D)g.create();
-        /*g2d.setColor(Color.GREEN);
-        g2d.fillRect(400,400,50,50);
-        g2d.drawString("This is map paint",375, 380);
-        g2d.dispose();*/
-
-        //START (Miles, 4:34 PM Sunday Feb. 28)
-        //So... does this make sense? MapView orders the Map to draw all of its tiles (and gives it where to draw them)
-
-        mHandle.drawAllTiles(g2d);
-
-        //END
-
-        g2d.dispose();
+//        Graphics2D g2d = (Graphics2D)g.create();
+//        //mHandle.drawAllTiles(g2d);
+//        g2d.dispose();
+        for(int i = 0; i < getComponentCount(); i++)
+            ((TileView) getComponent(i)).paintComponent(g);
     }
+
 
 }
