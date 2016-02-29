@@ -1,11 +1,14 @@
 package com.TigersIter2.views;
 
 import com.TigersIter2.assets.StaticVar;
+import com.TigersIter2.entities.Avatar;
 import com.TigersIter2.maps.Map;
 import com.TigersIter2.maps.TerrainMap;
+import com.TigersIter2.maps.terrains.TerrainType;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * Created by slichtenheld on 2/25/2016.
@@ -15,6 +18,14 @@ import java.awt.*;
 public class MapView extends JComponent {
 
     TerrainMap mHandle;
+    Avatar aHandle;
+    ArrayList<ArrayList<TileView>> tileViews = new ArrayList<ArrayList<TileView>>();
+
+    public enum mapMode {
+        PLAYER_FOLLOW_MODE
+    }
+
+    mapMode currentMapMode = mapMode.PLAYER_FOLLOW_MODE;
 
     //for now only setting preferred size.
     //always set preferred size on JComponents, JPanels, ect.
@@ -22,27 +33,39 @@ public class MapView extends JComponent {
         setPreferredSize(new Dimension(StaticVar.gameWidth, StaticVar.gameHeight));
     }
 
-    public MapView(TerrainMap map) {
+    public MapView(TerrainMap map, Avatar a) {
         setPreferredSize(new Dimension(StaticVar.gameWidth, StaticVar.gameHeight));
         mHandle = map;
+        aHandle = a;
 
-        //TODO: Fix this it's so ugly gaaaaaaaaaa
+        //TODO: Fix this it's so ugly gaaaaaaaaaa I'm out of controoooool(Miles)
 
         for(int i = 0; i < mHandle.getTerrainTypes().get(0).size(); i++){
+            tileViews.add(new ArrayList<TileView>());
             for(int j = 0; j < mHandle.getTerrainTypes().size(); j++){
-                this.add(new TileView(i, j, mHandle.getTerrainTypes().get(i).get(j)));
+                tileViews.get(i).add(new TileView(i, j, mHandle.getTerrainTypes().get(i).get(j), i));
             }
         }
+
     }
 
 
     @Override
     public void paintComponent(Graphics g){
-//        Graphics2D g2d = (Graphics2D)g.create();
-//        //mHandle.drawAllTiles(g2d);
-//        g2d.dispose();
-        for(int i = 0; i < getComponentCount(); i++)
-            ((TileView) getComponent(i)).paintComponent(g);
+        for(int i = 0; i < tileViews.size(); i++) {
+            for(int j = 0; j < tileViews.get(0).size(); j++) {
+                switch (currentMapMode) {
+                    case PLAYER_FOLLOW_MODE:
+                        tileViews.get(i).get(j).setCurrentXLocation(i - (float) aHandle.getLocation().getX()/StaticVar.terrainImageWidth);
+                        tileViews.get(i).get(j).setCurrentYLocation(j - (float) aHandle.getLocation().getY()/StaticVar.terrainImageHeight);
+                        break;
+                    default:
+                        break;
+                }
+
+                tileViews.get(i).get(j).paintComponent(g);
+            }
+        }
     }
 
 

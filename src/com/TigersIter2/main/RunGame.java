@@ -58,7 +58,7 @@ public class RunGame extends JFrame {
         setSize(StaticVar.gameWidth, StaticVar.gameHeight); //added class for static variables
         setLocationRelativeTo(null); //window appears in center of screen(SL)
         TerrainMap m = new TerrainMap();
-        MapView mapView = new MapView(m);
+        //MapView mapView = new MapView(m); //<---- Moved this to below! (Miles)
 
 //        Avatar a = new Avatar();
         a = new Avatar();
@@ -67,6 +67,7 @@ public class RunGame extends JFrame {
         a.setOccupation(new Sneak());
         AvatarView avatarView = new AvatarView(a);
 
+        MapView mapView = new MapView(m, a);   //<--- Moved this here because the MapView has to talk to the Avatar, too!
 
         AreaView areaView = new AreaView(mapView,avatarView);
         System.out.println("areaView # of components: " + areaView.getComponentCount());
