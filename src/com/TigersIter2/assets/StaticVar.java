@@ -10,7 +10,7 @@ public class StaticVar {
     public static final int fps = 60;
 
     public static final int terrainImageHeight = 96;    //Was 64 before evil Miles Came
-    public static final int terrainImageWidth = 96;     //Was 64 before evil Miles Came
+    public static final int terrainImageWidth = 105;     //Was 64 before evil Miles Came
 
     public static final int entityImageHeight = 128;
     public static final int entityImageWidth = 128;

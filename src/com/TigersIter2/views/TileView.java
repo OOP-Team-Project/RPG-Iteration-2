@@ -11,7 +11,7 @@ import java.awt.*;
  */
 public class TileView extends JComponent {
 
-    Graphics2D g2d;
+    //Graphics2D g2d;
     int currentXLocation, currentYLocation;
     TerrainType terrainType;
 
@@ -32,6 +32,8 @@ public class TileView extends JComponent {
             1. This hex Tile's background image (determined by the Terrain Type)
          */
 
+        Graphics2D g2d = (Graphics2D)g.create();
+
         //TODO: Make this a lot nicer if possible!!!
 
         if(currentXLocation > 22 || currentYLocation > 10){
@@ -44,18 +46,19 @@ public class TileView extends JComponent {
                 g2d.drawImage(terrainType.getTerrainImage(), Math.round(currentXLocation * StaticVar.terrainImageWidth * .75f) - (StaticVar.terrainImageWidth / 2), (currentYLocation * StaticVar.terrainImageHeight), null);
             }
         }
+        g2d.dispose();
     }
 
     //Lookout! Getters/Setters are below!
 
 
-    public Graphics2D getG2d() {
-        return g2d;
-    }
+//    public Graphics2D getG2d() {
+//        return g2d;
+//    }
 
-    public void setG2d(Graphics2D g2d) {
-        this.g2d = g2d;
-    }
+//    public void setG2d(Graphics2D g2d) {
+//        this.g2d = g2d;
+//    }
 
     public int getCurrentXLocation() {
         return currentXLocation;

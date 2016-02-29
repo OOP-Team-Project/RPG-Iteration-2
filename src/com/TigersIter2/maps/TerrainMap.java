@@ -9,7 +9,7 @@ import java.util.ArrayList;
 /**
  * Created by slichtenheld on 2/25/2016.
  */
-public class TerrainMap {
+public class TerrainMap implements Map{
 
     ArrayList<ArrayList<TerrainType>> tiles = new ArrayList<ArrayList<TerrainType>>();  //Don't be intimidated! This is just a 2D Array pretty much
 
@@ -31,11 +31,11 @@ public class TerrainMap {
 
     }
 
-    public ArrayList<ArrayList<Tile>> getTiles() {
+    public ArrayList<ArrayList<TerrainType>> getTerrainTypes() {
         return tiles;
     }
 
-    public void setTiles(ArrayList<ArrayList<Tile>> tiles) {
+    public void setTerrainTypes(ArrayList<ArrayList<TerrainType>> tiles) {
         this.tiles = tiles;
     }
 }
