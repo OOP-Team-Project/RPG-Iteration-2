@@ -7,6 +7,8 @@ import com.TigersIter2.assets.sprites.TerrainSprite;
 import com.TigersIter2.assets.sprites.WizardSprite;
 import com.TigersIter2.entities.*;
 import com.TigersIter2.maps.Map;
+import com.TigersIter2.states.GameState;
+import com.TigersIter2.states.State;
 import com.TigersIter2.views.AreaView;
 import com.TigersIter2.views.AvatarView;
 import com.TigersIter2.views.MapView;
@@ -19,6 +21,10 @@ public class RunGame extends JFrame {
 
     //JFrame window;
     private GamePanel gamePanel;
+
+
+
+
     //dirty way of avatar. disregard this
     Avatar a;
 
@@ -37,23 +43,10 @@ public class RunGame extends JFrame {
         runGame.runGameLoop();
     }
 
-    //sam's tests//
-
-//    public RunGame(){
-//        super("GameLoopTest");
-//        Container cp = getContentPane();
-//        //cp.setLayout(new BorderLayout());
-//        //JPanel mainPanel = new JPanel(); //allows us to have panels on the side, permanent buttons etc
-//        //mainPanel.setLayout(new GridLayout(1,2)); //change depending on layout wanted
-//        //gamePanel = new GamePanel(new AreaView(new MapView(),new AvatarView(new Avatar())));
-//        //p.setLayout(new GridLayout(1,2));
-//        cp.add(gamePanel, BorderLayout.CENTER);
-//        //cp.add(p, BorderLayout.SOUTH);
-//        setSize(1280, 720);
-//    }
 
     //loads the game
     public void loadGame(){
+
 
         //load image assets(SL) --> MAY HAVE TO ADD RES LIBRARY TO PROJECT IN INTELLIJ
         TerrainSprite.init();
@@ -83,6 +76,9 @@ public class RunGame extends JFrame {
         this.add(gamePanel);
         this.setVisible(true);
         //this.setFocusable(true);
+
+
+
 
         //Instantiate the controller and bind the default keys
         controller = new Controller(gamePanel);
@@ -139,7 +135,8 @@ public class RunGame extends JFrame {
     //that holds objects that should be updated, or just use events or w/e
     private void updateGame()
     {
-        gamePanel.update();
+        //Why are we updating gamePanel?? (SL)
+        //gamePanel.update();
         a.update(controller.getXMovement(), controller.getyMovement());
     }
 
