@@ -7,6 +7,7 @@ import com.TigersIter2.assets.sprites.TerrainSprite;
 import com.TigersIter2.assets.sprites.WizardSprite;
 import com.TigersIter2.entities.*;
 import com.TigersIter2.maps.Map;
+import com.TigersIter2.maps.TerrainMap;
 import com.TigersIter2.views.AreaView;
 import com.TigersIter2.views.AvatarView;
 import com.TigersIter2.views.MapView;
@@ -63,7 +64,7 @@ public class RunGame extends JFrame {
 
         setSize(StaticVar.gameWidth, StaticVar.gameHeight); //added class for static variables
         setLocationRelativeTo(null); //window appears in center of screen(SL)
-        Map m = new Map();
+        TerrainMap m = new TerrainMap();
         MapView mapView = new MapView(m);
 
 //        Avatar a = new Avatar();

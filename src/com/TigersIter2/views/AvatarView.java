@@ -8,13 +8,18 @@ import com.TigersIter2.entities.Avatar;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Created by slichtenheld on 2/25/2016.
  */
-public class AvatarView extends JComponent{
+public class AvatarView extends JComponent implements ActionListener{
 
     Avatar aHandle;
+    int animationDelay = 100;
+    int currentAnimationFrame = 0;
+    Timer animationTimer;
 
     public AvatarView(){
         setPreferredSize(new Dimension(StaticVar.gameWidth, StaticVar.gameHeight));
@@ -23,10 +28,17 @@ public class AvatarView extends JComponent{
     public AvatarView(Avatar a) {
         aHandle = a;
         setPreferredSize(new Dimension(StaticVar.gameWidth, StaticVar.gameHeight));
+        animationTimer = new Timer(animationDelay, this);
+        animationTimer.start();
 
     }
 
-    //TODO: Fix this code (Miles)
+    public void actionPerformed(ActionEvent e) {
+        currentAnimationFrame = (currentAnimationFrame + 1) % 2;
+    }
+
+
+    //TODO: Fix this code, if we were to add more occupations stuff would get nasty real fast! (Miles)
 
     private void drawSmasher(Graphics2D g2d){
         if (aHandle.getDirection() == 45)
@@ -44,18 +56,42 @@ public class AvatarView extends JComponent{
     }
 
     private void drawSneak(Graphics2D g2d){
-        if (aHandle.getDirection() == 45)
-            g2d.drawImage(SneakSprite.sneakUpRight1, aHandle.getLocation().getX(), aHandle.getLocation().getY(), null);
-        else if (aHandle.getDirection() == 90)
-            g2d.drawImage(SneakSprite.sneakUp1, aHandle.getLocation().getX(), aHandle.getLocation().getY(), null);
-        else if (aHandle.getDirection() == 135)
-            g2d.drawImage(SneakSprite.sneakUpLeft1, aHandle.getLocation().getX(), aHandle.getLocation().getY(), null);
-        else if (aHandle.getDirection() == 225)
-            g2d.drawImage(SneakSprite.sneakDownLeft1, aHandle.getLocation().getX(), aHandle.getLocation().getY(), null);
-        else if (aHandle.getDirection() == 270)
-            g2d.drawImage(SneakSprite.sneakDown1, aHandle.getLocation().getX(), aHandle.getLocation().getY(), null);
-        else if (aHandle.getDirection() == 315)
-            g2d.drawImage(SneakSprite.sneakDownRight1, aHandle.getLocation().getX(), aHandle.getLocation().getY(), null);
+        if (aHandle.getDirection() == 45) {
+            if(currentAnimationFrame == 0 || !aHandle.isCurrentlyMoving())
+                g2d.drawImage(SneakSprite.sneakUpRight1, aHandle.getLocation().getX(), aHandle.getLocation().getY(), null);
+            else
+                g2d.drawImage(SneakSprite.sneakUpRight2, aHandle.getLocation().getX(), aHandle.getLocation().getY(), null);
+        }
+        else if (aHandle.getDirection() == 90) {
+            if(currentAnimationFrame == 0 || !aHandle.isCurrentlyMoving())
+                g2d.drawImage(SneakSprite.sneakUp1, aHandle.getLocation().getX(), aHandle.getLocation().getY(), null);
+            else
+                g2d.drawImage(SneakSprite.sneakUp2, aHandle.getLocation().getX(), aHandle.getLocation().getY(), null);
+        }
+        else if (aHandle.getDirection() == 135) {
+            if(currentAnimationFrame == 0 || !aHandle.isCurrentlyMoving())
+                g2d.drawImage(SneakSprite.sneakUpLeft1, aHandle.getLocation().getX(), aHandle.getLocation().getY(), null);
+            else
+                g2d.drawImage(SneakSprite.sneakUpLeft2, aHandle.getLocation().getX(), aHandle.getLocation().getY(), null);
+        }
+        else if (aHandle.getDirection() == 225) {
+            if(currentAnimationFrame == 0 || !aHandle.isCurrentlyMoving())
+                g2d.drawImage(SneakSprite.sneakDownLeft1, aHandle.getLocation().getX(), aHandle.getLocation().getY(), null);
+            else
+                g2d.drawImage(SneakSprite.sneakDownLeft2, aHandle.getLocation().getX(), aHandle.getLocation().getY(), null);
+        }
+        else if (aHandle.getDirection() == 270) {
+            if(currentAnimationFrame == 0 || !aHandle.isCurrentlyMoving())
+                g2d.drawImage(SneakSprite.sneakDown1, aHandle.getLocation().getX(), aHandle.getLocation().getY(), null);
+            else
+                g2d.drawImage(SneakSprite.sneakDown2, aHandle.getLocation().getX(), aHandle.getLocation().getY(), null);
+        }
+        else if (aHandle.getDirection() == 315) {
+            if(currentAnimationFrame == 0 || !aHandle.isCurrentlyMoving())
+                g2d.drawImage(SneakSprite.sneakDownRight1, aHandle.getLocation().getX(), aHandle.getLocation().getY(), null);
+            else
+                g2d.drawImage(SneakSprite.sneakDownRight2, aHandle.getLocation().getX(), aHandle.getLocation().getY(), null);
+        }
     }
 
     private void drawSummoner(Graphics2D g2d){
