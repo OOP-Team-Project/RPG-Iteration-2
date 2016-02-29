@@ -30,7 +30,7 @@ public class MapView extends JComponent {
 
         for(int i = 0; i < mHandle.getTerrainTypes().get(0).size(); i++){
             for(int j = 0; j < mHandle.getTerrainTypes().size(); j++){
-                add(new TileView(i, j, mHandle.getTerrainTypes().get(i).get(j)));
+                this.add(new TileView(i, j, mHandle.getTerrainTypes().get(i).get(j)));
             }
         }
     }
@@ -42,7 +42,7 @@ public class MapView extends JComponent {
 //        //mHandle.drawAllTiles(g2d);
 //        g2d.dispose();
         for(int i = 0; i < getComponentCount(); i++)
-            getComponent(i).paint(g);
+            ((TileView) getComponent(i)).paintComponent(g);
     }
 
 
