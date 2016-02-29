@@ -19,7 +19,7 @@ public class RunGame extends JFrame {
 
     //JFrame window;
     private GamePanel gamePanel;
-    //diry way of avatar. disregard this
+    //dirty way of avatar. disregard this
     Avatar a;
 
     //Talks to the controller

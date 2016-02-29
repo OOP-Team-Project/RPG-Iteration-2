@@ -34,9 +34,18 @@ public class MapView extends JComponent {
         //First we inherit the size of the parent
         //System.out.println("Inside MapView");
         Graphics2D g2d = (Graphics2D)g.create();
-        g2d.setColor(Color.GREEN);
+        /*g2d.setColor(Color.GREEN);
         g2d.fillRect(400,400,50,50);
         g2d.drawString("This is map paint",375, 380);
+        g2d.dispose();*/
+
+        //START (Miles, 4:34 PM Sunday Feb. 28)
+        //So... does this make sense? MapView orders the Map to draw all of its tiles (and gives it where to draw them)
+
+        mHandle.drawAllTiles(g2d);
+
+        //END
+
         g2d.dispose();
     }
 
