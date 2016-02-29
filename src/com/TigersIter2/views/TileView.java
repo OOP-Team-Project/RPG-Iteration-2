@@ -12,17 +12,19 @@ import java.awt.*;
 public class TileView extends JComponent {
 
     //Graphics2D g2d;
-    int currentXLocation, currentYLocation;
+    float currentXLocation, currentYLocation;
     TerrainType terrainType;
+    int hexGridID = 0; //Used to see how the hex tile should be drawn (they alternate or whatever) (Miles)
 
     public TileView(TerrainType t){  //Constructor specifies stuuuuufff.... I'm terrible at commenting code, you guys (Miles)
         terrainType = t;
     }
 
-    public TileView(int x, int y, TerrainType t){
+    public TileView(float x, float y, TerrainType t, int id){
         currentXLocation = x;
         currentYLocation = y;
         terrainType = t;
+        hexGridID = id;
     }
 
 
@@ -40,10 +42,10 @@ public class TileView extends JComponent {
             //do nothing - we're out of range!
         }
         else {
-            if ((currentXLocation % 2) == 0) { //If X is even, draw it one way.
-                g2d.drawImage(terrainType.getTerrainImage(), Math.round(currentXLocation * StaticVar.terrainImageWidth * .75f) - (StaticVar.terrainImageWidth / 2), (currentYLocation * StaticVar.terrainImageHeight) - (StaticVar.terrainImageHeight / 2), null);
+            if ((hexGridID % 2) == 0) { //If X is even, draw it one way.
+                g2d.drawImage(terrainType.getTerrainImage(), Math.round(currentXLocation * StaticVar.terrainImageWidth * .75f) - (StaticVar.terrainImageWidth / 2), Math.round(currentYLocation * StaticVar.terrainImageHeight) - (StaticVar.terrainImageHeight / 2), null);
             } else {
-                g2d.drawImage(terrainType.getTerrainImage(), Math.round(currentXLocation * StaticVar.terrainImageWidth * .75f) - (StaticVar.terrainImageWidth / 2), (currentYLocation * StaticVar.terrainImageHeight), null);
+                g2d.drawImage(terrainType.getTerrainImage(), Math.round(currentXLocation * StaticVar.terrainImageWidth * .75f) - (StaticVar.terrainImageWidth / 2), Math.round(currentYLocation * StaticVar.terrainImageHeight), null);
             }
         }
         g2d.dispose();
@@ -60,19 +62,19 @@ public class TileView extends JComponent {
 //        this.g2d = g2d;
 //    }
 
-    public int getCurrentXLocation() {
+    public float getCurrentXLocation() {
         return currentXLocation;
     }
 
-    public void setCurrentXLocation(int currentXLocation) {
+    public void setCurrentXLocation(float currentXLocation) {
         this.currentXLocation = currentXLocation;
     }
 
-    public int getCurrentYLocation() {
+    public float getCurrentYLocation() {
         return currentYLocation;
     }
 
-    public void setCurrentYLocation(int currentYLocation) {
+    public void setCurrentYLocation(float currentYLocation) {
         this.currentYLocation = currentYLocation;
     }
 }

@@ -1,12 +1,14 @@
 package com.TigersIter2.entities;
 
+import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.items.TakeableItem;
 import com.TigersIter2.location.Location;
 
 
 public class Avatar extends Entity{
 
-    private Location location;
+    private Location location;  //This is the location used by MODELS to determine where the avatar is
+    private Location pixelLocation; //This is the location used by VIEWS to determine where the avatar is (Miles)
     private Inventory inventory;
     private Equipment equipment;
     private Occupation occupation;
@@ -23,7 +25,8 @@ public class Avatar extends Entity{
 
     public Avatar(){
         //changed this to actually instantiate location. Not sure what Z is for atm. <-- Z is for hextile stuff in the future (SL)
-        location = new Location(100,100,0);
+        location = new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight,0);
+        pixelLocation = new Location(StaticVar.gameWidth/2, StaticVar.gameHeight/2, 0);
         direction = 270;
         canPassMountain = false;
         canPassWater = false;
@@ -135,5 +138,13 @@ public class Avatar extends Entity{
 
     public boolean isCurrentlyMoving() {
         return currentlyMoving;
+    }
+
+    public Location getPixelLocation() {
+        return pixelLocation;
+    }
+
+    public void setPixelLocation(Location pixelLocation) {
+        this.pixelLocation = pixelLocation;
     }
 }
