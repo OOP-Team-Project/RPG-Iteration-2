@@ -1,9 +1,10 @@
 package com.TigersIter2.states;
 
 
+import javax.swing.*;
 import java.awt.*;
 
-public abstract class State{
+public abstract class State {
 
     protected StateManager stateManager;
 

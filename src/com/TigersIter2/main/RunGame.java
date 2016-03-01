@@ -1,10 +1,7 @@
 package com.TigersIter2.main;
 
 import com.TigersIter2.assets.StaticVar;
-import com.TigersIter2.assets.sprites.SmasherSprite;
-import com.TigersIter2.assets.sprites.SneakSprite;
-import com.TigersIter2.assets.sprites.TerrainSprite;
-import com.TigersIter2.assets.sprites.WizardSprite;
+import com.TigersIter2.assets.sprites.*;
 import com.TigersIter2.entities.*;
 import com.TigersIter2.maps.Map;
 
@@ -54,6 +51,7 @@ public class RunGame extends JFrame {
         WizardSprite.init();
         SmasherSprite.init();
         SneakSprite.init();
+        IntroSprite.init();
 
         setSize(StaticVar.gameWidth, StaticVar.gameHeight); //added class for static variables
         setLocationRelativeTo(null); //window appears in center of screen(SL)
@@ -147,6 +145,7 @@ public class RunGame extends JFrame {
     //the correct thread for swing functions.
     //if no, we dispatch the repaint to the correct thread (EDT)
     private void renderGame() {
+        //System.out.println("is in EDT thread? " + SwingUtilities.isEventDispatchThread());
         if (SwingUtilities.isEventDispatchThread()) {
             System.out.println("On the right thread for using swing method repaint");
             this.repaint();

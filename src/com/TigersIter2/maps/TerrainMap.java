@@ -12,6 +12,7 @@ import java.util.ArrayList;
  */
 public class TerrainMap implements Map{
 
+    //Do we need a list for tiles? Wouldn't a 2D array work just fine since the size will be fixed upon initialization? - Sam
     ArrayList<ArrayList<TerrainType>> tiles = new ArrayList<ArrayList<TerrainType>>();  //Don't be intimidated! This is just a 2D Array pretty much
 
 
