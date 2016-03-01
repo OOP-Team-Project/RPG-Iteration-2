@@ -26,7 +26,7 @@ public class Avatar extends Entity{
     public Avatar(){
         //changed this to actually instantiate location. Not sure what Z is for atm. <-- Z is for hextile stuff in the future (SL)
         location = new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight,0);
-        pixelLocation = new Location(StaticVar.gameWidth/2, StaticVar.gameHeight/2, 0);
+        pixelLocation = new Location(StaticVar.gameWidth/2 - 100, StaticVar.gameHeight/2 - 100, 0);
         direction = 270;
         canPassMountain = false;
         canPassWater = false;

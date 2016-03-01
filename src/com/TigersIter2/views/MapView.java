@@ -56,8 +56,22 @@ public class MapView extends JComponent {
             for(int j = 0; j < tileViews.get(0).size(); j++) {
                 switch (currentMapMode) {
                     case PLAYER_FOLLOW_MODE:
-                        tileViews.get(i).get(j).setCurrentXLocation(i - (float) aHandle.getLocation().getX()/StaticVar.terrainImageWidth);
-                        tileViews.get(i).get(j).setCurrentYLocation(j - (float) aHandle.getLocation().getY()/StaticVar.terrainImageHeight);
+
+                        System.out.println(aHandle.getLocation().getX()/StaticVar.terrainImageWidth);
+
+                        if((float) (aHandle.getLocation().getX())/StaticVar.terrainImageWidth < 7f)
+                            tileViews.get(i).get(j).setCurrentXLocation(i);
+                        else if((float) (aHandle.getLocation().getX() - 7)/StaticVar.terrainImageWidth > (tileViews.size() - 10))
+                            tileViews.get(i).get(j).setCurrentXLocation(i - tileViews.size() + 10 + 7);
+                        else
+                            tileViews.get(i).get(j).setCurrentXLocation(i - (float) (aHandle.getLocation().getX())/StaticVar.terrainImageWidth + 7);
+
+                        if((float) (aHandle.getLocation().getY())/StaticVar.terrainImageHeight < 3f)
+                            tileViews.get(i).get(j).setCurrentYLocation(j);
+                        else if((float) (aHandle.getLocation().getY())/StaticVar.terrainImageHeight > (tileViews.size() - 5))
+                            tileViews.get(i).get(j).setCurrentYLocation(j - tileViews.get(0).size() + 8);
+                        else
+                            tileViews.get(i).get(j).setCurrentYLocation(j - (float) (aHandle.getLocation().getY())/StaticVar.terrainImageHeight + 3);
                         break;
                     default:
                         break;
