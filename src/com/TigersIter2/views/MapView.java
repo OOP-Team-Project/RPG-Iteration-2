@@ -58,9 +58,9 @@ public class MapView extends JComponent {
                 switch (currentMapMode) {
                     case PLAYER_FOLLOW_MODE:
 
-                        if((float) (aHandle.getLocation().getX())/StaticVar.terrainImageWidth < (float) StaticVar.xTilesFromEdge) {
+                        if((float) (aHandle.getLocation().getX())/StaticVar.terrainImageWidth < ((float) StaticVar.xTilesFromEdge)) {
                             tileViews.get(i).get(j).setCurrentXLocation(i);
-                            aHandle.setPixelLocation(new Location(aHandle.getLocation().getX(), aHandle.getPixelLocation().getY(), 0));
+                            aHandle.setPixelLocation(new Location(Math.round(aHandle.getLocation().getX()*.68f * (((float) (aHandle.getLocation().getX() + 100)/((float) StaticVar.xTilesFromEdge*StaticVar.terrainImageWidth)))), aHandle.getPixelLocation().getY(), 0));
 
                         }
                         else if((float) (aHandle.getLocation().getX())/StaticVar.terrainImageWidth > (tileViews.size() - StaticVar.xTilesFromEdge*2 + 1)) {
@@ -81,11 +81,17 @@ public class MapView extends JComponent {
                             aHandle.setPixelLocation(new Location(aHandle.getPixelLocation().getX(), (aHandle.getLocation().getY() - ((tileViews.get(0).size() - StaticVar.yTilesFromEdge*2 + 1 - StaticVar.yTilesFromEdge) * StaticVar.terrainImageHeight)), 0));
                         }
                         else
-                            tileViews.get(i).get(j).setCurrentYLocation(j - (float) (aHandle.getLocation().getY())/StaticVar.terrainImageHeight + 3);
+                            tileViews.get(i).get(j).setCurrentYLocation(j - (float) (aHandle.getLocation().getY())/StaticVar.terrainImageHeight + StaticVar.yTilesFromEdge);
                         break;
                     default:
                         break;
                 }
+
+
+                if(aHandle.getLocation().getX()/StaticVar.terrainImageWidth == i && aHandle.getLocation().getY()/StaticVar.terrainImageHeight == j)
+                    tileViews.get(i).get(j).shouldGlow(true);
+                else
+                    tileViews.get(i).get(j).shouldGlow(false);
 
                 tileViews.get(i).get(j).paintComponent(g);
             }

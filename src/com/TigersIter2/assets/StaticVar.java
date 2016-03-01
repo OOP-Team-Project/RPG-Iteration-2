@@ -4,8 +4,8 @@ package com.TigersIter2.assets;
 public class StaticVar {
 
 
-    public static final int gameHeight = 720;
-    public static final int gameWidth = 1280;
+    public static final int gameHeight = 600;//720;
+    public static final int gameWidth = 800;//1280;
 
     public static final int fps = 60;
 
@@ -26,7 +26,7 @@ public class StaticVar {
 
 
     //MapView Conventional Stuff (Miles)
-    public static final int xTilesFromEdge = 6;
+    public static final int xTilesFromEdge = 8;
     public static final int yTilesFromEdge = 3;
 
 
