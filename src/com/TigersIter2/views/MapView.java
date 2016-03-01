@@ -2,6 +2,7 @@ package com.TigersIter2.views;
 
 import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.entities.Avatar;
+import com.TigersIter2.location.Location;
 import com.TigersIter2.maps.Map;
 import com.TigersIter2.maps.TerrainMap;
 import com.TigersIter2.maps.terrains.TerrainType;
@@ -40,9 +41,9 @@ public class MapView extends JComponent {
 
         //TODO: Fix this it's so ugly gaaaaaaaaaa I'm out of controoooool(Miles)
 
-        for(int i = 0; i < mHandle.getTerrainTypes().get(0).size(); i++){
+        for(int i = 0; i < mHandle.getTerrainTypes().size(); i++){
             tileViews.add(new ArrayList<TileView>());
-            for(int j = 0; j < mHandle.getTerrainTypes().size(); j++){
+            for(int j = 0; j < mHandle.getTerrainTypes().get(0).size(); j++){
                 tileViews.get(i).add(new TileView(i, j, mHandle.getTerrainTypes().get(i).get(j), i));
             }
         }
@@ -56,8 +57,31 @@ public class MapView extends JComponent {
             for(int j = 0; j < tileViews.get(0).size(); j++) {
                 switch (currentMapMode) {
                     case PLAYER_FOLLOW_MODE:
-                        tileViews.get(i).get(j).setCurrentXLocation(i - (float) aHandle.getLocation().getX()/StaticVar.terrainImageWidth);
-                        tileViews.get(i).get(j).setCurrentYLocation(j - (float) aHandle.getLocation().getY()/StaticVar.terrainImageHeight);
+
+                        if((float) (aHandle.getLocation().getX())/StaticVar.terrainImageWidth < (float) StaticVar.xTilesFromEdge) {
+                            tileViews.get(i).get(j).setCurrentXLocation(i);
+                            aHandle.setPixelLocation(new Location(aHandle.getLocation().getX(), aHandle.getPixelLocation().getY(), 0));
+
+                        }
+                        else if((float) (aHandle.getLocation().getX())/StaticVar.terrainImageWidth > (tileViews.size() - StaticVar.xTilesFromEdge*2 + 1)) {
+                            tileViews.get(i).get(j).setCurrentXLocation(i - tileViews.size() + StaticVar.xTilesFromEdge * 2 - 1 + StaticVar.xTilesFromEdge);
+                            aHandle.setPixelLocation(new Location((aHandle.getLocation().getX() - ((tileViews.size() - StaticVar.xTilesFromEdge*2 + 1 - StaticVar.xTilesFromEdge) * StaticVar.terrainImageWidth)), aHandle.getPixelLocation().getY(), 0));
+                        }
+                        else
+                            tileViews.get(i).get(j).setCurrentXLocation(i - (float) (aHandle.getLocation().getX())/StaticVar.terrainImageWidth + StaticVar.xTilesFromEdge);
+
+
+                        //Y Stuff Below
+                        if((float) (aHandle.getLocation().getY())/StaticVar.terrainImageHeight < (float) StaticVar.yTilesFromEdge) {
+                            tileViews.get(i).get(j).setCurrentYLocation(j);
+                            aHandle.setPixelLocation(new Location(aHandle.getPixelLocation().getX(), aHandle.getLocation().getY(), 0));
+                        }
+                        else if((float) (aHandle.getLocation().getY())/StaticVar.terrainImageHeight > (tileViews.get(0).size() - StaticVar.yTilesFromEdge*2 + 1)) {
+                            tileViews.get(i).get(j).setCurrentYLocation(j - tileViews.get(0).size() + 8);
+                            aHandle.setPixelLocation(new Location(aHandle.getPixelLocation().getX(), (aHandle.getLocation().getY() - ((tileViews.get(0).size() - StaticVar.yTilesFromEdge*2 + 1 - StaticVar.yTilesFromEdge) * StaticVar.terrainImageHeight)), 0));
+                        }
+                        else
+                            tileViews.get(i).get(j).setCurrentYLocation(j - (float) (aHandle.getLocation().getY())/StaticVar.terrainImageHeight + 3);
                         break;
                     default:
                         break;

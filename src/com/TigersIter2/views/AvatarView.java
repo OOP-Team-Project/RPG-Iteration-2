@@ -124,9 +124,10 @@ public class AvatarView extends JComponent implements ActionListener{
             drawSneak(g2d);
         else
             drawSummoner(g2d);
-        g2d.drawString(aHandle.getOccupation().toString(), aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY());
+        g2d.drawString(aHandle.getOccupation().toString() + aHandle.getLocation().getX() + " " + aHandle.getLocation().getY(), aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY());
         //System.out.println("X Location: " + aHandle.getPixelLocation().getX());
         //System.out.println("Y Location: " + aHandle.getPixelLocation().getY());
+
 
         g2d.dispose();
     }

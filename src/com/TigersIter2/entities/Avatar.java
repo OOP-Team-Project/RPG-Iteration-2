@@ -25,8 +25,8 @@ public class Avatar extends Entity{
 
     public Avatar(){
         //changed this to actually instantiate location. Not sure what Z is for atm. <-- Z is for hextile stuff in the future (SL)
-        location = new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight,0);
-        pixelLocation = new Location(StaticVar.gameWidth/2, StaticVar.gameHeight/2, 0);
+        location = new Location(20 * StaticVar.terrainImageWidth,20 * StaticVar.terrainImageHeight,0);
+        pixelLocation = new Location(StaticVar.xTilesFromEdge*StaticVar.terrainImageWidth, StaticVar.yTilesFromEdge*StaticVar.terrainImageHeight, 0);
         direction = 270;
         canPassMountain = false;
         canPassWater = false;
@@ -44,8 +44,8 @@ public class Avatar extends Entity{
             currentlyMoving = false;
         }
         else{
-            location.incrementX(xMovement * 3);   //Made it 3 times faster because IT WAS SO SLOOOOOW (Miles)
-            location.incrementY(yMovement * 3);
+            location.incrementX(xMovement * 5);   //Made it 3 times faster because IT WAS SO SLOOOOOW (Miles)
+            location.incrementY(yMovement * 5);
             changeDirection(xMovement, yMovement);
             currentlyMoving = true;
         }
