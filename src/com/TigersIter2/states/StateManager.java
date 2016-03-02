@@ -14,7 +14,7 @@ import java.awt.*;
 // TODO: add ability to pause
 public class StateManager extends JPanel{
 
-    private State state;
+    private State state, prevState;
     private Controller controller;
 
     private static final int NUMBER_OF_STATES = 2;
@@ -27,14 +27,15 @@ public class StateManager extends JPanel{
         setState(INTRO);
         //controller = new Controller(this);
         //controller.setBindings();
-        this.setLayout(new OverlayLayout(this));
-        this.setPreferredSize(new Dimension(StaticVar.gameWidth, StaticVar.gameHeight));
+        //this.setLayout(new OverlayLayout(this));
+        //this.setPreferredSize(new Dimension(StaticVar.gameWidth, StaticVar.gameHeight));
     }
 
     //kill state and set to new State (SL)
     public void setState(int nextState){
 
-        state = null;
+        if (state!=null)this.remove(state);
+        //state = null;
 
         if(nextState == INTRO){
             state = new IntroState(this);
@@ -44,14 +45,17 @@ public class StateManager extends JPanel{
             state = new GameState(this);
             state.init();
         }
-        this.remove(state);
+
         this.add(state);
+        this.setLayout(new OverlayLayout(this));
+        this.setPreferredSize(new Dimension(StaticVar.gameWidth, StaticVar.gameHeight));
     }
 
     public void update(){
 
         if (state!=null)
             state.update();
+            System.out.println(state.returnName());
     }
 
     @Override
@@ -60,7 +64,7 @@ public class StateManager extends JPanel{
 //        g2d.setColor(Color.BLUE);
 //        g2d.fillRect(50,50,50,50);
 //        g2d.dispose();
-        //state.draw(g);
+        state.draw(g);
         //state.repaint();
     }
 

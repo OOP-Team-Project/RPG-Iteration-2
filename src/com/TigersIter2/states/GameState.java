@@ -21,6 +21,7 @@ import java.awt.*;
 //when GameState gets reinitialized, this would all be possible - Sam
 public class GameState extends State {
 
+    private final String name = "GameState";
 
     private TerrainMap map;
     private Avatar avatar;
@@ -49,7 +50,7 @@ public class GameState extends State {
         SmasherSprite.init();
         SneakSprite.init();
         testX = 0;
-        testY=0;
+        testY=360;
 
         avatarView = new AvatarView(avatar);
         mapView = new MapView(map, avatar);
@@ -70,17 +71,23 @@ public class GameState extends State {
 
     @Override
     public void paintComponent(Graphics g) {
-        Graphics2D g2d = (Graphics2D)g.create();
-        g2d.drawImage(WizardSprite.wizardDown1,360,360,null);
-        g2d.dispose();
+
     }
 
     @Override
     public void draw(Graphics g) {
-        //areaView.
+        Graphics2D g2d = (Graphics2D)g.create();
+        g2d.setColor(Color.cyan);
+        g2d.fillRect(testX,testY,50,50);
+        g2d.dispose();
     }
 
     @Override
     public void handleInput() {
+    }
+
+    @Override
+    public String returnName() {
+        return name;
     }
 }

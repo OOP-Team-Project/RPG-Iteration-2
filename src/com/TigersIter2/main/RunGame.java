@@ -162,7 +162,7 @@ public class RunGame extends JFrame {
 
                     //stateManager.repaint();
                     //gamePanel.repaint();
-                    stateManager.repaint();
+                    repaint();
                 }
             });
         }

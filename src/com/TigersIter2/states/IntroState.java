@@ -9,6 +9,8 @@ import java.awt.*;
  */
 public class IntroState extends State {
 
+    private String name;
+
     private int counter;
 
     public IntroState(StateManager stateManager){
@@ -21,25 +23,26 @@ public class IntroState extends State {
         //pull in picture for intro screen - Sam
         IntroSprite.init();
         System.out.println("IntroState initialized");
+        name = "IntroState";
     }
 
     @Override
     public void update() {
         counter++;
         System.out.println("IntroState counter: " + counter);
-        if (counter >= 60) stateManager.setState(stateManager.GAME);
+        if (counter >= 100) stateManager.setState(stateManager.GAME);
     }
 
     @Override
     public void draw(Graphics g) {
-
+        Graphics2D g2d = (Graphics2D)g.create();
+        g2d.drawImage(IntroSprite.introImage,0,0,null);
+        g2d.dispose();
     }
 
     @Override
     public void paintComponent(Graphics g) {
-        Graphics2D g2d = (Graphics2D)g.create();
-        g2d.drawImage(IntroSprite.introImage,0,0,null);
-        g2d.dispose();
+
     }
 
 
@@ -47,4 +50,11 @@ public class IntroState extends State {
     public void handleInput() {
 
     }
+
+    @Override
+    public String returnName() {
+        return name;
+    }
+
+
 }

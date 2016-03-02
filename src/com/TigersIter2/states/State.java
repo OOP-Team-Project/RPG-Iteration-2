@@ -28,4 +28,7 @@ public abstract class State extends JComponent{
     //takes in input for specific state
     public abstract void handleInput();
 
+    //for testing purposes
+    public abstract String returnName();
+
 }
