@@ -27,6 +27,11 @@ public class StaticVar {
     public static final int sneakImageWidth = 100;
 
 
+    //MapView Conventional Stuff (Miles)
+    public static final int xTilesFromEdge = 6;
+    public static final int yTilesFromEdge = 3;
+
+
 
 
 }
