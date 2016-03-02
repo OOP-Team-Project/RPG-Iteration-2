@@ -29,11 +29,12 @@ public class IntroState extends State {
     }
 
     @Override
-    public void draw(Graphics g) {
+    public void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D)g.create();
         g2d.drawImage(IntroSprite.introImage,0,0,null);
         g2d.dispose();
     }
+
 
     @Override
     public void handleInput() {

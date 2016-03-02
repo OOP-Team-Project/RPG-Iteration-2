@@ -44,17 +44,21 @@ public class GameState extends State {
 
     @Override
     public void update() {
-        //map.update();
+        map.update();
         //avatar.update();
     }
 
     @Override
-    public void draw(Graphics g) {
-        //areaView.
+    public void paintComponent(Graphics g) {
+
     }
+
+//    @Override
+//    public void draw(Graphics g) {
+//        //areaView.
+//    }
 
     @Override
     public void handleInput() {
-
     }
 }

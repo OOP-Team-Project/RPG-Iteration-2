@@ -1,5 +1,7 @@
 package com.TigersIter2.states;
 
+import com.TigersIter2.main.Controller;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -11,6 +13,7 @@ import java.awt.*;
 public class StateManager extends JPanel{
 
     private State state;
+    private Controller controller;
 
     private static final int NUMBER_OF_STATES = 2;
     private static final int INTRO = 0;
@@ -20,6 +23,8 @@ public class StateManager extends JPanel{
 
     public StateManager(){
         setState(INTRO);
+        //controller = new Controller(this);
+        //controller.setBindings();
     }
 
     //kill state and set to new State (SL)
@@ -41,9 +46,10 @@ public class StateManager extends JPanel{
         if (state!=null) state.update();
     }
 
-    public void draw(Graphics g){
-        if (state!=null) state.draw(g);
-    }
+    //don't think it actually needs a draw function, since repaint in main will repaint all children - Sam
+    //public void draw(Graphics g){
+        //if (state!=null) state.draw(g);
+    //}
 
 
 }
