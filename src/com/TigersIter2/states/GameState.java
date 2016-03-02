@@ -71,15 +71,15 @@ public class GameState extends State {
 
     @Override
     public void paintComponent(Graphics g) {
-
-    }
-
-    @Override
-    public void draw(Graphics g) {
         Graphics2D g2d = (Graphics2D)g.create();
         g2d.setColor(Color.cyan);
         g2d.fillRect(testX,testY,50,50);
         g2d.dispose();
+    }
+
+    @Override
+    public void draw(Graphics g) {
+
     }
 
     @Override
