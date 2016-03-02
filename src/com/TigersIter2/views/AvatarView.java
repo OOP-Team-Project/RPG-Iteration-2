@@ -21,9 +21,9 @@ public class AvatarView extends JComponent implements ActionListener{
     int currentAnimationFrame = 0;
     Timer animationTimer;
 
-    public AvatarView(){
-        setPreferredSize(new Dimension(StaticVar.gameWidth, StaticVar.gameHeight));
-    }
+//    public AvatarView(){
+//        setPreferredSize(new Dimension(StaticVar.gameWidth, StaticVar.gameHeight));
+//    }
 
     public AvatarView(Avatar a) {
         aHandle = a;

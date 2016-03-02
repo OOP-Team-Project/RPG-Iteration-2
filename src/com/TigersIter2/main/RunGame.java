@@ -7,6 +7,7 @@ import com.TigersIter2.maps.Map;
 
 import com.TigersIter2.maps.TerrainMap;
 
+import com.TigersIter2.states.StateManager;
 import com.TigersIter2.views.AreaView;
 import com.TigersIter2.views.AvatarView;
 import com.TigersIter2.views.MapView;
@@ -18,16 +19,16 @@ import java.awt.*;
 public class RunGame extends JFrame {
 
     //JFrame window;
-    private GamePanel gamePanel;
+//    private GamePanel gamePanel;
 
-
+    private StateManager stateManager;
 
 
     //dirty way of avatar. disregard this
-    Avatar a;
+//    Avatar a;
 
     //Talks to the controller
-    private Controller controller;
+//    private Controller controller;
     private boolean running = false;
 
     private final int FPS = StaticVar.fps;
@@ -47,33 +48,36 @@ public class RunGame extends JFrame {
 
 
         //load image assets(SL) --> MAY HAVE TO ADD RES LIBRARY TO PROJECT IN INTELLIJ
-        TerrainSprite.init();
-        WizardSprite.init();
-        SmasherSprite.init();
-        SneakSprite.init();
-        IntroSprite.init();
+//        TerrainSprite.init();
+//        WizardSprite.init();
+//        SmasherSprite.init();
+//        SneakSprite.init();
+//        IntroSprite.init();
 
         setSize(StaticVar.gameWidth, StaticVar.gameHeight); //added class for static variables
         setLocationRelativeTo(null); //window appears in center of screen(SL)
-        TerrainMap m = new TerrainMap();
+//        TerrainMap m = new TerrainMap();
         //MapView mapView = new MapView(m); //<---- Moved this to below! (Miles)
 
-//        Avatar a = new Avatar();
-        a = new Avatar();
+
+//        a = new Avatar();
 
         //**************TESTING CODE*********************
-        a.setOccupation(new Sneak());
-        AvatarView avatarView = new AvatarView(a);
+//        a.setOccupation(new Sneak());
+//        AvatarView avatarView = new AvatarView(a);
 
-        MapView mapView = new MapView(m, a);   //<--- Moved this here because the MapView has to talk to the Avatar, too!
+//        MapView mapView = new MapView(m, a);   //<--- Moved this here because the MapView has to talk to the Avatar, too!
 
-        AreaView areaView = new AreaView(mapView,avatarView);
-        System.out.println("areaView # of components: " + areaView.getComponentCount());
-        gamePanel = new GamePanel();
-        gamePanel.add(areaView);
-        System.out.println("gamePanel # of components: " + gamePanel.getComponentCount());
-        System.out.println("JFrame # of components: " + this.getComponentCount());
-        this.add(gamePanel);
+//      AreaView areaView = new AreaView(mapView,avatarView);
+//        System.out.println("areaView # of components: " + areaView.getComponentCount());
+//        gamePanel = new GamePanel();
+//        gamePanel.add(areaView);
+//        System.out.println("gamePanel # of components: " + gamePanel.getComponentCount());
+//        System.out.println("JFrame # of components: " + this.getComponentCount());
+//        this.add(gamePanel);
+
+        stateManager = new StateManager();
+        this.add(stateManager);
         this.setVisible(true);
         //this.setFocusable(true);
 
@@ -81,8 +85,8 @@ public class RunGame extends JFrame {
 
 
         //Instantiate the controller and bind the default keys
-        controller = new Controller(gamePanel);
-        controller.setBindings();
+//        controller = new Controller(gamePanel);
+//        controller.setBindings();
     }
 
     //Starts a new thread and runs the game loop in it.
@@ -113,7 +117,8 @@ public class RunGame extends JFrame {
 
             start = System.nanoTime();
 
-            updateGame();
+            //updateGame();
+            stateManager.update();
             renderGame();
 
             elapsed = System.nanoTime() - start;
@@ -137,7 +142,8 @@ public class RunGame extends JFrame {
     {
         //Why are we updating gamePanel?? (SL)
         //gamePanel.update();
-        a.update(controller.getXMovement(), controller.getyMovement());
+//        a.update(controller.getXMovement(), controller.getyMovement());
+        //stateManager.update();
     }
 
     //renders the contents of current panel
@@ -154,7 +160,9 @@ public class RunGame extends JFrame {
                 public void run() {
                     //System.out.println("Had to invoke repaint from the wrong thread onto EDT");
 
-                    gamePanel.repaint();
+                    //stateManager.repaint();
+                    //gamePanel.repaint();
+                    stateManager.repaint();
                 }
             });
         }

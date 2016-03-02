@@ -1,5 +1,7 @@
 package com.TigersIter2.states;
 
+import com.TigersIter2.assets.StaticVar;
+import com.TigersIter2.assets.sprites.IntroSprite;
 import com.TigersIter2.main.Controller;
 
 import javax.swing.*;
@@ -25,6 +27,8 @@ public class StateManager extends JPanel{
         setState(INTRO);
         //controller = new Controller(this);
         //controller.setBindings();
+        this.setLayout(new OverlayLayout(this));
+        this.setPreferredSize(new Dimension(StaticVar.gameWidth, StaticVar.gameHeight));
     }
 
     //kill state and set to new State (SL)
@@ -40,10 +44,23 @@ public class StateManager extends JPanel{
             state = new GameState(this);
             state.init();
         }
+        this.add(state);
     }
 
     public void update(){
-        if (state!=null) state.update();
+
+        if (state!=null)
+            state.update();
+    }
+
+    @Override
+    public void paintComponent(Graphics g){
+//        Graphics2D g2d = (Graphics2D)g.create();
+//        g2d.setColor(Color.BLUE);
+//        g2d.fillRect(50,50,50,50);
+//        g2d.dispose();
+        //state.draw(g);
+        state.repaint();
     }
 
     //don't think it actually needs a draw function, since repaint in main will repaint all children - Sam

@@ -23,7 +23,7 @@ public abstract class State extends JComponent{
 
     //This should be replaced by overriding paintcomponent or? - Sam
     //draw of State should draw everything the State is responsible for
-    //public abstract void draw(Graphics g);
+    public abstract void draw(Graphics g);
 
     //takes in input for specific state
     public abstract void handleInput();

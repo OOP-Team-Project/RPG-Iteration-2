@@ -20,12 +20,19 @@ public class IntroState extends State {
         counter = 0;
         //pull in picture for intro screen - Sam
         IntroSprite.init();
+        System.out.println("IntroState initialized");
     }
 
     @Override
     public void update() {
         counter++;
-        if (counter >= 300) stateManager.setState(stateManager.GAME);
+        System.out.println("IntroState counter: " + counter);
+        if (counter >= 120) stateManager.setState(stateManager.GAME);
+    }
+
+    @Override
+    public void draw(Graphics g) {
+
     }
 
     @Override

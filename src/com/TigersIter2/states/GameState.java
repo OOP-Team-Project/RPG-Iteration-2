@@ -10,6 +10,8 @@ import com.TigersIter2.maps.Map;
 import com.TigersIter2.maps.TerrainMap;
 import com.TigersIter2.states.State;
 import com.TigersIter2.views.AreaView;
+import com.TigersIter2.views.AvatarView;
+import com.TigersIter2.views.MapView;
 import com.sun.javafx.geom.Area;
 
 import java.awt.*;
@@ -21,8 +23,13 @@ public class GameState extends State {
 
     private TerrainMap map;
     private Avatar avatar;
+    private AvatarView avatarView;
+    private MapView mapView;
+    private AreaView areaView;
     //private EntityManager entityManager;
     //private ItemManager itemManager;
+
+    private int testX, testY;
 
 
     public GameState(StateManager stateManager){
@@ -40,12 +47,23 @@ public class GameState extends State {
         WizardSprite.init();
         SmasherSprite.init();
         SneakSprite.init();
+        testX = 0;
+        testY=0;
+
+        avatarView = new AvatarView(avatar);
+        mapView = new MapView(map, avatar);
+        areaView =  new AreaView(mapView,avatarView);
+        this.add(areaView);
+
+        System.out.println("GameState initialized");
     }
 
     @Override
     public void update() {
         map.update();
-        //avatar.update();
+        testX++;
+        testY++;
+        avatar.update(testX, testY);
     }
 
     @Override
@@ -53,10 +71,10 @@ public class GameState extends State {
 
     }
 
-//    @Override
-//    public void draw(Graphics g) {
-//        //areaView.
-//    }
+    @Override
+    public void draw(Graphics g) {
+        //areaView.
+    }
 
     @Override
     public void handleInput() {
