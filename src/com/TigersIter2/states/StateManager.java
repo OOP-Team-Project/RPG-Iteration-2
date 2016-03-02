@@ -44,6 +44,7 @@ public class StateManager extends JPanel{
             state = new GameState(this);
             state.init();
         }
+        this.remove(state);
         this.add(state);
     }
 
@@ -60,7 +61,7 @@ public class StateManager extends JPanel{
 //        g2d.fillRect(50,50,50,50);
 //        g2d.dispose();
         //state.draw(g);
-        state.repaint();
+        //state.repaint();
     }
 
     //don't think it actually needs a draw function, since repaint in main will repaint all children - Sam

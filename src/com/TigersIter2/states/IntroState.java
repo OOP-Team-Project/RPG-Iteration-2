@@ -27,7 +27,7 @@ public class IntroState extends State {
     public void update() {
         counter++;
         System.out.println("IntroState counter: " + counter);
-        if (counter >= 120) stateManager.setState(stateManager.GAME);
+        if (counter >= 60) stateManager.setState(stateManager.GAME);
     }
 
     @Override

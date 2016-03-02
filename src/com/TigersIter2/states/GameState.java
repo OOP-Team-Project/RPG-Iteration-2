@@ -13,6 +13,7 @@ import com.TigersIter2.views.AreaView;
 import com.TigersIter2.views.AvatarView;
 import com.TigersIter2.views.MapView;
 import com.sun.javafx.geom.Area;
+import com.sun.javafx.runtime.SystemProperties;
 
 import java.awt.*;
 
@@ -64,11 +65,14 @@ public class GameState extends State {
         testX++;
         testY++;
         avatar.update(testX, testY);
+        System.out.println("Gamestate testX: " + testX);
     }
 
     @Override
     public void paintComponent(Graphics g) {
-
+        Graphics2D g2d = (Graphics2D)g.create();
+        g2d.drawImage(WizardSprite.wizardDown1,360,360,null);
+        g2d.dispose();
     }
 
     @Override
