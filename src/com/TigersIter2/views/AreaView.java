@@ -1,6 +1,7 @@
 package com.TigersIter2.views;
 
 import com.TigersIter2.assets.StaticVar;
+import com.sun.corba.se.impl.orbutil.graph.Graph;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,13 +20,14 @@ public class AreaView extends JComponent {
         setLayout(new OverlayLayout(this));
         setPreferredSize(new Dimension(StaticVar.gameWidth, StaticVar.gameHeight));
         this.add(avatarView);
-        this.add(mapView);
+//        this.add(mapView);
     }
 
 
     @Override
     public void paintComponent(Graphics g){
         //System.out.println("Inside AreaView");
+        g.drawString("AreaView PaintComponent: " + this.getComponentCount(), 260, 200);
 
     }
 

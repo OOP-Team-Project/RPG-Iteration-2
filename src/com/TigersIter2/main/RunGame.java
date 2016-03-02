@@ -56,6 +56,7 @@ public class RunGame extends JFrame {
 
         setSize(StaticVar.gameWidth, StaticVar.gameHeight); //added class for static variables
         setLocationRelativeTo(null); //window appears in center of screen(SL)
+
 //        TerrainMap m = new TerrainMap();
         //MapView mapView = new MapView(m); //<---- Moved this to below! (Miles)
 
@@ -162,7 +163,10 @@ public class RunGame extends JFrame {
 
                     //stateManager.repaint();
                     //gamePanel.repaint();
-                    repaint();
+                    stateManager.repaint();
+
+                    //have to use stateManager.repaint for now
+//                    repaint();
                 }
             });
         }

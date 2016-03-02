@@ -1,6 +1,8 @@
 package com.TigersIter2.states;
 
 
+import com.TigersIter2.assets.StaticVar;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -9,6 +11,8 @@ public abstract class State extends JComponent{
     protected StateManager stateManager;
 
     public State(StateManager stateManager){
+        this.setLayout(new OverlayLayout(this));
+        this.setPreferredSize(new Dimension(StaticVar.gameWidth, StaticVar.gameHeight));
         this.stateManager = stateManager;
     }
 
@@ -23,7 +27,7 @@ public abstract class State extends JComponent{
 
     //This should be replaced by overriding paintcomponent or? - Sam
     //draw of State should draw everything the State is responsible for
-    public abstract void draw(Graphics g);
+//    public abstract void draw(Graphics g);
 
     //takes in input for specific state
     public abstract void handleInput();
