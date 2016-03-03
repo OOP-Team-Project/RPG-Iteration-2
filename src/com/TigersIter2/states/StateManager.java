@@ -27,7 +27,7 @@ public class StateManager extends JPanel{
     public StateManager(){
         this.setPreferredSize(new Dimension(StaticVar.gameWidth, StaticVar.gameHeight));
 
-        this.setLayout(new OverlayLayout(this));
+//        this.setLayout(new OverlayLayout(this));
         System.out.println(this.getComponentCount());
         setState(INTRO);
         //controller = new Controller(this);
