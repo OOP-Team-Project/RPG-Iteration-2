@@ -53,8 +53,6 @@ public class StateManager extends JPanel{
         this.add(state);
         this.revalidate();
         this.repaint();
-//        this.setLayout(new OverlayLayout(this));
-//        this.setPreferredSize(new Dimension(StaticVar.gameWidth, StaticVar.gameHeight));
     }
 
     public void update(){
@@ -70,7 +68,7 @@ public class StateManager extends JPanel{
         g2d.setColor(Color.BLUE);
         g2d.fillRect(0,0, this.getWidth(), this.getHeight());
         g2d.setColor(Color.RED);
-        g2d.drawString("StateManager paintComponent. Components:" + this.getComponentCount() + "WIDTH: " + this.getWidth() + " Height: " + this.getHeight(), 260,100);
+        g2d.drawString("StateManager paintComponent. Components:" + this.getComponentCount() + "     WIDTH: " + this.getWidth() + " Height: " + this.getHeight(), 100,15);
         g2d.dispose();
         //state.draw(g);
         //state.repaint();

@@ -78,7 +78,7 @@ public class RunGame extends JFrame {
 //        this.add(gamePanel);
 
         stateManager = new StateManager();
-        this.add(stateManager);
+        this.getContentPane().add(stateManager);
         this.setVisible(true);
         //this.setFocusable(true);
 
@@ -160,13 +160,8 @@ public class RunGame extends JFrame {
             SwingUtilities.invokeLater(new Runnable() {
                 public void run() {
                     //System.out.println("Had to invoke repaint from the wrong thread onto EDT");
+                    repaint();
 
-                    //stateManager.repaint();
-                    //gamePanel.repaint();
-                    stateManager.repaint();
-
-                    //have to use stateManager.repaint for now
-//                    repaint();
                 }
             });
         }
