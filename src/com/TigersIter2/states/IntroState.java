@@ -43,7 +43,7 @@ public class IntroState extends State {
     }
 
     @Override
-    public Dimension getPreferredSize() {
+    public Dimension getPreferredSize() { //good practice, don't know if necessary or not
         return new Dimension(StaticVar.gameWidth, StaticVar.gameHeight);
     }
 

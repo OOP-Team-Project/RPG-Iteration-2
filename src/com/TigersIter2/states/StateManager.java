@@ -26,7 +26,7 @@ public class StateManager extends JPanel{
 
     public StateManager(){
         this.setPreferredSize(new Dimension(StaticVar.gameWidth, StaticVar.gameHeight));
-        this.setLayout(new FlowLayout(0,0,0));
+        this.setLayout(new FlowLayout(0,0,0)); //JPanel is already a flowlayout, added 0,0,0 to remove padding --flow layout paints children but does not require them
 //        this.setLayout(new OverlayLayout(this));
         System.out.println(this.getComponentCount());
         setState(INTRO);
@@ -36,7 +36,7 @@ public class StateManager extends JPanel{
 
     //kill state and set to new State (SL)
     public void setState(int nextState){
-        if (state!=null)this.remove(state);
+        if (state!=null)this.remove(state); //invalidates layout, since things have been changed
         //state = null;
 
         if(nextState == INTRO){
@@ -51,7 +51,7 @@ public class StateManager extends JPanel{
         }
 
         this.add(state);
-        this.revalidate();
+        this.revalidate(); //revalidates layout, needed since removing state before
         this.repaint();
     }
 
@@ -63,7 +63,7 @@ public class StateManager extends JPanel{
     }
 
     @Override
-    public void paintComponent(Graphics g){
+    public void paintComponent(Graphics g){ //doesn't need to override paintComponent unless we want solid background, might be nice for edge of maps
         Graphics2D g2d = (Graphics2D)g.create();
         g2d.setColor(Color.BLUE);
         g2d.fillRect(0,0, this.getWidth(), this.getHeight());
