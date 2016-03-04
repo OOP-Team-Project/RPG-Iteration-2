@@ -3,9 +3,9 @@ package com.TigersIter2.skills;
 /**
  * Created by Magic_Buddha on 3/3/2016.
  */
-public class GeneralSkill {
-    private int skillLevel;
-    private int maxLevel;
+public abstract class GeneralSkill {
+    protected int skillLevel;
+    protected int maxLevel;
 
     public GeneralSkill() {
         skillLevel = 0;
@@ -19,23 +19,22 @@ public class GeneralSkill {
     public boolean raiseSkill() {
         if ( skillLevel < maxLevel ) {
             skillLevel++;
-            update();
+//            update();
             return true;
         } else return false;
     }
 
-    /**
-     * will be abstract
-     */
-    private void update() {
-
-    }
+//    /**
+//     * will be abstract
+//     */
+//    abstract void update();
 
     /**
      * Shouldn't be used besides loading the game
      */
     public void setSkill( int level ) {
         skillLevel = level;
+//        update();
     }
 
     /**
