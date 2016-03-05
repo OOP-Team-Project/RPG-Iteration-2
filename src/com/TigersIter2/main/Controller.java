@@ -6,13 +6,13 @@ import java.awt.event.KeyEvent;
 
 public class Controller {
 
-    private GamePanel gp;
+    private JComponent component;
     private int xMovement, yMovement;
     private boolean movingUp, movingDown, movingLeft, movingRight;
 
 
-    public Controller(GamePanel gp){
-        this.gp = gp;
+    public Controller(JComponent component){
+        this.component = component;
         xMovement = 0;
         yMovement = 0;
         movingUp = false;
@@ -30,7 +30,7 @@ public class Controller {
     }
 
     public void setBindings(){
-        InputMap inMap = gp.getInputMap();
+        InputMap inMap = component.getInputMap();
 
         // Each key we want to use is put into the InputMap
         // false means key pressed, true means key released
@@ -46,14 +46,14 @@ public class Controller {
 
         // Each entry in the InputMap is then inserted in the ActionMap
         // Actions defined below
-        gp.getActionMap().put("UP_GO", UP_ARROW_GO);
-        gp.getActionMap().put("UP_STOP", UP_ARROW_STOP);
-        gp.getActionMap().put("DOWN_GO", DOWN_ARROW_GO);
-        gp.getActionMap().put("DOWN_STOP", DOWN_ARROW_STOP);
-        gp.getActionMap().put("LEFT_GO", LEFT_ARROW_GO);
-        gp.getActionMap().put("LEFT_STOP", LEFT_ARROW_STOP);
-        gp.getActionMap().put("RIGHT_GO", RIGHT_ARROW_GO);
-        gp.getActionMap().put("RIGHT_STOP", RIGHT_ARROW_STOP);
+        component.getActionMap().put("UP_GO", UP_ARROW_GO);
+        component.getActionMap().put("UP_STOP", UP_ARROW_STOP);
+        component.getActionMap().put("DOWN_GO", DOWN_ARROW_GO);
+        component.getActionMap().put("DOWN_STOP", DOWN_ARROW_STOP);
+        component.getActionMap().put("LEFT_GO", LEFT_ARROW_GO);
+        component.getActionMap().put("LEFT_STOP", LEFT_ARROW_STOP);
+        component.getActionMap().put("RIGHT_GO", RIGHT_ARROW_GO);
+        component.getActionMap().put("RIGHT_STOP", RIGHT_ARROW_STOP);
 
         System.out.println("Bindings have been set");
     }

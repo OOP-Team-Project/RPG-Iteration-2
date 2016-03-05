@@ -1,19 +1,19 @@
 package com.TigersIter2.main;
 
 import com.TigersIter2.assets.StaticVar;
-import com.TigersIter2.assets.sprites.*;
-import com.TigersIter2.entities.*;
-import com.TigersIter2.maps.Map;
+//import com.TigersIter2.assets.sprites.*;
+//import com.TigersIter2.entities.*;
+//import com.TigersIter2.maps.Map;
 
-import com.TigersIter2.maps.TerrainMap;
+//import com.TigersIter2.maps.TerrainMap;
 
 import com.TigersIter2.states.StateManager;
-import com.TigersIter2.views.AreaView;
-import com.TigersIter2.views.AvatarView;
-import com.TigersIter2.views.MapView;
+//import com.TigersIter2.views.AreaView;
+//import com.TigersIter2.views.AvatarView;
+//import com.TigersIter2.views.MapView;
 
 import javax.swing.*;
-import java.awt.*;
+//import java.awt.*;
 
 //contains main method, kicks off everything
 public class RunGame extends JFrame {

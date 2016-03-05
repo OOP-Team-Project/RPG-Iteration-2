@@ -15,12 +15,17 @@ import java.awt.*;
 // TODO: add ability to pause
 public class StateManager extends JPanel{
 
-    private State state, prevState;
+    private State state;
+
+    //StateManager holds controller and passes it to different states
     private Controller controller;
 
     private static final int NUMBER_OF_STATES = 2;
     public static final int INTRO = 0;
     public static final int GAME = 1;
+
+
+
 
 
 
@@ -30,8 +35,11 @@ public class StateManager extends JPanel{
 //        this.setLayout(new OverlayLayout(this));
         System.out.println(this.getComponentCount());
         setState(INTRO);
-        //controller = new Controller(this);
-        //controller.setBindings();
+
+        //attach controller to StateManager
+        controller = new Controller(this);
+        controller.setBindings();
+
     }
 
     //kill state and set to new State (SL)
@@ -57,19 +65,21 @@ public class StateManager extends JPanel{
 
     public void update(){
 
-        if (state!=null)
+        if (state!=null) {
             state.update();
             System.out.println(state.returnName());
+            System.out.println(controller.getXMovement() + ", " + controller.getyMovement());
+        }
     }
 
     @Override
     public void paintComponent(Graphics g){ //doesn't need to override paintComponent unless we want solid background, might be nice for edge of maps
-        Graphics2D g2d = (Graphics2D)g.create();
-        g2d.setColor(Color.BLUE);
-        g2d.fillRect(0,0, this.getWidth(), this.getHeight());
-        g2d.setColor(Color.RED);
-        g2d.drawString("StateManager paintComponent. Components:" + this.getComponentCount() + "     WIDTH: " + this.getWidth() + " Height: " + this.getHeight(), 100,15);
-        g2d.dispose();
+//        Graphics2D g2d = (Graphics2D)g.create();
+//        g2d.setColor(Color.BLUE);
+//        g2d.fillRect(0,0, this.getWidth(), this.getHeight());
+//        g2d.setColor(Color.RED);
+//        g2d.drawString("StateManager paintComponent. Components:" + this.getComponentCount() + "     WIDTH: " + this.getWidth() + " Height: " + this.getHeight(), 100,15);
+//        g2d.dispose();
         //state.draw(g);
         //state.repaint();
     }

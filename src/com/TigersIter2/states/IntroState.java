@@ -71,10 +71,8 @@ public class IntroState extends State {
 //        g2d.setColor(Color.GREEN);
 //        g2d.fillRect(0,20, this.getWidth(), this.getHeight()-20);
         g2d.setColor(Color.RED);
-        g2d.drawString("Intro paintComponent. Components: " + this.getComponentCount(), 260, 150);
+        g2d.drawString("Intro paintComponent. Components: " + this.getComponentCount(), 0, 400);
         g2d.dispose();
-        System.out.println("WTF");
-
     }
 
 

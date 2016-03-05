@@ -7,6 +7,9 @@ import com.TigersIter2.assets.sprites.TerrainSprite;
 import com.TigersIter2.assets.sprites.WizardSprite;
 import com.TigersIter2.entities.Avatar;
 import com.TigersIter2.entities.Smasher;
+import com.TigersIter2.entities.Sneak;
+import com.TigersIter2.entities.Summoner;
+import com.TigersIter2.main.Controller;
 import com.TigersIter2.maps.Map;
 import com.TigersIter2.maps.TerrainMap;
 import com.TigersIter2.states.State;
@@ -25,16 +28,22 @@ public class GameState extends State {
 
     private final String name = "GameState";
 
+    //Controller
+    //private Controller ctrl;
+
+    //Model Data
     private TerrainMap map;
     private Avatar avatar;
+
+    //Views
     private AvatarView avatarView;
     private MapView mapView;
     private AreaView areaView;
     //private EntityManager entityManager;
     //private ItemManager itemManager;
-    private int counter = 0;
+    //private int counter = 0;
 
-    private int testX, testY;
+    //private int testX, testY;
 
 
     public GameState(StateManager stateManager){
@@ -46,15 +55,15 @@ public class GameState extends State {
 
         map = new TerrainMap();
         avatar = new Avatar();
-        avatar.setOccupation(new Smasher());
+        avatar.setOccupation(new Summoner());
         //pull in all pictures for GameState
         TerrainSprite.init();
         //Technically only one of these will need to be initialized
         WizardSprite.init();
         SmasherSprite.init();
         SneakSprite.init();
-        testX = 0;
-        testY=360;
+        //testX = 0;
+        //testY=360;
 
         avatarView = new AvatarView(avatar);
         mapView = new MapView(map, avatar);
@@ -64,20 +73,25 @@ public class GameState extends State {
         this.add(areaView);
 
         System.out.println("GameState initialized");
+
+        //ctrl = new Controller(this);
+        //ctrl.setBindings();
+        System.out.println("controller added to GameState");
     }
 
     @Override
     public void update() {
-        counter++;
+        //counter++;
         map.update();
-        testX++;
-        testY++;
-        avatar.update(testX, testY);
-        System.out.println("GameState testX: " + testX);
-        if (counter >= 100) {
-            stateManager.setState(stateManager.INTRO);
-            counter = 0;
-        }
+        //System.out.println(ctrl.getXMovement() + ", " + ctrl.getyMovement());
+        //testX++;
+        //testY++;
+        //avatar.update(0,0);
+
+//        if (counter >= 100) {
+//            stateManager.setState(stateManager.INTRO);
+//            counter = 0;
+//        }
     }
 
     @Override
@@ -87,8 +101,9 @@ public class GameState extends State {
         g2d.fillRect(0,0, this.getWidth(), this.getHeight());
         g2d.setColor(Color.BLUE);
         g2d.drawString("GameState paintComponent. Components: " + this.getComponentCount(), 260, 150);
+        //g2d.drawString("GetXmovement: " + ctrl.getXMovement(), 300, 300);
+        //g2d.drawString("GetYmovement: " + ctrl.getyMovement(), 300, 320);
         g2d.dispose();
-
     }
 //
 //    @Override
