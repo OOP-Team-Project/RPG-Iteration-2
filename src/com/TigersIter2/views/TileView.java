@@ -89,5 +89,9 @@ public class TileView extends JComponent {
     public void setCurrentYLocation(float currentYLocation) {
         this.currentYLocation = currentYLocation;
     }
+
+    public int getHexGridID() {
+        return hexGridID;
+    }
 }
 
