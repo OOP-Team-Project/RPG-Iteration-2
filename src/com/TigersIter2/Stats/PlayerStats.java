@@ -1,4 +1,4 @@
-package com.TigersIter2.Stats;
+package com.TigersIter2.stats;
 
 import com.TigersIter2.entities.Occupation;
 import com.TigersIter2.entities.Smasher;
@@ -8,18 +8,24 @@ import java.util.List;
 
 /**
  * Created by Magic_Buddha on 3/4/2016.
+ * aka ROKAS. Please let me know if there are any concerns
  */
 public class PlayerStats extends Stats {
 
-    private final int LIFE_PER_STRENGTH = 25;
+    private final int LIFE_PER_HARDINESS = 25;
+    private final int LIFE_PER_LEVEL = 10;
     private final int OFFENSIVE_RATING_PER_STRENGTH = 1;
+    private final int OFFENSIVE_RATING_PER_LEVEL = 2;
     private final int DEFENSIVE_RATING_PER_AGILITY = 2;
+    private final int DEFENSIVE_RATING_PER_LEVEL = 2;
     private final int ARMOR_RATING_PER_HARDINESS = 2;
+    private final int MANA_PER_INTELLECT = 5;
+    private final int MANA_PER_LEVEL = 5;
     private final double LEVEL_EXPERIENCE_EXPONENT = 1.1;
     private final int FIRST_LEVEL_EXPERIENCE = 100;
 
     /**
-     * Stats relevant to player
+     * stats relevant to player
      */
     protected int livesLeft;
     protected int maxLives;
@@ -218,6 +224,11 @@ public class PlayerStats extends Stats {
         return this.livesLeft;
     }
 
+    @Override
+    public int getLife() {
+        return life + LIFE_PER_HARDINESS * hardiness + LIFE_PER_LEVEL * level;
+    }
+
     public boolean isDead() {
         return currentLife <= 0;
     }
@@ -230,31 +241,12 @@ public class PlayerStats extends Stats {
         return experience;
     }
 
-    /**
-     * Following two functions are from last iteration. was wasting too much time
-     * making a new exp curve. will use this for now.
-     */
-    public int getExperienceRequiredForLevel(int targetLevel) {
-        if (targetLevel < 1) {
-            throw new RuntimeException("Level must be greater than or equal to 1");
-        }
-        else if (targetLevel == 1) {
-            return FIRST_LEVEL_EXPERIENCE;
-        }
-        else
-            return (int)(FIRST_LEVEL_EXPERIENCE * Math.pow(targetLevel, LEVEL_EXPERIENCE_EXPONENT));
-    }
-
-    public int getLevelFromTotalExperience(int totalExperience) {
-        return (int)Math.floor(Math.exp(Math.log(totalExperience / FIRST_LEVEL_EXPERIENCE) / LEVEL_EXPERIENCE_EXPONENT));
-    }
-
     public int getLevel() {
         return level;
     }
 
     public int getMana() {
-        return mana + 5 * intellect + 10 * level;
+        return mana + MANA_PER_INTELLECT * intellect + MANA_PER_LEVEL * level;
     }
 
     public int getCurrentMana() {
@@ -266,15 +258,15 @@ public class PlayerStats extends Stats {
     }
 
     public int getOffensiveRating() {
-        return attackRating + 5 * strength + 5 * level;
+        return attackRating + OFFENSIVE_RATING_PER_STRENGTH * strength + OFFENSIVE_RATING_PER_LEVEL * level;
     }
 
     public int getDefensiveRating() {
-        return agility + 2 * level;
+        return agility * DEFENSIVE_RATING_PER_AGILITY + DEFENSIVE_RATING_PER_LEVEL * level;
     }
 
     public int getArmorRating() {
-        return hardiness + armor;
+        return hardiness * ARMOR_RATING_PER_HARDINESS + armor;
     }
 
     @Override
@@ -294,8 +286,6 @@ public class PlayerStats extends Stats {
                             "\nOffensiveRating: " + getOffensiveRating() +
                             "\nDefensiveRating: " + getDefensiveRating() +
                             "\nArmorRating: " + getArmorRating();
-
-
         return results;
     }
 
@@ -328,6 +318,26 @@ public class PlayerStats extends Stats {
         //TODO: adjust skill attributes
     }
 
+    /**
+     * Following two functions are from last iteration. was wasting too much time
+     * making a new exp curve. will use this for now.
+     * :TODO: Make private
+     */
+    private int getExperienceRequiredForLevel(int targetLevel) {
+        if (targetLevel < 1) {
+            throw new RuntimeException("Level must be greater than or equal to 1");
+        }
+        else if (targetLevel == 1) {
+            return FIRST_LEVEL_EXPERIENCE;
+        }
+        else
+            return (int)(FIRST_LEVEL_EXPERIENCE * Math.pow(targetLevel, LEVEL_EXPERIENCE_EXPONENT));
+    }
+
+    private int getLevelFromTotalExperience(int totalExperience) {
+        return (int)Math.floor(Math.exp(Math.log(totalExperience / FIRST_LEVEL_EXPERIENCE) / LEVEL_EXPERIENCE_EXPONENT));
+    }
+
     //***********************************************TESTING***************************************************//
     public static void main(String[] args) {
         Occupation o = new Smasher();
@@ -341,11 +351,18 @@ public class PlayerStats extends Stats {
         System.out.println(ps.toString() + '\n');
         ps.addExperience(100);
         System.out.println(ps.toString() + '\n');
-        ps.addExperience(100000);
-        System.out.println(ps.toString() + '\n');
         ps.incrementLivesLeft();
         ps.decreaseCurrentHealth(100);
         ps.increaseCurrentMana(100);
+        StatsModifier sm = new StatsModifier();
         System.out.println(ps.toString() + '\n');
+        System.out.println("Now adjust agility by 10");
+        sm.setAgility(10);
+        ps.addStatModifier(sm);
+        System.out.println(ps.toString() + '\n');
+        System.out.println("now remove stat modifier");
+        ps.removeStatModifier(sm);
+        System.out.println(ps.toString() + '\n');
+
     }
 }

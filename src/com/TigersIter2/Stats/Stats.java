@@ -1,9 +1,10 @@
-package com.TigersIter2.Stats;
+package com.TigersIter2.stats;
 
 /**
  * Created by Magic_Buddha on 3/4/2016.
+ * aka ROKAS. Please let me know if there are any concerns
  */
-public class Stats {
+public abstract class Stats {
 
     /**
      * stats that are used by both, player and npc's
@@ -45,8 +46,11 @@ public class Stats {
         return movement;
     }
 
+    /**
+     * needs to be overridden
+     */
     public int getLife() {
-        return life + 10 * hardiness;
+        return this.life;
     }
 
     public int getCurrentLife() {
