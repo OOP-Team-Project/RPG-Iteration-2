@@ -1,9 +1,11 @@
 package com.TigersIter2.skills;
 
+import java.util.Observable;
+
 /**
  * Created by Magic_Buddha on 3/4/2016.
  */
-public class Observation extends GeneralSkill {
+public class Observation extends ActiveSkill {
 
     private double probability;
     private double accuracy;
@@ -13,39 +15,28 @@ public class Observation extends GeneralSkill {
         accuracy = 0.0;
     }
 
-    @Override
-    public boolean raiseSkill() {
-        if ( skillLevel < maxLevel ) {
-            skillLevel++;
-            update();
-            return true;
-        } else return false;
-    }
-
-    @Override
-    public void setSkill( int level ) {
-        skillLevel = level;
-        update();
-    }
-
-
     /**
      * update function to update the stats of the skill
      */
-    private void update() {
+    @Override
+    protected void update() {
         probability = .2 * skillLevel;
         accuracy = .15 * skillLevel;
     }
 
-    @Override
-    public boolean activate() {
-        if ( getNewProbability() < probability ) {
+
+    private boolean activate() {
+        if ( Math.random() < probability ) {
             //TODO:implement revealing enemy stats...also depends on distance. wtf.
             return true;
         } else return false;
     }
 
-    private double getNewProbability() {
-        return Math.random();
+    /**
+     * gets called when observable object notifies this object
+     * */
+    @Override
+    public void update(Observable observable, Object obj) {
+        activate();
     }
 }

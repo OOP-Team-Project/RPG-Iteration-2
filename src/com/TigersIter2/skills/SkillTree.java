@@ -1,5 +1,7 @@
 package com.TigersIter2.skills;
 
+import com.TigersIter2.stats.PlayerStats;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,9 +12,7 @@ public class SkillTree {
 
     private int abilityPoints;
     //skill tree is made up of passive, general, and occupation skills
-    private Set<PassiveSkill> passiveSkills;
-    private Set<GeneralSkill> generalSkills;
-    private Set<OccupationSkill> occupationSkills;
+    private Set<Skill> skills;
 
     /**
      * makes a skill tree depending on the entity type by first building
@@ -22,9 +22,7 @@ public class SkillTree {
 
         abilityPoints = 0;
 
-        passiveSkills = new HashSet<PassiveSkill>();
-        generalSkills = new HashSet<GeneralSkill>();
-        occupationSkills = new HashSet<OccupationSkill>();
+        skills = new HashSet<Skill>();
 
         buildGeneralSkills();
         if ( occupation.equalsIgnoreCase("Smasher") )
@@ -41,7 +39,9 @@ public class SkillTree {
      * builds general skills
      */
     private void buildGeneralSkills() {
-
+        skills.add(new Bargain(new PlayerStats()));
+        skills.add(new BindWounds(new PlayerStats()));
+        skills.add(new Observation());
     }
 
     /**
@@ -68,35 +68,14 @@ public class SkillTree {
     /**
      * raises a skill level of passive skill.
      */
-    public boolean raiseSkill( PassiveSkill ps ) {
-        if ( passiveSkills.contains( ps ) && abilityPoints > 0 ) {
+    public boolean raiseSkill( Skill s ) {
+        if ( skills.contains( s ) && abilityPoints > 0 ) {
             abilityPoints--;
-            return ps.raiseSkill();
+            return s.raiseSkill();
         }
         else return false;
     }
 
-    /**
-     * raises a skill level of general skill.
-     */
-    public boolean raiseSkill( GeneralSkill gs ) {
-        if ( generalSkills.contains( gs ) && abilityPoints > 0 ) {
-            abilityPoints--;
-            return gs.raiseSkill();
-        }
-        else return false;
-    }
-
-    /**
-     * raises a skill level of occupation skill.
-     */
-    public boolean raiseSkill( OccupationSkill os ) {
-        if ( occupationSkills.contains( os ) && abilityPoints > 0 ) {
-            abilityPoints--;
-            return os.raiseSkill();
-        }
-        else return false;
-    }
 
     /**
      * adds ability points to be used to raise the skills

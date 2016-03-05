@@ -177,6 +177,8 @@ public class PlayerStats extends Stats {
         this.barter = barter;
     }
 
+    public void incrementBarter(int barter) { this.barter += barter; }
+
     /**
      * adds a stat modifier and immediately affects the stats
      */

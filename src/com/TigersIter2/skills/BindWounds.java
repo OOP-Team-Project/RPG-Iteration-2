@@ -2,10 +2,12 @@ package com.TigersIter2.skills;
 
 import com.TigersIter2.stats.Stats;
 
+import java.util.Observable;
+
 /**
  * Created by Magic_Buddha on 3/3/2016.
  */
-public class BindWounds extends GeneralSkill {
+public class BindWounds extends ActiveSkill {
 
     private final int BASE_HEAL = 10;
     private final int LEVEL_MULTIPLIER = 10;
@@ -22,39 +24,27 @@ public class BindWounds extends GeneralSkill {
         probability = 0.0;
     }
 
-    @Override
-    public boolean raiseSkill() {
-        if ( skillLevel < maxLevel ) {
-            skillLevel++;
-            update();
-            return true;
-        } else return false;
-    }
-
-    @Override
-    public void setSkill( int level ) {
-        skillLevel = level;
-        update();
-    }
-
-
     /**
      * update function to update the stats of the skill
      */
-    private void update() {
+    @Override
+    protected void update() {
         probability = .2 * skillLevel;
         derivedHealed = BASE_HEAL + (skillLevel - 1) * LEVEL_MULTIPLIER;
     }
 
-    @Override
-    public boolean activate() {
-        if ( skillLevel > 0 && getNewProbability() < probability ) {
+    private boolean activate() {
+        if ( skillLevel > 0 && Math.random() < probability ) {
             playerStats.increaseCurrentLife(derivedHealed);
             return true;
         } else return false;
     }
 
-    private double getNewProbability() {
-        return Math.random();
+    /**
+     * gets called when observable object notifies this object
+     * */
+    @Override
+    public void update(Observable observable, Object obj) {
+        activate();
     }
 }

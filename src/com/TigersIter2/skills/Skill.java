@@ -1,15 +1,16 @@
 package com.TigersIter2.skills;
 
 /**
- * Created by Magic_Buddha on 3/3/2016.
+ * Created by Magic_Buddha on 3/5/2016.
  */
-public class OccupationSkill {
-    private int skillLevel;
-    private int maxLevel;
+public abstract class Skill {
 
-    public OccupationSkill() {
+    protected int skillLevel;
+    protected int maxLevel;
+
+    public Skill() {
         skillLevel = 0;
-        maxLevel = 5;
+        maxLevel = 20;
     }
 
     /**
@@ -25,23 +26,15 @@ public class OccupationSkill {
     }
 
     /**
-     * will be abstract
-     */
-    private void update() {
-
-    }
-
-    /**
      * Shouldn't be used besides loading the game
      */
     public void setSkill( int level ) {
         skillLevel = level;
+        update();
     }
 
     /**
-     * will be abstract soon
+     * method to be overridden to update skill when it levels
      */
-    public void activate() {
-
-    }
+    protected abstract void update();
 }
