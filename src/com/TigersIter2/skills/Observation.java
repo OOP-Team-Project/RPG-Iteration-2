@@ -1,25 +1,16 @@
 package com.TigersIter2.skills;
 
-import com.TigersIter2.stats.Stats;
-
 /**
- * Created by Magic_Buddha on 3/3/2016.
+ * Created by Magic_Buddha on 3/4/2016.
  */
-public class BindWounds extends GeneralSkill {
+public class Observation extends GeneralSkill {
 
-    private final int BASE_HEAL = 10;
-    private final int LEVEL_MULTIPLIER = 10;
-    private int derivedHealed;
     private double probability;
-    private Stats playerStats;
+    private double accuracy;
 
-    /**
-     * Constructor, will need some sort of handle to stats
-     */
-    public BindWounds(Stats playerStats){
-        super();
-        derivedHealed = BASE_HEAL;
+    public Observation() {
         probability = 0.0;
+        accuracy = 0.0;
     }
 
     @Override
@@ -43,13 +34,13 @@ public class BindWounds extends GeneralSkill {
      */
     private void update() {
         probability = .2 * skillLevel;
-        derivedHealed = BASE_HEAL + (skillLevel - 1) * LEVEL_MULTIPLIER;
+        accuracy = .15 * skillLevel;
     }
 
     @Override
     public boolean activate() {
-        if ( skillLevel > 0 && getNewProbability() < probability ) {
-            playerStats.increaseCurrentLife(derivedHealed);
+        if ( getNewProbability() < probability ) {
+            //TODO:implement revealing enemy stats...also depends on distance. wtf.
             return true;
         } else return false;
     }

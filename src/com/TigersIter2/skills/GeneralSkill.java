@@ -24,23 +24,12 @@ public abstract class GeneralSkill {
         } else return false;
     }
 
-//    /**
-//     * will be abstract
-//     */
-//    abstract void update();
-
     /**
      * Shouldn't be used besides loading the game
      */
     public void setSkill( int level ) {
         skillLevel = level;
-//        update();
     }
 
-    /**
-     * will be abstract soon
-     */
-    public void activate() {
-
-    }
+    public abstract boolean activate();
 }

@@ -3,7 +3,7 @@ package com.TigersIter2.skills;
 /**
  * Created by Magic_Buddha on 3/3/2016.
  */
-public class PassiveSkill {
+public abstract class PassiveSkill {
     private int skillLevel;
     private int maxLevel;
 
@@ -31,10 +31,5 @@ public class PassiveSkill {
         skillLevel = level;
     }
 
-    /**
-     * will be abstract
-     */
-    private void update() {
-
-    }
+    public abstract boolean activate();
 }

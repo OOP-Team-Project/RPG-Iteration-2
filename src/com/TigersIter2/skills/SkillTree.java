@@ -105,10 +105,14 @@ public class SkillTree {
         abilityPoints += ap;
     }
 
+    public void incrementAbilityPoints() { abilityPoints++; }
+
     /**
      * returns the available ap's
      */
     public int getAbilityPoints() {
         return abilityPoints;
     }
+
+    public void setAbilityPoints( int ap ) { abilityPoints = ap; }
 }
