@@ -1,34 +1,14 @@
 package com.TigersIter2.main;
 
 import com.TigersIter2.assets.StaticVar;
-//import com.TigersIter2.assets.sprites.*;
-//import com.TigersIter2.entities.*;
-//import com.TigersIter2.maps.Map;
-
-//import com.TigersIter2.maps.TerrainMap;
-
 import com.TigersIter2.states.StateManager;
-//import com.TigersIter2.views.AreaView;
-//import com.TigersIter2.views.AvatarView;
-//import com.TigersIter2.views.MapView;
-
 import javax.swing.*;
-//import java.awt.*;
 
 //contains main method, kicks off everything
 public class RunGame extends JFrame {
 
-    //JFrame window;
-//    private GamePanel gamePanel;
-
     private StateManager stateManager;
 
-
-    //dirty way of avatar. disregard this
-//    Avatar a;
-
-    //Talks to the controller
-//    private Controller controller;
     private boolean running = false;
 
     private final int FPS = StaticVar.fps;
@@ -46,48 +26,13 @@ public class RunGame extends JFrame {
     //loads the game
     public void loadGame(){
 
-
-        //load image assets(SL) --> MAY HAVE TO ADD RES LIBRARY TO PROJECT IN INTELLIJ
-//        TerrainSprite.init();
-//        WizardSprite.init();
-//        SmasherSprite.init();
-//        SneakSprite.init();
-//        IntroSprite.init();
-
         setSize(StaticVar.gameWidth, StaticVar.gameHeight); //added class for static variables
         setLocationRelativeTo(null); //window appears in center of screen(SL)
-
-//        TerrainMap m = new TerrainMap();
-        //MapView mapView = new MapView(m); //<---- Moved this to below! (Miles)
-
-
-//        a = new Avatar();
-
-        //**************TESTING CODE*********************
-//        a.setOccupation(new Sneak());
-//        AvatarView avatarView = new AvatarView(a);
-
-//        MapView mapView = new MapView(m, a);   //<--- Moved this here because the MapView has to talk to the Avatar, too!
-
-//      AreaView areaView = new AreaView(mapView,avatarView);
-//        System.out.println("areaView # of components: " + areaView.getComponentCount());
-//        gamePanel = new GamePanel();
-//        gamePanel.add(areaView);
-//        System.out.println("gamePanel # of components: " + gamePanel.getComponentCount());
-//        System.out.println("JFrame # of components: " + this.getComponentCount());
-//        this.add(gamePanel);
 
         stateManager = new StateManager();
         this.getContentPane().add(stateManager);
         this.setVisible(true);
-        //this.setFocusable(true);
 
-
-
-
-        //Instantiate the controller and bind the default keys
-//        controller = new Controller(gamePanel);
-//        controller.setBindings();
     }
 
     //Starts a new thread and runs the game loop in it.
@@ -133,18 +78,6 @@ public class RunGame extends JFrame {
                 e.printStackTrace();
             }
         }
-    }
-
-    //calls the update of current panel
-    //for testing purposes, dirty way of updating avatar.
-    //we should prolly have a updateManager class
-    //that holds objects that should be updated, or just use events or w/e
-    private void updateGame()
-    {
-        //Why are we updating gamePanel?? (SL)
-        //gamePanel.update();
-//        a.update(controller.getXMovement(), controller.getyMovement());
-        //stateManager.update();
     }
 
     //renders the contents of current panel

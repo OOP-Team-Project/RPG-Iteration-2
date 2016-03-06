@@ -32,15 +32,6 @@ public class IntroState extends State {
         IntroSprite.init();
         System.out.println("IntroState initialized");
         name = "IntroState";
-
-
-//        below is bs. but without adding a component to introState, it will not paint at all...
-//        SmasherSprite.init();
-//        Avatar avatar = new Avatar();
-//        avatar.setOccupation(new Smasher());
-//        AvatarView avatarView = new AvatarView(avatar);
-//
-//        this.add(avatarView);
     }
 
     @Override
@@ -57,13 +48,6 @@ public class IntroState extends State {
             counter = 0;
         }
     }
-
-//    @Override
-//    public void draw(Graphics g) {
-//        Graphics2D g2d = (Graphics2D)g.create();
-//        g2d.drawImage(IntroSprite.introImage,0,0,null);
-//        g2d.dispose();
-//    }
 
     @Override
     public void paintComponent(Graphics g) {

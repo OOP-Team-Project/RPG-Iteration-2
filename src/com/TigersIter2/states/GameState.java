@@ -28,9 +28,6 @@ public class GameState extends State {
 
     private final String name = "GameState";
 
-    //Controller
-    //private Controller ctrl;
-
     //Model Data
     private TerrainMap map;
     private Avatar avatar;
@@ -100,15 +97,6 @@ public class GameState extends State {
         g2d.drawString("GetYmovement: " + controller.getyMovement(), 300, 320);
         g2d.dispose();
     }
-//
-//    @Override
-//    public void draw(Graphics g) {
-//        Graphics2D g2d = (Graphics2D)g.create();
-//        g2d.setColor(Color.cyan);
-//        g2d.fillRect(testX,testY,50,50);
-//        g2d.dispose();
-//    }
-
 
     @Override
     public void handleInput() {

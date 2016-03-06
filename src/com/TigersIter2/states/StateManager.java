@@ -24,11 +24,6 @@ public class StateManager extends JPanel{
     public static final int INTRO = 0;
     public static final int GAME = 1;
 
-
-
-
-
-
     public StateManager(){
         this.setPreferredSize(new Dimension(StaticVar.gameWidth, StaticVar.gameHeight));
         this.setLayout(new FlowLayout(0,0,0)); //JPanel is already a flowlayout, added 0,0,0 to remove padding --flow layout paints children but does not require them
@@ -74,20 +69,7 @@ public class StateManager extends JPanel{
 
     @Override
     public void paintComponent(Graphics g){ //doesn't need to override paintComponent unless we want solid background, might be nice for edge of maps
-//        Graphics2D g2d = (Graphics2D)g.create();
-//        g2d.setColor(Color.BLUE);
-//        g2d.fillRect(0,0, this.getWidth(), this.getHeight());
-//        g2d.setColor(Color.RED);
-//        g2d.drawString("StateManager paintComponent. Components:" + this.getComponentCount() + "     WIDTH: " + this.getWidth() + " Height: " + this.getHeight(), 100,15);
-//        g2d.dispose();
-        //state.draw(g);
-        //state.repaint();
+
     }
-
-    //don't think it actually needs a draw function, since repaint in main will repaint all children - Sam
-    //public void draw(Graphics g){
-        //if (state!=null) state.draw(g);
-    //}
-
 
 }
