@@ -50,7 +50,7 @@ public class GameState extends State {
 
         map = new TerrainMap();
         avatar = new Avatar();
-        avatar.setOccupation(new Summoner());
+        avatar.setOccupation(new Sneak());
         //pull in all pictures for GameState
 
         //Technically only one of these will need to be initialized
