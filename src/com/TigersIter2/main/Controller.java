@@ -10,6 +10,9 @@ public class Controller {
     private int xMovement, yMovement;
     private boolean movingUp, movingDown, movingLeft, movingRight;
 
+    //temporary? --all temporary stuff added by Sam for MainMenu
+    private int keyPressed;
+
 
     public Controller(JComponent component){
         this.component = component;
@@ -29,6 +32,8 @@ public class Controller {
         return yMovement;
     }
 
+    public int getKeyPressed() {return keyPressed; }
+
     public void setBindings(){
         InputMap inMap = component.getInputMap();
 
@@ -43,6 +48,9 @@ public class Controller {
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0, true), "LEFT_STOP");
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0, false), "RIGHT_GO");
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0, true), "RIGHT_STOP");
+        //temporary??
+        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0,false),"ENTER_GO");
+        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0,true),"ENTER_STOP");
 
         // Each entry in the InputMap is then inserted in the ActionMap
         // Actions defined below
@@ -54,6 +62,10 @@ public class Controller {
         component.getActionMap().put("LEFT_STOP", LEFT_ARROW_STOP);
         component.getActionMap().put("RIGHT_GO", RIGHT_ARROW_GO);
         component.getActionMap().put("RIGHT_STOP", RIGHT_ARROW_STOP);
+
+        //temporary??
+        component.getActionMap().put("ENTER_GO", ENTER_KEY_GO);
+        component.getActionMap().put("ENTER_STOP", ENTER_KEY_STOP);
 
         System.out.println("Bindings have been set");
     }
@@ -104,6 +116,8 @@ public class Controller {
             if(!movingLeft) {
                 --xMovement;
                 movingLeft = true;
+                //temporary??
+                keyPressed = KeyEvent.VK_LEFT;
             }
         }
     };
@@ -114,6 +128,7 @@ public class Controller {
             if(movingLeft) {
                 ++xMovement;
                 movingLeft = false;
+               keyPressed = 0;
             }
         }
     };
@@ -124,6 +139,7 @@ public class Controller {
             if(!movingRight) {
                 ++xMovement;
                 movingRight = true;
+                keyPressed = KeyEvent.VK_RIGHT;
             }
         }
     };
@@ -134,7 +150,22 @@ public class Controller {
             if(movingRight) {
                 --xMovement;
                 movingRight = false;
+                keyPressed = 0;
             }
+        }
+    };
+
+    Action ENTER_KEY_GO = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            keyPressed = KeyEvent.VK_ENTER;
+        }
+    };
+
+    Action ENTER_KEY_STOP = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            keyPressed = 0;
         }
     };
 }

@@ -43,7 +43,7 @@ public class IntroState extends State {
     public void update() {
         counter++;
         System.out.println("IntroState counter: " + counter);
-        if (counter >= 150) {
+        if (counter >= 60) {
             stateManager.setState(stateManager.MAINMENU);
             counter = 0;
         }

@@ -80,17 +80,17 @@ public class GameState extends State {
         //testY++;
         avatar.update(controller.getXMovement(),controller.getyMovement(),0);
 
-//        if (counter >= 100) {
-//            stateManager.setState(stateManager.INTRO);
-//            counter = 0;
-//        }
+        if (counter >= 200) {
+            stateManager.setState(stateManager.INTRO);
+            counter = 0;
+        }
     }
 
     @Override
     public void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D)g.create();
-        g2d.setColor(Color.RED);
-        g2d.fillRect(0,0, this.getWidth(), this.getHeight());
+        g2d.setColor(Color.BLACK);
+        g2d.fillRect(0,0, this.getWidth(), this.getHeight());//getHeight
         g2d.setColor(Color.BLUE);
         g2d.drawString("GameState paintComponent. Components: " + this.getComponentCount(), 260, 150);
         g2d.drawString("GetXmovement: " + controller.getXMovement(), 300, 300);
