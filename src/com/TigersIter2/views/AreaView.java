@@ -20,7 +20,8 @@ public class AreaView extends JComponent {
         setLayout(new OverlayLayout(this));
         setPreferredSize(new Dimension(StaticVar.gameWidth, StaticVar.gameHeight));
         this.add(avatarView);
-//        this.add(mapView);
+        //MapView is fucked up - Sam
+        this.add(mapView);
     }
 
 
@@ -28,7 +29,6 @@ public class AreaView extends JComponent {
     public void paintComponent(Graphics g){
         //System.out.println("Inside AreaView");
         g.drawString("AreaView PaintComponent: " + this.getComponentCount(), 260, 200);
-
     }
 
 

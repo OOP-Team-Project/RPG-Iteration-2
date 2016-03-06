@@ -41,7 +41,7 @@ public class GameState extends State {
     private AreaView areaView;
     //private EntityManager entityManager;
     //private ItemManager itemManager;
-    //private int counter = 0;
+    private int counter = 0;
 
     //private int testX, testY;
 
@@ -76,17 +76,17 @@ public class GameState extends State {
 
     @Override
     public void update() {
-        //counter++;
+        counter++;
         map.update();
         //System.out.println(controller.getXMovement() + ", " + controller.getyMovement());
         //testX++;
         //testY++;
         avatar.update(controller.getXMovement(),controller.getyMovement(),0);
 
-//        if (counter >= 100) {
-//            stateManager.setState(stateManager.INTRO);
-//            counter = 0;
-//        }
+        if (counter >= 100) {
+            stateManager.setState(stateManager.INTRO);
+            counter = 0;
+        }
     }
 
     @Override
