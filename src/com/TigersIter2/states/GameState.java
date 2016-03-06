@@ -80,10 +80,10 @@ public class GameState extends State {
         //testY++;
         avatar.update(controller.getXMovement(),controller.getyMovement(),0);
 
-        if (counter >= 100) {
-            stateManager.setState(stateManager.INTRO);
-            counter = 0;
-        }
+//        if (counter >= 100) {
+//            stateManager.setState(stateManager.INTRO);
+//            counter = 0;
+//        }
     }
 
     @Override

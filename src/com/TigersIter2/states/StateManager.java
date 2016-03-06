@@ -22,7 +22,13 @@ public class StateManager extends JPanel{
 
     private static final int NUMBER_OF_STATES = 2;
     public static final int INTRO = 0;
-    public static final int GAME = 1;
+    public static final int MAINMENU = 1;
+    public static final int GAME = 2;
+
+
+//    private enum S {
+//        INTRO,MAINMENU,GAME
+//    }
 
     public StateManager(){
         this.setPreferredSize(new Dimension(StaticVar.gameWidth, StaticVar.gameHeight));
@@ -45,6 +51,11 @@ public class StateManager extends JPanel{
         if(nextState == INTRO){
             System.out.println("Creating INTRO state...");
             state = new IntroState(this, controller);
+            state.init();
+        }
+        else if(nextState == MAINMENU){
+            System.out.println("Creating MainMenu state...");
+            state = new MainMenuState(this, controller);
             state.init();
         }
         else if (nextState == GAME){

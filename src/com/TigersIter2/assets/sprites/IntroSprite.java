@@ -12,8 +12,8 @@ public class IntroSprite {
 
     //needs to be called once
     public static void init() {
-        SpriteSheet terrainSheet = new SpriteSheet(SpriteLoader.loadImage("/textures/cat3.png"));
+        SpriteSheet terrainSheet = new SpriteSheet(SpriteLoader.loadImage("/textures/Intro.png"));
 
-        introImage = terrainSheet.cropSheet(0, 0, 737, 359);
+        introImage = terrainSheet.cropSheet(0,0,1280,720);
     }
 }
