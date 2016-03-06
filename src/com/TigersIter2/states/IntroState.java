@@ -5,6 +5,7 @@ import com.TigersIter2.assets.sprites.IntroSprite;
 import com.TigersIter2.assets.sprites.SmasherSprite;
 import com.TigersIter2.entities.Avatar;
 import com.TigersIter2.entities.Smasher;
+import com.TigersIter2.main.Controller;
 import com.TigersIter2.views.AvatarView;
 
 import javax.swing.*;
@@ -19,8 +20,8 @@ public class IntroState extends State {
 
     private int counter;
 
-    public IntroState(StateManager stateManager){
-        super(stateManager);
+    public IntroState(StateManager stateManager, Controller controller){
+        super(stateManager, controller);
     }
 
     @Override

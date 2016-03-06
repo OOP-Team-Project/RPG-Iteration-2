@@ -49,12 +49,12 @@ public class StateManager extends JPanel{
 
         if(nextState == INTRO){
             System.out.println("Creating INTRO state...");
-            state = new IntroState(this);
+            state = new IntroState(this, controller);
             state.init();
         }
         else if (nextState == GAME){
             System.out.println("Creating GAME state...");
-            state = new GameState(this);
+            state = new GameState(this, controller);
             state.init();
         }
 

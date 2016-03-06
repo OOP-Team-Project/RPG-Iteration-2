@@ -46,8 +46,8 @@ public class GameState extends State {
     //private int testX, testY;
 
 
-    public GameState(StateManager stateManager){
-        super(stateManager);
+    public GameState(StateManager stateManager, Controller controller){
+        super(stateManager, controller);
     }
 
     @Override
@@ -62,8 +62,6 @@ public class GameState extends State {
         WizardSprite.init();
         SmasherSprite.init();
         SneakSprite.init();
-        //testX = 0;
-        //testY=360;
 
         avatarView = new AvatarView(avatar);
         mapView = new MapView(map, avatar);
@@ -74,16 +72,13 @@ public class GameState extends State {
 
         System.out.println("GameState initialized");
 
-        //ctrl = new Controller(this);
-        //ctrl.setBindings();
-        System.out.println("controller added to GameState");
     }
 
     @Override
     public void update() {
         //counter++;
         map.update();
-        //System.out.println(ctrl.getXMovement() + ", " + ctrl.getyMovement());
+        //System.out.println(controller.getXMovement() + ", " + controller.getyMovement());
         //testX++;
         //testY++;
         //avatar.update(0,0);
@@ -101,8 +96,8 @@ public class GameState extends State {
         g2d.fillRect(0,0, this.getWidth(), this.getHeight());
         g2d.setColor(Color.BLUE);
         g2d.drawString("GameState paintComponent. Components: " + this.getComponentCount(), 260, 150);
-        //g2d.drawString("GetXmovement: " + ctrl.getXMovement(), 300, 300);
-        //g2d.drawString("GetYmovement: " + ctrl.getyMovement(), 300, 320);
+        g2d.drawString("GetXmovement: " + controller.getXMovement(), 300, 300);
+        g2d.drawString("GetYmovement: " + controller.getyMovement(), 300, 320);
         g2d.dispose();
     }
 //
