@@ -49,7 +49,7 @@ public class IntroState extends State {
         counterBuffer++;
         System.out.println("IntroState counter: " + counterBuffer);
 
-        if (controller.getKeyPressed()== KeyEvent.VK_ENTER && counterBuffer>=30) {
+        if ((controller.getKeyPressed()== KeyEvent.VK_ENTER || controller.getKeyPressed()==KeyEvent.VK_SPACE)&& counterBuffer>=30) {
             stateManager.setState(StateManager.MAINMENU);
         }
     }
@@ -60,8 +60,8 @@ public class IntroState extends State {
         g2d.drawImage(IntroSprite.introImage,0,0,null);
 //        g2d.setColor(Color.GREEN);
 //        g2d.fillRect(0,20, this.getWidth(), this.getHeight()-20);
-        g2d.setColor(Color.RED);
-        g2d.drawString("Intro paintComponent. Components: " + this.getComponentCount(), 0, 400);
+//        g2d.setColor(Color.RED);
+//        g2d.drawString("Intro paintComponent. Components: " + this.getComponentCount(), 0, 400);
         g2d.dispose();
     }
 

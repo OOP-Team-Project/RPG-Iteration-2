@@ -85,12 +85,13 @@ public class GameState extends State {
     @Override
     public void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D)g.create();
-        g2d.setColor(Color.BLACK);
+        //setting background to gray somehow eliminates tile tearing caused by non-perfect hexagons(hexagons can't really by represented perfectly with pixels)
+        g2d.setColor(Color.GRAY);
         g2d.fillRect(0,0, this.getWidth(), this.getHeight());//getHeight
-        g2d.setColor(Color.BLUE);
-        g2d.drawString("GameState paintComponent. Components: " + this.getComponentCount(), 260, 150);
-        g2d.drawString("GetXmovement: " + controller.getXMovement(), 300, 300);
-        g2d.drawString("GetYmovement: " + controller.getyMovement(), 300, 320);
+//        g2d.setColor(Color.BLUE);
+//        g2d.drawString("GameState paintComponent. Components: " + this.getComponentCount(), 260, 150);
+//        g2d.drawString("GetXmovement: " + controller.getXMovement(), 300, 300);
+//        g2d.drawString("GetYmovement: " + controller.getyMovement(), 300, 320);
         g2d.dispose();
     }
 

@@ -36,9 +36,9 @@ public class Avatar extends Entity{
     }
 
     //What is this supposed to do? -Sam
-//    public void setLocation(Location l) {
-//        location = l;
-//    }
+    public void setLocation(Location l) {
+        location = l;
+    }
 
     //Should be named updatePosition -Sam
     @Override
