@@ -81,7 +81,7 @@ public class GameState extends State {
         //System.out.println(controller.getXMovement() + ", " + controller.getyMovement());
         //testX++;
         //testY++;
-        //avatar.update(0,0);
+        avatar.update(controller.getXMovement(),controller.getyMovement(),0);
 
 //        if (counter >= 100) {
 //            stateManager.setState(stateManager.INTRO);
