@@ -1,14 +1,8 @@
 package com.TigersIter2.states;
 
 import com.TigersIter2.assets.StaticVar;
-import com.TigersIter2.assets.sprites.SmasherSprite;
-import com.TigersIter2.assets.sprites.SneakSprite;
-import com.TigersIter2.assets.sprites.TerrainSprite;
-import com.TigersIter2.assets.sprites.WizardSprite;
-import com.TigersIter2.entities.Avatar;
-import com.TigersIter2.entities.Smasher;
-import com.TigersIter2.entities.Sneak;
-import com.TigersIter2.entities.Summoner;
+import com.TigersIter2.assets.sprites.*;
+import com.TigersIter2.entities.*;
 import com.TigersIter2.main.Controller;
 import com.TigersIter2.maps.Map;
 import com.TigersIter2.maps.TerrainMap;
@@ -32,6 +26,7 @@ public class GameState extends State {
     //Model Data
     private TerrainMap map;
     private Avatar avatar;
+    private Vehicle vehicle;
 
     //Views
     private AvatarView avatarView;
@@ -51,12 +46,15 @@ public class GameState extends State {
         map = new TerrainMap();
         avatar = new Avatar();
         avatar.setOccupation(new Sneak());
+        vehicle = new Vehicle("Horse", 10, false, true);
+        //avatar.setVehicle(vehicle);
         //pull in all pictures for GameState
 
         //Technically only one of these will need to be initialized
         WizardSprite.init();
         SmasherSprite.init();
         SneakSprite.init();
+        VehicleSprite.init();
 
         avatarView = new AvatarView(avatar);
         mapView = new MapView(map, avatar);

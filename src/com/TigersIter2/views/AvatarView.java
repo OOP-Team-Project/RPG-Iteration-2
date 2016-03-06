@@ -3,6 +3,7 @@ package com.TigersIter2.views;
 import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.assets.sprites.SmasherSprite;
 import com.TigersIter2.assets.sprites.SneakSprite;
+import com.TigersIter2.assets.sprites.VehicleSprite;
 import com.TigersIter2.assets.sprites.WizardSprite;
 import com.TigersIter2.entities.Avatar;
 
@@ -110,6 +111,45 @@ public class AvatarView extends JComponent implements ActionListener{
             g2d.drawImage(WizardSprite.wizardDownRight1, aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY(), null);
     }
 
+    private void drawVehicle(Graphics2D g2d){
+        if (aHandle.getDirection() == 45) {
+            if(currentAnimationFrame == 0 || !aHandle.isCurrentlyMoving())
+                g2d.drawImage(VehicleSprite.vehicleUpRight1, aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY(), null);
+            else
+                g2d.drawImage(VehicleSprite.vehicleUpRight2, aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY(), null);
+        }
+        else if (aHandle.getDirection() == 90) {
+            if(currentAnimationFrame == 0 || !aHandle.isCurrentlyMoving())
+                g2d.drawImage(VehicleSprite.vehicleUp1, aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY(), null);
+            else
+                g2d.drawImage(VehicleSprite.vehicleUp2, aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY(), null);
+        }
+        else if (aHandle.getDirection() == 135) {
+            if(currentAnimationFrame == 0 || !aHandle.isCurrentlyMoving())
+                g2d.drawImage(VehicleSprite.vehicleUpLeft1, aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY(), null);
+            else
+                g2d.drawImage(VehicleSprite.vehicleUpLeft2, aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY(), null);
+        }
+        else if (aHandle.getDirection() == 225) {
+            if(currentAnimationFrame == 0 || !aHandle.isCurrentlyMoving())
+                g2d.drawImage(VehicleSprite.vehicleDownLeft1, aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY(), null);
+            else
+                g2d.drawImage(VehicleSprite.vehicleDownLeft2, aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY(), null);
+        }
+        else if (aHandle.getDirection() == 270) {
+            if(currentAnimationFrame == 0 || !aHandle.isCurrentlyMoving())
+                g2d.drawImage(VehicleSprite.vehicleDown1, aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY(), null);
+            else
+                g2d.drawImage(VehicleSprite.vehicleDown2, aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY(), null);
+        }
+        else if (aHandle.getDirection() == 315) {
+            if(currentAnimationFrame == 0 || !aHandle.isCurrentlyMoving())
+                g2d.drawImage(VehicleSprite.vehicleDownRight1, aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY(), null);
+            else
+                g2d.drawImage(VehicleSprite.vehicleDownRight2, aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY(), null);
+        }
+    }
+
     public void paintComponent(Graphics g){
         //TEST CODE, BUT FOLLOW THIS FORMAT FOR OVERRIDING PAINTCOMPONENT
         //System.out.println("Inside AvatarView");
@@ -125,6 +165,8 @@ public class AvatarView extends JComponent implements ActionListener{
             drawSneak(g2d);
         else
             drawSummoner(g2d);
+        
+        drawVehicle(g2d);
         g2d.drawString(aHandle.getOccupation().toString() + aHandle.getLocation().getX() + " " + aHandle.getLocation().getY(), aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY());
         //System.out.println("X Location: " + aHandle.getPixelLocation().getX());
         //System.out.println("Y Location: " + aHandle.getPixelLocation().getY());

@@ -25,6 +25,8 @@ public class StaticVar {
     public static final int smasherImageWidth = 100;
     public static final int sneakImageHeight = 100;
     public static final int sneakImageWidth = 100;
+    public static final int vehicleImageHeight = 100;
+    public static final int vehicleImageWidth = 100;
 
 
     //MapView Conventional Stuff (Miles)

@@ -76,8 +76,8 @@ public class StateManager extends JPanel{
 
         if (state!=null) {
             state.update();
-            System.out.println(state.returnName());
-            System.out.println(controller.getXMovement() + ", " + controller.getyMovement());
+            //System.out.println(state.returnName());
+            //System.out.println(controller.getXMovement() + ", " + controller.getyMovement());
         }
     }
 

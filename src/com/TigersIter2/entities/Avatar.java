@@ -3,6 +3,8 @@ package com.TigersIter2.entities;
 import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.items.TakeableItem;
 import com.TigersIter2.location.Location;
+import com.TigersIter2.stats.PlayerStats;
+import com.TigersIter2.stats.Stats;
 
 
 public class Avatar extends Entity{
@@ -14,7 +16,7 @@ public class Avatar extends Entity{
     private Occupation occupation;
     private Pet pet;
     private Vehicle vehicle;
-    //private stats stats;
+    private Stats stats;
 
     private int direction;
     private boolean canPassWater;
@@ -25,7 +27,7 @@ public class Avatar extends Entity{
 
     public Avatar(){
         //changed this to actually instantiate location. Not sure what Z is for atm. <-- Z is for hextile stuff in the future (Sam)
-        location = new Location(20 * StaticVar.terrainImageWidth,20 * StaticVar.terrainImageHeight,0);
+        location = new Location(21 * StaticVar.terrainImageWidth,21 * StaticVar.terrainImageHeight,0);
         //I don't think pixelLocation should be a property of avatar, i think it belongs in avatarView(Sam)
         pixelLocation = new Location(StaticVar.xTilesFromEdge*StaticVar.terrainImageWidth, StaticVar.yTilesFromEdge*StaticVar.terrainImageHeight, 0);
         direction = 270;
@@ -51,6 +53,10 @@ public class Avatar extends Entity{
             location.incrementY(yMovement * 5);
             changeDirection(xMovement, yMovement);
             currentlyMoving = true;
+        }
+
+        if(vehicle != null){
+            vehicle.update(xMovement, yMovement, zMovement);
         }
         //System.out.println(direction);
         //System.out.println(xMovement + ", " + yMovement);
@@ -112,6 +118,7 @@ public class Avatar extends Entity{
 
     public void setOccupation(Occupation o){
         occupation = o;
+        stats = new PlayerStats(o);
     }
 
     public Occupation getOccupation(){
