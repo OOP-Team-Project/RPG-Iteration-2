@@ -20,7 +20,7 @@ public class IntroState extends State {
 
     private String name;
 
-    private int counter;
+    private int counterBuffer;
 
     public IntroState(StateManager stateManager, Controller controller){
         super(stateManager, controller);
@@ -29,7 +29,7 @@ public class IntroState extends State {
     @Override
     public void init() {
 
-        counter = 0;
+        counterBuffer = 0;
         //pull in picture for intro screen - Sam
         IntroSprite.init();
 
@@ -46,12 +46,11 @@ public class IntroState extends State {
 
     @Override
     public void update() {
-        counter++;
-        System.out.println("IntroState counter: " + counter);
+        counterBuffer++;
+        System.out.println("IntroState counter: " + counterBuffer);
 
-        if (controller.getKeyPressed()== KeyEvent.VK_ENTER) {
+        if (controller.getKeyPressed()== KeyEvent.VK_ENTER && counterBuffer>=30) {
             stateManager.setState(StateManager.MAINMENU);
-            counter = 0;
         }
     }
 

@@ -51,7 +51,8 @@ public class Controller {
         //temporary??
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0,false),"ENTER_GO");
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0,true),"ENTER_STOP");
-
+        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE,0,false),"SPACE_GO");
+        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE,0,true),"SPACE_STOP");
         // Each entry in the InputMap is then inserted in the ActionMap
         // Actions defined below
         component.getActionMap().put("UP_GO", UP_ARROW_GO);
@@ -66,6 +67,8 @@ public class Controller {
         //temporary??
         component.getActionMap().put("ENTER_GO", ENTER_KEY_GO);
         component.getActionMap().put("ENTER_STOP", ENTER_KEY_STOP);
+        component.getActionMap().put("SPACE_GO", SPACE_KEY_GO);
+        component.getActionMap().put("SPACE_STOP", SPACE_KEY_STOP);
 
         System.out.println("Bindings have been set");
     }
@@ -163,6 +166,20 @@ public class Controller {
     };
 
     Action ENTER_KEY_STOP = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            keyPressed = 0;
+        }
+    };
+
+    Action SPACE_KEY_GO = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            keyPressed = KeyEvent.VK_SPACE;
+        }
+    };
+
+    Action SPACE_KEY_STOP = new AbstractAction() {
         @Override
         public void actionPerformed(ActionEvent e) {
             keyPressed = 0;

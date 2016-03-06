@@ -17,7 +17,7 @@ public class MainMenuState extends State {
 
     private String name;
     private boolean newLoad = false;
-    private boolean keyReleased = false;
+    private int counterBuffer = 0;
 
 
     public MainMenuState(StateManager stateManager, Controller controller){
@@ -28,20 +28,19 @@ public class MainMenuState extends State {
     public void init() {
         System.out.println("IntroState initialized");
         name = "MainMenuState";
-
+        counterBuffer = 0;
         MainMenuSprite.init();
 
     }
 
     @Override
     public void update() {
-
-        if (controller.getKeyPressed()==0) keyReleased = true;
+        counterBuffer++;
 
         if (controller.getKeyPressed()== KeyEvent.VK_LEFT) newLoad = newGame;
         else if (controller.getKeyPressed() == KeyEvent.VK_RIGHT) newLoad = loadGame;
 
-        if (controller.getKeyPressed()==KeyEvent.VK_ENTER && keyReleased){
+        if (controller.getKeyPressed()==KeyEvent.VK_ENTER && counterBuffer>=30){
             if (newLoad == newGame) stateManager.setState(StateManager.INTRO);
             else stateManager.setState(StateManager.GAME);
         }

@@ -21,6 +21,7 @@ import com.sun.javafx.runtime.SystemProperties;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 
 //GameState should initialize everything that is needed in GameState. This is because if you go back to the main menu for ex, and wish to start a new game
 //when GameState gets reinitialized, this would all be possible - Sam
@@ -38,9 +39,6 @@ public class GameState extends State {
     private AreaView areaView;
     //private EntityManager entityManager;
     //private ItemManager itemManager;
-    private int counter = 0;
-
-    //private int testX, testY;
 
 
     public GameState(StateManager stateManager, Controller controller){
@@ -73,16 +71,14 @@ public class GameState extends State {
 
     @Override
     public void update() {
-        counter++;
         map.update();
         //System.out.println(controller.getXMovement() + ", " + controller.getyMovement());
         //testX++;
         //testY++;
         avatar.update(controller.getXMovement(),controller.getyMovement(),0);
 
-        if (counter >= 200) {
+        if (controller.getKeyPressed() == KeyEvent.VK_SPACE) {
             stateManager.setState(StateManager.INTRO);
-            counter = 0;
         }
     }
 
