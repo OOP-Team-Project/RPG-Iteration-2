@@ -35,11 +35,14 @@ public class StateManager extends JPanel{
         this.setLayout(new FlowLayout(0,0,0)); //JPanel is already a flowlayout, added 0,0,0 to remove padding --flow layout paints children but does not require them
 //        this.setLayout(new OverlayLayout(this));
         System.out.println(this.getComponentCount());
-        setState(INTRO);
 
-        //attach controller to StateManager
         controller = new Controller(this);
         controller.setBindings();
+
+
+        setState(INTRO);
+
+
 
     }
 

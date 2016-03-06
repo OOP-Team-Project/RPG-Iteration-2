@@ -54,7 +54,7 @@ public class GameState extends State {
         avatar = new Avatar();
         avatar.setOccupation(new Summoner());
         //pull in all pictures for GameState
-        TerrainSprite.init();
+
         //Technically only one of these will need to be initialized
         WizardSprite.init();
         SmasherSprite.init();
@@ -81,7 +81,7 @@ public class GameState extends State {
         avatar.update(controller.getXMovement(),controller.getyMovement(),0);
 
         if (counter >= 200) {
-            stateManager.setState(stateManager.INTRO);
+            stateManager.setState(StateManager.INTRO);
             counter = 0;
         }
     }
