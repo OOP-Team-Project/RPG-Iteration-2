@@ -14,7 +14,7 @@ public class Avatar extends Entity{
     private Occupation occupation;
     private Pet pet;
     private Vehicle vehicle;
-    //private Stats stats;
+    //private stats stats;
 
     private int direction;
     private boolean canPassWater;
