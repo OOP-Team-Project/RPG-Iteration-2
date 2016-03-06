@@ -24,7 +24,8 @@ public class Vehicle extends Entity {
         this.movementBonus = movement;
         this.canPassWater = water;
         this.canPassMountain = mountain;
-        this.direction = 180;
+        this.direction = 270;
+        this.currentlyMoving = false;
     }
 
     public boolean getCanPassWater(){
@@ -64,13 +65,28 @@ public class Vehicle extends Entity {
         return currentlyMoving;
     }
 
+    public Location getPixelLocation() {
+        return pixelLocation;
+    }
+
+    public void setPixelLocation(Location pixelLocation) {
+        this.pixelLocation = pixelLocation;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
     @Override
     public void update(int xMovement, int yMovement, int zMovement) {
-        location.incrementX(xMovement * 5);   //Made it 3 times faster because IT WAS SO SLOOOOOW (Miles)
-        location.incrementY(yMovement * 5);
-        changeDirection(xMovement, yMovement);
-        currentlyMoving = true;
-        System.out.println(xMovement + ", " + yMovement);
-        System.out.println(location.getX() + ", " + location.getY());
+        if(xMovement == 0 && yMovement == 0){
+            currentlyMoving = false;
+        }
+        else {
+            currentlyMoving = true;
+            location.incrementX(xMovement * 5);   //Made it 3 times faster because IT WAS SO SLOOOOOW (Miles)
+            location.incrementY(yMovement * 5);
+            changeDirection(xMovement, yMovement);
+        }
     }
 }

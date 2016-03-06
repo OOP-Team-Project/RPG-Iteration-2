@@ -10,6 +10,7 @@ import com.TigersIter2.states.State;
 import com.TigersIter2.views.AreaView;
 import com.TigersIter2.views.AvatarView;
 import com.TigersIter2.views.MapView;
+import com.TigersIter2.views.VehicleView;
 import com.sun.javafx.geom.Area;
 import com.sun.javafx.runtime.SystemProperties;
 
@@ -32,6 +33,7 @@ public class GameState extends State {
     private AvatarView avatarView;
     private MapView mapView;
     private AreaView areaView;
+    private VehicleView vehicleView;
     //private EntityManager entityManager;
     //private ItemManager itemManager;
 
@@ -45,9 +47,9 @@ public class GameState extends State {
 
         map = new TerrainMap();
         avatar = new Avatar();
-        avatar.setOccupation(new Sneak());
-        vehicle = new Vehicle("Horse", 10, false, true);
-        //avatar.setVehicle(vehicle);
+        avatar.setOccupation(new Summoner());
+        vehicle = new Vehicle("Turtle", 10, false, true);
+        avatar.setVehicle(vehicle);
         //pull in all pictures for GameState
 
         //Technically only one of these will need to be initialized
@@ -57,8 +59,9 @@ public class GameState extends State {
         VehicleSprite.init();
 
         avatarView = new AvatarView(avatar);
+        vehicleView = new VehicleView(vehicle);
         mapView = new MapView(map, avatar);
-        areaView =  new AreaView(mapView,avatarView);
+        areaView =  new AreaView(mapView,avatarView, vehicleView);
 
 
         this.add(areaView);
