@@ -6,13 +6,16 @@ import java.awt.event.KeyEvent;
 
 public class Controller {
 
-    private GamePanel gp;
+    private JComponent component;
     private int xMovement, yMovement;
     private boolean movingUp, movingDown, movingLeft, movingRight;
 
+    //temporary? --all temporary stuff added by Sam for MainMenu
+    private int keyPressed;
 
-    public Controller(GamePanel gp){
-        this.gp = gp;
+
+    public Controller(JComponent component){
+        this.component = component;
         xMovement = 0;
         yMovement = 0;
         movingUp = false;
@@ -29,8 +32,10 @@ public class Controller {
         return yMovement;
     }
 
+    public int getKeyPressed() {return keyPressed; }
+
     public void setBindings(){
-        InputMap inMap = gp.getInputMap();
+        InputMap inMap = component.getInputMap();
 
         // Each key we want to use is put into the InputMap
         // false means key pressed, true means key released
@@ -43,17 +48,27 @@ public class Controller {
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0, true), "LEFT_STOP");
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0, false), "RIGHT_GO");
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0, true), "RIGHT_STOP");
-
+        //temporary??
+        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0,false),"ENTER_GO");
+        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0,true),"ENTER_STOP");
+        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE,0,false),"SPACE_GO");
+        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE,0,true),"SPACE_STOP");
         // Each entry in the InputMap is then inserted in the ActionMap
         // Actions defined below
-        gp.getActionMap().put("UP_GO", UP_ARROW_GO);
-        gp.getActionMap().put("UP_STOP", UP_ARROW_STOP);
-        gp.getActionMap().put("DOWN_GO", DOWN_ARROW_GO);
-        gp.getActionMap().put("DOWN_STOP", DOWN_ARROW_STOP);
-        gp.getActionMap().put("LEFT_GO", LEFT_ARROW_GO);
-        gp.getActionMap().put("LEFT_STOP", LEFT_ARROW_STOP);
-        gp.getActionMap().put("RIGHT_GO", RIGHT_ARROW_GO);
-        gp.getActionMap().put("RIGHT_STOP", RIGHT_ARROW_STOP);
+        component.getActionMap().put("UP_GO", UP_ARROW_GO);
+        component.getActionMap().put("UP_STOP", UP_ARROW_STOP);
+        component.getActionMap().put("DOWN_GO", DOWN_ARROW_GO);
+        component.getActionMap().put("DOWN_STOP", DOWN_ARROW_STOP);
+        component.getActionMap().put("LEFT_GO", LEFT_ARROW_GO);
+        component.getActionMap().put("LEFT_STOP", LEFT_ARROW_STOP);
+        component.getActionMap().put("RIGHT_GO", RIGHT_ARROW_GO);
+        component.getActionMap().put("RIGHT_STOP", RIGHT_ARROW_STOP);
+
+        //temporary??
+        component.getActionMap().put("ENTER_GO", ENTER_KEY_GO);
+        component.getActionMap().put("ENTER_STOP", ENTER_KEY_STOP);
+        component.getActionMap().put("SPACE_GO", SPACE_KEY_GO);
+        component.getActionMap().put("SPACE_STOP", SPACE_KEY_STOP);
 
         System.out.println("Bindings have been set");
     }
@@ -104,6 +119,8 @@ public class Controller {
             if(!movingLeft) {
                 --xMovement;
                 movingLeft = true;
+                //temporary??
+                keyPressed = KeyEvent.VK_LEFT;
             }
         }
     };
@@ -114,6 +131,7 @@ public class Controller {
             if(movingLeft) {
                 ++xMovement;
                 movingLeft = false;
+               keyPressed = 0;
             }
         }
     };
@@ -124,6 +142,7 @@ public class Controller {
             if(!movingRight) {
                 ++xMovement;
                 movingRight = true;
+                keyPressed = KeyEvent.VK_RIGHT;
             }
         }
     };
@@ -134,7 +153,36 @@ public class Controller {
             if(movingRight) {
                 --xMovement;
                 movingRight = false;
+                keyPressed = 0;
             }
+        }
+    };
+
+    Action ENTER_KEY_GO = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            keyPressed = KeyEvent.VK_ENTER;
+        }
+    };
+
+    Action ENTER_KEY_STOP = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            keyPressed = 0;
+        }
+    };
+
+    Action SPACE_KEY_GO = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            keyPressed = KeyEvent.VK_SPACE;
+        }
+    };
+
+    Action SPACE_KEY_STOP = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            keyPressed = 0;
         }
     };
 }
