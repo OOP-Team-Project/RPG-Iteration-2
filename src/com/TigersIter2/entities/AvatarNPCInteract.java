@@ -1,5 +1,7 @@
 package com.TigersIter2.entities;
 
+import com.TigersIter2.location.LocationConverter;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,11 +28,31 @@ public class AvatarNPCInteract {
     }
 
     public void addMonster(){
-        npcList.add(new Monster());
+        NPC m = new Monster();
+        npcList.add(m);
     }
 
     public void addVillager(List<String> p, boolean talk, boolean trade){
         npcList.add(new Villager(p, talk, trade));
+    }
+
+    public void checkTile(){
+        for(NPC n : npcList){
+            System.out.println(LocationConverter.PixelLocationToHex(n.getLocation()).getX() + ", " + LocationConverter.PixelLocationToHex(avatar.getLocation()).getX());
+            if(LocationConverter.PixelLocationToHex(n.getLocation()).getX() == LocationConverter.PixelLocationToHex(avatar.getLocation()).getX() &&
+               LocationConverter.PixelLocationToHex(n.getLocation()).getY() == LocationConverter.PixelLocationToHex(avatar.getLocation()).getY())
+            {
+                // Needs to pop up with some options
+                if(!avatar.getOnTileWithNPC()) {
+                    avatar.setOnTileWithNPC(true);
+                }
+
+            }
+            else{
+                System.out.println("Not on same tile");
+                avatar.setOnTileWithNPC(false);
+            }
+        }
     }
 
     private void attackAvatar(int attackStrength){

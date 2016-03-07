@@ -52,6 +52,7 @@ public class GameState extends State {
         ant = new AvatarNPCInteract(avatar);
         vehicle = new Vehicle("Turtle", 5, false, true);
         avatar.setVehicle(vehicle);
+        ant.addMonster();
         //pull in all pictures for GameState
 
         //Technically only one of these will need to be initialized
@@ -93,6 +94,7 @@ public class GameState extends State {
     public void update() {
         map.update();
         avatar.update(controller.getXMovement(),controller.getyMovement(),0);
+        ant.checkTile();
         handleControllerInput();
 
         if (controller.getKeyPressed() == KeyEvent.VK_SPACE) {

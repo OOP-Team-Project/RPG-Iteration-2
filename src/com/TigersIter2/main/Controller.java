@@ -27,10 +27,10 @@ public class Controller {
     }
 
     public int getXMovement(){
-        if(xMovement < 0)
-            return -1;
-        else if(xMovement == 0)
+        if(yMovement == 0 || xMovement == 0)
             return 0;
+        else if(xMovement < 0)
+            return -1;
         else
             return 1;
     }

@@ -25,6 +25,7 @@ public class Avatar extends Entity{
     private int money;
 
     private boolean currentlyMoving = false;
+    private boolean onTileWithNPC;
 
 
     public Avatar(){
@@ -176,10 +177,19 @@ public class Avatar extends Entity{
         return money;
     }
 
+    public void setOnTileWithNPC(boolean b){
+        onTileWithNPC = b;
+    }
+
+    public boolean getOnTileWithNPC(){
+        return onTileWithNPC;
+    }
+
     public void takeDamage(int attackStrength){
         //calculate some sort of damage
         int damageTaken = attackStrength;
         stats.decreaseCurrentHealth(damageTaken);
         System.out.println("Taking damage");
     }
+
 }
