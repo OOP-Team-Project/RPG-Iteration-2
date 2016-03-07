@@ -48,7 +48,7 @@ public class GameState extends State {
         map = new TerrainMap();
         avatar = new Avatar();
         avatar.setOccupation(new Summoner());
-        vehicle = new Vehicle("Turtle", 10, false, true);
+        vehicle = new Vehicle("Turtle", 5, false, true);
         avatar.setVehicle(vehicle);
         //pull in all pictures for GameState
 

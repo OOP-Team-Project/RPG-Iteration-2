@@ -36,23 +36,27 @@ public class Vehicle extends Entity {
         return canPassMountain;
     }
 
+    public int getMovementBonus(){
+        return movementBonus;
+    }
+
     private void changeDirection(int x, int y){
         if(x == 0){
-            if(y == 1)
+            if(y > 0)
                 direction = 270;
-            else if(y == -1)
+            else if(y < 0)
                 direction = 90;
         }
-        else if(x == 1){
-            if(y == 1)
+        else if(x > 0){
+            if(y > 0)
                 direction = 315;
-            else if(y == -1)
+            else if(y < 0)
                 direction = 45;
         }
         else{
-            if(y == 1)
+            if(y > 0)
                 direction = 225;
-            else if(y == -1)
+            else if(y < 0)
                 direction = 135;
         }
     }
@@ -84,8 +88,8 @@ public class Vehicle extends Entity {
         }
         else {
             currentlyMoving = true;
-            location.incrementX(xMovement * 5);   //Made it 3 times faster because IT WAS SO SLOOOOOW (Miles)
-            location.incrementY(yMovement * 5);
+            location.incrementX(xMovement);   //Made it 3 times faster because IT WAS SO SLOOOOOW (Miles)
+            location.incrementY(yMovement);
             changeDirection(xMovement, yMovement);
         }
     }
