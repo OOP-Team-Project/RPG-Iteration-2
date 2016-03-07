@@ -13,7 +13,7 @@ public class AvatarNPCInteract {
     private List<String> questions;
     private List<String> originalOptions;
     private FooterView footerView;
-    private boolean talking, fighting, usingSkill, usingItem, pressContinue;
+    private boolean talking, fighting, usingSkill, usingItem, pressContinue, trading;
 
     public AvatarNPCInteract(Avatar a, FooterView fv){
         avatar = a;
@@ -24,6 +24,7 @@ public class AvatarNPCInteract {
         fighting = false;
         usingSkill = false;
         usingItem = false;
+        trading = false;
         pressContinue = false;
         questions = new ArrayList<String>();
         originalOptions = new ArrayList<String>();
@@ -46,57 +47,57 @@ public class AvatarNPCInteract {
         originalOptions.add("Use Item");
     }
 
-    private void attack(){
+    public void attack(){
         //Check your position/direction/range against the NPC's in the list
     }
 
     public void chooseOption(int selected){
         //Do something in a menu with the number you selected
         //This is to be used when interacting with an NPC on the same tile
-
-        if(avatar.getOnTileWithNPC()){
-            if(talking){
-                haveConversation(selected);
-            }
-            else if(fighting){
-                attack();
-            }
-            else if(usingSkill){
-
-            }
-            else if(usingItem){
-
-            }
-            else if(selected == 1) {
-                if (npcOnTile.willTalk())
-                    haveConversation(0);
-                else if(npcOnTile.willAttack()){
-                    attack();
-                }
-                else{
-                    List<String> list = new ArrayList<String>();
-                    list.add("Don't bother me!");
-                    footerView.setType(1);
-                    footerView.setMenuOptions(list);
-                }
-            }
-            else if(selected == 2) {
-                attack();
-            }
-            else if(selected == 3) {
-                //Use Skill
-            }
-            else if(selected == 4) {
-                //Use Item
-            }
-            else if(selected == 100){
+        if(trading){
+            if (selected == 100) {
                 footerView.setType(0);
                 footerView.setMenuOptions(originalOptions);
-            }
-            else {
-                //Do something
+                //trading = false;
+                resetOptions();
             }
         }
+        else {
+            if (avatar.getOnTileWithNPC()) {
+                if (talking) {
+                    haveConversation(selected);
+                } else if (fighting) {
+                    attack();
+                } else if (usingSkill) {
+
+                } else if (usingItem) {
+
+                } else if (selected == 1) {
+                    if (npcOnTile.willTalk())
+                        haveConversation(0);
+                    else if (npcOnTile.willAttack()) {
+                        attack();
+                    } else {
+                        List<String> list = new ArrayList<String>();
+                        list.add("Don't bother me!");
+                        footerView.setType(1);
+                        footerView.setMenuOptions(list);
+                    }
+                } else if (selected == 2) {
+                    attack();
+                } else if (selected == 3) {
+                    //Use Skill
+                } else if (selected == 4) {
+                    //Use Item
+                } else if (selected == 100) {
+                    footerView.setType(0);
+                    footerView.setMenuOptions(originalOptions);
+                } else {
+                    //Do something
+                }
+            }
+        }
+        footerView.setTradingView(trading);
     }
 
     private void haveConversation(int selected){
@@ -123,7 +124,10 @@ public class AvatarNPCInteract {
             response.add(npcOnTile.getResponse(3));
         else if(selected == 5) {
             response.add(npcOnTile.getResponse(4));
-            //START TRADING
+            if(npcOnTile.willTrade()) {
+                trading = true;
+                //START TRADING
+            }
         }
         else if(selected == 100){
             footerView.setType(0);
@@ -177,6 +181,7 @@ public class AvatarNPCInteract {
         fighting = false;
         usingSkill = false;
         usingItem = false;
+        trading = false;
         pressContinue = false;
     }
 }

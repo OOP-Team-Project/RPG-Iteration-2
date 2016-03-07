@@ -15,12 +15,14 @@ public class FooterView extends JComponent implements ActionListener{
     private boolean display;
     private int type;
     private List<String> menuOptions;
+    private boolean trading;
 
     public FooterView(){
         setPreferredSize(new Dimension(StaticVar.gameWidth - 400, 200));
         display = false;
         menuOptions = new ArrayList<String>();
         type = 0;
+        trading = false;
     }
 
     public void setDisplay(boolean b){
@@ -37,6 +39,15 @@ public class FooterView extends JComponent implements ActionListener{
         menuOptions = list;
     }
 
+    public void setTradingView(boolean isTrading){
+        if(isTrading) {
+            trading = true;
+        }
+        else{
+            trading = false;
+        }
+    }
+
 
     public void actionPerformed(ActionEvent e) {
         currentAnimationFrame = (currentAnimationFrame + 1) % 2;
@@ -49,7 +60,7 @@ public class FooterView extends JComponent implements ActionListener{
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
 
-        if(display) {
+        if(display && !trading) {
             g2d.setColor(new Color(0.7607843f, 0.98039216f, 0.79607844f));
             g2d.fillRect(200, StaticVar.gameHeight - 200, StaticVar.gameWidth - 400, 200);
             g2d.setColor(Color.black);
@@ -68,6 +79,15 @@ public class FooterView extends JComponent implements ActionListener{
                 }
                 height += 30;
             }
+        }
+        else if(display && trading){
+            g2d.setColor(new Color(0.7607843f, 0.98039216f, 0.79607844f));
+            g2d.fillRect(75, 100, StaticVar.gameWidth/2 - 115, StaticVar.gameHeight-200);
+            g2d.fillRect(StaticVar.gameWidth/2 + 40, 100, StaticVar.gameWidth/2 - 115, StaticVar.gameHeight-200);
+            g2d.setColor(Color.black);
+            g2d.setFont(new Font("TimesRoman", Font.BOLD, 20));
+            g2d.drawString("Your Stuff", 275, 120);
+            g2d.drawString("Their Stuff", 250 + StaticVar.gameWidth/2, 120);
         }
         g2d.dispose();
     }

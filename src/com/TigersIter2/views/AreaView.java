@@ -19,9 +19,9 @@ public class AreaView extends JComponent {
     public AreaView(MapView mapView, AvatarView avatarView, VehicleView vehicleView, FooterView footerView){
         setLayout(new OverlayLayout(this));
         setPreferredSize(new Dimension(StaticVar.gameWidth, StaticVar.gameHeight));
+        this.add(footerView);
         this.add(vehicleView);
         this.add(avatarView);
-        this.add(footerView);
         //MapView is fucked up - Sam
         this.add(mapView);
     }
