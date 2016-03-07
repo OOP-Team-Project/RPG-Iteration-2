@@ -111,6 +111,7 @@ public class AvatarView extends JComponent implements ActionListener{
     }
 
     public void paintComponent(Graphics g){
+
         //TEST CODE, BUT FOLLOW THIS FORMAT FOR OVERRIDING PAINTCOMPONENT
         //System.out.println("Inside AvatarView");
         Graphics2D g2d = (Graphics2D)g.create();
@@ -131,6 +132,7 @@ public class AvatarView extends JComponent implements ActionListener{
 
 
         g2d.dispose();
+
     }
 
 }

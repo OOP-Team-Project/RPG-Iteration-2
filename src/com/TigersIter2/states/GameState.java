@@ -70,12 +70,12 @@ public class GameState extends State {
     }
 
     @Override
-    public void update() {
+    public void update(long elapsed) {
         map.update();
         //System.out.println(controller.getXMovement() + ", " + controller.getyMovement());
         //testX++;
         //testY++;
-        avatar.update(controller.getXMovement(),controller.getyMovement(),0);
+        avatar.update(controller.getXMovement(),controller.getyMovement(), elapsed);
 
         if (controller.getKeyPressed() == KeyEvent.VK_SPACE) {
             stateManager.setState(StateManager.INTRO);
@@ -86,7 +86,7 @@ public class GameState extends State {
     public void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D)g.create();
         //setting background to gray somehow eliminates tile tearing caused by non-perfect hexagons(hexagons can't really by represented perfectly with pixels)
-        g2d.setColor(Color.GRAY);
+        g2d.setColor(Color.RED);
         g2d.fillRect(0,0, this.getWidth(), this.getHeight());//getHeight
 //        g2d.setColor(Color.BLUE);
 //        g2d.drawString("GameState paintComponent. Components: " + this.getComponentCount(), 260, 150);

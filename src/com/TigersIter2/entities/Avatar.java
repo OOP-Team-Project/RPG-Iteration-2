@@ -41,13 +41,13 @@ public class Avatar extends Entity{
 
     //Should be named updatePosition -Sam
     @Override
-    public void update(int xMovement, int yMovement, int zMovement) {
+    public void update(int xMovement, int yMovement, long elapsed) {
         if(xMovement == 0 && yMovement == 0){
             currentlyMoving = false;
         }
         else{
-            location.incrementX(xMovement * 5);   //Made it 3 times faster because IT WAS SO SLOOOOOW (Miles)
-            location.incrementY(yMovement * 5);
+            location.incrementX(Math.round(xMovement * elapsed * StaticVar.entitySpeed));   //Made it invariant of framerate
+            location.incrementY(Math.round(yMovement * elapsed * StaticVar.entitySpeed));
             changeDirection(xMovement, yMovement);
             currentlyMoving = true;
         }

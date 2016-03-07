@@ -25,6 +25,8 @@ public class TileView extends JComponent {
 
         setPreferredSize(new Dimension(StaticVar.terrainImageWidth, StaticVar.terrainImageHeight));
 
+        setDoubleBuffered(true);
+
         currentXLocation = x;
         currentYLocation = y;
         terrainType = t;
@@ -38,9 +40,10 @@ public class TileView extends JComponent {
             1. This hex Tile's background image (determined by the Terrain Type)
          */
 
+
         Graphics2D g2d = (Graphics2D)g.create();
 
-        if(currentXLocation > 22 || currentYLocation > 10){
+        if(currentXLocation > 22 || currentYLocation > 10 || currentXLocation < -1 || currentYLocation < -1){
             //do nothing - we're out of range!
         }
         else {
