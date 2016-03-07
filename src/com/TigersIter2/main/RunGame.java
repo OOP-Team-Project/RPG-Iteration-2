@@ -1,7 +1,12 @@
 package com.TigersIter2.main;
 
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.GridLayout;
+import java.awt.image.BufferedImage;
+import java.awt.image.BufferStrategy;
 import com.TigersIter2.assets.StaticVar;
-import com.TigersIter2.states.StateManager;
+import com.TigersIter2.managers.StateManager;
 import javax.swing.*;
 
 //contains main method, kicks off everything
@@ -16,11 +21,15 @@ public class RunGame extends JFrame {
 
     public static void main(String[] args){
         RunGame runGame = new RunGame();
+
         //runGame.setLocationRelativeTo(null); //doesn't work here, added to loadGame(SL)
         runGame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //process quits when x button is pressed
         runGame.setResizable(true); //Was False but I like to resize things (Miles)
         runGame.runGameLoop();
+
+
     }
+
 
 
     //loads the game
@@ -54,9 +63,9 @@ public class RunGame extends JFrame {
     private void gameLoop() {
 
         System.out.println("gameLoop called, running = " + running);
-        long start;
-        long elapsed;
-        long wait;
+        long start = 0;
+        long elapsed = 0;
+        long wait = 0;
 
         // game loop
         while (running) {
@@ -64,7 +73,7 @@ public class RunGame extends JFrame {
             start = System.nanoTime();
 
             //updateGame();
-            stateManager.update();
+            stateManager.update(wait);
             renderGame();
 
             elapsed = System.nanoTime() - start;

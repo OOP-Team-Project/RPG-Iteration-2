@@ -1,5 +1,9 @@
-package com.TigersIter2.entities;
+package com.TigersIter2.managers;
 
+import com.TigersIter2.entities.Avatar;
+import com.TigersIter2.entities.Monster;
+import com.TigersIter2.entities.NPC;
+import com.TigersIter2.entities.Villager;
 import com.TigersIter2.location.LocationConverter;
 import com.TigersIter2.views.FooterView;
 

@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FooterView extends JComponent implements ActionListener{
+public class FooterView extends View implements ActionListener{
 
     int currentAnimationFrame = 0;
     private boolean display;
