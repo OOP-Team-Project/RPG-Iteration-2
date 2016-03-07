@@ -41,7 +41,7 @@ public class IntroState extends State {
     }
 
     @Override
-    public void update() {
+    public void update(long elapsed) {
         counterBuffer++;
         System.out.println("IntroState counter: " + counterBuffer);
 
