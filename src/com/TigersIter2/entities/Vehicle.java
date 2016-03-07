@@ -26,7 +26,7 @@ public class Vehicle extends Entity {
 
 
     @Override
-    public void update(int xMovement, int yMovement) {
+    public void update(int xMovement, int yMovement, int zMovement) {
         System.out.println(xMovement + ", " + yMovement);
     }
 }
