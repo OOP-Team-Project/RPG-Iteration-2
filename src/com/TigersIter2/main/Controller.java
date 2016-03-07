@@ -76,8 +76,13 @@ public class Controller {
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD1, 0, true), "DOWN_LEFT_STOP");
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD3, 0, false), "DOWN_RIGHT_GO");
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD3, 0, true), "DOWN_RIGHT_STOP");
-        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_1, 0, false), "OPTION1_GO");
+        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_1, 0, false), "OPTIONS_GO");
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_1, 0, true), "OPTION1_STOP");
+        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_2, 0, true), "OPTION2_STOP");
+        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_3, 0, true), "OPTION3_STOP");
+        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_4, 0, true), "OPTION4_STOP");
+        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_5, 0, true), "OPTION5_STOP");
+        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, 0, true), "BACKSPACE_STOP");
 
         //For those who don't have a numpad, temporary controls...
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_W, 0, false), "UP_GO");
@@ -115,8 +120,13 @@ public class Controller {
         component.getActionMap().put("DOWN_LEFT_STOP", DOWN_LEFT_STOP);
         component.getActionMap().put("DOWN_RIGHT_GO", DOWN_RIGHT_GO);
         component.getActionMap().put("DOWN_RIGHT_STOP", DOWN_RIGHT_STOP);
-        component.getActionMap().put("OPTION1_GO", OPTION1_GO);
+        component.getActionMap().put("OPTIONS_GO", OPTIONS_GO);
         component.getActionMap().put("OPTION1_STOP", OPTION1_STOP);
+        component.getActionMap().put("OPTION2_STOP", OPTION2_STOP);
+        component.getActionMap().put("OPTION3_STOP", OPTION3_STOP);
+        component.getActionMap().put("OPTION4_STOP", OPTION4_STOP);
+        component.getActionMap().put("OPTION5_STOP", OPTION5_STOP);
+        component.getActionMap().put("BACKSPACE_STOP", BACKSPACE_STOP);
 
         //temporary??
         component.getActionMap().put("ENTER_GO", ENTER_KEY_GO);
@@ -309,7 +319,7 @@ public class Controller {
         }
     };
 
-    Action OPTION1_GO = new AbstractAction() {
+    Action OPTIONS_GO = new AbstractAction() {
         @Override
         public void actionPerformed(ActionEvent e) {
             optionSelected = -1;
@@ -320,6 +330,41 @@ public class Controller {
         @Override
         public void actionPerformed(ActionEvent e) {
             optionSelected = 1;
+        }
+    };
+
+    Action OPTION2_STOP = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            optionSelected = 2;
+        }
+    };
+
+    Action OPTION3_STOP = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            optionSelected = 3;
+        }
+    };
+
+    Action OPTION4_STOP = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            optionSelected = 4;
+        }
+    };
+
+    Action OPTION5_STOP = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            optionSelected = 5;
+        }
+    };
+
+    Action BACKSPACE_STOP = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            optionSelected = 100;
         }
     };
 }
