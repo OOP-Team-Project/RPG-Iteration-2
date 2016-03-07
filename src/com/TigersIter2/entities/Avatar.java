@@ -6,6 +6,7 @@ import com.TigersIter2.location.Location;
 import com.TigersIter2.stats.PlayerStats;
 import com.TigersIter2.stats.Stats;
 import com.TigersIter2.stats.StatsModifier;
+import com.sun.org.apache.bcel.internal.generic.INEG;
 
 
 public class Avatar extends Entity{
@@ -63,6 +64,10 @@ public class Avatar extends Entity{
         }
         //System.out.println(direction);
         //System.out.println(xMovement + ", " + yMovement);
+    }
+
+    public Inventory getInventory(){
+        return inventory;
     }
 
     public void equipItemAtIndex(int i){

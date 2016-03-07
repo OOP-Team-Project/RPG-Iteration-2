@@ -80,6 +80,7 @@ public class AvatarNPCInteract {
                         haveConversation(5);
                     }
                 } else if (selected == 2) {
+                    //Player attacks NPC
                     attack();
                 } else if (selected == 3) {
                     //Use Skill
@@ -122,6 +123,7 @@ public class AvatarNPCInteract {
             response.add(npcOnTile.getResponse(4));
             if(npcOnTile.willTrade()) {
                 trading = true;
+                footerView.setPlayerInventory(avatar.getInventory());
                 //START TRADING
             }
         }
@@ -164,6 +166,7 @@ public class AvatarNPCInteract {
                         footerView.setMenuOptions(originalOptions);
                     }
                     else if(npcOnTile.willAttack()){
+                        //NPC attacks player
                         attack();
                         System.out.println("Getting attacked now");
                     }

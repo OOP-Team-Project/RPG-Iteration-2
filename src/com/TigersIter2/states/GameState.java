@@ -2,6 +2,8 @@ package com.TigersIter2.states;
 
 import com.TigersIter2.assets.sprites.*;
 import com.TigersIter2.entities.*;
+import com.TigersIter2.items.Potion;
+import com.TigersIter2.items.TakeableItem;
 import com.TigersIter2.main.Controller;
 import com.TigersIter2.maps.TerrainMap;
 import com.TigersIter2.views.*;
@@ -44,6 +46,7 @@ public class GameState extends State {
         map = new TerrainMap();
         avatar = new Avatar();
         avatar.setOccupation(new Summoner());
+        avatar.getInventory().addItem(new Potion("Health Potion"));
         ant = new AvatarNPCInteract(avatar, footerView);
 
         //THIS IS ALL FOR TESTING. WILL NOT STAY HERE

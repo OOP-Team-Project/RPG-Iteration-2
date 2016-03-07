@@ -1,6 +1,8 @@
 package com.TigersIter2.views;
 
 import com.TigersIter2.assets.StaticVar;
+import com.TigersIter2.entities.Inventory;
+import com.TigersIter2.items.TakeableItem;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,6 +17,8 @@ public class FooterView extends JComponent implements ActionListener{
     private boolean display;
     private int type;
     private List<String> menuOptions;
+    private Inventory playerInventory;
+    private Inventory npcInventory;
     private boolean trading;
 
     public FooterView(){
@@ -46,6 +50,14 @@ public class FooterView extends JComponent implements ActionListener{
         else{
             trading = false;
         }
+    }
+
+    public void setPlayerInventory(Inventory i){
+        playerInventory = i;
+    }
+
+    public void setNpcInventory(Inventory i){
+        npcInventory = i;
     }
 
 
@@ -88,6 +100,9 @@ public class FooterView extends JComponent implements ActionListener{
             g2d.setFont(new Font("TimesRoman", Font.BOLD, 20));
             g2d.drawString("Your Stuff", 275, 120);
             //Need to display all inventory items
+            if(!playerInventory.isEmpty()){
+                g2d.drawString(playerInventory.getItemAtIndex(0).toString(), 295, 140);
+            }
             g2d.drawString("Their Stuff", 250 + StaticVar.gameWidth/2, 120);
             //Need to display all the NPC's items
         }
