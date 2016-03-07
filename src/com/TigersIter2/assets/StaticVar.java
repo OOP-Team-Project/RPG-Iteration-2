@@ -31,7 +31,10 @@ public class StaticVar {
     public static final int xTilesFromEdge = 9; //8
     public static final int yTilesFromEdge = 4; //3
 
-
+    //mapLoading stuff
+    public static final int grass = 1;
+    public static final int water = 2;
+    public static final int mountain = 3;
 
 
 }

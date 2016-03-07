@@ -15,6 +15,7 @@ import java.util.ArrayList;
 public class TerrainMap implements Map{
 
     public static int heightOfWorld, widthOfWorld;
+    private int[][] terrainMap;
 
     //Do we need a list for tiles? Wouldn't a 2D array work just fine since the size will be fixed upon initialization? - Sam
     ArrayList<ArrayList<TerrainType>> tiles = new ArrayList<ArrayList<TerrainType>>();  //Don't be intimidated! This is just a 2D Array pretty much
@@ -39,11 +40,21 @@ public class TerrainMap implements Map{
                     tiles.get(i).add(new Grass());
             }
         }
+        
+        // // TODO: 3/6/2016 Sam -> move this into helper/association class or somehow clean up 
         //Will always need to load in from map file -> map file is unchanging
-         /*Loading map code is here
-            String file = FileReader.fileToString()
-
-         */
+         //Loading map code is here
+            String file = FileReader.fileToString("res/maps/terrainMap.txt");
+            String[] parsedString = file.split("\\s+"); //splits up file on any white space
+            widthOfWorld = FileReader.stringToInt(parsedString[0]); //first number of file
+            heightOfWorld = FileReader.stringToInt(parsedString[1]); //second number of file
+            terrainMap = new int[widthOfWorld][heightOfWorld];
+            for (int y = 0; y < heightOfWorld; y++){
+                for (int x = 0; x < widthOfWorld; x++){
+                    terrainMap[x][y]= FileReader.stringToInt(parsedString[x+y*widthOfWorld+2]); //plus 2 since first 2 numbers contain height and width of map
+                }
+            }
+         //
     }
 
     //update for map essentially handles what Tiles will be drawn to the screen, in other words areaView

@@ -25,7 +25,7 @@ public class FileReader {
         return builder.toString();
     }
 
-    private int stringToInt(String stringNum){
+    public static int stringToInt(String stringNum){
         try{
             return Integer.parseInt(stringNum);
         }catch(NumberFormatException e){
