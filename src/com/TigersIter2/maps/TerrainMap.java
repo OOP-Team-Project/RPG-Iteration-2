@@ -1,5 +1,6 @@
 package com.TigersIter2.maps;
 
+import com.TigersIter2.assets.FileReader;
 import com.TigersIter2.maps.terrains.Grass;
 import com.TigersIter2.maps.terrains.Mountain;
 import com.TigersIter2.maps.terrains.TerrainType;
@@ -12,6 +13,8 @@ import java.util.ArrayList;
  * Created by slichtenheld on 2/25/2016.
  */
 public class TerrainMap implements Map{
+
+    public static int heightOfWorld, widthOfWorld;
 
     //Do we need a list for tiles? Wouldn't a 2D array work just fine since the size will be fixed upon initialization? - Sam
     ArrayList<ArrayList<TerrainType>> tiles = new ArrayList<ArrayList<TerrainType>>();  //Don't be intimidated! This is just a 2D Array pretty much
@@ -36,6 +39,11 @@ public class TerrainMap implements Map{
                     tiles.get(i).add(new Grass());
             }
         }
+        //Will always need to load in from map file -> map file is unchanging
+         /*Loading map code is here
+            String file = FileReader.fileToString()
+
+         */
     }
 
     //update for map essentially handles what Tiles will be drawn to the screen, in other words areaView
