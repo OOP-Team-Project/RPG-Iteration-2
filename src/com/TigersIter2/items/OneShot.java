@@ -1,15 +1,15 @@
 package com.TigersIter2.items;
-import com.TigersIter2.stats.Stats;
+import com.TigersIter2.stats.StatsModifier;
 /**
  * Created by Josh on 2/27/2016.
+ * Edited by Breanna
  */
 public class OneShot extends Item {
-    Stats statType;
-    int statsModifier = 0;
-
+    StatsModifier sm;
     //default one-shot item
     public OneShot() {
-
+        this.sm = new StatsModifier();
+        sm.setLife(sm.getLife() + 1); //adds a life to the players lives left
 
     }
 }
