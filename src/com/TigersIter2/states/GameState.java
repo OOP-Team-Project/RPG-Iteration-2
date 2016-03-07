@@ -28,7 +28,6 @@ public class GameState extends State {
     private TerrainMap map;
     private Avatar avatar;
     private Vehicle vehicle;
-    private NPC monster;
     private AvatarNPCInteract ant;
 
     //Views
@@ -50,9 +49,9 @@ public class GameState extends State {
         map = new TerrainMap();
         avatar = new Avatar();
         avatar.setOccupation(new Summoner());
+        ant = new AvatarNPCInteract(avatar);
         vehicle = new Vehicle("Turtle", 5, false, true);
         avatar.setVehicle(vehicle);
-        monster = new Monster();
         //pull in all pictures for GameState
 
         //Technically only one of these will need to be initialized
@@ -73,30 +72,28 @@ public class GameState extends State {
 
     }
 
-    private void touchingNPC(){
-        // for all entities in the list
-        if(avatar.getLocation().getX() == monster.getLocation().getX() && avatar.getLocation().getY() == monster.getLocation().getY()){
-            if(ant == null) {
-                System.out.println("Touching an NPC");
-                ant = new AvatarNPCInteract(avatar, monster);
-            }
-            else{
-                if (controller.getKeyPressed() == KeyEvent.VK_F) {
-                    ant.talk("HELLO");
-                    controller.setKeyPressed(0);
-                }
-            }
+    private void handleControllerInput(){
+        int optionSelected = controller.getOptionSelected();
+        switch(optionSelected){
+            case 0:
+                System.out.println("Attacking");
+                ant.attack();
+                break;
+            case 1:
+                System.out.println("Selected Option 1");
+                ant.chooseOption(optionSelected);
+                break;
+            case -1:
+                return;
         }
-        else{
-            ant = null;
-        }
+        controller.resetOptionSelected();
     }
 
     @Override
     public void update() {
         map.update();
         avatar.update(controller.getXMovement(),controller.getyMovement(),0);
-        touchingNPC();
+        handleControllerInput();
 
         if (controller.getKeyPressed() == KeyEvent.VK_SPACE) {
             stateManager.setState(StateManager.INTRO);

@@ -9,6 +9,7 @@ public class Controller {
     private JComponent component;
     private int xMovement, yMovement;
     private boolean movingUp, movingDown, movingUpLeft, movingUpRight, movingDownLeft, movingDownRight;
+    private int optionSelected;
 
     //temporary? --all temporary stuff added by Sam for MainMenu
     private int keyPressed;
@@ -22,6 +23,7 @@ public class Controller {
         movingDown = false;
         movingDownLeft = false;
         movingDownRight = false;
+        optionSelected = -1;
     }
 
     public int getXMovement(){
@@ -40,6 +42,14 @@ public class Controller {
             return 0;
         else
             return 1;
+    }
+
+    public int getOptionSelected(){
+        return optionSelected;
+    }
+
+    public void resetOptionSelected(){
+        optionSelected = -1;
     }
 
     public int getKeyPressed() {return keyPressed; }
@@ -66,6 +76,8 @@ public class Controller {
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD1, 0, true), "DOWN_LEFT_STOP");
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD3, 0, false), "DOWN_RIGHT_GO");
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD3, 0, true), "DOWN_RIGHT_STOP");
+        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_1, 0, false), "OPTION1_GO");
+        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_1, 0, true), "OPTION1_STOP");
 
         //For those who don't have a numpad, temporary controls...
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_W, 0, false), "UP_GO");
@@ -103,6 +115,8 @@ public class Controller {
         component.getActionMap().put("DOWN_LEFT_STOP", DOWN_LEFT_STOP);
         component.getActionMap().put("DOWN_RIGHT_GO", DOWN_RIGHT_GO);
         component.getActionMap().put("DOWN_RIGHT_STOP", DOWN_RIGHT_STOP);
+        component.getActionMap().put("OPTION1_GO", OPTION1_GO);
+        component.getActionMap().put("OPTION1_STOP", OPTION1_STOP);
 
         //temporary??
         component.getActionMap().put("ENTER_GO", ENTER_KEY_GO);
@@ -284,14 +298,28 @@ public class Controller {
     Action F_KEY_GO = new AbstractAction() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            keyPressed = 0;
+            optionSelected = -1;
         }
     };
 
     Action F_KEY_STOP = new AbstractAction() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            keyPressed = KeyEvent.VK_W;
+            optionSelected = 0;
+        }
+    };
+
+    Action OPTION1_GO = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            optionSelected = -1;
+        }
+    };
+
+    Action OPTION1_STOP = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            optionSelected = 1;
         }
     };
 }
