@@ -16,18 +16,18 @@ import java.util.ArrayList;
  * Created by slichtenheld on 2/25/2016.
  */
 
-//MapView has just terrains
+//MapView has just terrains... maybe we should rename to TerrainMapView?
 public class MapView extends JComponent {
 
     TerrainMap mHandle;
     Avatar aHandle;
     ArrayList<ArrayList<TileView>> tileViews = new ArrayList<ArrayList<TileView>>();
 
-    public enum mapMode {
+    /*public enum mapMode {
         PLAYER_FOLLOW_MODE
-    }
+    }*/
 
-    mapMode currentMapMode = mapMode.PLAYER_FOLLOW_MODE;
+    StaticVar.mapMode currentMapMode = StaticVar.mapMode.PLAYER_FOLLOW_MODE;
 
     //for now only setting preferred size.
     //always set preferred size on JComponents, JPanels, ect.
@@ -103,7 +103,6 @@ public class MapView extends JComponent {
                     tileViews.get(i).get(j).shouldGlow(true);
                 else
                     tileViews.get(i).get(j).shouldGlow(false);
-
 
                 tileViews.get(i).get(j).paintComponent(g);
             }

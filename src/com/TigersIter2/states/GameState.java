@@ -1,14 +1,8 @@
 package com.TigersIter2.states;
 
 import com.TigersIter2.assets.StaticVar;
-import com.TigersIter2.assets.sprites.SmasherSprite;
-import com.TigersIter2.assets.sprites.SneakSprite;
-import com.TigersIter2.assets.sprites.TerrainSprite;
-import com.TigersIter2.assets.sprites.WizardSprite;
-import com.TigersIter2.entities.Avatar;
-import com.TigersIter2.entities.Smasher;
-import com.TigersIter2.entities.Sneak;
-import com.TigersIter2.entities.Summoner;
+import com.TigersIter2.assets.sprites.*;
+import com.TigersIter2.entities.*;
 import com.TigersIter2.main.Controller;
 import com.TigersIter2.maps.Map;
 import com.TigersIter2.maps.TerrainMap;
@@ -16,6 +10,7 @@ import com.TigersIter2.states.State;
 import com.TigersIter2.views.AreaView;
 import com.TigersIter2.views.AvatarView;
 import com.TigersIter2.views.MapView;
+import com.TigersIter2.views.VehicleView;
 import com.sun.javafx.geom.Area;
 import com.sun.javafx.runtime.SystemProperties;
 
@@ -32,11 +27,14 @@ public class GameState extends State {
     //Model Data
     private TerrainMap map;
     private Avatar avatar;
+    private Vehicle vehicle;
+    private AvatarNPCInteract ant;
 
     //Views
     private AvatarView avatarView;
     private MapView mapView;
     private AreaView areaView;
+    private VehicleView vehicleView;
     //private EntityManager entityManager;
     //private ItemManager itemManager;
 
@@ -50,17 +48,22 @@ public class GameState extends State {
 
         map = new TerrainMap();
         avatar = new Avatar();
-        avatar.setOccupation(new Sneak());
+        avatar.setOccupation(new Summoner());
+        ant = new AvatarNPCInteract(avatar);
+        vehicle = new Vehicle("Turtle", 5, false, true);
+        avatar.setVehicle(vehicle);
         //pull in all pictures for GameState
 
         //Technically only one of these will need to be initialized
         WizardSprite.init();
         SmasherSprite.init();
         SneakSprite.init();
+        VehicleSprite.init();
 
         avatarView = new AvatarView(avatar);
+        vehicleView = new VehicleView(vehicle, avatar, map);
         mapView = new MapView(map, avatar);
-        areaView =  new AreaView(mapView,avatarView);
+        areaView =  new AreaView(mapView,avatarView, vehicleView);
 
 
         this.add(areaView);
@@ -69,13 +72,28 @@ public class GameState extends State {
 
     }
 
+    private void handleControllerInput(){
+        int optionSelected = controller.getOptionSelected();
+        switch(optionSelected){
+            case 0:
+                System.out.println("Attacking");
+                ant.attack();
+                break;
+            case 1:
+                System.out.println("Selected Option 1");
+                ant.chooseOption(optionSelected);
+                break;
+            case -1:
+                return;
+        }
+        controller.resetOptionSelected();
+    }
+
     @Override
     public void update(long elapsed) {
         map.update();
-        //System.out.println(controller.getXMovement() + ", " + controller.getyMovement());
-        //testX++;
-        //testY++;
         avatar.update(controller.getXMovement(),controller.getyMovement(), elapsed);
+        handleControllerInput();
 
         if (controller.getKeyPressed() == KeyEvent.VK_SPACE) {
             stateManager.setState(StateManager.INTRO);

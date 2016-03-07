@@ -19,7 +19,7 @@ public class StaticVar {
     public static final int entityImageHeight = 128;
     public static final int entityImageWidth = 128;
 
-    public static final float entitySpeed = .7f;
+    public static final float entitySpeed = .07f;
 
 
     //wizard sprite should be updated to 128x128 pixel standard!
@@ -29,19 +29,16 @@ public class StaticVar {
     public static final int smasherImageWidth = 100;
     public static final int sneakImageHeight = 100;
     public static final int sneakImageWidth = 100;
+    public static final int vehicleImageHeight = 100;
+    public static final int vehicleImageWidth = 100;
 
 
     //MapView Conventional Stuff (Miles)
     public static final int xTilesFromEdge = 9; //8
     public static final int yTilesFromEdge = 4; //3
 
-    public static Graphics2D g2d;
-
-    public static Graphics2D getG2d() {
-        return g2d;
+    public static enum mapMode {
+        PLAYER_FOLLOW_MODE
     }
 
-    public static void setG2d(Graphics2D g2d) {
-        StaticVar.g2d = g2d;
-    }
 }

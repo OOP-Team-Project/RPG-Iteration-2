@@ -24,7 +24,6 @@ public class TileView extends JComponent {
     public TileView(float x, float y, TerrainType t, int id){
 
         setPreferredSize(new Dimension(StaticVar.terrainImageWidth, StaticVar.terrainImageHeight));
-
         setDoubleBuffered(true);
 
         currentXLocation = x;
