@@ -180,5 +180,6 @@ public class Avatar extends Entity{
         //calculate some sort of damage
         int damageTaken = attackStrength;
         stats.decreaseCurrentHealth(damageTaken);
+        System.out.println("Taking damage");
     }
 }

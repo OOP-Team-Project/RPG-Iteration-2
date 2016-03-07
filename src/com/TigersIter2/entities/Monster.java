@@ -10,6 +10,12 @@ public class Monster extends NPC{
         willTrade = false;
     }
 
+    public int attack(){
+        // Probably base the return value off of the offensive rating of the NPC stats
+        System.out.println("Attacked by a monster!");
+        return 1;
+    }
+
     public String talk(String s){
         return "TEST";
     }

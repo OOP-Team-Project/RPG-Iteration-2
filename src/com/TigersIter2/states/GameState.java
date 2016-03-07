@@ -28,6 +28,8 @@ public class GameState extends State {
     private TerrainMap map;
     private Avatar avatar;
     private Vehicle vehicle;
+    private NPC monster;
+    private AvatarNPCInteract ant;
 
     //Views
     private AvatarView avatarView;
@@ -50,6 +52,7 @@ public class GameState extends State {
         avatar.setOccupation(new Summoner());
         vehicle = new Vehicle("Turtle", 5, false, true);
         avatar.setVehicle(vehicle);
+        monster = new Monster();
         //pull in all pictures for GameState
 
         //Technically only one of these will need to be initialized
@@ -70,13 +73,30 @@ public class GameState extends State {
 
     }
 
+    private void touchingNPC(){
+        // for all entities in the list
+        if(avatar.getLocation().getX() == monster.getLocation().getX() && avatar.getLocation().getY() == monster.getLocation().getY()){
+            if(ant == null) {
+                System.out.println("Touching an NPC");
+                ant = new AvatarNPCInteract(avatar, monster);
+            }
+            else{
+                if (controller.getKeyPressed() == KeyEvent.VK_F) {
+                    ant.talk("HELLO");
+                    controller.setKeyPressed(0);
+                }
+            }
+        }
+        else{
+            ant = null;
+        }
+    }
+
     @Override
     public void update() {
         map.update();
-        //System.out.println(controller.getXMovement() + ", " + controller.getyMovement());
-        //testX++;
-        //testY++;
         avatar.update(controller.getXMovement(),controller.getyMovement(),0);
+        touchingNPC();
 
         if (controller.getKeyPressed() == KeyEvent.VK_SPACE) {
             stateManager.setState(StateManager.INTRO);
