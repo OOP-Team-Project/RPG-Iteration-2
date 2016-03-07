@@ -9,7 +9,6 @@ import com.TigersIter2.entities.Avatar;
 import com.TigersIter2.entities.Vehicle;
 import com.TigersIter2.location.Location;
 import com.TigersIter2.maps.TerrainMap;
-import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
 
 import javax.swing.*;
 import java.awt.*;
