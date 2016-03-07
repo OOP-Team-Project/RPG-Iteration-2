@@ -84,7 +84,7 @@ public class GameState extends State {
         switch(optionSelected){
             case 0:
                 System.out.println("Attacking");
-                ant.attack();
+                //ant.attack();
                 break;
             case -1:
                 break;
