@@ -4,9 +4,7 @@ import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.entities.Avatar;
 import com.TigersIter2.location.Location;
 import com.TigersIter2.location.LocationConverter;
-import com.TigersIter2.maps.Map;
 import com.TigersIter2.maps.TerrainMap;
-import com.TigersIter2.maps.terrains.TerrainType;
 
 import javax.swing.*;
 import java.awt.*;
@@ -42,9 +40,9 @@ public class MapView extends JComponent {
 
         //TODO: Fix this it's so ugly gaaaaaaaaaa I'm out of controoooool(Miles)
 
-        for(int i = 0; i < mHandle.getTerrainTypes().size(); i++){
+        for(int i = 0; i < mHandle.getMapWidth(); i++){
             tileViews.add(new ArrayList<TileView>());
-            for(int j = 0; j < mHandle.getTerrainTypes().get(0).size(); j++){
+            for(int j = 0; j < mHandle.getMapHeight(); j++){
                 tileViews.get(i).add(new TileView(i, j, mHandle.getTerrainTypes().get(i).get(j), i));
             }
         }

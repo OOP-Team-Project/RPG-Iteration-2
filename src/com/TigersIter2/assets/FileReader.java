@@ -6,6 +6,7 @@ import java.io.IOException;
 /**
  * Created by slichtenheld on 3/6/2016.
  */
+
 public class FileReader {
 
     //reads in Text as one long string

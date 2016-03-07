@@ -1,5 +1,6 @@
 package com.TigersIter2.states;
 
+import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.assets.sprites.*;
 import com.TigersIter2.entities.*;
 import com.TigersIter2.main.Controller;
@@ -45,7 +46,7 @@ public class GameState extends State {
     public void init() {
 
         footerView = new FooterView();
-        map = new TerrainMap();
+        map = new TerrainMap(StaticVar.map1);
         avatar = new Avatar();
         avatar.setOccupation(new Summoner());
         ant = new AvatarNPCInteract(avatar, footerView);

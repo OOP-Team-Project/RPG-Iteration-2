@@ -3,6 +3,8 @@ package com.TigersIter2.assets;
 //class for any variable that is used throughout all the classes(SL)
 public class StaticVar {
 
+    //maps and respective names
+    public static String map1 = "res/maps/terrainMap.txt";
 
     public static final int gameHeight = 720;//720;
     public static final int gameWidth = 1280;//1280;
