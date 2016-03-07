@@ -29,9 +29,8 @@ public class Avatar extends Entity{
 
     public Avatar(){
         //changed this to actually instantiate location. Not sure what Z is for atm. <-- Z is for hextile stuff in the future (Sam)
-        location = new Location(21 * StaticVar.terrainImageWidth,21 * StaticVar.terrainImageHeight,0);
-        //I don't think pixelLocation should be a property of avatar, i think it belongs in avatarView(Sam)
-        pixelLocation = new Location(StaticVar.xTilesFromEdge*StaticVar.terrainImageWidth, StaticVar.yTilesFromEdge*StaticVar.terrainImageHeight, 0);
+        location = new Location(20 * StaticVar.terrainImageWidth,20 * StaticVar.terrainImageHeight,0);
+        pixelLocation = new Location(Math.round(StaticVar.xTilesFromEdge*StaticVar.terrainImageWidth*.75f - 80), Math.round(StaticVar.yTilesFromEdge*StaticVar.terrainImageHeight - Math.round(StaticVar.terrainImageHeight*1.2f)), 0);
         direction = 270;
         canPassMountain = false; //if anything this should be under skills (Sam)
         canPassWater = false;
