@@ -1,5 +1,7 @@
 package com.TigersIter2.main;
 
+import com.TigersIter2.views.View;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -8,6 +10,7 @@ public class Controller {
 
     private JComponent component;
     private int xMovement, yMovement;
+    private int cameraXMovement, cameraYMovement;
     private boolean movingUp, movingDown, movingUpLeft, movingUpRight, movingDownLeft, movingDownRight;
     private int optionSelected;
 
@@ -42,6 +45,14 @@ public class Controller {
             return 0;
         else
             return 1;
+    }
+
+    public int getCameraXMovement(){
+        return cameraXMovement;
+    }
+
+    public int getCameraYMovement(){
+        return cameraYMovement;
     }
 
     public int getOptionSelected(){
@@ -99,6 +110,20 @@ public class Controller {
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_D, 0, true), "DOWN_RIGHT_STOP");
 
 
+        //For scrolling I guess (Miles)
+        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_I, 0, false), "UP_SCROLL_GO");
+        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_I, 0, true), "UP_SCROLL_STOP");
+        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_K, 0, false), "DOWN_SCROLL_GO");
+        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_K, 0, true), "DOWN_SCROLL_STOP");
+        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_U, 0, false), "UP_SCROLL_LEFT_GO");
+        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_U, 0, true), "UP_SCROLL_LEFT_STOP");
+        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_O, 0, false), "UP_SCROLL_RIGHT_GO");
+        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_O, 0, true), "UP_SCROLL_RIGHT_STOP");
+        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_J, 0, false), "DOWN_SCROLL_LEFT_GO");
+        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_J, 0, true), "DOWN_SCROLL_LEFT_STOP");
+        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_L, 0, false), "DOWN_SCROLL_RIGHT_GO");
+        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_L, 0, true), "DOWN_SCROLL_RIGHT_STOP");
+
         //temporary??
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0,false),"ENTER_GO");
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0,true),"ENTER_STOP");
@@ -128,6 +153,20 @@ public class Controller {
         component.getActionMap().put("OPTION5_STOP", OPTION5_STOP);
         component.getActionMap().put("BACKSPACE_STOP", BACKSPACE_STOP);
 
+        //For scrolling (Miles)
+        component.getActionMap().put("UP_SCROLL_GO", UP_SCROLL_GO);
+        component.getActionMap().put("UP_SCROLL_STOP", UP_SCROLL_STOP);
+        component.getActionMap().put("DOWN_SCROLL_GO", DOWN_SCROLL_GO);
+        component.getActionMap().put("DOWN_SCROLL_STOP", DOWN_SCROLL_STOP);
+        component.getActionMap().put("UP_SCROLL_LEFT_GO", UP_SCROLL_LEFT_GO);
+        component.getActionMap().put("UP_SCROLL_LEFT_STOP", UP_SCROLL_LEFT_STOP);
+        component.getActionMap().put("UP_SCROLL_RIGHT_GO", UP_SCROLL_RIGHT_GO);
+        component.getActionMap().put("UP_SCROLL_RIGHT_STOP", UP_SCROLL_RIGHT_STOP);
+        component.getActionMap().put("DOWN_SCROLL_LEFT_GO", DOWN_SCROLL_LEFT_GO);
+        component.getActionMap().put("DOWN_SCROLL_LEFT_STOP", DOWN_SCROLL_LEFT_STOP);
+        component.getActionMap().put("DOWN_SCROLL_RIGHT_GO", DOWN_SCROLL_RIGHT_GO);
+        component.getActionMap().put("DOWN_SCROLL_RIGHT_STOP", DOWN_SCROLL_RIGHT_STOP);
+
         //temporary??
         component.getActionMap().put("ENTER_GO", ENTER_KEY_GO);
         component.getActionMap().put("ENTER_STOP", ENTER_KEY_STOP);
@@ -145,6 +184,7 @@ public class Controller {
             if(!movingUp) {
                 --yMovement;
                 movingUp = true;
+                View.setCurrentMapMode(View.mapMode.PLAYER_FOLLOW_MODE);
             }
         }
     };
@@ -165,6 +205,7 @@ public class Controller {
             if(!movingDown) {
                 ++yMovement;
                 movingDown = true;
+                View.setCurrentMapMode(View.mapMode.PLAYER_FOLLOW_MODE);
             }
         }
     };
@@ -188,6 +229,7 @@ public class Controller {
                 movingUpLeft = true;
                 //temporary??
                 keyPressed = KeyEvent.VK_LEFT;
+                View.setCurrentMapMode(View.mapMode.PLAYER_FOLLOW_MODE);
             }
         }
     };
@@ -212,6 +254,7 @@ public class Controller {
                 --yMovement;
                 movingUpRight = true;
                 keyPressed = KeyEvent.VK_RIGHT;
+                View.setCurrentMapMode(View.mapMode.PLAYER_FOLLOW_MODE);
             }
         }
     };
@@ -237,6 +280,7 @@ public class Controller {
                 movingDownLeft = true;
                 //temporary??
                 keyPressed = KeyEvent.VK_LEFT;
+                View.setCurrentMapMode(View.mapMode.PLAYER_FOLLOW_MODE);
             }
         }
     };
@@ -261,6 +305,7 @@ public class Controller {
                 ++yMovement;
                 movingDownRight = true;
                 keyPressed = KeyEvent.VK_RIGHT;
+                View.setCurrentMapMode(View.mapMode.PLAYER_FOLLOW_MODE);
             }
         }
     };
@@ -271,6 +316,151 @@ public class Controller {
             if(movingDownRight) {
                 --xMovement;
                 --yMovement;
+                movingDownRight = false;
+                keyPressed = 0;
+            }
+        }
+    };
+
+    //----For Scrolling (Miles)
+    Action UP_SCROLL_GO = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(!movingUp) {
+                --cameraYMovement;
+                movingUp = true;
+                View.setCurrentMapMode(View.mapMode.SCROLL_MODE);
+            }
+        }
+    };
+
+    Action UP_SCROLL_STOP = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(movingUp) {
+                ++cameraYMovement;
+                movingUp = false;
+            }
+        }
+    };
+
+    Action DOWN_SCROLL_GO = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(!movingDown) {
+                ++cameraYMovement;
+                movingDown = true;
+                View.setCurrentMapMode(View.mapMode.SCROLL_MODE);
+            }
+        }
+    };
+
+    Action DOWN_SCROLL_STOP = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(movingDown) {
+                --cameraYMovement;
+                movingDown = false;
+            }
+        }
+    };
+
+    Action UP_SCROLL_LEFT_GO = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(!movingUpLeft) {
+                --cameraXMovement;
+                --cameraYMovement;
+                movingUpLeft = true;
+                //temporary??
+                keyPressed = KeyEvent.VK_LEFT;
+                View.setCurrentMapMode(View.mapMode.SCROLL_MODE);
+            }
+        }
+    };
+
+    Action UP_SCROLL_LEFT_STOP = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(movingUpLeft) {
+                ++cameraXMovement;
+                ++cameraYMovement;
+                movingUpLeft = false;
+                keyPressed = 0;
+            }
+        }
+    };
+
+    Action UP_SCROLL_RIGHT_GO = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(!movingUpRight) {
+                ++cameraXMovement;
+                --cameraYMovement;
+                movingUpRight = true;
+                keyPressed = KeyEvent.VK_RIGHT;
+                View.setCurrentMapMode(View.mapMode.SCROLL_MODE);
+            }
+        }
+    };
+
+    Action UP_SCROLL_RIGHT_STOP = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(movingUpRight) {
+                --cameraXMovement;
+                ++cameraYMovement;
+                movingUpRight = false;
+                keyPressed = 0;
+            }
+        }
+    };
+
+    Action DOWN_SCROLL_LEFT_GO = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(!movingDownLeft) {
+                --cameraXMovement;
+                ++cameraYMovement;
+                movingDownLeft = true;
+                //temporary??
+                keyPressed = KeyEvent.VK_LEFT;
+                View.setCurrentMapMode(View.mapMode.SCROLL_MODE);
+            }
+        }
+    };
+
+    Action DOWN_SCROLL_LEFT_STOP = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(movingDownLeft) {
+                ++cameraXMovement;
+                --cameraYMovement;
+                movingDownLeft = false;
+                keyPressed = 0;
+            }
+        }
+    };
+
+    Action DOWN_SCROLL_RIGHT_GO = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(!movingDownRight) {
+                ++cameraXMovement;
+                ++cameraYMovement;
+                movingDownRight = true;
+                keyPressed = KeyEvent.VK_RIGHT;
+                View.setCurrentMapMode(View.mapMode.SCROLL_MODE);
+            }
+        }
+    };
+
+    Action DOWN_SCROLL_RIGHT_STOP = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(movingDownRight) {
+                --cameraXMovement;
+                --cameraYMovement;
                 movingDownRight = false;
                 keyPressed = 0;
             }
