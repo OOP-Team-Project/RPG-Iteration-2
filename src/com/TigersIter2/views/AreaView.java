@@ -16,11 +16,12 @@ public class AreaView extends JComponent {
 
     //sets layout for components to overlap.
     //and sets the preferred size of this component to same as JFrame
-    public AreaView(MapView mapView, AvatarView avatarView, VehicleView vehicleView){
+    public AreaView(MapView mapView, AvatarView avatarView, VehicleView vehicleView, FooterView footerView){
         setLayout(new OverlayLayout(this));
         setPreferredSize(new Dimension(StaticVar.gameWidth, StaticVar.gameHeight));
         this.add(vehicleView);
         this.add(avatarView);
+        this.add(footerView);
         //MapView is fucked up - Sam
         this.add(mapView);
     }

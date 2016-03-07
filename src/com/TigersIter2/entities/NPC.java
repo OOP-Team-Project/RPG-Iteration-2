@@ -23,9 +23,10 @@ public abstract class NPC extends Entity{
 
     private boolean currentlyMoving = false;
 
-    protected List<String> phrases;
+    protected List<String> responses;
     protected boolean willTrade;
     protected boolean willTalk;
+    protected boolean willAttack;
 
 
     public NPC(){
@@ -135,7 +136,11 @@ public abstract class NPC extends Entity{
         return willTrade;
     }
 
-    public abstract String talk(String s);
+    public boolean willAttack(){ return willAttack;}
+
+    public String getResponse(int i){
+        return responses.get(i);
+    }
 
     public int attack(){
         int attackStrength = 1;
