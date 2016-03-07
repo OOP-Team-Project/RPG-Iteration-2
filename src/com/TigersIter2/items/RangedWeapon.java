@@ -6,8 +6,8 @@ import com.TigersIter2.stats.StatsModifier;
  * Created by Breanna on 3/7/16.
  */
 public class RangedWeapon extends Weapon {
-    int range = 0;
-    int angle = 0;
+    private int range = 0;
+    private int angle = 0;
     public RangedWeapon(String n, int damage, int range, int angle){
         this.damageModifier = damage;
         this.range = range;

@@ -8,7 +8,7 @@ import com.TigersIter2.stats.StatsModifier;
 public class Weapon extends TakeableItem {
     //default values for weapons
     int damageModifier = 10;
-    StatsModifier sm;
+
 
     //constructor to create a default weapon
     public Weapon(){

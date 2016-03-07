@@ -7,7 +7,7 @@ import com.TigersIter2.stats.StatsModifier;
  */
 public class TwoHandedWeapon extends Weapon{
     /*TwoHanded weapons effect the movement of the player */
-    int decreaseMovement = 0;
+    private int decreaseMovement = 0;
 
     //constructor to create TwoHandedWeapon
     public TwoHandedWeapon(String n, int damage, int decreaseMovement){
