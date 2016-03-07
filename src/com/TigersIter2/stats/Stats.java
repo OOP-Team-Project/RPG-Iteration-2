@@ -94,7 +94,7 @@ public abstract class Stats {
     }
 
     public void increaseCurrentLife(int life) {
-        if (currentLife + life > this.life) {
+        if (currentLife + life > getLife()) {
             currentLife = getLife();
         }
         else {
