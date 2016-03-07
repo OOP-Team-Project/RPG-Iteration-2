@@ -58,7 +58,6 @@ public class AvatarNPCInteract {
             if (selected == 100) {
                 footerView.setType(0);
                 footerView.setMenuOptions(originalOptions);
-                //trading = false;
                 resetOptions();
             }
         }
@@ -73,15 +72,12 @@ public class AvatarNPCInteract {
                 } else if (usingItem) {
 
                 } else if (selected == 1) {
-                    if (npcOnTile.willTalk())
+                    if (npcOnTile.willTalk()) {
                         haveConversation(0);
-                    else if (npcOnTile.willAttack()) {
-                        attack();
-                    } else {
-                        List<String> list = new ArrayList<String>();
-                        list.add("Don't bother me!");
-                        footerView.setType(1);
-                        footerView.setMenuOptions(list);
+                    }
+                    else {
+                        //If NPC won't talk, but will trade, default to trading screen
+                        haveConversation(5);
                     }
                 } else if (selected == 2) {
                     attack();
@@ -189,5 +185,6 @@ public class AvatarNPCInteract {
         usingItem = false;
         trading = false;
         pressContinue = false;
+        footerView.setTradingView(trading);
     }
 }
