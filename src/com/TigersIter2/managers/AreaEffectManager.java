@@ -2,6 +2,7 @@ package com.TigersIter2.managers;
 
 import com.TigersIter2.areaEffects.AreaEffect;
 import com.TigersIter2.areaEffects.InstantDeath;
+import com.TigersIter2.areaEffects.TakeDamage;
 import com.TigersIter2.entities.Avatar;
 import com.TigersIter2.entities.Entity;
 import com.TigersIter2.stats.StatsModifier;
@@ -15,6 +16,7 @@ public class AreaEffectManager {
     private AreaEffect areaEffect;
     private StatsModifier statsMod;
     private InstantDeath instantDeath;
+    private TakeDamage takeDamage;
 
 
     public void getStatsModifier(){
@@ -22,6 +24,9 @@ public class AreaEffectManager {
         switch(getAreaEffect()) {
 
             case "instantDeath": statsMod = instantDeath.affectEntity();
+
+            case "takeDamage": statsMod = takeDamage.affectEntity();
+
 
                 // add other cases for other area effects
         }

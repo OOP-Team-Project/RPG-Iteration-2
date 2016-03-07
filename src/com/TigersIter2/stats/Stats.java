@@ -102,7 +102,7 @@ public abstract class Stats {
         }
     }
 
-    public void decreaseCurrentHealth(int life) {
+    public void decreaseCurrentLife(int life) {
         if (currentLife - life < 0) {
             currentLife = 0;
         } else {

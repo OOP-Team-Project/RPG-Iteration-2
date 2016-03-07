@@ -352,7 +352,7 @@ public class PlayerStats extends Stats {
         ps.addExperience(100);
         System.out.println(ps.toString() + '\n');
         ps.incrementLivesLeft();
-        ps.decreaseCurrentHealth(100);
+        ps.decreaseCurrentLife(100);
         ps.increaseCurrentMana(100);
         StatsModifier sm = new StatsModifier();
         System.out.println(ps.toString() + '\n');
