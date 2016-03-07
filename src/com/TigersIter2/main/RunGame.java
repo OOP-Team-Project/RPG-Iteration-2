@@ -1,7 +1,7 @@
 package com.TigersIter2.main;
 
 import com.TigersIter2.assets.StaticVar;
-import com.TigersIter2.states.StateManager;
+import com.TigersIter2.managers.StateManager;
 import javax.swing.*;
 
 //contains main method, kicks off everything
