@@ -158,7 +158,7 @@ public class PlayerStats extends Stats {
     }
 
     public void increaseCurrentMana(int mana) {
-        if (currentMana + mana > this.mana) {
+        if (currentMana + mana > getMana()) {
             currentMana = getMana();
         } else {
             currentMana += mana;
@@ -176,6 +176,8 @@ public class PlayerStats extends Stats {
     public void setBarter(int barter) {
         this.barter = barter;
     }
+
+    public void incrementBarter(int barter) { this.barter += barter; }
 
     /**
      * adds a stat modifier and immediately affects the stats
@@ -352,7 +354,7 @@ public class PlayerStats extends Stats {
         ps.addExperience(100);
         System.out.println(ps.toString() + '\n');
         ps.incrementLivesLeft();
-        ps.decreaseCurrentHealth(100);
+        ps.decreaseCurrentLife(100);
         ps.increaseCurrentMana(100);
         StatsModifier sm = new StatsModifier();
         System.out.println(ps.toString() + '\n');
