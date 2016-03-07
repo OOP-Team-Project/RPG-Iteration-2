@@ -20,6 +20,7 @@ public class StaticVar {
     public static final int entityImageWidth = 128;
 
     public static final float entitySpeed = .07f;
+    public static final float cameraSpeed = .7f;
 
 
     //wizard sprite should be updated to 128x128 pixel standard!
@@ -36,9 +37,5 @@ public class StaticVar {
     //MapView Conventional Stuff (Miles)
     public static final int xTilesFromEdge = 9; //8
     public static final int yTilesFromEdge = 4; //3
-
-    public static enum mapMode {
-        PLAYER_FOLLOW_MODE
-    }
 
 }

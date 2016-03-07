@@ -14,6 +14,7 @@ import java.util.ArrayList;
 /**
  * Created by Miles on 3/6/16.
  */
+/*
 public class VehicleMapView extends JComponent {
 
     Avatar aHandle;
@@ -68,3 +69,4 @@ public class VehicleMapView extends JComponent {
 
 
 }
+*/
