@@ -22,7 +22,6 @@ public class AreaView extends JComponent {
         this.add(vehicleView);
         this.add(avatarView);
         this.add(footerView);
-        //MapView is fucked up - Sam
         this.add(mapView);
     }
 

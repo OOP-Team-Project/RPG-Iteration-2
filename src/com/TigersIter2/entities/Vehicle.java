@@ -15,12 +15,14 @@ public class Vehicle extends Entity {
     private boolean canPassWater;
     private boolean canPassMountain;
     private boolean currentlyMoving;
+    private boolean hasEntityRiding;
+    private Entity entityRidingMe;
 
 
     public Vehicle(String name, int movement, boolean water, boolean mountain){
         this.name = name;
-        this.location = new Location(20 * StaticVar.terrainImageWidth,20 * StaticVar.terrainImageHeight,0);
-        this.pixelLocation = new Location(StaticVar.xTilesFromEdge*StaticVar.terrainImageWidth, StaticVar.yTilesFromEdge*StaticVar.terrainImageHeight, 0);
+        location = new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight,0);
+        pixelLocation = location;
         this.movementBonus = movement;
         this.canPassWater = water;
         this.canPassMountain = mountain;
@@ -82,15 +84,23 @@ public class Vehicle extends Entity {
     }
 
     @Override
-    public void update(int xMovement, int yMovement, int zMovement) {
+    public void update(int xMovement, int yMovement, long elapsed) {
         if(xMovement == 0 && yMovement == 0){
             currentlyMoving = false;
         }
         else {
             currentlyMoving = true;
-            location.incrementX(xMovement);   //Made it 3 times faster because IT WAS SO SLOOOOOW (Miles)
-            location.incrementY(yMovement);
+            location.incrementX(Math.round(xMovement * elapsed * StaticVar.entitySpeed));   //Change this later so that it just sets the position to whatever the entity's is
+            location.incrementY(Math.round(yMovement * elapsed * StaticVar.entitySpeed));
             changeDirection(xMovement, yMovement);
         }
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

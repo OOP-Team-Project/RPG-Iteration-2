@@ -1,15 +1,11 @@
 package com.TigersIter2.states;
 
+import com.TigersIter2.managers.StateManager;
 import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.assets.sprites.IntroSprite;
-import com.TigersIter2.assets.sprites.SmasherSprite;
 import com.TigersIter2.assets.sprites.TerrainSprite;
-import com.TigersIter2.entities.Avatar;
-import com.TigersIter2.entities.Smasher;
 import com.TigersIter2.main.Controller;
-import com.TigersIter2.views.AvatarView;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
@@ -45,7 +41,7 @@ public class IntroState extends State {
     }
 
     @Override
-    public void update() {
+    public void update(long elapsed) {
         counterBuffer++;
         System.out.println("IntroState counter: " + counterBuffer);
 

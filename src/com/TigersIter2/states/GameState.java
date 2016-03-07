@@ -1,9 +1,13 @@
 package com.TigersIter2.states;
 
+
 import com.TigersIter2.assets.StaticVar;
+import com.TigersIter2.managers.StateManager;
+
 import com.TigersIter2.assets.sprites.*;
 import com.TigersIter2.entities.*;
 import com.TigersIter2.main.Controller;
+import com.TigersIter2.managers.AvatarNPCInteract;
 import com.TigersIter2.maps.TerrainMap;
 import com.TigersIter2.views.*;
 
@@ -73,7 +77,7 @@ public class GameState extends State {
         VehicleSprite.init();
 
         avatarView = new AvatarView(avatar);
-        vehicleView = new VehicleView(vehicle);
+        vehicleView = new VehicleView(vehicle, avatar, map);
         mapView = new MapView(map, avatar);
         areaView =  new AreaView(mapView,avatarView, vehicleView, footerView);
 
@@ -101,9 +105,9 @@ public class GameState extends State {
     }
 
     @Override
-    public void update() {
+    public void update(long elapsed) {
         map.update();
-        avatar.update(controller.getXMovement(),controller.getyMovement(),0);
+        avatar.update(controller.getXMovement(),controller.getyMovement(), elapsed);
         ant.checkTile();
         handleControllerInput();
 

@@ -30,7 +30,7 @@ public abstract class NPC extends Entity{
 
 
     public NPC(){
-        location = new Location(20 * StaticVar.terrainImageWidth,20 * StaticVar.terrainImageHeight,0);
+        location = new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight,0);
         pixelLocation = new Location(Math.round(StaticVar.xTilesFromEdge*StaticVar.terrainImageWidth*.75f - 80), Math.round(StaticVar.yTilesFromEdge*StaticVar.terrainImageHeight - Math.round(StaticVar.terrainImageHeight*1.2f)), 0);
         direction = 270;
         canPassMountain = false; //if anything this should be under skills (Sam)
@@ -47,7 +47,7 @@ public abstract class NPC extends Entity{
 
     //Should be named updatePosition -Sam
     @Override
-    public void update(int xMovement, int yMovement, int zMovement) {
+    public void update(int xMovement, int yMovement, long elapsed) {
         if(xMovement == 0 && yMovement == 0){
             currentlyMoving = false;
         }

@@ -14,6 +14,7 @@ public class TerrainType {
                                     //tries to pass through a tile, they check if they can by comparing strings.
                                     //POSSIBLE ALTERNATIVES SINCE THIS IS KINDA LAME:
                                     //  - Have a list of entity types that can pass (i.e., "Boats" but not "Avatars"
+                                    //  - Check to see if entity has vehicle/mount necessary to pass through terraintype
 
     public BufferedImage getTerrainImage() {
         return terrainImage;
