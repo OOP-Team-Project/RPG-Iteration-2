@@ -39,6 +39,7 @@ public class AvatarView extends JComponent implements ActionListener{
 
 
     //TODO: Fix this code, if we were to add more occupations stuff would get nasty real fast! (Miles)
+    //TODO: Perhaps create an animations class, eventually we'll need to
 
     private void drawSmasher(Graphics2D g2d){
         if (aHandle.getDirection() == 45)

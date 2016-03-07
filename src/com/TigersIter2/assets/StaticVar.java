@@ -4,13 +4,15 @@ package com.TigersIter2.assets;
 public class StaticVar {
 
 
-    public static final int gameHeight = 720;
-    public static final int gameWidth = 1280;
+    public static final int gameHeight = 720;//720;
+    public static final int gameWidth = 1280;//1280;
 
     public static final int fps = 60;
 
+
     public static final int terrainImageHeight = 96;    //Was 64 before evil Miles Came
     public static final int terrainImageWidth = 105;     //Was 64 before evil Miles Came
+
 
     public static final int entityImageHeight = 128;
     public static final int entityImageWidth = 128;
@@ -26,8 +28,8 @@ public class StaticVar {
 
 
     //MapView Conventional Stuff (Miles)
-    public static final int xTilesFromEdge = 6;
-    public static final int yTilesFromEdge = 3;
+    public static final int xTilesFromEdge = 9; //8
+    public static final int yTilesFromEdge = 4; //3
 
 
 

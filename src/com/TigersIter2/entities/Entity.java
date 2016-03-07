@@ -9,7 +9,7 @@ public abstract class Entity extends Observable { //does Entity need to extend o
     //private Location location;
 
     //updates entity stuff
-    public abstract void update(int x, int y);
+    public abstract void update(int x, int y, int z);
 
     //public abstract int getDirection();
 }

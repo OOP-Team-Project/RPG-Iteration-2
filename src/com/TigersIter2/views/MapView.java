@@ -3,6 +3,7 @@ package com.TigersIter2.views;
 import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.entities.Avatar;
 import com.TigersIter2.location.Location;
+import com.TigersIter2.location.LocationConverter;
 import com.TigersIter2.maps.Map;
 import com.TigersIter2.maps.TerrainMap;
 import com.TigersIter2.maps.terrains.TerrainType;
@@ -58,14 +59,14 @@ public class MapView extends JComponent {
                 switch (currentMapMode) {
                     case PLAYER_FOLLOW_MODE:
 
-                        if((float) (aHandle.getLocation().getX())/StaticVar.terrainImageWidth < (float) StaticVar.xTilesFromEdge) {
+                        if((float) (aHandle.getLocation().getX())/StaticVar.terrainImageWidth < ((float) StaticVar.xTilesFromEdge)) {
                             tileViews.get(i).get(j).setCurrentXLocation(i);
-                            aHandle.setPixelLocation(new Location(aHandle.getLocation().getX(), aHandle.getPixelLocation().getY(), 0));
+                            aHandle.setPixelLocation(new Location(Math.round(aHandle.getLocation().getX()*.75f - 80), aHandle.getPixelLocation().getY(), 0));
 
                         }
-                        else if((float) (aHandle.getLocation().getX())/StaticVar.terrainImageWidth > (tileViews.size() - StaticVar.xTilesFromEdge*2 + 1)) {
-                            tileViews.get(i).get(j).setCurrentXLocation(i - tileViews.size() + StaticVar.xTilesFromEdge * 2 - 1 + StaticVar.xTilesFromEdge);
-                            aHandle.setPixelLocation(new Location((aHandle.getLocation().getX() - ((tileViews.size() - StaticVar.xTilesFromEdge*2 + 1 - StaticVar.xTilesFromEdge) * StaticVar.terrainImageWidth)), aHandle.getPixelLocation().getY(), 0));
+                        else if((float) (aHandle.getLocation().getX())/StaticVar.terrainImageWidth > (tileViews.size() - StaticVar.xTilesFromEdge + 1)) {
+                            tileViews.get(i).get(j).setCurrentXLocation(i - tileViews.size() + StaticVar.xTilesFromEdge*2 - 1);
+                            aHandle.setPixelLocation(new Location(Math.round((aHandle.getLocation().getX() - ((tileViews.size() - StaticVar.xTilesFromEdge*2 + 1) * StaticVar.terrainImageWidth))*.75f - 80), aHandle.getPixelLocation().getY(), 0));
                         }
                         else
                             tileViews.get(i).get(j).setCurrentXLocation(i - (float) (aHandle.getLocation().getX())/StaticVar.terrainImageWidth + StaticVar.xTilesFromEdge);
@@ -74,18 +75,26 @@ public class MapView extends JComponent {
                         //Y Stuff Below
                         if((float) (aHandle.getLocation().getY())/StaticVar.terrainImageHeight < (float) StaticVar.yTilesFromEdge) {
                             tileViews.get(i).get(j).setCurrentYLocation(j);
-                            aHandle.setPixelLocation(new Location(aHandle.getPixelLocation().getX(), aHandle.getLocation().getY(), 0));
+                            aHandle.setPixelLocation(new Location(aHandle.getPixelLocation().getX(), Math.round(aHandle.getLocation().getY() - Math.round(StaticVar.terrainImageHeight*1.2f)), 0));
                         }
-                        else if((float) (aHandle.getLocation().getY())/StaticVar.terrainImageHeight > (tileViews.get(0).size() - StaticVar.yTilesFromEdge*2 + 1)) {
-                            tileViews.get(i).get(j).setCurrentYLocation(j - tileViews.get(0).size() + 8);
-                            aHandle.setPixelLocation(new Location(aHandle.getPixelLocation().getX(), (aHandle.getLocation().getY() - ((tileViews.get(0).size() - StaticVar.yTilesFromEdge*2 + 1 - StaticVar.yTilesFromEdge) * StaticVar.terrainImageHeight)), 0));
+                        else if((float) (aHandle.getLocation().getY())/StaticVar.terrainImageHeight > (tileViews.get(0).size() - StaticVar.yTilesFromEdge)) {
+                            tileViews.get(i).get(j).setCurrentYLocation(j - tileViews.get(0).size() + StaticVar.yTilesFromEdge*2);
+                            aHandle.setPixelLocation(new Location(aHandle.getPixelLocation().getX(), Math.round((aHandle.getLocation().getY() - ((tileViews.get(0).size() - StaticVar.yTilesFromEdge*2) * StaticVar.terrainImageHeight)) - Math.round(StaticVar.terrainImageHeight*1.2f)), 0));
                         }
                         else
-                            tileViews.get(i).get(j).setCurrentYLocation(j - (float) (aHandle.getLocation().getY())/StaticVar.terrainImageHeight + 3);
+                            tileViews.get(i).get(j).setCurrentYLocation(j - (float) (aHandle.getLocation().getY())/StaticVar.terrainImageHeight + StaticVar.yTilesFromEdge);
                         break;
                     default:
                         break;
                 }
+
+                //Miles Tests below:
+                Location aHexLocation = LocationConverter.PixelLocationToHex(aHandle.getLocation());
+
+                if(aHexLocation.getX() == i && aHexLocation.getY() == j)
+                    tileViews.get(i).get(j).shouldGlow(true);
+                else
+                    tileViews.get(i).get(j).shouldGlow(false);
 
                 tileViews.get(i).get(j).paintComponent(g);
             }

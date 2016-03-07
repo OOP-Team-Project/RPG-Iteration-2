@@ -24,22 +24,24 @@ public class Avatar extends Entity{
 
 
     public Avatar(){
-        //changed this to actually instantiate location. Not sure what Z is for atm. <-- Z is for hextile stuff in the future (SL)
+        //changed this to actually instantiate location. Not sure what Z is for atm. <-- Z is for hextile stuff in the future (Sam)
         location = new Location(20 * StaticVar.terrainImageWidth,20 * StaticVar.terrainImageHeight,0);
-        pixelLocation = new Location(StaticVar.xTilesFromEdge*StaticVar.terrainImageWidth, StaticVar.yTilesFromEdge*StaticVar.terrainImageHeight, 0);
+        pixelLocation = new Location(Math.round(StaticVar.xTilesFromEdge*StaticVar.terrainImageWidth*.75f - 80), Math.round(StaticVar.yTilesFromEdge*StaticVar.terrainImageHeight - Math.round(StaticVar.terrainImageHeight*1.2f)), 0);
         direction = 270;
-        canPassMountain = false;
+        canPassMountain = false; //if anything this should be under skills (Sam)
         canPassWater = false;
         inventory = new Inventory();
         equipment = new Equipment();
     }
 
+    //What is this supposed to do? -Sam
     public void setLocation(Location l) {
         location = l;
     }
 
+    //Should be named updatePosition -Sam
     @Override
-    public void update(int xMovement, int yMovement) {
+    public void update(int xMovement, int yMovement, int zMovement) {
         if(xMovement == 0 && yMovement == 0){
             currentlyMoving = false;
         }
