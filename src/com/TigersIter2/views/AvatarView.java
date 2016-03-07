@@ -176,7 +176,11 @@ public class AvatarView extends JComponent implements ActionListener{
         else
             drawSummoner(g2d);
 
-        g2d.drawString(aHandle.getOccupation().toString() + aHandle.getLocation().getX() + " " + aHandle.getLocation().getY(), aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY());
+        //g2d.drawString(aHandle.getOccupation().toString() + aHandle.getLocation().getX() + " " + aHandle.getLocation().getY(), aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY());
+        if(aHandle.getOnTileWithNPC()) {
+            g2d.setFont(new Font("TimesRoman", Font.BOLD, 16));
+            g2d.drawString("1. Talk 2. Attack 3. Use Skill 4. Use Item", aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY());
+        }
         //System.out.println("X Location: " + aHandle.getPixelLocation().getX());
         //System.out.println("Y Location: " + aHandle.getPixelLocation().getY());
 

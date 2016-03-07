@@ -72,6 +72,7 @@ public class MapView extends JComponent {
                         }
                         else {
                             tileViews.get(i).get(j).setCurrentXLocation(i - (float) (aHandle.getLocation().getX()) / StaticVar.terrainImageWidth + StaticVar.xTilesFromEdge);
+                            aHandle.setPixelLocation(new Location(Math.round(StaticVar.xTilesFromEdge*StaticVar.terrainImageWidth*.75f - 80), aHandle.getPixelLocation().getY(), 0));
                             //((TileView) getComponent((i * tileViews.get(0).size()) + j)).setCurrentXLocation(i - (float) (aHandle.getLocation().getX()) / StaticVar.terrainImageWidth + StaticVar.xTilesFromEdge);
                         }
 
@@ -89,6 +90,7 @@ public class MapView extends JComponent {
                         }
                         else {
                             tileViews.get(i).get(j).setCurrentYLocation(j - (float) (aHandle.getLocation().getY()) / StaticVar.terrainImageHeight + StaticVar.yTilesFromEdge);
+                            aHandle.setPixelLocation(new Location(aHandle.getPixelLocation().getX(), Math.round(StaticVar.yTilesFromEdge*StaticVar.terrainImageHeight - Math.round(StaticVar.terrainImageHeight*1.2f)), 0));
                             //((TileView) getComponent((i * tileViews.get(0).size()) + j)).setCurrentYLocation(j - (float) (aHandle.getLocation().getY()) / StaticVar.terrainImageHeight + StaticVar.yTilesFromEdge);
                         }
                         break;
