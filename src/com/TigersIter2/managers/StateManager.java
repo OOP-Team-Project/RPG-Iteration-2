@@ -1,8 +1,12 @@
-package com.TigersIter2.states;
+package com.TigersIter2.managers;
 
 import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.assets.sprites.IntroSprite;
 import com.TigersIter2.main.Controller;
+import com.TigersIter2.states.GameState;
+import com.TigersIter2.states.IntroState;
+import com.TigersIter2.states.MainMenuState;
+import com.TigersIter2.states.State;
 import com.sun.org.apache.xpath.internal.SourceTree;
 
 import javax.swing.*;

@@ -1,8 +1,10 @@
 package com.TigersIter2.states;
 
+import com.TigersIter2.managers.StateManager;
 import com.TigersIter2.assets.sprites.*;
 import com.TigersIter2.entities.*;
 import com.TigersIter2.main.Controller;
+import com.TigersIter2.managers.AvatarNPCInteract;
 import com.TigersIter2.maps.TerrainMap;
 import com.TigersIter2.views.*;
 
@@ -84,7 +86,7 @@ public class GameState extends State {
         switch(optionSelected){
             case 0:
                 System.out.println("Attacking");
-                ant.attack();
+               // ant.attack();
                 break;
             case -1:
                 break;
