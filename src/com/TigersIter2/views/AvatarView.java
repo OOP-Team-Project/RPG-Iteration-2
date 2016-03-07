@@ -3,6 +3,7 @@ package com.TigersIter2.views;
 import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.assets.sprites.SmasherSprite;
 import com.TigersIter2.assets.sprites.SneakSprite;
+import com.TigersIter2.assets.sprites.VehicleSprite;
 import com.TigersIter2.assets.sprites.WizardSprite;
 import com.TigersIter2.entities.Avatar;
 
@@ -42,18 +43,42 @@ public class AvatarView extends JComponent implements ActionListener{
     //TODO: Perhaps create an animations class, eventually we'll need to
 
     private void drawSmasher(Graphics2D g2d){
-        if (aHandle.getDirection() == 45)
-            g2d.drawImage(SmasherSprite.smasherUpRight1, aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY(), null);
-        else if (aHandle.getDirection() == 90)
-            g2d.drawImage(SmasherSprite.smasherUp1, aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY(), null);
-        else if (aHandle.getDirection() == 135)
-            g2d.drawImage(SmasherSprite.smasherUpLeft1, aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY(), null);
-        else if (aHandle.getDirection() == 225)
-            g2d.drawImage(SmasherSprite.smasherDownLeft1, aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY(), null);
-        else if (aHandle.getDirection() == 270)
-            g2d.drawImage(SmasherSprite.smasherDown1, aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY(), null);
-        else if (aHandle.getDirection() == 315)
-            g2d.drawImage(SmasherSprite.smasherDownRight1, aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY(), null);
+        if (aHandle.getDirection() == 45) {
+            if(currentAnimationFrame == 0 || !aHandle.isCurrentlyMoving())
+                g2d.drawImage(SmasherSprite.smasherUpRight1, aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY(), null);
+            else
+                g2d.drawImage(SmasherSprite.smasherUpRight2, aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY(), null);
+        }
+        else if (aHandle.getDirection() == 90) {
+            if(currentAnimationFrame == 0 || !aHandle.isCurrentlyMoving())
+                g2d.drawImage(SmasherSprite.smasherUp1, aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY(), null);
+            else
+                g2d.drawImage(SmasherSprite.smasherUp2, aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY(), null);
+        }
+        else if (aHandle.getDirection() == 135) {
+            if(currentAnimationFrame == 0 || !aHandle.isCurrentlyMoving())
+                g2d.drawImage(SmasherSprite.smasherUpLeft1, aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY(), null);
+            else
+                g2d.drawImage(SmasherSprite.smasherUpLeft2, aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY(), null);
+        }
+        else if (aHandle.getDirection() == 225) {
+            if(currentAnimationFrame == 0 || !aHandle.isCurrentlyMoving())
+                g2d.drawImage(SmasherSprite.smasherDownLeft1, aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY(), null);
+            else
+                g2d.drawImage(SmasherSprite.smasherDownLeft2, aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY(), null);
+        }
+        else if (aHandle.getDirection() == 270) {
+            if(currentAnimationFrame == 0 || !aHandle.isCurrentlyMoving())
+                g2d.drawImage(SmasherSprite.smasherDown1, aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY(), null);
+            else
+                g2d.drawImage(SmasherSprite.smasherDown2, aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY(), null);
+        }
+        else if (aHandle.getDirection() == 315) {
+            if(currentAnimationFrame == 0 || !aHandle.isCurrentlyMoving())
+                g2d.drawImage(SmasherSprite.smasherDownRight1, aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY(), null);
+            else
+                g2d.drawImage(SmasherSprite.smasherDownRight2, aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY(), null);
+        }
     }
 
     private void drawSneak(Graphics2D g2d){
@@ -96,18 +121,42 @@ public class AvatarView extends JComponent implements ActionListener{
     }
 
     private void drawSummoner(Graphics2D g2d){
-        if (aHandle.getDirection() == 45)
-            g2d.drawImage(WizardSprite.wizardUpRight1, aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY(), null);
-        else if (aHandle.getDirection() == 90)
-            g2d.drawImage(WizardSprite.wizardUp1, aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY(), null);
-        else if (aHandle.getDirection() == 135)
-            g2d.drawImage(WizardSprite.wizardUpLeft1, aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY(), null);
-        else if (aHandle.getDirection() == 225)
-            g2d.drawImage(WizardSprite.wizardDownLeft1, aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY(), null);
-        else if (aHandle.getDirection() == 270)
-            g2d.drawImage(WizardSprite.wizardDown1, aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY(), null);
-        else if (aHandle.getDirection() == 315)
-            g2d.drawImage(WizardSprite.wizardDownRight1, aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY(), null);
+        if (aHandle.getDirection() == 45) {
+            if(currentAnimationFrame == 0 || !aHandle.isCurrentlyMoving())
+                g2d.drawImage(WizardSprite.wizardUpRight1, aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY(), null);
+            else
+                g2d.drawImage(WizardSprite.wizardUpRight2, aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY(), null);
+        }
+        else if (aHandle.getDirection() == 90) {
+            if(currentAnimationFrame == 0 || !aHandle.isCurrentlyMoving())
+                g2d.drawImage(WizardSprite.wizardUp1, aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY(), null);
+            else
+                g2d.drawImage(WizardSprite.wizardUp2, aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY(), null);
+        }
+        else if (aHandle.getDirection() == 135) {
+            if(currentAnimationFrame == 0 || !aHandle.isCurrentlyMoving())
+                g2d.drawImage(WizardSprite.wizardUpLeft1, aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY(), null);
+            else
+                g2d.drawImage(WizardSprite.wizardUpLeft2, aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY(), null);
+        }
+        else if (aHandle.getDirection() == 225) {
+            if(currentAnimationFrame == 0 || !aHandle.isCurrentlyMoving())
+                g2d.drawImage(WizardSprite.wizardDownLeft1, aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY(), null);
+            else
+                g2d.drawImage(WizardSprite.wizardDownLeft2, aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY(), null);
+        }
+        else if (aHandle.getDirection() == 270) {
+            if(currentAnimationFrame == 0 || !aHandle.isCurrentlyMoving())
+                g2d.drawImage(WizardSprite.wizardDown1, aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY(), null);
+            else
+                g2d.drawImage(WizardSprite.wizardDown2, aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY(), null);
+        }
+        else if (aHandle.getDirection() == 315) {
+            if(currentAnimationFrame == 0 || !aHandle.isCurrentlyMoving())
+                g2d.drawImage(WizardSprite.wizardDownRight1, aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY(), null);
+            else
+                g2d.drawImage(WizardSprite.wizardDownRight2, aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY(), null);
+        }
     }
 
     public void paintComponent(Graphics g){
@@ -125,11 +174,9 @@ public class AvatarView extends JComponent implements ActionListener{
             drawSneak(g2d);
         else
             drawSummoner(g2d);
-        g2d.drawString(aHandle.getOccupation().toString() + aHandle.getLocation().getX() + " " + aHandle.getLocation().getY(), aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY());
+
         //System.out.println("X Location: " + aHandle.getPixelLocation().getX());
         //System.out.println("Y Location: " + aHandle.getPixelLocation().getY());
-
-
         g2d.dispose();
     }
 

@@ -1,35 +1,35 @@
 package com.TigersIter2.entities;
 
 import com.TigersIter2.assets.StaticVar;
+import com.TigersIter2.items.Item;
 import com.TigersIter2.items.TakeableItem;
 import com.TigersIter2.location.Location;
-import com.TigersIter2.stats.PlayerStats;
-import com.TigersIter2.stats.Stats;
-import com.TigersIter2.stats.StatsModifier;
+import com.TigersIter2.stats.NPCStats;
+
+import java.util.List;
 
 
-public class Avatar extends Entity{
+public abstract class NPC extends Entity{
 
     private Location location;  //This is the location used by MODELS to determine where the avatar is
     private Location pixelLocation; //This is the location used by VIEWS to determine where the avatar is (Miles)
     private Inventory inventory;
     private Equipment equipment;
-    private Occupation occupation;
-    private Pet pet;
-    private Vehicle vehicle;
-    private PlayerStats stats;
+    private NPCStats stats;
 
     private int direction;
     private boolean canPassWater;
     private boolean canPassMountain;
-    private int money;
 
     private boolean currentlyMoving = false;
-    private boolean onTileWithNPC;
+
+    protected List<String> responses;
+    protected boolean willTrade;
+    protected boolean willTalk;
+    protected boolean willAttack;
 
 
-    public Avatar(){
-        //changed this to actually instantiate location. Not sure what Z is for atm. <-- Z is for hextile stuff in the future (Sam)
+    public NPC(){
         location = new Location(20 * StaticVar.terrainImageWidth,20 * StaticVar.terrainImageHeight,0);
         pixelLocation = new Location(Math.round(StaticVar.xTilesFromEdge*StaticVar.terrainImageWidth*.75f - 80), Math.round(StaticVar.yTilesFromEdge*StaticVar.terrainImageHeight - Math.round(StaticVar.terrainImageHeight*1.2f)), 0);
         direction = 270;
@@ -37,7 +37,7 @@ public class Avatar extends Entity{
         canPassWater = false;
         inventory = new Inventory();
         equipment = new Equipment();
-        money = 0;
+        stats = new NPCStats();
     }
 
     //What is this supposed to do? -Sam
@@ -52,17 +52,11 @@ public class Avatar extends Entity{
             currentlyMoving = false;
         }
         else{
-            location.incrementX(xMovement * stats.getMovement());   //Made it 3 times faster because IT WAS SO SLOOOOOW (Miles)
-            location.incrementY(yMovement * stats.getMovement());
+            location.incrementX(xMovement * 5);
+            location.incrementY(yMovement * 5);
             changeDirection(xMovement, yMovement);
             currentlyMoving = true;
         }
-
-        if(vehicle != null){
-            vehicle.update(xMovement * stats.getMovement(), yMovement * stats.getMovement(), zMovement);
-        }
-        //System.out.println(direction);
-        //System.out.println(xMovement + ", " + yMovement);
     }
 
     public void equipItemAtIndex(int i){
@@ -85,28 +79,6 @@ public class Avatar extends Entity{
         //Do something here to put item on the current tile
     }
 
-    public void setVehicle(Vehicle v){
-        vehicle = v;
-        canPassWater = v.getCanPassWater();
-        canPassMountain = v.getCanPassMountain();
-
-        StatsModifier sm = new StatsModifier();
-        sm.setMovement(v.getMovementBonus());
-        stats.addStatModifier(sm);
-    }
-
-    public Vehicle getVehicle(){
-        return vehicle;
-    }
-
-    public void setPet(Pet p){
-        pet = p;
-    }
-
-    public Pet getPet(){
-        return pet;
-    }
-
     public int getDirection(){
         return direction;
     }
@@ -123,32 +95,23 @@ public class Avatar extends Entity{
         return location;
     }
 
-    public void setOccupation(Occupation o){
-        occupation = o;
-        stats = new PlayerStats(o);
-    }
-
-    public Occupation getOccupation(){
-        return occupation;
-    }
-
     private void changeDirection(int x, int y){
         if(x == 0){
-            if(y > 0)
+            if(y == 1)
                 direction = 270;
-            else if(y < 0)
+            else if(y == -1)
                 direction = 90;
         }
-        else if(x > 0){
-            if(y > 0)
+        else if(x == 1){
+            if(y == 1)
                 direction = 315;
-            else if(y < 0)
+            else if(y == -1)
                 direction = 45;
         }
         else{
-            if(y > 0)
+            if(y == 1)
                 direction = 225;
-            else if(y < 0)
+            else if(y == -1)
                 direction = 135;
         }
     }
@@ -165,31 +128,22 @@ public class Avatar extends Entity{
         this.pixelLocation = pixelLocation;
     }
 
-    public void setMoney(int m){
-        money = m;
+    public boolean willTalk(){
+        return willTalk;
     }
 
-    public void addMoney(int m){
-        money += m;
+    public boolean willTrade(){
+        return willTrade;
     }
 
-    public int getMoney(){
-        return money;
+    public boolean willAttack(){ return willAttack;}
+
+    public String getResponse(int i){
+        return responses.get(i);
     }
 
-    public void setOnTileWithNPC(boolean b){
-        onTileWithNPC = b;
+    public int attack(){
+        int attackStrength = 1;
+        return attackStrength;
     }
-
-    public boolean getOnTileWithNPC(){
-        return onTileWithNPC;
-    }
-
-    public void takeDamage(int attackStrength){
-        //calculate some sort of damage
-        int damageTaken = attackStrength;
-        stats.decreaseCurrentHealth(damageTaken);
-        System.out.println("Taking damage");
-    }
-
 }
