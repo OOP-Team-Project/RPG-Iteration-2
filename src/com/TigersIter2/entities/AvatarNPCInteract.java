@@ -162,9 +162,15 @@ public class AvatarNPCInteract {
                 if(!avatar.getOnTileWithNPC()) {
                     avatar.setOnTileWithNPC(true);
                     npcOnTile = n;
-                    footerView.setDisplay(true);
-                    footerView.setType(0);
-                    footerView.setMenuOptions(originalOptions);
+                    if(npcOnTile.willTalk() || npcOnTile.willTrade()) {
+                        footerView.setDisplay(true);
+                        footerView.setType(0);
+                        footerView.setMenuOptions(originalOptions);
+                    }
+                    else if(npcOnTile.willAttack()){
+                        attack();
+                        System.out.println("Getting attacked now");
+                    }
                 }
             }
             else if(avatar.getOnTileWithNPC()){

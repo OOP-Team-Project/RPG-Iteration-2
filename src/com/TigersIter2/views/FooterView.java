@@ -87,7 +87,9 @@ public class FooterView extends JComponent implements ActionListener{
             g2d.setColor(Color.black);
             g2d.setFont(new Font("TimesRoman", Font.BOLD, 20));
             g2d.drawString("Your Stuff", 275, 120);
+            //Need to display all inventory items
             g2d.drawString("Their Stuff", 250 + StaticVar.gameWidth/2, 120);
+            //Need to display all the NPC's items
         }
         g2d.dispose();
     }
