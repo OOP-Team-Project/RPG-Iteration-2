@@ -76,10 +76,10 @@ public class StateManager extends JPanel{
         this.repaint();
     }
 
-    public void update(){
+    public void update(long elapsedTime){
 
         if (state!=null) {
-            state.update();
+            state.update(elapsedTime);
             //System.out.println(state.returnName());
             //System.out.println(controller.getXMovement() + ", " + controller.getyMovement());
         }

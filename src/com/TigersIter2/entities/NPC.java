@@ -47,7 +47,7 @@ public abstract class NPC extends Entity{
 
     //Should be named updatePosition -Sam
     @Override
-    public void update(int xMovement, int yMovement, int zMovement) {
+    public void update(int xMovement, int yMovement, long elapsed) {
         if(xMovement == 0 && yMovement == 0){
             currentlyMoving = false;
         }
