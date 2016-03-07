@@ -1,5 +1,6 @@
 package com.TigersIter2.states;
 
+import com.TigersIter2.managers.StateManager;
 import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.assets.sprites.MainMenuSprite;
 import com.TigersIter2.main.Controller;
@@ -34,7 +35,7 @@ public class MainMenuState extends State {
     }
 
     @Override
-    public void update() {
+    public void update(long elapsed) {
         counterBuffer++;
 
         if (controller.getKeyPressed()== KeyEvent.VK_LEFT) newLoad = newGame;

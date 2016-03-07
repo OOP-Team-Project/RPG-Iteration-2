@@ -12,16 +12,11 @@ import java.util.List;
  */
 public class Villager extends NPC {
 
-
-
-    public Villager(List<String> phrase, boolean talk, boolean trade){
-        phrases = phrase;
+    public Villager(List<String> phrase, boolean talk, boolean trade, boolean attack){
+        responses = phrase;
         willTrade = trade;
         willTalk = talk;
-    }
-
-    public String talk(String s){
-        return "TEST";
+        willAttack = attack;
     }
 
 }

@@ -160,6 +160,7 @@ public class AvatarView extends JComponent implements ActionListener{
     }
 
     public void paintComponent(Graphics g){
+
         //TEST CODE, BUT FOLLOW THIS FORMAT FOR OVERRIDING PAINTCOMPONENT
         //System.out.println("Inside AvatarView");
         Graphics2D g2d = (Graphics2D)g.create();
@@ -175,16 +176,10 @@ public class AvatarView extends JComponent implements ActionListener{
         else
             drawSummoner(g2d);
 
-        //g2d.drawString(aHandle.getOccupation().toString() + aHandle.getLocation().getX() + " " + aHandle.getLocation().getY(), aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY());
-        if(aHandle.getOnTileWithNPC()) {
-            g2d.setFont(new Font("TimesRoman", Font.BOLD, 16));
-            g2d.drawString("1. Talk 2. Attack 3. Use Skill 4. Use Item", aHandle.getPixelLocation().getX(), aHandle.getPixelLocation().getY());
-        }
         //System.out.println("X Location: " + aHandle.getPixelLocation().getX());
         //System.out.println("Y Location: " + aHandle.getPixelLocation().getY());
-
-
         g2d.dispose();
+
     }
 
 }

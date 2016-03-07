@@ -1,22 +1,17 @@
 package com.TigersIter2.states;
 
-import com.TigersIter2.assets.StaticVar;
+import com.TigersIter2.managers.StateManager;
 import com.TigersIter2.assets.sprites.*;
 import com.TigersIter2.entities.*;
 import com.TigersIter2.main.Controller;
-import com.TigersIter2.maps.Map;
+import com.TigersIter2.managers.AvatarNPCInteract;
 import com.TigersIter2.maps.TerrainMap;
-import com.TigersIter2.states.State;
-import com.TigersIter2.views.AreaView;
-import com.TigersIter2.views.AvatarView;
-import com.TigersIter2.views.MapView;
-import com.TigersIter2.views.VehicleView;
-import com.sun.javafx.geom.Area;
-import com.sun.javafx.runtime.SystemProperties;
+import com.TigersIter2.views.*;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 //GameState should initialize everything that is needed in GameState. This is because if you go back to the main menu for ex, and wish to start a new game
 //when GameState gets reinitialized, this would all be possible - Sam
@@ -35,6 +30,7 @@ public class GameState extends State {
     private MapView mapView;
     private AreaView areaView;
     private VehicleView vehicleView;
+    private FooterView footerView;
     //private EntityManager entityManager;
     //private ItemManager itemManager;
 
@@ -46,13 +42,25 @@ public class GameState extends State {
     @Override
     public void init() {
 
+        footerView = new FooterView();
         map = new TerrainMap();
         avatar = new Avatar();
         avatar.setOccupation(new Summoner());
-        ant = new AvatarNPCInteract(avatar);
+        ant = new AvatarNPCInteract(avatar, footerView);
+
+        //THIS IS ALL FOR TESTING. WILL NOT STAY HERE
         vehicle = new Vehicle("Turtle", 5, false, true);
         avatar.setVehicle(vehicle);
-        ant.addMonster();
+        //ant.addMonster();
+        List<String> list = new ArrayList<String>();
+        list.add("My name is John Cena. I'm an internet sensation.");
+        list.add("What does anyone do anywhere?");
+        list.add("The Detroit Tigers?");
+        list.add("So many things.");
+        list.add("I suppose so.");
+        ant.addVillager(list, true, true, false);
+
+
         //pull in all pictures for GameState
 
         //Technically only one of these will need to be initialized
@@ -62,9 +70,9 @@ public class GameState extends State {
         VehicleSprite.init();
 
         avatarView = new AvatarView(avatar);
-        vehicleView = new VehicleView(vehicle);
+        vehicleView = new VehicleView(vehicle, avatar, map);
         mapView = new MapView(map, avatar);
-        areaView =  new AreaView(mapView,avatarView, vehicleView);
+        areaView =  new AreaView(mapView,avatarView, vehicleView, footerView);
 
 
         this.add(areaView);
@@ -78,22 +86,21 @@ public class GameState extends State {
         switch(optionSelected){
             case 0:
                 System.out.println("Attacking");
-                ant.attack();
-                break;
-            case 1:
-                System.out.println("Selected Option 1");
-                ant.chooseOption(optionSelected);
+               // ant.attack();
                 break;
             case -1:
-                return;
+                break;
+            default:
+                ant.chooseOption(optionSelected);
+                break;
         }
         controller.resetOptionSelected();
     }
 
     @Override
-    public void update() {
+    public void update(long elapsed) {
         map.update();
-        avatar.update(controller.getXMovement(),controller.getyMovement(),0);
+        avatar.update(controller.getXMovement(),controller.getyMovement(), elapsed);
         ant.checkTile();
         handleControllerInput();
 
@@ -106,7 +113,7 @@ public class GameState extends State {
     public void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D)g.create();
         //setting background to gray somehow eliminates tile tearing caused by non-perfect hexagons(hexagons can't really by represented perfectly with pixels)
-        g2d.setColor(Color.GRAY);
+        g2d.setColor(Color.RED);
         g2d.fillRect(0,0, this.getWidth(), this.getHeight());//getHeight
 //        g2d.setColor(Color.BLUE);
 //        g2d.drawString("GameState paintComponent. Components: " + this.getComponentCount(), 260, 150);

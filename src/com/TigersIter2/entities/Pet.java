@@ -11,7 +11,7 @@ public class Pet extends Entity {
     }
 
     @Override
-    public void update(int xMovement, int yMovement, int zMovement) {
+    public void update(int xMovement, int yMovement, long elapsed) {
         System.out.println(xMovement + ", " + yMovement);
     }
 
