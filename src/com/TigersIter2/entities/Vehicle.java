@@ -2,6 +2,7 @@ package com.TigersIter2.entities;
 
 import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.location.Location;
+import com.TigersIter2.stats.StatsModifier;
 
 /**
  * Created by Josh on 2/27/2016.
@@ -15,6 +16,7 @@ public class Vehicle extends Entity {
     private boolean canPassWater;
     private boolean canPassMountain;
     private boolean currentlyMoving;
+    private StatsModifier sm;
     private boolean hasEntityRiding;
     private Entity entityRidingMe;
 
@@ -26,8 +28,14 @@ public class Vehicle extends Entity {
         this.movementBonus = movement;
         this.canPassWater = water;
         this.canPassMountain = mountain;
-        this.direction = 270;
+        this.direction = 135;
         this.currentlyMoving = false;
+        sm = new StatsModifier();
+        sm.setMovement(movementBonus);
+    }
+
+    public StatsModifier getStatsModifier(){
+        return sm;
     }
 
     public boolean getCanPassWater(){
@@ -81,6 +89,12 @@ public class Vehicle extends Entity {
 
     public Location getLocation() {
         return location;
+    }
+
+    public void setLocation(Location l){
+        //location = l;
+        location.setX(l.getX());
+        location.setY(l.getY());
     }
 
     @Override

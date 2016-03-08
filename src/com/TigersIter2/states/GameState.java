@@ -53,7 +53,7 @@ public class GameState extends State {
 
         //THIS IS ALL FOR TESTING. WILL NOT STAY HERE
         vehicle = new Vehicle("Turtle", 5, false, true);
-        avatar.setVehicle(vehicle);
+        //avatar.setVehicle(vehicle);
         //ant.addMonster();
         List<String> list = new ArrayList<String>();
         list.add("My name is John Cena. I'm an internet sensation.");
@@ -91,6 +91,8 @@ public class GameState extends State {
                 System.out.println("Attacking");
                // ant.attack();
                 break;
+            case 6:
+                ant.mountVehicle(vehicle);
             case -1:
                 break;
             default:

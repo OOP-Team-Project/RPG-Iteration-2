@@ -1,9 +1,6 @@
 package com.TigersIter2.managers;
 
-import com.TigersIter2.entities.Avatar;
-import com.TigersIter2.entities.Monster;
-import com.TigersIter2.entities.NPC;
-import com.TigersIter2.entities.Villager;
+import com.TigersIter2.entities.*;
 import com.TigersIter2.location.LocationConverter;
 import com.TigersIter2.views.FooterView;
 
@@ -53,6 +50,17 @@ public class AvatarNPCInteract {
 
     public void attack(){
         //Check your position/direction/range against the NPC's in the list
+    }
+
+    public void mountVehicle(Vehicle v){
+        if(LocationConverter.PixelLocationToHex(v.getLocation()).getX() == LocationConverter.PixelLocationToHex(avatar.getLocation()).getX() &&
+            LocationConverter.PixelLocationToHex(v.getLocation()).getY() == LocationConverter.PixelLocationToHex(avatar.getLocation()).getY()){
+            if(avatar.getVehicle() == null) {
+                v.setLocation(avatar.getLocation());
+                //v.setPixelLocation(avatar.getPixelLocation());
+            }
+            avatar.mountOrUnmountVehicle(v);
+        }
     }
 
     public void chooseOption(int selected){

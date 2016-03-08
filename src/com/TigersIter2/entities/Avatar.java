@@ -90,14 +90,19 @@ public class Avatar extends Entity{
         //Do something here to put item on the current tile
     }
 
-    public void setVehicle(Vehicle v){
-        vehicle = v;
-        canPassWater = v.getCanPassWater();
-        canPassMountain = v.getCanPassMountain();
-
-        StatsModifier sm = new StatsModifier();
-        sm.setMovement(v.getMovementBonus());
-        stats.addStatModifier(sm);
+    public void mountOrUnmountVehicle(Vehicle v){
+        if(vehicle == null) {
+            vehicle = v;
+            canPassWater = v.getCanPassWater();
+            canPassMountain = v.getCanPassMountain();
+            stats.addStatModifier(v.getStatsModifier());
+        }
+        else{
+            vehicle = null;
+            canPassMountain = false;
+            canPassWater = false;
+            stats.removeStatModifier(v.getStatsModifier());
+        }
     }
 
     public Vehicle getVehicle(){

@@ -94,6 +94,7 @@ public class Controller {
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_4, 0, true), "OPTION4_STOP");
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_5, 0, true), "OPTION5_STOP");
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, 0, true), "BACKSPACE_STOP");
+        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_Z, 0, true), "VEHICLE_STOP");
 
         //For those who don't have a numpad, temporary controls...
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_W, 0, false), "UP_GO");
@@ -152,6 +153,7 @@ public class Controller {
         component.getActionMap().put("OPTION4_STOP", OPTION4_STOP);
         component.getActionMap().put("OPTION5_STOP", OPTION5_STOP);
         component.getActionMap().put("BACKSPACE_STOP", BACKSPACE_STOP);
+        component.getActionMap().put("VEHICLE_STOP", VEHICLE_STOP);
 
         //For scrolling (Miles)
         component.getActionMap().put("UP_SCROLL_GO", UP_SCROLL_GO);
@@ -555,6 +557,13 @@ public class Controller {
         @Override
         public void actionPerformed(ActionEvent e) {
             optionSelected = 100;
+        }
+    };
+
+    Action VEHICLE_STOP = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            optionSelected = 6;
         }
     };
 }
