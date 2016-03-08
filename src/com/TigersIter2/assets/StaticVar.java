@@ -21,7 +21,7 @@ public class StaticVar {
     public static final int entityImageHeight = 128;
     public static final int entityImageWidth = 128;
 
-    public static final float entitySpeed = .07f;
+    public static final float entitySpeed = .02f;
     public static final float cameraSpeed = .7f;
 
 
