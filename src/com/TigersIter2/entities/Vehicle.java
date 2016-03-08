@@ -21,7 +21,7 @@ public class Vehicle extends Entity {
 
     public Vehicle(String name, int movement, boolean water, boolean mountain){
         this.name = name;
-        location = new Location(20 * StaticVar.terrainImageWidth,20 * StaticVar.terrainImageHeight,0);
+        location = new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight,0);
         pixelLocation = location;
         this.movementBonus = movement;
         this.canPassWater = water;

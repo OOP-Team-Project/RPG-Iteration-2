@@ -1,6 +1,9 @@
 package com.TigersIter2.states;
 
+
+import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.managers.StateManager;
+
 import com.TigersIter2.assets.sprites.*;
 import com.TigersIter2.entities.*;
 import com.TigersIter2.main.Controller;
@@ -22,17 +25,21 @@ public class GameState extends State {
     //Model Data
     private TerrainMap map;
     private Avatar avatar;
+
     private Vehicle vehicle;
     private AvatarNPCInteract ant;
+
 
     //Views
     private AvatarView avatarView;
     private MapView mapView;
     private AreaView areaView;
+
     private VehicleView vehicleView;
     private FooterView footerView;
     //private EntityManager entityManager;
     //private ItemManager itemManager;
+
 
 
     public GameState(StateManager stateManager, Controller controller){
@@ -43,7 +50,7 @@ public class GameState extends State {
     public void init() {
 
         footerView = new FooterView();
-        map = new TerrainMap();
+        map = new TerrainMap(StaticVar.map1);
         avatar = new Avatar();
         avatar.setOccupation(new Summoner());
         ant = new AvatarNPCInteract(avatar, footerView);
@@ -86,7 +93,7 @@ public class GameState extends State {
         switch(optionSelected){
             case 0:
                 System.out.println("Attacking");
-               // ant.attack();
+                //ant.attack();
                 break;
             case -1:
                 break;
@@ -116,10 +123,6 @@ public class GameState extends State {
         //setting background to gray somehow eliminates tile tearing caused by non-perfect hexagons(hexagons can't really by represented perfectly with pixels)
         g2d.setColor(Color.RED);
         g2d.fillRect(0,0, this.getWidth(), this.getHeight());//getHeight
-//        g2d.setColor(Color.BLUE);
-//        g2d.drawString("GameState paintComponent. Components: " + this.getComponentCount(), 260, 150);
-//        g2d.drawString("GetXmovement: " + controller.getXMovement(), 300, 300);
-//        g2d.drawString("GetYmovement: " + controller.getyMovement(), 300, 320);
         g2d.dispose();
     }
 
