@@ -1,13 +1,13 @@
 package com.TigersIter2.states;
 
 import com.TigersIter2.assets.StaticVar;
+import com.TigersIter2.items.OneHandedWeapon;
 import com.TigersIter2.items.Weapon;
 import com.TigersIter2.location.Location;
 import com.TigersIter2.managers.StateManager;
 import com.TigersIter2.assets.sprites.*;
 import com.TigersIter2.entities.*;
-import com.TigersIter2.items.Potion;
-import com.TigersIter2.items.Item;
+import com.TigersIter2.items.*;
 import com.TigersIter2.main.Controller;
 import com.TigersIter2.managers.AvatarNPCInteract;
 import com.TigersIter2.managers.ItemManager;
@@ -73,8 +73,11 @@ public class GameState extends State {
         ant.addVillager(list, true, true, false);
 
         //testing for item interactions
-        Item item = new Potion("Health", 10);
+        Item item = new Key("Key", 1);
         item.setLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight,0));
+        Item chest = new Interactive(1);
+        chest.setLocation(new Location(10 * StaticVar.terrainImageWidth + 400,10 * StaticVar.terrainImageHeight,0));
+        itemManager.addItem(chest);
         itemManager.addItem(item);
 
 

@@ -5,7 +5,6 @@ import com.TigersIter2.entities.Avatar;
 import com.TigersIter2.items.*;
 import com.TigersIter2.location.LocationConverter;
 import com.TigersIter2.stats.PlayerStats;
-import com.TigersIter2.stats.StatsModifier;
 import com.TigersIter2.entities.Inventory;
 
 /**
@@ -30,6 +29,8 @@ public class ItemManager {
         itemList.add(item);
     }
 
+    /*checks the tile player is on to see if there is an item on it
+    * Handles the interaction based off the item type */
     public void checkTile() {
         Iterator<Item> iter = itemList.iterator();
         while(iter.hasNext()) {
@@ -37,11 +38,30 @@ public class ItemManager {
             if(LocationConverter.PixelLocationToHex(item.getLocation()).getX() == LocationConverter.PixelLocationToHex(avatar.getLocation()).getX() &&
                     LocationConverter.PixelLocationToHex(item.getLocation()).getY() == LocationConverter.PixelLocationToHex(avatar.getLocation()).getY()) {
                 if (item instanceof TakeableItem) {
-                    avatarInventory.addItem((TakeableItem) item); 
-                    // System.out.println("Location of Item: " + item.getLocation().toString());
+                    avatarInventory.addItem((TakeableItem) item);
+                    iter.remove();
+                }
+                else if(item instanceof OneShot) {
+                    playerStats.addStatModifier(((OneShot) item).getStatsModifier());
+                    iter.remove();
+                }
+                else if(item instanceof Interactive) {
+                    List<TakeableItem> avatarInventoryItems = avatarInventory.getItems();
+                    /* Iterates through the player's inventory to see if it holds the corresponding Key */
+                    for(TakeableItem i : avatarInventoryItems) {
+                        if(i instanceof Key) {
+                            if(((Key) i).getItemCode() == ((Interactive) item).getItemCode() && !((Interactive) item).getInteractedWith()) { //keys match!
+                                ((Interactive) item).setInteractedWith(true);
+                                System.out.println("ITEM SUCCESSFULLY INTERACTED WITH!");
+                            }
+                        }
+                    }
+                }
+                else { //item is an obstacle
+
                 }
             }
-            iter.remove();
+
         }
        // System.out.println("Location of avatar: " + avatar.getLocation().toString());
        //System.out.println("THIS IS THE NEW PLAYER STAT FROM ITEM: " + playerStats.getLife());
