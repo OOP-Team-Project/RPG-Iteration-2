@@ -32,7 +32,7 @@ public class Avatar extends Entity{
 
     public Avatar(){
         //changed this to actually instantiate location. Not sure what Z is for atm. <-- Z is for hextile stuff in the future (Sam)
-        location = new Location(20 * StaticVar.terrainImageWidth,20 * StaticVar.terrainImageHeight,0);
+        location = new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight,0);
         pixelLocation = new Location(Math.round(StaticVar.xTilesFromEdge*StaticVar.terrainImageWidth*.75f - 80), Math.round(StaticVar.yTilesFromEdge*StaticVar.terrainImageHeight - Math.round(StaticVar.terrainImageHeight*1.2f)), 0);
         direction = 270;
         canPassMountain = false; //if anything this should be under skills (Sam)
@@ -51,21 +51,18 @@ public class Avatar extends Entity{
     //Should be named updatePosition -Sam
     @Override
     public void update(int xMovement, int yMovement, long elapsed) {
-        if(trading){
-
+        if(xMovement == 0 && yMovement == 0){
+            currentlyMoving = false;
         }
-        else {
-            if (xMovement == 0 && yMovement == 0) {
-                currentlyMoving = false;
-            } else {
-                location.incrementX(Math.round(xMovement * elapsed * StaticVar.entitySpeed * stats.getMovement()));   //Made it invariant of framerate
-                location.incrementY(Math.round(yMovement * elapsed * StaticVar.entitySpeed * stats.getMovement()));
-                changeDirection(xMovement, yMovement);
-                currentlyMoving = true;
-            }
-            if (vehicle != null) {
-                vehicle.update(xMovement * stats.getMovement(), yMovement * stats.getMovement(), elapsed);
-            }
+        else{
+            location.incrementX(Math.round(xMovement * elapsed * StaticVar.entitySpeed * stats.getMovement()));   //Made it invariant of framerate
+            location.incrementY(Math.round(yMovement * elapsed * StaticVar.entitySpeed * stats.getMovement()));
+            changeDirection(xMovement, yMovement);
+            currentlyMoving = true;
+        }
+
+        if(vehicle != null){
+            vehicle.update(xMovement * stats.getMovement(), yMovement * stats.getMovement(), elapsed);
         }
     }
 
