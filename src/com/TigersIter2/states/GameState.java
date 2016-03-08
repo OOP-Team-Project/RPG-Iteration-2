@@ -2,6 +2,7 @@ package com.TigersIter2.states;
 
 
 import com.TigersIter2.assets.StaticVar;
+import com.TigersIter2.managers.AvatarMapInteract;
 import com.TigersIter2.managers.StateManager;
 
 import com.TigersIter2.assets.sprites.*;
@@ -25,6 +26,7 @@ public class GameState extends State {
     //Model Data
     private TerrainMap map;
     private Avatar avatar;
+    private AvatarMapInteract avatarMapInteract;
 
     private Vehicle vehicle;
     private AvatarNPCInteract ant;
@@ -53,6 +55,7 @@ public class GameState extends State {
         map = new TerrainMap(StaticVar.map1);
         avatar = new Avatar();
         avatar.setOccupation(new Summoner());
+        avatarMapInteract = new AvatarMapInteract(avatar, map);
         ant = new AvatarNPCInteract(avatar, footerView);
 
         //THIS IS ALL FOR TESTING. WILL NOT STAY HERE
@@ -106,8 +109,9 @@ public class GameState extends State {
 
     @Override
     public void update(long elapsed) {
-        map.update();
-        avatar.update(controller.getXMovement(),controller.getyMovement(), elapsed);
+        //map.update(); //doesn't actually do anything
+        //avatar.update(controller.getXMovement(),controller.getyMovement(), elapsed);
+        avatarMapInteract.updateAvatarPos(elapsed,controller.getXMovement(), controller.getyMovement());
         View.update(controller.getCameraXMovement(), controller.getCameraYMovement(), elapsed);
         ant.checkTile();
         handleControllerInput();
