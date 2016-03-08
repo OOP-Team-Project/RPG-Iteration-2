@@ -6,9 +6,10 @@ import com.TigersIter2.managers.StateManager;
 import com.TigersIter2.assets.sprites.*;
 import com.TigersIter2.entities.*;
 import com.TigersIter2.items.Potion;
-import com.TigersIter2.items.TakeableItem;
+import com.TigersIter2.items.Item;
 import com.TigersIter2.main.Controller;
 import com.TigersIter2.managers.AvatarNPCInteract;
+import com.TigersIter2.managers.ItemManager;
 import com.TigersIter2.maps.TerrainMap;
 import com.TigersIter2.views.*;
 
@@ -28,6 +29,7 @@ public class GameState extends State {
     private Avatar avatar;
     private Vehicle vehicle;
     private AvatarNPCInteract ant;
+    private ItemManager itemManager;
 
     //Views
     private AvatarView avatarView;
@@ -50,11 +52,12 @@ public class GameState extends State {
         map = new TerrainMap(StaticVar.map1);
         avatar = new Avatar();
         avatar.setOccupation(new Sneak());
-        avatar.getInventory().addItem(new Potion("Health Potion"));
-        avatar.getInventory().addItem(new Potion("Strength Potion"));
-        avatar.getInventory().addItem(new Weapon("Battle Axe"));
+        avatar.getInventory().addItem(new Potion("Health Potion", 10));
+        //avatar.getInventory().addItem(new Potion("Strength Potion"));
+        avatar.getInventory().addItem(new Weapon());
         ant = new AvatarNPCInteract(avatar, footerView);
         vehicleViews = new ArrayList<VehicleView>();
+        itemManager = new ItemManager(avatar);
 
         //THIS IS ALL FOR TESTING. WILL NOT STAY HERE
         ant.addVehicle(new Vehicle("Turtle", 5, true, true));
@@ -67,6 +70,11 @@ public class GameState extends State {
         list.add("So many things.");
         list.add("I suppose so.");
         ant.addVillager(list, true, true, false);
+
+        //testing for item interactions
+        Item item = new Potion("Health", 10);
+        item.setLocation(avatar.getLocation());
+        itemManager.addItem(item);
 
 
         //pull in all pictures for GameState
@@ -116,6 +124,7 @@ public class GameState extends State {
         avatar.update(controller.getXMovement(),controller.getyMovement(), elapsed);
         View.update(controller.getCameraXMovement(), controller.getCameraYMovement(), elapsed);
         ant.checkTile();
+        itemManager.checkTile();
         handleControllerInput();
 
         if(avatar.getTrading()){

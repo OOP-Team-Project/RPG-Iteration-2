@@ -32,4 +32,6 @@ public abstract class TakeableItem extends Item {
     public void setPrice(int priceValue) { this.priceValue = priceValue; }
 
     public int getPrice() { return priceValue; }
+
+    public StatsModifier getStatsModifier() { return sm; }
 }
