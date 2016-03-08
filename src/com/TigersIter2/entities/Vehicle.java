@@ -17,8 +17,6 @@ public class Vehicle extends Entity {
     private boolean canPassMountain;
     private boolean currentlyMoving;
     private StatsModifier sm;
-    private boolean hasEntityRiding;
-    private Entity entityRidingMe;
 
 
     public Vehicle(String name, int movement, boolean water, boolean mountain){

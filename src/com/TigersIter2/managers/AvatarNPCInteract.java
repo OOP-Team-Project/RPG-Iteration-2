@@ -68,8 +68,13 @@ public class AvatarNPCInteract {
                     LocationConverter.PixelLocationToHex(v.getLocation()).getY() == LocationConverter.PixelLocationToHex(avatar.getLocation()).getY()) {
                 if (avatar.getVehicle() == null) {
                     v.setLocation(avatar.getLocation());
+                    avatar.mountOrUnmountVehicle(v);
+                    return;
                 }
-                avatar.mountOrUnmountVehicle(v);
+                else{
+                    avatar.mountOrUnmountVehicle(avatar.getVehicle());
+                    return;
+                }
             }
         }
     }

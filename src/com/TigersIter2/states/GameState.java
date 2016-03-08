@@ -47,7 +47,7 @@ public class GameState extends State {
         footerView = new FooterView();
         map = new TerrainMap();
         avatar = new Avatar();
-        avatar.setOccupation(new Summoner());
+        avatar.setOccupation(new Smasher());
         avatar.getInventory().addItem(new Potion("Health Potion"));
         ant = new AvatarNPCInteract(avatar, footerView);
         vehicleViews = new ArrayList<VehicleView>();
@@ -96,6 +96,7 @@ public class GameState extends State {
                 break;
             case 6:
                 ant.mountVehicle();
+                break;
             case -1:
                 break;
             default:
