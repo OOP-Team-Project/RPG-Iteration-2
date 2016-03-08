@@ -13,6 +13,6 @@ public class OneHandedWeapon extends Weapon {
         setName(n);
         setEquippable(true);
         this.sm = new StatsModifier();
-        sm.setAttackRating(sm.getAttackRating()+damageModifier);
+        sm.setAttack(sm.getAttack()+damageModifier);
     }
 }

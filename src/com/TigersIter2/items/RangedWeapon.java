@@ -16,6 +16,6 @@ public class RangedWeapon extends Weapon {
         setEquippable(true);
         this.sm = new StatsModifier();
         /* adds to the attack rating and decreases the movement */
-        sm.setAttackRating(sm.getAttackRating()+damageModifier);
+        sm.setAttack(sm.getAttack()+damageModifier);
     }
 }

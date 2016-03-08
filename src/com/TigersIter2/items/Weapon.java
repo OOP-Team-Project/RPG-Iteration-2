@@ -15,7 +15,7 @@ public class Weapon extends TakeableItem {
         setName("weapon");
         setEquippable(true); //weapons are equippable
         this.sm = new StatsModifier();
-        sm.setAttackRating(sm.getAttackRating()+damageModifier); //adds the damage value of the weapon to the attack rating
+        sm.setAttack(sm.getAttack()+damageModifier); //adds the damage value of the weapon to the attack rating
     }
 
 
