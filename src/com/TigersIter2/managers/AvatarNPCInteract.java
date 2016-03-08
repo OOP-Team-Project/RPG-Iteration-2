@@ -242,9 +242,6 @@ public class AvatarNPCInteract {
                     playerSelectedInventory.addItem(avatar.getInventory().getItemAtIndex(index));
             }
             else if(footerView.getWhoseSide() == 1){
-                avatar.getInventory().printInventory();
-                npcOnTile.getInventory().printInventory();
-                System.out.println("\n\n");
                 for(TakeableItem item : playerSelectedInventory.getItems()){
                     npcOnTile.getInventory().addItem(item);
                     avatar.getInventory().getItems().remove(item);
@@ -253,8 +250,6 @@ public class AvatarNPCInteract {
                     avatar.getInventory().addItem(item);
                     npcOnTile.getInventory().getItems().remove(item);
                 }
-                avatar.getInventory().printInventory();
-                npcOnTile.getInventory().printInventory();
                 clearSelectedInventories();
                 footerView.resetTrade();
             }

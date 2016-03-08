@@ -191,8 +191,6 @@ public class Controller {
         component.getActionMap().put("SPACE_STOP", SPACE_KEY_STOP);
         component.getActionMap().put("F_GO", F_KEY_GO);
         component.getActionMap().put("F_STOP", F_KEY_STOP);
-
-        System.out.println("Bindings have been set");
     }
 
     public void tradeBindings(){
