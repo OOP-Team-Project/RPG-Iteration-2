@@ -10,12 +10,13 @@ public class StatsModifier {
     private int movement;
     private int life;
     private int armor;
-    private int attackRating;
+    private int attack;
     private int strength;
     private int agility;
     private int intellect;
     private int mana;
     private int barter;
+    private int lightRadius;
 
     /**
      * The stats modifier class initializes stat boosts to 0
@@ -25,12 +26,13 @@ public class StatsModifier {
         movement = 0;
         life = 0;
         armor = 0;
-        attackRating = 0;
+        attack = 0;
         strength = 0;
         agility = 0;
         intellect = 0;
         mana = 0;
         barter = 0;
+        lightRadius = 0;
     }
 
 
@@ -69,12 +71,12 @@ public class StatsModifier {
         this.armor = armorRating;
     }
 
-    public int getAttackRating() {
-        return attackRating;
+    public int getAttack() {
+        return attack;
     }
 
-    public void setAttackRating(int attackRating) {
-        this.attackRating = attackRating;
+    public void setAttack(int attack) {
+        this.attack = attack;
     }
 
     public int getStrength() {
@@ -116,4 +118,13 @@ public class StatsModifier {
     public void setBarter(int barter) {
         this.barter = barter;
     }
+
+    public int getLightRadius() {
+        return lightRadius;
+    }
+
+    public void setLightRadius(int lightRadius) {
+        this.lightRadius = lightRadius;
+    }
+
 }
