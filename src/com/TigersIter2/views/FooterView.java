@@ -105,7 +105,7 @@ public class FooterView extends View implements ActionListener{
             }
             g2d.drawString("Their Stuff", 250 + StaticVar.gameWidth/2, 120);
             if(npcInventory != null){
-                g2d.drawString(npcInventory.getItemAtIndex(0).toString(), 295, 140);
+                g2d.drawString(npcInventory.getItemAtIndex(0).toString(), 295 + StaticVar.gameWidth/2, 140);
             }
             //Need to display all the NPC's items
         }

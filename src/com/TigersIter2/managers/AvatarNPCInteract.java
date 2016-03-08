@@ -1,6 +1,7 @@
 package com.TigersIter2.managers;
 
 import com.TigersIter2.entities.*;
+import com.TigersIter2.items.Weapon;
 import com.TigersIter2.location.LocationConverter;
 import com.TigersIter2.views.FooterView;
 
@@ -152,6 +153,7 @@ public class AvatarNPCInteract {
             if(npcOnTile.willTrade()) {
                 trading = true;
                 footerView.setPlayerInventory(avatar.getInventory());
+                footerView.setNpcInventory(npcOnTile.getInventory());
                 //START TRADING
             }
         }
@@ -177,6 +179,9 @@ public class AvatarNPCInteract {
 
     public void addVillager(List<String> p, boolean talk, boolean trade, boolean attack){
         npcList.add(new Villager(p, talk, trade, attack));
+
+        // This will not actually be here, just for testing
+        npcList.get(0).getInventory().addItem(new Weapon("Sword"));
     }
 
     public void checkTile(){

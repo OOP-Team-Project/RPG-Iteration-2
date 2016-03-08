@@ -45,6 +45,10 @@ public abstract class NPC extends Entity{
         location = l;
     }
 
+    public Inventory getInventory(){
+        return inventory;
+    }
+
     //Should be named updatePosition -Sam
     @Override
     public void update(int xMovement, int yMovement, long elapsed) {
