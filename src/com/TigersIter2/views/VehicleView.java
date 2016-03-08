@@ -9,7 +9,7 @@ import com.TigersIter2.entities.Avatar;
 import com.TigersIter2.entities.Vehicle;
 import com.TigersIter2.location.Location;
 import com.TigersIter2.maps.TerrainMap;
-import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,7 +19,7 @@ import java.awt.event.ActionListener;
 /**
  * Created by slichtenheld on 2/25/2016.
  */
-public class VehicleView extends JComponent implements ActionListener{
+public class VehicleView extends View implements ActionListener{
 
     Avatar aHandle;
     Vehicle vHandle;
@@ -28,8 +28,6 @@ public class VehicleView extends JComponent implements ActionListener{
     Timer animationTimer;
     Location pixelLocation;
     int mapXLength, mapYLength = 0;
-
-    StaticVar.mapMode currentMapMode = StaticVar.mapMode.PLAYER_FOLLOW_MODE;
 
     public VehicleView(){
         setPreferredSize(new Dimension(StaticVar.gameWidth, StaticVar.gameHeight));
@@ -95,7 +93,7 @@ public class VehicleView extends JComponent implements ActionListener{
 
     public void paintComponent(Graphics g){
 
-        switch (currentMapMode) {
+        switch (View.currentMapMode) {
             case PLAYER_FOLLOW_MODE:
 
                 if((float) (aHandle.getLocation().getX())/StaticVar.terrainImageWidth < ((float) StaticVar.xTilesFromEdge)) {
@@ -130,6 +128,40 @@ public class VehicleView extends JComponent implements ActionListener{
                     vHandle.setPixelLocation(new Location(vHandle.getPixelLocation().getX(), vHandle.getLocation().getY() - aHandle.getLocation().getY() + Math.round(StaticVar.yTilesFromEdge*StaticVar.terrainImageHeight) - StaticVar.terrainImageHeight - 20, 0));
                 }
                 break;
+
+            case SCROLL_MODE:
+                if((float) (View.cameraLocation.getX())/StaticVar.terrainImageWidth < ((float) StaticVar.xTilesFromEdge)) {
+                    //tileViews.get(i).get(j).setCurrentXLocation(i);
+                    vHandle.setPixelLocation(new Location(Math.round(vHandle.getLocation().getX()*.75f - 80), vHandle.getPixelLocation().getY(), 0));
+                    //((TileView) getComponent((i * tileViews.get(0).size()) + j)).setCurrentXLocation(i);
+                    //aHandle.setPixelLocation(new Location(Math.round(aHandle.getLocation().getX()*.75f - 80), aHandle.getPixelLocation().getY(), 0));
+
+                }
+                else if((float) (View.cameraLocation.getX())/StaticVar.terrainImageWidth > (mapXLength - StaticVar.xTilesFromEdge + 1)) {
+                    //tileViews.get(i).get(j).setCurrentXLocation(i - tileViews.size() + StaticVar.xTilesFromEdge*2 - 1);
+                    vHandle.setPixelLocation(new Location(Math.round((vHandle.getLocation().getX() - ((mapXLength - StaticVar.xTilesFromEdge*2 + 1) * StaticVar.terrainImageWidth))*.75f - 80), vHandle.getPixelLocation().getY(), 0));
+                    //((TileView) getComponent((i * tileViews.get(0).size()) + j)).setCurrentXLocation(i - tileViews.size() + StaticVar.xTilesFromEdge*2 - 1);
+                    //aHandle.setPixelLocation(new Location(Math.round((aHandle.getLocation().getX() - ((tileViews.size() - StaticVar.xTilesFromEdge*2 + 1) * StaticVar.terrainImageWidth))*.75f - 80), aHandle.getPixelLocation().getY(), 0));
+                }
+                else  {
+                    vHandle.setPixelLocation(new Location(Math.round((vHandle.getLocation().getX() - View.cameraLocation.getX() + StaticVar.xTilesFromEdge*StaticVar.terrainImageWidth)*.75f) - 80, vHandle.getPixelLocation().getY(), 0));
+
+                }
+
+                //Y Stuff Below
+                if((float) (View.cameraLocation.getY())/StaticVar.terrainImageHeight < (float) StaticVar.yTilesFromEdge) {
+                    vHandle.setPixelLocation(new Location(vHandle.getPixelLocation().getX(), Math.round(vHandle.getLocation().getY() - Math.round(StaticVar.terrainImageHeight*1.2f)), 0));
+                }
+                else if((float) (View.cameraLocation.getY())/StaticVar.terrainImageHeight > (mapYLength - StaticVar.yTilesFromEdge)) {
+                    //tileViews.get(i).get(j).setCurrentYLocation(j - tileViews.get(0).size() + StaticVar.yTilesFromEdge*2);
+                    vHandle.setPixelLocation(new Location(vHandle.getPixelLocation().getX(), Math.round((vHandle.getLocation().getY() - ((mapYLength - StaticVar.yTilesFromEdge*2) * StaticVar.terrainImageHeight)) - Math.round(StaticVar.terrainImageHeight*1.2f)), 0));
+                    //((TileView) getComponent((i * tileViews.get(0).size()) + j)).setCurrentYLocation(j - tileViews.get(0).size() + StaticVar.yTilesFromEdge*2);
+                    //aHandle.setPixelLocation(new Location(aHandle.getPixelLocation().getX(), Math.round((aHandle.getLocation().getY() - ((tileViews.get(0).size() - StaticVar.yTilesFromEdge*2) * StaticVar.terrainImageHeight)) - Math.round(StaticVar.terrainImageHeight*1.2f)), 0));
+                }
+                else {
+                    vHandle.setPixelLocation(new Location(vHandle.getPixelLocation().getX(), vHandle.getLocation().getY() - View.cameraLocation.getY() + Math.round(StaticVar.yTilesFromEdge*StaticVar.terrainImageHeight) - StaticVar.terrainImageHeight - 20, 0));
+                }
+
             default:
                 break;
         }

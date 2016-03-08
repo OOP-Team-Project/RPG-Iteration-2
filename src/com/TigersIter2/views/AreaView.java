@@ -9,7 +9,7 @@ import java.awt.*;
 /**
  * Created by slichtenheld on 2/25/2016.
  */
-public class AreaView extends JComponent {
+public class AreaView extends View {
 
     //For now the constructor of area view takes in map and avatar.
     //we may edit this to take a list of components instead

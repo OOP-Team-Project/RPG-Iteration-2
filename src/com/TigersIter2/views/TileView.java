@@ -9,7 +9,7 @@ import java.awt.*;
 /**
  * Created by Miles on 2/28/16.
  */
-public class TileView extends JComponent {
+public class TileView extends View {
 
     //Graphics2D g2d;
     float currentXLocation, currentYLocation;
