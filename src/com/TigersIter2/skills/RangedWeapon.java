@@ -7,11 +7,6 @@ import java.util.Observable;
  */
 public class RangedWeapon extends ActiveSkill {
     @Override
-    public void update(Observable observable, Object obj) {
-
-    }
-
-    @Override
     protected void update() {
 
     }

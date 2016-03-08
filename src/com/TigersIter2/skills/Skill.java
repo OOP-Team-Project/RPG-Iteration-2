@@ -36,5 +36,5 @@ public abstract class Skill {
     /**
      * method to be overridden to update skill when it levels
      */
-    protected abstract void update();
+    protected  void update(){}
 }

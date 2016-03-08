@@ -38,23 +38,24 @@ public class PlayerStats extends Stats {
 
     protected List<StatsModifier> mods;
 
+
     protected Occupation o;
 
-    /**
-     * Constructor currently sets all stats to 0
-     */
-    public PlayerStats() {
-        super();
-        livesLeft = 2;
-        maxLives = 10;
-        experience = 0;
-        level = 0;
-        mana = 0;
-        currentMana = 0;
-        barter = 0;
-        lightRadius = 10;
-        mods = new ArrayList<StatsModifier>();
-    }
+//    /**
+//     * Constructor currently sets all stats to 0
+//     */
+//    public PlayerStats() {
+//        super();
+//        livesLeft = 2;
+//        maxLives = 10;
+//        experience = 0;
+//        level = 0;
+//        mana = 0;
+//        currentMana = 0;
+//        barter = 0;
+//        lightRadius = 10;
+//        mods = new ArrayList<StatsModifier>();
+//    }
 
     /**
      * or be a cool kid and pass me your occupation!
@@ -183,6 +184,10 @@ public class PlayerStats extends Stats {
 
     public void incrementBarter(int barter) { this.barter += barter; }
 
+    public void setOccupation(Occupation o) {
+        this.o = o;
+    }
+
     /**
      * adds a stat modifier and immediately affects the stats
      */
@@ -295,6 +300,11 @@ public class PlayerStats extends Stats {
     public void decreaseLightRadius(int lr) {
         lightRadius -= lr;
     }
+
+    public Occupation getOccupation() {
+        return o;
+    }
+
 
     @Override
     public String toString() {

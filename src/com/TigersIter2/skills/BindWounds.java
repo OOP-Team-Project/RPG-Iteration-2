@@ -33,18 +33,11 @@ public class BindWounds extends ActiveSkill {
         derivedHealed = BASE_HEAL + (skillLevel - 1) * LEVEL_MULTIPLIER;
     }
 
-    private boolean activate() {
+    public boolean activate() {
         if ( skillLevel > 0 && Math.random() < probability ) {
             playerStats.increaseCurrentLife(derivedHealed);
             return true;
         } else return false;
     }
 
-    /**
-     * gets called when observable object notifies this object
-     * */
-    @Override
-    public void update(Observable observable, Object obj) {
-        activate();
-    }
 }

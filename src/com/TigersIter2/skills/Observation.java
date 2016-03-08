@@ -25,18 +25,12 @@ public class Observation extends ActiveSkill {
     }
 
 
-    private boolean activate() {
+    public boolean activate() {
         if ( Math.random() < probability ) {
+            //tell entity
             //TODO:implement revealing enemy stats...also depends on distance. wtf.
             return true;
         } else return false;
     }
 
-    /**
-     * gets called when observable object notifies this object
-     * */
-    @Override
-    public void update(Observable observable, Object obj) {
-        activate();
-    }
 }

@@ -1,6 +1,7 @@
 package com.TigersIter2.skills;
 
 import com.TigersIter2.stats.PlayerStats;
+import com.TigersIter2.stats.Stats;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,25 +12,28 @@ import java.util.Set;
 public class SkillTree {
 
     private int abilityPoints;
+
     //skill tree is made up of passive, general, and occupation skills
     private Set<Skill> skills;
+    private PlayerStats playerStats;
 
     /**
      * makes a skill tree depending on the entity type by first building
      * general skills and then occupation specific
      */
-    public SkillTree(String occupation) {
-
+    public SkillTree(PlayerStats playerStats) {
+        String o = playerStats.getOccupation().toString();
+        this.playerStats = playerStats;
         abilityPoints = 0;
 
         skills = new HashSet<Skill>();
 
         buildGeneralSkills();
-        if ( occupation.equalsIgnoreCase("Smasher") )
+        if (o.equalsIgnoreCase("Smasher") )
             buildSmasherSkills();
-        else if ( occupation.equalsIgnoreCase("Summoner") )
+        else if ( o.equalsIgnoreCase("Summoner") )
             buildSummonerSkills();
-        else if ( occupation.equalsIgnoreCase("Sneak") )
+        else if ( o.equalsIgnoreCase("Sneak") )
             buildSneakSkills();
         else
             System.out.println( "error" ); //will throw exception instead or something - rokas
@@ -39,8 +43,8 @@ public class SkillTree {
      * builds general skills
      */
     private void buildGeneralSkills() {
-        skills.add(new Bargain(new PlayerStats()));
-        skills.add(new BindWounds(new PlayerStats()));
+        skills.add(new Bargain(playerStats));
+        skills.add(new BindWounds(playerStats));
         skills.add(new Observation());
     }
 
@@ -48,21 +52,29 @@ public class SkillTree {
      * builds smasher skills
      */
     private void buildSmasherSkills() {
-
+        skills.add(new OneHandedWeapon(playerStats));
+        skills.add(new TwoHandedWeapon(playerStats));
+        skills.add(new Brawling(playerStats));
     }
 
     /**
      * builds summoner skills
      */
     private void buildSummonerSkills() {
-
+        skills.add(new Enchantment());
+        skills.add(new Boon(playerStats));
+        skills.add(new Bane(playerStats));
+        skills.add(new Staff(playerStats));
     }
 
     /**
      * builds sneak skills
      */
     private void buildSneakSkills() {
-
+        skills.add(new PickPocket());
+        skills.add(new DetectRemoveTrap());
+        skills.add(new Creep());
+        skills.add(new RangedWeapon());
     }
 
     /**
@@ -94,4 +106,8 @@ public class SkillTree {
     }
 
     public void setAbilityPoints( int ap ) { abilityPoints = ap; }
+
+    public Set<Skill> getSkills() {
+        return skills;
+    }
 }
