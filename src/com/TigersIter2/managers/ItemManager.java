@@ -6,6 +6,7 @@ import com.TigersIter2.items.*;
 import com.TigersIter2.location.LocationConverter;
 import com.TigersIter2.stats.PlayerStats;
 import com.TigersIter2.stats.StatsModifier;
+import com.TigersIter2.entities.Inventory;
 
 /**
  * Created by Breanna on 3/7/16.
@@ -14,11 +15,13 @@ import com.TigersIter2.stats.StatsModifier;
  */
 public class ItemManager {
     private Avatar avatar;
+    private Inventory avatarInventory;
     private PlayerStats playerStats;
     private List<Item> itemList;
 
     public ItemManager(Avatar avatar) {
         this.avatar = avatar;
+        avatarInventory = avatar.getInventory();
         playerStats = avatar.getPlayerStats();
         itemList = new ArrayList<Item>();
     }
@@ -34,7 +37,7 @@ public class ItemManager {
             if(LocationConverter.PixelLocationToHex(item.getLocation()).getX() == LocationConverter.PixelLocationToHex(avatar.getLocation()).getX() &&
                     LocationConverter.PixelLocationToHex(item.getLocation()).getY() == LocationConverter.PixelLocationToHex(avatar.getLocation()).getY()) {
                 if (item instanceof TakeableItem) {
-                    avatar.getInventory().addItem((TakeableItem) item); //this could be violating TDA... :(
+                    avatarInventory.addItem((TakeableItem) item); 
                     // System.out.println("Location of Item: " + item.getLocation().toString());
                 }
             }
