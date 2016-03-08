@@ -41,9 +41,9 @@ public class IntroState extends State {
     }
 
     @Override
-    public void update() {
+    public void update(long elapsed) {
         counterBuffer++;
-        System.out.println("IntroState counter: " + counterBuffer);
+        //System.out.println("IntroState counter: " + counterBuffer);
 
         if ((controller.getKeyPressed()== KeyEvent.VK_ENTER || controller.getKeyPressed()==KeyEvent.VK_SPACE)&& counterBuffer>=30) {
             stateManager.setState(StateManager.MAINMENU);

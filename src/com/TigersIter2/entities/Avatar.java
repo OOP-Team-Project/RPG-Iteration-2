@@ -6,6 +6,7 @@ import com.TigersIter2.location.Location;
 import com.TigersIter2.stats.PlayerStats;
 import com.TigersIter2.stats.Stats;
 import com.TigersIter2.stats.StatsModifier;
+import com.sun.org.apache.bcel.internal.generic.INEG;
 
 
 public class Avatar extends Entity{
@@ -26,11 +27,12 @@ public class Avatar extends Entity{
 
     private boolean currentlyMoving = false;
     private boolean onTileWithNPC;
+    private boolean trading;
 
 
     public Avatar(){
         //changed this to actually instantiate location. Not sure what Z is for atm. <-- Z is for hextile stuff in the future (Sam)
-        location = new Location(20 * StaticVar.terrainImageWidth,20 * StaticVar.terrainImageHeight,0);
+        location = new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight,0);
         pixelLocation = new Location(Math.round(StaticVar.xTilesFromEdge*StaticVar.terrainImageWidth*.75f - 80), Math.round(StaticVar.yTilesFromEdge*StaticVar.terrainImageHeight - Math.round(StaticVar.terrainImageHeight*1.2f)), 0);
         direction = 270;
         canPassMountain = false; //if anything this should be under skills (Sam)
@@ -38,6 +40,7 @@ public class Avatar extends Entity{
         inventory = new Inventory();
         equipment = new Equipment();
         money = 0;
+        trading = false;
     }
 
     //What is this supposed to do? -Sam
@@ -47,22 +50,24 @@ public class Avatar extends Entity{
 
     //Should be named updatePosition -Sam
     @Override
-    public void update(int xMovement, int yMovement, int zMovement) {
+    public void update(int xMovement, int yMovement, long elapsed) {
         if(xMovement == 0 && yMovement == 0){
             currentlyMoving = false;
         }
         else{
-            location.incrementX(xMovement * stats.getMovement());   //Made it 3 times faster because IT WAS SO SLOOOOOW (Miles)
-            location.incrementY(yMovement * stats.getMovement());
+            location.incrementX(Math.round(xMovement * elapsed * StaticVar.entitySpeed * stats.getMovement()));   //Made it invariant of framerate
+            location.incrementY(Math.round(yMovement * elapsed * StaticVar.entitySpeed * stats.getMovement()));
             changeDirection(xMovement, yMovement);
             currentlyMoving = true;
         }
 
         if(vehicle != null){
-            vehicle.update(xMovement * stats.getMovement(), yMovement * stats.getMovement(), zMovement);
+            vehicle.update(xMovement * stats.getMovement(), yMovement * stats.getMovement(), elapsed);
         }
-        //System.out.println(direction);
-        //System.out.println(xMovement + ", " + yMovement);
+    }
+
+    public Inventory getInventory(){
+        return inventory;
     }
 
     public void equipItemAtIndex(int i){
@@ -85,14 +90,19 @@ public class Avatar extends Entity{
         //Do something here to put item on the current tile
     }
 
-    public void setVehicle(Vehicle v){
-        vehicle = v;
-        canPassWater = v.getCanPassWater();
-        canPassMountain = v.getCanPassMountain();
-
-        StatsModifier sm = new StatsModifier();
-        sm.setMovement(v.getMovementBonus());
-        stats.addStatModifier(sm);
+    public void mountOrUnmountVehicle(Vehicle v){
+        if(vehicle == null) {
+            vehicle = v;
+            canPassWater = v.getCanPassWater();
+            canPassMountain = v.getCanPassMountain();
+            stats.addStatModifier(v.getStatsModifier());
+        }
+        else{
+            vehicle = null;
+            canPassMountain = false;
+            canPassWater = false;
+            stats.removeStatModifier(v.getStatsModifier());
+        }
     }
 
     public Vehicle getVehicle(){
@@ -185,10 +195,18 @@ public class Avatar extends Entity{
         return onTileWithNPC;
     }
 
+    public void setTrading(boolean t){
+        trading = t;
+    }
+
+    public boolean getTrading(){
+        return trading;
+    }
+
     public void takeDamage(int attackStrength){
         //calculate some sort of damage
         int damageTaken = attackStrength;
-        stats.decreaseCurrentHealth(damageTaken);
+        stats.decreaseCurrentLife(damageTaken);
         System.out.println("Taking damage");
     }
 

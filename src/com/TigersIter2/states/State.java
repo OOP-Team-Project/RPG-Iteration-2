@@ -24,7 +24,8 @@ public abstract class State extends JComponent{
     public abstract void init();
 
     //update of State should call the updates of everything state is responsible for
-    public abstract void update();
+    //public abstract void update();
+    public abstract void update(long elapsed);
 
     //takes in input for specific state
     public abstract void handleInput();

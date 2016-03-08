@@ -35,7 +35,7 @@ public class MainMenuState extends State {
     }
 
     @Override
-    public void update() {
+    public void update(long elapsed) {
         counterBuffer++;
 
         if (controller.getKeyPressed()== KeyEvent.VK_LEFT) newLoad = newGame;

@@ -15,7 +15,7 @@ import java.awt.event.ActionListener;
 /**
  * Created by slichtenheld on 2/25/2016.
  */
-public class AvatarView extends JComponent implements ActionListener{
+public class AvatarView extends View implements ActionListener{
 
     Avatar aHandle;
     int animationDelay = 100;
@@ -160,6 +160,7 @@ public class AvatarView extends JComponent implements ActionListener{
     }
 
     public void paintComponent(Graphics g){
+
         //TEST CODE, BUT FOLLOW THIS FORMAT FOR OVERRIDING PAINTCOMPONENT
         //System.out.println("Inside AvatarView");
         Graphics2D g2d = (Graphics2D)g.create();
@@ -178,6 +179,7 @@ public class AvatarView extends JComponent implements ActionListener{
         //System.out.println("X Location: " + aHandle.getPixelLocation().getX());
         //System.out.println("Y Location: " + aHandle.getPixelLocation().getY());
         g2d.dispose();
+
     }
 
 }

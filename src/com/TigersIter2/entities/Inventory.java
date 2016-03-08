@@ -43,6 +43,10 @@ public class Inventory {
             System.out.println("The inventory is empty!");
     }
 
+    public List<TakeableItem> getItems(){
+        return items;
+    }
+
     public boolean isEmpty(){
         return items.isEmpty();
     }
