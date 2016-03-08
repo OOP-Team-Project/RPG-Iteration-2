@@ -1,6 +1,7 @@
 package com.TigersIter2.managers;
 
 import com.TigersIter2.entities.*;
+import com.TigersIter2.items.TakeableItem;
 import com.TigersIter2.items.Weapon;
 import com.TigersIter2.location.LocationConverter;
 import com.TigersIter2.views.FooterView;
@@ -17,6 +18,10 @@ public class AvatarNPCInteract {
     private List<String> originalOptions;
     private FooterView footerView;
     private boolean talking, fighting, usingSkill, usingItem, pressContinue, trading;
+    private Inventory playerSelectedInventory;
+    private Inventory npcSelectedInventory;
+    private int playerInventoryTracker;
+    private int npcInventoryTracker;
 
     public AvatarNPCInteract(Avatar a, FooterView fv){
         avatar = a;
@@ -32,6 +37,10 @@ public class AvatarNPCInteract {
         pressContinue = false;
         questions = new ArrayList<String>();
         originalOptions = new ArrayList<String>();
+        playerSelectedInventory = new Inventory();
+        npcSelectedInventory = new Inventory();
+        playerInventoryTracker = 0;
+        npcInventoryTracker = 0;
         fillQuestions();
         fillOriginalOptions();
     }
@@ -152,6 +161,7 @@ public class AvatarNPCInteract {
             response.add(npcOnTile.getResponse(4));
             if(npcOnTile.willTrade()) {
                 trading = true;
+                avatar.setTrading(trading);
                 footerView.setPlayerInventory(avatar.getInventory());
                 footerView.setNpcInventory(npcOnTile.getInventory());
                 //START TRADING
@@ -189,7 +199,6 @@ public class AvatarNPCInteract {
             if(LocationConverter.PixelLocationToHex(n.getLocation()).getX() == LocationConverter.PixelLocationToHex(avatar.getLocation()).getX() &&
                LocationConverter.PixelLocationToHex(n.getLocation()).getY() == LocationConverter.PixelLocationToHex(avatar.getLocation()).getY())
             {
-                // Needs to pop up with some options
                 if(!avatar.getOnTileWithNPC()) {
                     avatar.setOnTileWithNPC(true);
                     npcOnTile = n;
@@ -211,6 +220,64 @@ public class AvatarNPCInteract {
         }
     }
 
+    public void navigateTradeMenu(int input){
+        if(input == 0){
+            footerView.decrementHighlighted();
+        }
+        else if(input == 1){
+            footerView.incrementHighlighted();
+        }
+        else if(input == 2){
+            footerView.decrementWhoseSide();
+        }
+        else if(input == 3){
+            footerView.incrementWhoseSide();
+        }
+        else if(input == 4){
+            int index = footerView.selectItem();
+            if(footerView.getWhoseSide() == 0){
+                if(playerSelectedInventory.getItems().contains(avatar.getInventory().getItemAtIndex(index)))
+                playerSelectedInventory.getItems().remove(avatar.getInventory().getItemAtIndex(index));
+                else
+                    playerSelectedInventory.addItem(avatar.getInventory().getItemAtIndex(index));
+            }
+            else if(footerView.getWhoseSide() == 1){
+                avatar.getInventory().printInventory();
+                npcOnTile.getInventory().printInventory();
+                System.out.println("\n\n");
+                for(TakeableItem item : playerSelectedInventory.getItems()){
+                    npcOnTile.getInventory().addItem(item);
+                    avatar.getInventory().getItems().remove(item);
+                }
+                for(TakeableItem item : npcSelectedInventory.getItems()){
+                    avatar.getInventory().addItem(item);
+                    npcOnTile.getInventory().getItems().remove(item);
+                }
+                avatar.getInventory().printInventory();
+                npcOnTile.getInventory().printInventory();
+                clearSelectedInventories();
+                footerView.resetTrade();
+            }
+            else if(footerView.getWhoseSide() == 2){
+                if(npcSelectedInventory.getItems().contains(npcOnTile.getInventory().getItemAtIndex(index)))
+                    npcSelectedInventory.getItems().remove(npcOnTile.getInventory().getItemAtIndex(index));
+                else
+                    npcSelectedInventory.addItem(npcOnTile.getInventory().getItemAtIndex(index));
+            }
+        }
+        else if(input == 5){
+            trading = false;
+            avatar.setTrading(trading);
+            clearSelectedInventories();
+            footerView.resetTrade();
+        }
+    }
+
+    private void clearSelectedInventories(){
+        npcSelectedInventory.clearInventory();
+        playerSelectedInventory.clearInventory();
+    }
+
     private void resetOptions(){
         avatar.setOnTileWithNPC(false);
         npcOnTile = null;
@@ -222,5 +289,6 @@ public class AvatarNPCInteract {
         trading = false;
         pressContinue = false;
         footerView.setTradingView(trading);
+        avatar.setTrading(trading);
     }
 }

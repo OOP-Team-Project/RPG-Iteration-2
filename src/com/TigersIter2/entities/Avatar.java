@@ -27,6 +27,7 @@ public class Avatar extends Entity{
 
     private boolean currentlyMoving = false;
     private boolean onTileWithNPC;
+    private boolean trading;
 
 
     public Avatar(){
@@ -39,6 +40,7 @@ public class Avatar extends Entity{
         inventory = new Inventory();
         equipment = new Equipment();
         money = 0;
+        trading = false;
     }
 
     //What is this supposed to do? -Sam
@@ -49,21 +51,22 @@ public class Avatar extends Entity{
     //Should be named updatePosition -Sam
     @Override
     public void update(int xMovement, int yMovement, long elapsed) {
-        if(xMovement == 0 && yMovement == 0){
-            currentlyMoving = false;
-        }
-        else{
-            location.incrementX(Math.round(xMovement * elapsed * StaticVar.entitySpeed * stats.getMovement()));   //Made it invariant of framerate
-            location.incrementY(Math.round(yMovement * elapsed * StaticVar.entitySpeed * stats.getMovement()));
-            changeDirection(xMovement, yMovement);
-            currentlyMoving = true;
-        }
+        if(trading){
 
-        if(vehicle != null){
-            vehicle.update(xMovement * stats.getMovement(), yMovement * stats.getMovement(), elapsed);
         }
-        //System.out.println(direction);
-        //System.out.println(xMovement + ", " + yMovement);
+        else {
+            if (xMovement == 0 && yMovement == 0) {
+                currentlyMoving = false;
+            } else {
+                location.incrementX(Math.round(xMovement * elapsed * StaticVar.entitySpeed * stats.getMovement()));   //Made it invariant of framerate
+                location.incrementY(Math.round(yMovement * elapsed * StaticVar.entitySpeed * stats.getMovement()));
+                changeDirection(xMovement, yMovement);
+                currentlyMoving = true;
+            }
+            if (vehicle != null) {
+                vehicle.update(xMovement * stats.getMovement(), yMovement * stats.getMovement(), elapsed);
+            }
+        }
     }
 
     public Inventory getInventory(){
@@ -193,6 +196,14 @@ public class Avatar extends Entity{
 
     public boolean getOnTileWithNPC(){
         return onTileWithNPC;
+    }
+
+    public void setTrading(boolean t){
+        trading = t;
+    }
+
+    public boolean getTrading(){
+        return trading;
     }
 
     public void takeDamage(int attackStrength){

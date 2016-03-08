@@ -8,11 +8,19 @@ import java.awt.event.KeyEvent;
 
 public class Controller {
 
+    private final int TRADE_MENU_UP = 0;
+    private final int TRADE_MENU_DOWN = 1;
+    private final int TRADE_MENU_LEFT = 2;
+    private final int TRADE_MENU_RIGHT = 3;
+    private final int TRADE_MENU_SELECT = 4;
+    private final int TRADE_MENU_EXIT = 5;
+
     private JComponent component;
     private int xMovement, yMovement;
     private int cameraXMovement, cameraYMovement;
     private boolean movingUp, movingDown, movingUpLeft, movingUpRight, movingDownLeft, movingDownRight;
     private int optionSelected;
+    private int tradeMenuInput;
 
     //temporary? --all temporary stuff added by Sam for MainMenu
     private int keyPressed;
@@ -27,6 +35,7 @@ public class Controller {
         movingDownLeft = false;
         movingDownRight = false;
         optionSelected = -1;
+        tradeMenuInput = -1;
     }
 
     public int getXMovement(){
@@ -67,6 +76,12 @@ public class Controller {
 
     public void setKeyPressed(int i){
         keyPressed = i;
+    }
+
+    public int getTradeMenuInput(){
+        int ret = tradeMenuInput;
+        tradeMenuInput = -1;
+        return ret;
     }
 
     public void setBindings(){
@@ -179,6 +194,66 @@ public class Controller {
 
         System.out.println("Bindings have been set");
     }
+
+    public void tradeBindings(){
+        if(component.getActionMap().get("UP_GO") != MENU_UP) {
+            System.out.println("Trade bindings");
+            component.getActionMap().remove("UP_GO");
+            component.getActionMap().remove("DOWN_GO");
+            component.getActionMap().remove("LEFT_GO");
+            component.getActionMap().remove("RIGHT_GO");
+            component.getActionMap().remove("ENTER_GO");
+            component.getActionMap().remove("BACKSPACE_GO");
+            component.getActionMap().put("UP_GO", MENU_UP);
+            component.getActionMap().put("DOWN_GO", MENU_DOWN);
+            component.getActionMap().put("UP_LEFT_GO", MENU_LEFT);
+            component.getActionMap().put("UP_RIGHT_GO", MENU_RIGHT);
+            component.getActionMap().put("ENTER_GO", MENU_SELECT);
+            component.getActionMap().put("BACKSPACE_GO", MENU_SELECT);
+        }
+    }
+
+    Action MENU_UP = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            tradeMenuInput = TRADE_MENU_UP;
+        }
+    };
+
+    Action MENU_DOWN = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            tradeMenuInput = TRADE_MENU_DOWN;
+        }
+    };
+
+    Action MENU_LEFT = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            tradeMenuInput = TRADE_MENU_LEFT;
+        }
+    };
+
+    Action MENU_RIGHT = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            tradeMenuInput = TRADE_MENU_RIGHT;
+        }
+    };
+
+    Action MENU_SELECT = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            tradeMenuInput = TRADE_MENU_SELECT;
+        }
+    };
+
+    Action MENU_EXIT = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            tradeMenuInput = TRADE_MENU_EXIT;
+        }
+    };
 
     Action UP_GO = new AbstractAction() {
         @Override

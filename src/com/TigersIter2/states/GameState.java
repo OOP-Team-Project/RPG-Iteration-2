@@ -1,5 +1,6 @@
 package com.TigersIter2.states;
 
+import com.TigersIter2.items.Weapon;
 import com.TigersIter2.managers.StateManager;
 import com.TigersIter2.assets.sprites.*;
 import com.TigersIter2.entities.*;
@@ -47,8 +48,10 @@ public class GameState extends State {
         footerView = new FooterView();
         map = new TerrainMap();
         avatar = new Avatar();
-        avatar.setOccupation(new Smasher());
+        avatar.setOccupation(new Sneak());
         avatar.getInventory().addItem(new Potion("Health Potion"));
+        avatar.getInventory().addItem(new Potion("Strength Potion"));
+        avatar.getInventory().addItem(new Weapon("Battle Axe"));
         ant = new AvatarNPCInteract(avatar, footerView);
         vehicleViews = new ArrayList<VehicleView>();
 
@@ -113,6 +116,11 @@ public class GameState extends State {
         View.update(controller.getCameraXMovement(), controller.getCameraYMovement(), elapsed);
         ant.checkTile();
         handleControllerInput();
+
+        if(avatar.getTrading()){
+            controller.tradeBindings();
+            ant.navigateTradeMenu(controller.getTradeMenuInput());
+        }
 
         if (controller.getKeyPressed() == KeyEvent.VK_SPACE) {
             stateManager.setState(StateManager.INTRO);
