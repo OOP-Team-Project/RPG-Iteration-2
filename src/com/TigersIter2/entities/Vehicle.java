@@ -2,6 +2,7 @@ package com.TigersIter2.entities;
 
 import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.location.Location;
+import com.TigersIter2.stats.StatsModifier;
 
 /**
  * Created by Josh on 2/27/2016.
@@ -15,19 +16,30 @@ public class Vehicle extends Entity {
     private boolean canPassWater;
     private boolean canPassMountain;
     private boolean currentlyMoving;
-    private boolean hasEntityRiding;
-    private Entity entityRidingMe;
+    private StatsModifier sm;
 
 
     public Vehicle(String name, int movement, boolean water, boolean mountain){
         this.name = name;
-        location = new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight,0);
+
+
+        //Position will be configurable later. This is just a hacky way to make them start in different places for testing
+        if(water)
+            location = new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight,0);
+        else
+            location = new Location(10 * StaticVar.terrainImageWidth + 400,10 * StaticVar.terrainImageHeight,0);
         pixelLocation = location;
         this.movementBonus = movement;
         this.canPassWater = water;
         this.canPassMountain = mountain;
-        this.direction = 270;
+        this.direction = 135;
         this.currentlyMoving = false;
+        sm = new StatsModifier();
+        sm.setMovement(movementBonus);
+    }
+
+    public StatsModifier getStatsModifier(){
+        return sm;
     }
 
     public boolean getCanPassWater(){
@@ -81,6 +93,12 @@ public class Vehicle extends Entity {
 
     public Location getLocation() {
         return location;
+    }
+
+    public void setLocation(Location l){
+        //location = l;
+        location.setX(l.getX());
+        location.setY(l.getY());
     }
 
     @Override
