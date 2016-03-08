@@ -1,8 +1,10 @@
 package com.TigersIter2.views;
 
 import com.TigersIter2.assets.StaticVar;
+import com.TigersIter2.entities.Equipment;
 import com.TigersIter2.entities.Inventory;
 import com.TigersIter2.items.TakeableItem;
+import com.TigersIter2.stats.PlayerStats;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,13 +16,15 @@ import java.util.List;
 public class StatusView extends View implements ActionListener{
 
     private final int VIEW_X_START = 75;
-    private final int VIEW_Y_START = 100;
+    private final int VIEW_Y_START = 130;
 
     int currentAnimationFrame = 0;
     private boolean display;
     private int type;
     private List<String> menuOptions;
     private Inventory playerInventory;
+    private PlayerStats stats;
+    private Equipment equipment;
     private boolean trading;
     private int whoseSide;
     private int highlighted;
@@ -28,7 +32,7 @@ public class StatusView extends View implements ActionListener{
     private int totalHeight;
     private List<TakeableItem> playerSelectedItems;
 
-    public StatusView(Inventory inv){
+    public StatusView(Inventory inv, PlayerStats ps, Equipment equip){
         setPreferredSize(new Dimension(StaticVar.gameWidth - 400, 200));
         display = false;
         menuOptions = new ArrayList<String>();
@@ -37,6 +41,8 @@ public class StatusView extends View implements ActionListener{
         whoseSide = 0;
         highlighted = 0;
         playerInventory = inv;
+        stats = ps;
+        equipment = equip;
         playerSelectedItems = new ArrayList<TakeableItem>();
         totalWidth = StaticVar.gameWidth - 150;
         totalHeight = StaticVar.gameHeight - 200;
@@ -137,17 +143,30 @@ public class StatusView extends View implements ActionListener{
 
 
     public void paintComponent(Graphics g){
-        if(display) {
-            Graphics2D g2d = (Graphics2D) g.create();
-            //gotta use that AA
-            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                    RenderingHints.VALUE_ANTIALIAS_ON);
+        Graphics2D g2d = (Graphics2D) g.create();
+        //gotta use that AA
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
 
+
+        //Draw stats bar
+        g2d.setColor(Color.black);
+        g2d.fillRect(0, 0, StaticVar.gameWidth, 50);
+        g2d.setColor(Color.white);
+        g2d.setFont(new Font("TimesRoman", Font.BOLD, 18));
+        g2d.drawString("      Health    Mana    Experience    Lives    Offense    Defense    Armor    Strength    " +
+                "Agility    Intellect    Hardiness    Speed", 10, 22);
+        g2d.drawLine(0, 25, StaticVar.gameWidth, 25);
+        g2d.setFont(new Font("TimesRoman", Font.PLAIN, 18));
+        g2d.drawString(Integer.toString(stats.getCurrentLife()) + "/" + Integer.toString(stats.getLife()), 45, 45);
+
+
+        if(display) {
             g2d.setColor(new Color(0.3f, 0.3f, 0.3f));
-            g2d.fillRect(300, 10, StaticVar.gameWidth - 600, 80);
+            g2d.fillRect(300, 40, StaticVar.gameWidth - 600, 80);
             g2d.setColor(Color.black);
             g2d.setFont(new Font("TimesRoman", Font.BOLD, 60));
-            g2d.drawString("S T A T U S", 460, 70);
+            g2d.drawString("S T A T U S", 460, 100);
 
             g2d.fillRect(VIEW_X_START - 2, VIEW_Y_START - 2, totalWidth + 4, totalHeight + 4);
             g2d.setColor(new Color(0.7607843f, 0.98039216f, 0.79607844f));
@@ -158,12 +177,15 @@ public class StatusView extends View implements ActionListener{
             g2d.drawLine(VIEW_X_START+totalWidth/3, VIEW_Y_START, VIEW_X_START+totalWidth/3, VIEW_Y_START+totalHeight);
             g2d.drawLine(VIEW_X_START+totalWidth/3, VIEW_Y_START+totalHeight/2,
                     VIEW_X_START+totalWidth, VIEW_Y_START+totalHeight/2);
+
+
+
             //Draw the inventory
             g2d.setColor(Color.black);
             g2d.setFont(new Font("TimesRoman", Font.BOLD, 40));
             g2d.drawString("Inventory", VIEW_X_START+80, VIEW_Y_START+35);
             int playerIter = 0;
-            int height = 170;
+            int height = 200;
             g2d.setFont(new Font("TimesRoman", Font.BOLD, 20));
             for (TakeableItem item : playerInventory.getItems()) {
                 g2d.setColor(Color.black);
@@ -181,15 +203,15 @@ public class StatusView extends View implements ActionListener{
             g2d.setFont(new Font("TimesRoman", Font.BOLD, 40));
             g2d.drawString("Equipment", VIEW_X_START+80+totalWidth/2, VIEW_Y_START+35);
             playerIter = 0;
-            height = 170;
+            height = 200;
             g2d.setFont(new Font("TimesRoman", Font.BOLD, 20));
 
-            //Draw Stats
+            //Draw Skills
             g2d.setColor(Color.black);
             g2d.setFont(new Font("TimesRoman", Font.BOLD, 40));
-            g2d.drawString("Stats", VIEW_X_START+140+totalWidth/2, VIEW_Y_START+35+totalHeight/2);
+            g2d.drawString("Skills", VIEW_X_START+140+totalWidth/2, VIEW_Y_START+35+totalHeight/2);
             playerIter = 0;
-            height = 170;
+            height = 200;
             g2d.setFont(new Font("TimesRoman", Font.BOLD, 20));
 
             g2d.dispose();

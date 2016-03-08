@@ -79,7 +79,7 @@ public class GameState extends State {
         VehicleSprite.init();
 
         avatarView = new AvatarView(avatar);
-        statusView = new StatusView(avatar.getInventory());
+        statusView = new StatusView(avatar.getInventory(), avatar.getStats(), avatar.getEquipment());
         for(Vehicle vv : ant.getVehicleList()) {
             vehicleViews.add(new VehicleView(vv, avatar, map));
         }
