@@ -13,6 +13,9 @@ import java.util.List;
 
 public class StatusView extends View implements ActionListener{
 
+    private final int VIEW_X_START = 75;
+    private final int VIEW_Y_START = 100;
+
     int currentAnimationFrame = 0;
     private boolean display;
     private int type;
@@ -21,6 +24,8 @@ public class StatusView extends View implements ActionListener{
     private boolean trading;
     private int whoseSide;
     private int highlighted;
+    private int totalWidth;
+    private int totalHeight;
     private List<TakeableItem> playerSelectedItems;
 
     public StatusView(Inventory inv){
@@ -33,8 +38,30 @@ public class StatusView extends View implements ActionListener{
         highlighted = 0;
         playerInventory = inv;
         playerSelectedItems = new ArrayList<TakeableItem>();
+        totalWidth = StaticVar.gameWidth - 150;
+        totalHeight = StaticVar.gameHeight - 200;
     }
 
+    public void handleInput(int input){
+        if(input == 0){
+            decrementHighlighted();
+        }
+        else if(input == 1){
+            incrementHighlighted();
+        }
+        else if(input == 2){
+            decrementWhoseSide();
+        }
+        else if(input == 3){
+            incrementWhoseSide();
+        }
+        else if(input == 4){
+            //select
+        }
+        else if(input == 5){
+            resetView();
+        }
+    }
 
     public void toggle(){
         display = !display;
@@ -67,7 +94,7 @@ public class StatusView extends View implements ActionListener{
     }
 
     public void incrementWhoseSide(){
-        if(whoseSide < 2) {
+        if(whoseSide < 1) {
             ++whoseSide;
             highlighted = 0;
         }
@@ -84,7 +111,7 @@ public class StatusView extends View implements ActionListener{
         return whoseSide;
     }
 
-    public void resetTrade(){
+    public void resetView(){
         whoseSide = 0;
         highlighted = 0;
         playerSelectedItems.clear();
@@ -115,29 +142,29 @@ public class StatusView extends View implements ActionListener{
             //gotta use that AA
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                     RenderingHints.VALUE_ANTIALIAS_ON);
+
             g2d.setColor(new Color(0.3f, 0.3f, 0.3f));
             g2d.fillRect(300, 10, StaticVar.gameWidth - 600, 80);
             g2d.setColor(Color.black);
             g2d.setFont(new Font("TimesRoman", Font.BOLD, 60));
-            g2d.drawString("T R A D I N G", 450, 70);
+            g2d.drawString("S T A T U S", 460, 70);
 
+            g2d.fillRect(VIEW_X_START - 2, VIEW_Y_START - 2, totalWidth + 4, totalHeight + 4);
             g2d.setColor(new Color(0.7607843f, 0.98039216f, 0.79607844f));
-            g2d.fillRect(75, 100, StaticVar.gameWidth - 150, StaticVar.gameHeight - 200);
+            g2d.fillRect(VIEW_X_START, VIEW_Y_START, totalWidth, totalHeight);
 
-            g2d.setColor(Color.gray);
-            if (whoseSide == 1) {
-                g2d.setColor(Color.red);
-            }
-            g2d.fillRect(StaticVar.gameWidth / 2 - 80, StaticVar.gameHeight / 2 - 30, 160, 50);
+            g2d.setStroke(new BasicStroke(4));
             g2d.setColor(Color.black);
-            g2d.setFont(new Font("TimesRoman", Font.BOLD, 20));
-            g2d.drawString("Submit Trade", StaticVar.gameWidth / 2 - 65, StaticVar.gameHeight / 2);
-
-
-            g2d.setFont(new Font("TimesRoman", Font.BOLD, 20));
-            g2d.drawString("Your Stuff", 275, 120);
+            g2d.drawLine(VIEW_X_START+totalWidth/3, VIEW_Y_START, VIEW_X_START+totalWidth/3, VIEW_Y_START+totalHeight);
+            g2d.drawLine(VIEW_X_START+totalWidth/3, VIEW_Y_START+totalHeight/2,
+                    VIEW_X_START+totalWidth, VIEW_Y_START+totalHeight/2);
+            //Draw the inventory
+            g2d.setColor(Color.black);
+            g2d.setFont(new Font("TimesRoman", Font.BOLD, 40));
+            g2d.drawString("Inventory", VIEW_X_START+80, VIEW_Y_START+35);
             int playerIter = 0;
-            int height = 140;
+            int height = 170;
+            g2d.setFont(new Font("TimesRoman", Font.BOLD, 20));
             for (TakeableItem item : playerInventory.getItems()) {
                 g2d.setColor(Color.black);
                 if (playerIter == highlighted && whoseSide == 0)
@@ -148,6 +175,22 @@ public class StatusView extends View implements ActionListener{
                 height += 20;
                 ++playerIter;
             }
+
+            //Draw Equipment
+            g2d.setColor(Color.black);
+            g2d.setFont(new Font("TimesRoman", Font.BOLD, 40));
+            g2d.drawString("Equipment", VIEW_X_START+80+totalWidth/2, VIEW_Y_START+35);
+            playerIter = 0;
+            height = 170;
+            g2d.setFont(new Font("TimesRoman", Font.BOLD, 20));
+
+            //Draw Stats
+            g2d.setColor(Color.black);
+            g2d.setFont(new Font("TimesRoman", Font.BOLD, 40));
+            g2d.drawString("Stats", VIEW_X_START+140+totalWidth/2, VIEW_Y_START+35+totalHeight/2);
+            playerIter = 0;
+            height = 170;
+            g2d.setFont(new Font("TimesRoman", Font.BOLD, 20));
 
             g2d.dispose();
         }

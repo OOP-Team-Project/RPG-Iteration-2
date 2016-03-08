@@ -133,7 +133,7 @@ public class GameState extends State {
         }
         else if(statusView.getDisplay()){
             int input = controller.getTradeMenuInput();
-            //statusView.handleInput(input);
+            statusView.handleInput(input);
             if(input == 5){
                 statusView.toggle();
                 controller.setStatusViewControls(statusView.getDisplay());
