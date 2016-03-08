@@ -17,7 +17,7 @@ public abstract class Stats {
     //armor and attack rating are used in deriving offensive rating and defensive rating
     //do not base anything off these values, instead use getters of off/deff rating
     protected int armor;
-    protected int attackRating;
+    protected int attack;
     protected int strength;
     protected int agility;
     protected int intellect;
@@ -29,7 +29,7 @@ public abstract class Stats {
         life = 0;
         currentLife = 0;
         armor = 0;
-        attackRating = 0;
+        attack = 0;
         strength = 0;
         agility = 0;
         intellect = 0;
@@ -47,7 +47,7 @@ public abstract class Stats {
     }
 
     /**
-     * needs to be overridden
+     * needs to be overridden to account for it being derived
      */
     public int getLife() {
         return this.life;
@@ -57,9 +57,17 @@ public abstract class Stats {
         return currentLife;
     }
 
+    /**
+     * returns the armor value, not armorRating. armorRating is derivedStat
+     */
     public int getArmor() {
         return armor;
     }
+
+    /**
+     * returns the attack value. Use OffensiveRating for damaging entities
+     */
+    public int getAttack() { return attack; }
 
     public int getStrength() {
         return strength;
@@ -72,6 +80,15 @@ public abstract class Stats {
     public int getIntellect() {
         return intellect;
     }
+
+    /**
+     * must be overridden
+     */
+    public abstract int getArmorRating();
+
+    public abstract int getOffensiveRating();
+
+    public abstract int getDefensiveRating();
 
 
     /**
@@ -113,6 +130,8 @@ public abstract class Stats {
     public void setArmor(int armor) {
         this.armor = armor;
     }
+
+    public void setAttack(int attack) { this.attack = attack; }
 
     public void setIntellect(int intellect) {
         this.intellect = intellect;
