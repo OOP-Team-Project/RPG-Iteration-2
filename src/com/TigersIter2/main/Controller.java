@@ -197,19 +197,35 @@ public class Controller {
 
     public void tradeBindings(){
         if(component.getActionMap().get("UP_GO") != MENU_UP) {
-            System.out.println("Trade bindings");
             component.getActionMap().remove("UP_GO");
             component.getActionMap().remove("DOWN_GO");
             component.getActionMap().remove("LEFT_GO");
             component.getActionMap().remove("RIGHT_GO");
             component.getActionMap().remove("ENTER_GO");
-            component.getActionMap().remove("BACKSPACE_GO");
+            component.getActionMap().remove("BACKSPACE_STOP");
             component.getActionMap().put("UP_GO", MENU_UP);
             component.getActionMap().put("DOWN_GO", MENU_DOWN);
             component.getActionMap().put("UP_LEFT_GO", MENU_LEFT);
             component.getActionMap().put("UP_RIGHT_GO", MENU_RIGHT);
             component.getActionMap().put("ENTER_GO", MENU_SELECT);
-            component.getActionMap().put("BACKSPACE_GO", MENU_SELECT);
+            component.getActionMap().put("BACKSPACE_STOP", MENU_EXIT);
+        }
+    }
+
+    public void revertTradeBindings(){
+        if(component.getActionMap().get("UP_GO") == MENU_UP) {
+            component.getActionMap().remove("UP_GO");
+            component.getActionMap().remove("DOWN_GO");
+            component.getActionMap().remove("LEFT_GO");
+            component.getActionMap().remove("RIGHT_GO");
+            component.getActionMap().remove("ENTER_GO");
+            component.getActionMap().remove("BACKSPACE_STOP");
+            component.getActionMap().put("UP_GO", UP_GO);
+            component.getActionMap().put("DOWN_GO", DOWN_GO);
+            component.getActionMap().put("UP_LEFT_GO", UP_LEFT_GO);
+            component.getActionMap().put("UP_RIGHT_GO", UP_RIGHT_GO);
+            component.getActionMap().put("ENTER_GO", ENTER_KEY_GO);
+            component.getActionMap().put("BACKSPACE_STOP", BACKSPACE_STOP);
         }
     }
 

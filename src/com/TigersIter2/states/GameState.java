@@ -119,7 +119,11 @@ public class GameState extends State {
 
         if(avatar.getTrading()){
             controller.tradeBindings();
-            ant.navigateTradeMenu(controller.getTradeMenuInput());
+            int input = controller.getTradeMenuInput();
+            ant.navigateTradeMenu(input);
+            if(input == 5){
+                controller.revertTradeBindings();
+            }
         }
 
         if (controller.getKeyPressed() == KeyEvent.VK_SPACE) {

@@ -270,6 +270,7 @@ public class AvatarNPCInteract {
             avatar.setTrading(trading);
             clearSelectedInventories();
             footerView.resetTrade();
+            resetOptions();
         }
     }
 
