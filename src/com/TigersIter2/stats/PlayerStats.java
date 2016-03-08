@@ -34,6 +34,7 @@ public class PlayerStats extends Stats {
     protected int mana;
     protected int currentMana;
     protected int barter;
+    protected int lightRadius;
 
     protected List<StatsModifier> mods;
 
@@ -51,6 +52,7 @@ public class PlayerStats extends Stats {
         mana = 0;
         currentMana = 0;
         barter = 0;
+        lightRadius = 10;
         mods = new ArrayList<StatsModifier>();
     }
 
@@ -69,6 +71,8 @@ public class PlayerStats extends Stats {
         this.life = o.getLife();
         this.mana = o.getMana();
 
+        this.lightRadius = 10;
+
         this.barter = 0;
         this.livesLeft = 2;
         this.maxLives = 10;
@@ -81,7 +85,7 @@ public class PlayerStats extends Stats {
         this.currentLife = getLife();
 
 
-        mods = new ArrayList<StatsModifier>();
+        this.mods = new ArrayList<StatsModifier>();
     }
 
     /*************************************************************************************************
@@ -188,12 +192,13 @@ public class PlayerStats extends Stats {
         this.movement += sm.getMovement();
         this.life += sm.getLife();
         this.armor += sm.getArmor();
-        this.attackRating += sm.getAttackRating();
+        this.attack += sm.getAttack();
         this.strength += sm.getStrength();
         this.agility += sm.getAgility();
         this.intellect += sm.getIntellect();
         this.mana += sm.getMana();
         this.barter += sm.getBarter();
+        this.lightRadius += sm.getLightRadius();
     }
 
     /**
@@ -206,13 +211,18 @@ public class PlayerStats extends Stats {
             this.movement -= sm.getMovement();
             this.life -= sm.getLife();
             this.armor -= sm.getArmor();
-            this.attackRating -= sm.getAttackRating();
+            this.attack -= sm.getAttack();
             this.strength -= sm.getStrength();
             this.agility -= sm.getAgility();
             this.intellect -= sm.getIntellect();
             this.mana -= sm.getMana();
             this.barter -= sm.getBarter();
+            this.lightRadius -= sm.getLightRadius();
         }
+    }
+
+    public void setLightRadius(int lightRadius) {
+        this.lightRadius = lightRadius;
     }
 
     /*************************************************************************************************
@@ -259,16 +269,31 @@ public class PlayerStats extends Stats {
         return barter;
     }
 
+    @Override
     public int getOffensiveRating() {
-        return attackRating + OFFENSIVE_RATING_PER_STRENGTH * strength + OFFENSIVE_RATING_PER_LEVEL * level;
+        return attack + OFFENSIVE_RATING_PER_STRENGTH * strength + OFFENSIVE_RATING_PER_LEVEL * level;
     }
 
+    @Override
     public int getDefensiveRating() {
         return agility * DEFENSIVE_RATING_PER_AGILITY + DEFENSIVE_RATING_PER_LEVEL * level;
     }
 
+    @Override
     public int getArmorRating() {
         return hardiness * ARMOR_RATING_PER_HARDINESS + armor;
+    }
+
+    public int getLightRadius() {
+        return lightRadius;
+    }
+
+    public void increaseLightRadius(int lr) {
+        lightRadius += lr;
+    }
+
+    public void decreaseLightRadius(int lr) {
+        lightRadius -= lr;
     }
 
     @Override
