@@ -6,6 +6,7 @@ import com.TigersIter2.location.Location;
 import com.TigersIter2.stats.PlayerStats;
 import com.TigersIter2.stats.Stats;
 import com.TigersIter2.stats.StatsModifier;
+import com.sun.org.apache.bcel.internal.generic.INEG;
 
 
 public class Avatar extends Entity{
@@ -26,6 +27,7 @@ public class Avatar extends Entity{
 
     private boolean currentlyMoving = false;
     private boolean onTileWithNPC;
+    private boolean trading;
 
 
     public Avatar(){
@@ -38,6 +40,7 @@ public class Avatar extends Entity{
         inventory = new Inventory();
         equipment = new Equipment();
         money = 0;
+        trading = false;
     }
 
     //What is this supposed to do? -Sam
@@ -61,8 +64,10 @@ public class Avatar extends Entity{
         if(vehicle != null){
             vehicle.update(xMovement * stats.getMovement(), yMovement * stats.getMovement(), elapsed);
         }
-        //System.out.println(direction);
-        //System.out.println(xMovement + ", " + yMovement);
+    }
+
+    public Inventory getInventory(){
+        return inventory;
     }
 
     public void equipItemAtIndex(int i){
@@ -85,14 +90,19 @@ public class Avatar extends Entity{
         //Do something here to put item on the current tile
     }
 
-    public void setVehicle(Vehicle v){
-        vehicle = v;
-        canPassWater = v.getCanPassWater();
-        canPassMountain = v.getCanPassMountain();
-
-        StatsModifier sm = new StatsModifier();
-        sm.setMovement(v.getMovementBonus());
-        stats.addStatModifier(sm);
+    public void mountOrUnmountVehicle(Vehicle v){
+        if(vehicle == null) {
+            vehicle = v;
+            canPassWater = v.getCanPassWater();
+            canPassMountain = v.getCanPassMountain();
+            stats.addStatModifier(v.getStatsModifier());
+        }
+        else{
+            vehicle = null;
+            canPassMountain = false;
+            canPassWater = false;
+            stats.removeStatModifier(v.getStatsModifier());
+        }
     }
 
     public Vehicle getVehicle(){
@@ -183,6 +193,14 @@ public class Avatar extends Entity{
 
     public boolean getOnTileWithNPC(){
         return onTileWithNPC;
+    }
+
+    public void setTrading(boolean t){
+        trading = t;
+    }
+
+    public boolean getTrading(){
+        return trading;
     }
 
     public void takeDamage(int attackStrength){

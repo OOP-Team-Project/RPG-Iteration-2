@@ -1,11 +1,12 @@
 package com.TigersIter2.states;
 
-
 import com.TigersIter2.assets.StaticVar;
+import com.TigersIter2.items.Weapon;
 import com.TigersIter2.managers.StateManager;
-
 import com.TigersIter2.assets.sprites.*;
 import com.TigersIter2.entities.*;
+import com.TigersIter2.items.Potion;
+import com.TigersIter2.items.TakeableItem;
 import com.TigersIter2.main.Controller;
 import com.TigersIter2.managers.AvatarNPCInteract;
 import com.TigersIter2.maps.TerrainMap;
@@ -25,21 +26,17 @@ public class GameState extends State {
     //Model Data
     private TerrainMap map;
     private Avatar avatar;
-
     private Vehicle vehicle;
     private AvatarNPCInteract ant;
-
 
     //Views
     private AvatarView avatarView;
     private MapView mapView;
     private AreaView areaView;
-
-    private VehicleView vehicleView;
+    private List<VehicleView> vehicleViews;
     private FooterView footerView;
     //private EntityManager entityManager;
     //private ItemManager itemManager;
-
 
 
     public GameState(StateManager stateManager, Controller controller){
@@ -52,12 +49,16 @@ public class GameState extends State {
         footerView = new FooterView();
         map = new TerrainMap(StaticVar.map1);
         avatar = new Avatar();
-        avatar.setOccupation(new Summoner());
+        avatar.setOccupation(new Sneak());
+        avatar.getInventory().addItem(new Potion("Health Potion"));
+        avatar.getInventory().addItem(new Potion("Strength Potion"));
+        avatar.getInventory().addItem(new Weapon("Battle Axe"));
         ant = new AvatarNPCInteract(avatar, footerView);
+        vehicleViews = new ArrayList<VehicleView>();
 
         //THIS IS ALL FOR TESTING. WILL NOT STAY HERE
-        vehicle = new Vehicle("Turtle", 5, false, true);
-        avatar.setVehicle(vehicle);
+        ant.addVehicle(new Vehicle("Turtle", 5, true, true));
+        ant.addVehicle(new Vehicle("Turtle2", 2, false, true));
         //ant.addMonster();
         List<String> list = new ArrayList<String>();
         list.add("My name is John Cena. I'm an internet sensation.");
@@ -77,9 +78,11 @@ public class GameState extends State {
         VehicleSprite.init();
 
         avatarView = new AvatarView(avatar);
-        vehicleView = new VehicleView(vehicle, avatar, map);
+        for(Vehicle vv : ant.getVehicleList()) {
+            vehicleViews.add(new VehicleView(vv, avatar, map));
+        }
         mapView = new MapView(map, avatar);
-        areaView =  new AreaView(mapView,avatarView, vehicleView, footerView);
+        areaView =  new AreaView(mapView,avatarView, vehicleViews, footerView);
 
 
         this.add(areaView);
@@ -94,6 +97,9 @@ public class GameState extends State {
             case 0:
                 System.out.println("Attacking");
                 //ant.attack();
+                break;
+            case 6:
+                ant.mountVehicle();
                 break;
             case -1:
                 break;
@@ -111,6 +117,15 @@ public class GameState extends State {
         View.update(controller.getCameraXMovement(), controller.getCameraYMovement(), elapsed);
         ant.checkTile();
         handleControllerInput();
+
+        if(avatar.getTrading()){
+            controller.tradeBindings();
+            int input = controller.getTradeMenuInput();
+            ant.navigateTradeMenu(input);
+            if(input == 5){
+                controller.revertTradeBindings();
+            }
+        }
 
         if (controller.getKeyPressed() == KeyEvent.VK_SPACE) {
             stateManager.setState(StateManager.INTRO);
