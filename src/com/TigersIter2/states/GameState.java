@@ -108,6 +108,7 @@ public class GameState extends State {
     public void update(long elapsed) {
         map.update();
         avatar.update(controller.getXMovement(),controller.getyMovement(), elapsed);
+        View.update(controller.getCameraXMovement(), controller.getCameraYMovement(), elapsed);
         ant.checkTile();
         handleControllerInput();
 

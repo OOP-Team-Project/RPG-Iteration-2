@@ -15,7 +15,7 @@ import java.awt.event.ActionListener;
 /**
  * Created by slichtenheld on 2/25/2016.
  */
-public class AvatarView extends JComponent implements ActionListener{
+public class AvatarView extends View implements ActionListener{
 
     Avatar aHandle;
     int animationDelay = 100;
