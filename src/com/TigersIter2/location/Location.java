@@ -38,4 +38,6 @@ public class Location {
     }
 
     public void incrementZ(int dz) { this.z += dz; }
+
+    public String toString() { return "(" + x + ", " + y + ")"; }
 }

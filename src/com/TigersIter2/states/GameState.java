@@ -2,6 +2,7 @@ package com.TigersIter2.states;
 
 import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.items.Weapon;
+import com.TigersIter2.location.Location;
 import com.TigersIter2.managers.StateManager;
 import com.TigersIter2.assets.sprites.*;
 import com.TigersIter2.entities.*;
@@ -73,7 +74,7 @@ public class GameState extends State {
 
         //testing for item interactions
         Item item = new Potion("Health", 10);
-        item.setLocation(avatar.getLocation());
+        item.setLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight,0));
         itemManager.addItem(item);
 
 

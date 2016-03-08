@@ -28,16 +28,19 @@ public class ItemManager {
     }
 
     public void checkTile() {
-        for(Item item : itemList) {
+        Iterator<Item> iter = itemList.iterator();
+        while(iter.hasNext()) {
+            Item item = iter.next();
             if(LocationConverter.PixelLocationToHex(item.getLocation()).getX() == LocationConverter.PixelLocationToHex(avatar.getLocation()).getX() &&
-                    LocationConverter.PixelLocationToHex(item.getLocation()).getY() == LocationConverter.PixelLocationToHex(avatar.getLocation()).getY())
-            {
-                if(item instanceof Potion) {
-                    StatsModifier sm = ((Potion) item).getStatsModifier();
-                    playerStats.addStatModifier(sm);
+                    LocationConverter.PixelLocationToHex(item.getLocation()).getY() == LocationConverter.PixelLocationToHex(avatar.getLocation()).getY()) {
+                if (item instanceof TakeableItem) {
+                    avatar.getInventory().addItem((TakeableItem) item); //this could be violating TDA... :(
+                    // System.out.println("Location of Item: " + item.getLocation().toString());
                 }
             }
+            iter.remove();
         }
-        System.out.println("THIS IS THE NEW PLAYER STAT FROM ITEM: " + playerStats.getLife());
+       // System.out.println("Location of avatar: " + avatar.getLocation().toString());
+       //System.out.println("THIS IS THE NEW PLAYER STAT FROM ITEM: " + playerStats.getLife());
     }
 }
