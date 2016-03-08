@@ -31,7 +31,7 @@ public class GameState extends State {
     private AvatarView avatarView;
     private MapView mapView;
     private AreaView areaView;
-    private VehicleView vehicleView;
+    private List<VehicleView> vehicleViews;
     private FooterView footerView;
     //private EntityManager entityManager;
     //private ItemManager itemManager;
@@ -50,10 +50,11 @@ public class GameState extends State {
         avatar.setOccupation(new Summoner());
         avatar.getInventory().addItem(new Potion("Health Potion"));
         ant = new AvatarNPCInteract(avatar, footerView);
+        vehicleViews = new ArrayList<VehicleView>();
 
         //THIS IS ALL FOR TESTING. WILL NOT STAY HERE
-        vehicle = new Vehicle("Turtle", 5, false, true);
-        //avatar.setVehicle(vehicle);
+        ant.addVehicle(new Vehicle("Turtle", 5, true, true));
+        ant.addVehicle(new Vehicle("Turtle2", 2, false, true));
         //ant.addMonster();
         List<String> list = new ArrayList<String>();
         list.add("My name is John Cena. I'm an internet sensation.");
@@ -73,9 +74,11 @@ public class GameState extends State {
         VehicleSprite.init();
 
         avatarView = new AvatarView(avatar);
-        vehicleView = new VehicleView(vehicle, avatar, map);
+        for(Vehicle vv : ant.getVehicleList()) {
+            vehicleViews.add(new VehicleView(vv, avatar, map));
+        }
         mapView = new MapView(map, avatar);
-        areaView =  new AreaView(mapView,avatarView, vehicleView, footerView);
+        areaView =  new AreaView(mapView,avatarView, vehicleViews, footerView);
 
 
         this.add(areaView);
@@ -92,7 +95,7 @@ public class GameState extends State {
                // ant.attack();
                 break;
             case 6:
-                ant.mountVehicle(vehicle);
+                ant.mountVehicle();
             case -1:
                 break;
             default:

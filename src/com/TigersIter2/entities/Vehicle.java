@@ -23,7 +23,12 @@ public class Vehicle extends Entity {
 
     public Vehicle(String name, int movement, boolean water, boolean mountain){
         this.name = name;
-        location = new Location(20 * StaticVar.terrainImageWidth,20 * StaticVar.terrainImageHeight,0);
+
+        //Position will be configurable later. This is just a hacky way to make them start in different places for testing
+        if(water)
+            location = new Location(20 * StaticVar.terrainImageWidth,20 * StaticVar.terrainImageHeight,0);
+        else
+            location = new Location(20 * StaticVar.terrainImageWidth,20 * StaticVar.terrainImageHeight+150,0);
         pixelLocation = location;
         this.movementBonus = movement;
         this.canPassWater = water;

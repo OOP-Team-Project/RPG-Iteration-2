@@ -1,10 +1,10 @@
 package com.TigersIter2.views;
 
 import com.TigersIter2.assets.StaticVar;
-import com.sun.corba.se.impl.orbutil.graph.Graph;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 /**
  * Created by slichtenheld on 2/25/2016.
@@ -16,11 +16,12 @@ public class AreaView extends View {
 
     //sets layout for components to overlap.
     //and sets the preferred size of this component to same as JFrame
-    public AreaView(MapView mapView, AvatarView avatarView, VehicleView vehicleView, FooterView footerView){
+    public AreaView(MapView mapView, AvatarView avatarView, List<VehicleView> vehicleViews, FooterView footerView){
         setLayout(new OverlayLayout(this));
         setPreferredSize(new Dimension(StaticVar.gameWidth, StaticVar.gameHeight));
         this.add(footerView);
-        this.add(vehicleView);
+        for(VehicleView vv : vehicleViews)
+            this.add(vv);
         this.add(avatarView);
         //MapView is fucked up - Sam
         this.add(mapView);

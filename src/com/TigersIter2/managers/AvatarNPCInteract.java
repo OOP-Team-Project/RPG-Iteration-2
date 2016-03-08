@@ -11,6 +11,7 @@ public class AvatarNPCInteract {
     private Avatar avatar;
     private NPC npcOnTile;
     private List<NPC> npcList;
+    private List<Vehicle> vehicleList;
     private List<String> questions;
     private List<String> originalOptions;
     private FooterView footerView;
@@ -19,6 +20,7 @@ public class AvatarNPCInteract {
     public AvatarNPCInteract(Avatar a, FooterView fv){
         avatar = a;
         npcList = new ArrayList<NPC>();
+        vehicleList = new ArrayList<Vehicle>();
         npcOnTile = null;
         footerView = fv;
         talking = false;
@@ -52,14 +54,23 @@ public class AvatarNPCInteract {
         //Check your position/direction/range against the NPC's in the list
     }
 
-    public void mountVehicle(Vehicle v){
-        if(LocationConverter.PixelLocationToHex(v.getLocation()).getX() == LocationConverter.PixelLocationToHex(avatar.getLocation()).getX() &&
-            LocationConverter.PixelLocationToHex(v.getLocation()).getY() == LocationConverter.PixelLocationToHex(avatar.getLocation()).getY()){
-            if(avatar.getVehicle() == null) {
-                v.setLocation(avatar.getLocation());
-                //v.setPixelLocation(avatar.getPixelLocation());
+    public void addVehicle(Vehicle v){
+        vehicleList.add(v);
+    }
+
+    public List<Vehicle> getVehicleList() {
+        return vehicleList;
+    }
+
+    public void mountVehicle(){
+        for(Vehicle v : vehicleList) {
+            if (LocationConverter.PixelLocationToHex(v.getLocation()).getX() == LocationConverter.PixelLocationToHex(avatar.getLocation()).getX() &&
+                    LocationConverter.PixelLocationToHex(v.getLocation()).getY() == LocationConverter.PixelLocationToHex(avatar.getLocation()).getY()) {
+                if (avatar.getVehicle() == null) {
+                    v.setLocation(avatar.getLocation());
+                }
+                avatar.mountOrUnmountVehicle(v);
             }
-            avatar.mountOrUnmountVehicle(v);
         }
     }
 
