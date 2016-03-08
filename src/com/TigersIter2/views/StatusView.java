@@ -157,8 +157,22 @@ public class StatusView extends View implements ActionListener{
         g2d.drawString("      Health    Mana    Experience    Lives    Offense    Defense    Armor    Strength    " +
                 "Agility    Intellect    Hardiness    Speed", 10, 22);
         g2d.drawLine(0, 25, StaticVar.gameWidth, 25);
+
+        //Draw stats
         g2d.setFont(new Font("TimesRoman", Font.PLAIN, 18));
         g2d.drawString(Integer.toString(stats.getCurrentLife()) + "/" + Integer.toString(stats.getLife()), 45, 45);
+        g2d.drawString(Integer.toString(stats.getCurrentMana()) + "/" + Integer.toString(stats.getMana()), 140, 45);
+        g2d.drawString(Integer.toString(stats.getExperience()) + "/" +
+                Integer.toString(stats.getExperienceRequiredForLevel(stats.getLevel()+1)), 230, 45);
+        g2d.drawString(Integer.toString(stats.getLivesLeft()), 380, 45);
+        g2d.drawString(Integer.toString(stats.getOffensiveRating()), 470, 45);
+        g2d.drawString(Integer.toString(stats.getDefensiveRating()), 570, 45);
+        g2d.drawString(Integer.toString(stats.getArmorRating()), 670, 45);
+        g2d.drawString(Integer.toString(stats.getStrength()), 770, 45);
+        g2d.drawString(Integer.toString(stats.getAgility()), 870, 45);
+        g2d.drawString(Integer.toString(stats.getIntellect()), 970, 45);
+        g2d.drawString(Integer.toString(stats.getHardiness()), 1100, 45);
+        g2d.drawString(Integer.toString(stats.getMovement()), 1210, 45);
 
 
         if(display) {
