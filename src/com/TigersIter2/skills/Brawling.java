@@ -8,6 +8,12 @@ import java.util.Observable;
 /**
  * Created by Magic_Buddha on 3/5/2016.
  */
+
+/**
+ * Brawling adds damage when smasher isn't holding any weapons.
+ * ^^Still need a way to implement it (need a handle to Equipment and be able to
+ * check what type of weapon is held)
+ */
 public class Brawling extends ActiveSkill {
     private final int ATTACK_PER_LEVEL = 5;
     private int damage;
@@ -33,5 +39,9 @@ public class Brawling extends ActiveSkill {
 //            target.attack(damage + playerStats.getOffensiveRating());
             return true;
         } else return false;
+    }
+
+    public String toString() {
+        return "Brawling";
     }
 }

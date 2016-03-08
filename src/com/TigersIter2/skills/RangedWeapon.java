@@ -10,4 +10,8 @@ public class RangedWeapon extends ActiveSkill {
     protected void update() {
 
     }
+
+    public String toString() {
+        return "RangedWeapon";
+    }
 }

@@ -34,4 +34,8 @@ public class PickPocket extends ActiveSkill {
 
         } else return false;
     }
+
+    public String toString() {
+        return "PickPocket";
+    }
 }

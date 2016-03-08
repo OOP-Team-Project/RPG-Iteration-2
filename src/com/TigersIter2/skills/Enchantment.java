@@ -10,4 +10,8 @@ public class Enchantment extends ActiveSkill {
     protected void update() {
 
     }
+
+    public String toString() {
+        return "Enchantment";
+    }
 }

@@ -6,6 +6,13 @@ import com.TigersIter2.stats.PlayerStats;
 /**
  * Created by Magic_Buddha on 3/5/2016.
  */
+
+/**
+ * This skill attacks an entity using magic damage
+ * derived from int and skill level. Mana cost increases as the skill levels up.
+ * Requires handle to playerStats on intantiation
+ * Requires handle to target npc
+ */
 public class Bane extends ActiveSkill {
 
     private final int MANA_COST = 5;
@@ -26,7 +33,9 @@ public class Bane extends ActiveSkill {
         probability = 0.0;
     }
 
-
+    /**
+     * update method gets called on each level up.
+     */
     @Override
     protected void update() {
         probability = .5 + .1 * skillLevel;
@@ -34,11 +43,18 @@ public class Bane extends ActiveSkill {
         manaCost = MANA_COST + skillLevel * MANA_COST_LEVEL_MULTIPLIER;
     }
 
+    /**
+     * returns true if attack successful.
+     */
     public boolean activate(NPC target) {
         if ( skillLevel > 0 && Math.random() < probability && playerStats.getCurrentMana() >= manaCost) {
             playerStats.decreaseCurrentMana(manaCost);
             // target.attack(magicDamage + playerStats.getOffensiveRating());
             return true;
         } else return false;
+    }
+
+    public String toString() {
+        return "Bane";
     }
 }

@@ -11,6 +11,11 @@ import java.util.TimerTask;
 /**
  * Created by Magic_Buddha on 3/5/2016.
  */
+
+/**
+ * Summoners skill that alters players stats for some time depending on the level of the
+ * skill.
+ */
 public class Boon extends ActiveSkill {
 
     /**
@@ -87,6 +92,7 @@ public class Boon extends ActiveSkill {
             playerStats.decreaseCurrentMana(manaCost);
             if (!active) {
 
+                //adds a statmodifier and starts a timer to remove it
                 playerStats.addStatModifier(sm);
                 timer.schedule(new TimedSkill(), LENGTH + skillLevel * LENGTH_LEVEL_MULTIPLIER);
             }
@@ -105,6 +111,10 @@ public class Boon extends ActiveSkill {
         public void run() {
             skillEnded();
         }
+    }
+
+    public String toString() {
+        return "Boon";
     }
 
     public static void main (String[] args) {

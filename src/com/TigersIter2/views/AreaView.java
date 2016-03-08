@@ -26,7 +26,7 @@ public class AreaView extends View {
         //MapView is fucked up - Sam
         this.add(mapView);
     }
-    
+
     @Override
     public void paintComponent(Graphics g){}
 }

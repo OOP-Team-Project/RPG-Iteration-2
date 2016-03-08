@@ -33,4 +33,8 @@ public class Observation extends ActiveSkill {
         } else return false;
     }
 
+    public String toString() {
+        return "Observation";
+    }
+
 }

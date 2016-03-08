@@ -33,4 +33,8 @@ public class DetectRemoveTrap extends ActiveSkill {
             }
         } else return false;
     }
+
+    public String toString() {
+        return "DetectRemoveTrap";
+    }
 }

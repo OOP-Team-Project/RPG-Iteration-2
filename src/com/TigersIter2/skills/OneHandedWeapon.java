@@ -35,4 +35,8 @@ public class OneHandedWeapon extends ActiveSkill {
             return true;
         } else return false;
     }
+
+    public String toString() {
+        return "OneHandedWeapon";
+    }
 }

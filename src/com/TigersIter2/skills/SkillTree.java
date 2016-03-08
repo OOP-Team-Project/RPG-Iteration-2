@@ -1,5 +1,6 @@
 package com.TigersIter2.skills;
 
+import com.TigersIter2.entities.Occupation;
 import com.TigersIter2.stats.PlayerStats;
 import com.TigersIter2.stats.Stats;
 
@@ -41,15 +42,17 @@ public class SkillTree {
 
     /**
      * builds general skills
+     * order matters!
      */
     private void buildGeneralSkills() {
-        skills.add(new Bargain(playerStats));
         skills.add(new BindWounds(playerStats));
+        skills.add(new Bargain(playerStats));
         skills.add(new Observation());
     }
 
     /**
      * builds smasher skills
+     * order matters!
      */
     private void buildSmasherSkills() {
         skills.add(new OneHandedWeapon(playerStats));
@@ -59,6 +62,7 @@ public class SkillTree {
 
     /**
      * builds summoner skills
+     * order matters!
      */
     private void buildSummonerSkills() {
         skills.add(new Enchantment());
@@ -69,6 +73,7 @@ public class SkillTree {
 
     /**
      * builds sneak skills
+     * order matters!
      */
     private void buildSneakSkills() {
         skills.add(new PickPocket());
@@ -79,6 +84,7 @@ public class SkillTree {
 
     /**
      * raises a skill level of passive skill.
+     * order matters!
      */
     public boolean raiseSkill( Skill s ) {
         if ( skills.contains( s ) && abilityPoints > 0 ) {
@@ -109,5 +115,9 @@ public class SkillTree {
 
     public Set<Skill> getSkills() {
         return skills;
+    }
+
+    public String toString() {
+        return playerStats.getOccupation().toString();
     }
 }

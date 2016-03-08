@@ -33,4 +33,8 @@ public class Staff extends ActiveSkill {
             return true;
         } else return false;
     }
+
+    public String toString() {
+        return "Staff";
+    }
 }
