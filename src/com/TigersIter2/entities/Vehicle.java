@@ -28,7 +28,8 @@ public class Vehicle extends Entity {
             //location = new Location(20 * StaticVar.terrainImageWidth,20 * StaticVar.terrainImageHeight,0);
         //else
             //location = new Location(20 * StaticVar.terrainImageWidth,20 * StaticVar.terrainImageHeight+150,0);
-        pixelLocation = location;
+        //pixelLocation = location;
+        pixelLocation = new Location(Math.round(StaticVar.xTilesFromEdge*StaticVar.terrainImageWidth*.75f - 80), Math.round(StaticVar.yTilesFromEdge*StaticVar.terrainImageHeight - Math.round(StaticVar.terrainImageHeight*1.2f)), 0);
         this.movementBonus = movement;
         this.canPassWater = water;
         this.canPassMountain = mountain;

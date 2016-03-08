@@ -36,8 +36,8 @@ public class VehicleView extends View implements ActionListener{
     public VehicleView(Vehicle v, Avatar a, TerrainMap map) {
         aHandle = a;
         vHandle = v;
-        mapXLength = map.getTerrainTypes().size();
-        mapYLength = map.getTerrainTypes().get(0).size();
+        mapXLength = map.getMapWidth();
+        mapYLength = map.getMapHeight();
 
 
         setPreferredSize(new Dimension(StaticVar.gameWidth, StaticVar.gameHeight));
