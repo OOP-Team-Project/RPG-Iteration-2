@@ -146,12 +146,18 @@ public abstract class NPC extends Entity{
         return responses.get(i);
     }
 
-    public boolean isVillager(){
-        return !willAttack;
+    public NPCStats getStats(){
+        return stats;
     }
 
-    public int attack(){
-        int attackStrength = 1;
-        return attackStrength;
+    public boolean isAlive(){
+        if(stats.getCurrentLife() <= 0)
+            return false;
+        else
+            return true;
+    }
+
+    public boolean isVillager(){
+        return !willAttack;
     }
 }

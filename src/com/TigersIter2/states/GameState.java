@@ -114,6 +114,10 @@ public class GameState extends State {
             case 7:
                 statusView.toggle();
                 controller.setStatusViewControls(statusView.getDisplay());
+                break;
+            case 8:
+                ant.attack();
+                break;
             case -1:
                 break;
             default:

@@ -206,12 +206,12 @@ public class NPCView extends View implements ActionListener{
         //gotta use that AA
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
-        
-        if(vHandle.isVillager()){
-            drawVillager(g2d);
-        }
-        else {
-            drawMonster(g2d);
+        if(vHandle.isAlive()) {
+            if (vHandle.isVillager()) {
+                drawVillager(g2d);
+            } else {
+                drawMonster(g2d);
+            }
         }
         g2d.dispose();
     }

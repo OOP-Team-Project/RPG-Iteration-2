@@ -25,7 +25,7 @@ public class AreaView extends View {
             this.add(vv);
         this.add(avatarView);
         for(NPCView n : nViews)
-                this.add(n);
+            this.add(n);
         //MapView is fucked up - Sam
         this.add(mapView);
     }
