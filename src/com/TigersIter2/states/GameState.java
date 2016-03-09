@@ -1,11 +1,8 @@
 package com.TigersIter2.states;
 
 import com.TigersIter2.assets.StaticVar;
-<<<<<<< HEAD
 import com.TigersIter2.managers.AvatarMapInteract;
-=======
 import com.TigersIter2.items.Weapon;
->>>>>>> bc34a962b9e552dfe174110a245a6ce1ad2aa014
 import com.TigersIter2.managers.StateManager;
 import com.TigersIter2.assets.sprites.*;
 import com.TigersIter2.entities.*;
@@ -30,11 +27,8 @@ public class GameState extends State {
     //Model Data
     private TerrainMap map;
     private Avatar avatar;
-<<<<<<< HEAD
     private AvatarMapInteract avatarMapInteract;
 
-=======
->>>>>>> bc34a962b9e552dfe174110a245a6ce1ad2aa014
     private Vehicle vehicle;
     private AvatarNPCInteract ant;
 
@@ -80,7 +74,6 @@ public class GameState extends State {
         list.add("I suppose so.");
         ant.addVillager(list, true, true, false);
 
-
         //pull in all pictures for GameState
 
         //Technically only one of these will need to be initialized
@@ -125,8 +118,8 @@ public class GameState extends State {
     @Override
     public void update(long elapsed) {
         //map.update(); //doesn't actually do anything
-        //avatar.update(controller.getXMovement(),controller.getyMovement(), elapsed);
-        avatarMapInteract.updateAvatarPos(elapsed,controller.getXMovement(), controller.getyMovement());
+        avatar.update(controller.getXMovement(),controller.getyMovement(), elapsed);
+        //avatarMapInteract.updateAvatarPos(elapsed,controller.getXMovement(), controller.getyMovement());
         View.update(controller.getCameraXMovement(), controller.getCameraYMovement(), elapsed);
         ant.checkTile();
         handleControllerInput();
