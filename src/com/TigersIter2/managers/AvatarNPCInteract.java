@@ -180,14 +180,24 @@ public class AvatarNPCInteract {
 
     public void addMonster(){
         NPC m = new Monster();
+
+        //TESTING
+        m.getLocation().setX(avatar.getLocation().getX()+50);
+        m.getLocation().setY(avatar.getLocation().getY()+130);
+        //END TESTING
+
         npcList.add(m);
     }
 
     public void addVillager(List<String> p, boolean talk, boolean trade, boolean attack){
-        npcList.add(new Villager(p, talk, trade, attack));
+        Villager v = new Villager(p, talk, trade, attack);
+        v.getInventory().addItem(new Weapon("Sword"));
+        npcList.add(v);
 
-        // This will not actually be here, just for testing
-        npcList.get(0).getInventory().addItem(new Weapon("Sword"));
+    }
+
+    public List<NPC> getNpcList(){
+        return npcList;
     }
 
     public void checkTile(){

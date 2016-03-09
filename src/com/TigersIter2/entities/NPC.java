@@ -146,6 +146,10 @@ public abstract class NPC extends Entity{
         return responses.get(i);
     }
 
+    public boolean isVillager(){
+        return !willAttack;
+    }
+
     public int attack(){
         int attackStrength = 1;
         return attackStrength;
