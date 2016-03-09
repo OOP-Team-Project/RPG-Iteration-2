@@ -27,6 +27,8 @@ public abstract class NPC extends Entity{
     protected boolean willTrade;
     protected boolean willTalk;
     protected boolean willAttack;
+    private boolean canAttack = true;
+
 
 
     public NPC(){
@@ -38,6 +40,7 @@ public abstract class NPC extends Entity{
         inventory = new Inventory();
         equipment = new Equipment();
         stats = new NPCStats();
+        attackTime = 500;
     }
 
     //What is this supposed to do? -Sam
@@ -159,5 +162,13 @@ public abstract class NPC extends Entity{
 
     public boolean isVillager(){
         return !willAttack;
+    }
+
+    public boolean getCanAttack(){
+        return canAttack;
+    }
+
+    public void setCanAttack(boolean b){
+        canAttack = b;
     }
 }
