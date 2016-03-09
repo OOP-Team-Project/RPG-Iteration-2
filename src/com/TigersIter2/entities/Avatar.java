@@ -210,7 +210,7 @@ public class Avatar extends Entity{
         System.out.println("Taking damage");
     }
 
-    public Stats getStats(){
+    public PlayerStats getStats(){
         return stats;
     }
 

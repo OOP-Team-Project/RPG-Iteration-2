@@ -15,11 +15,11 @@ public abstract class Entity extends Observable { //does Entity need to extend o
     //updates entity stuff
     public abstract void update(int x, int y, long elapsed);
 
-    public Stats getStats(){   // to be overridden in subclasses Avatar and NPC
+    public PlayerStats getStats(){   // to be overridden in subclasses Avatar and NPC
         PlayerStats stats = new PlayerStats();
         return stats;
     }
-    public void setStats(Stats stats){}
+    public void setStats(PlayerStats stats){}
 
     //public abstract int getDirection();
 }

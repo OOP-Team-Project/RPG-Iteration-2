@@ -13,7 +13,7 @@ public class InstantDeath extends AreaEffect{
 
     public void affectEntity(Entity entity){
         stats = entity.getStats();
-        stats.decreaseCurrentLife(1);  // this needs to decrement health
+        stats.decrementLivesLeft();  //  to decrement 1 life
         entity.setStats(stats);
     }
 

@@ -1,5 +1,6 @@
 package com.TigersIter2.areaEffects;
 
+import com.TigersIter2.entities.Entity;
 import com.TigersIter2.stats.Stats;
 import com.TigersIter2.stats.StatsModifier;
 
@@ -9,10 +10,10 @@ import com.TigersIter2.stats.StatsModifier;
 
 public class TakeDamage extends AreaEffect{
 
-    public Stats affectEntity(){
-        int reduction = stats.getCurrentLife()/3;
-        stats.decreaseCurrentLife(reduction);  // decrements health by 1/3
-        return stats;
+    public void affectEntity(Entity entity){
+        stats = entity.getStats();
+        stats.decreaseCurrentLife(stats.getCurrentLife()/3);  // decrements health by 1/3
+        entity.setStats(stats);
     }
 
     public String getEffectName(){

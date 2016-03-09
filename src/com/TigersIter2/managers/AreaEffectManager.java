@@ -13,7 +13,6 @@ public class AreaEffectManager {
 
     private Entity entity;
     private AreaEffect areaEffect;
-    private Stats stats;
     private InstantDeath instantDeath;
     private TakeDamage takeDamage;
     private HealDamage healDamage;
