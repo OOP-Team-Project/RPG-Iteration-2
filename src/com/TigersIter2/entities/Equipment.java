@@ -31,6 +31,11 @@ public class Equipment {
         return item;
     }
 
+
+    public List<TakeableItem> getItems(){
+        return items;
+    }
+
     public void printEquipment(){
         for(TakeableItem i : items)
             System.out.println(i);

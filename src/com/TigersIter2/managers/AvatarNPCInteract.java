@@ -20,8 +20,6 @@ public class AvatarNPCInteract {
     private boolean talking, fighting, usingSkill, usingItem, pressContinue, trading;
     private Inventory playerSelectedInventory;
     private Inventory npcSelectedInventory;
-    private int playerInventoryTracker;
-    private int npcInventoryTracker;
 
     public AvatarNPCInteract(Avatar a, FooterView fv){
         avatar = a;
@@ -39,8 +37,6 @@ public class AvatarNPCInteract {
         originalOptions = new ArrayList<String>();
         playerSelectedInventory = new Inventory();
         npcSelectedInventory = new Inventory();
-        playerInventoryTracker = 0;
-        npcInventoryTracker = 0;
         fillQuestions();
         fillOriginalOptions();
     }
