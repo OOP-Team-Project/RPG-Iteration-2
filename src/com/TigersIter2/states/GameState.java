@@ -31,6 +31,8 @@ public class GameState extends State {
     private Vehicle vehicle;
     private AvatarNPCInteract ant;
     private AreaEffectManager aem;
+    //private EntityManager entityManager;
+    //private ItemManager itemManager;
 
     //Views
     private AvatarView avatarView;
@@ -39,8 +41,7 @@ public class GameState extends State {
     private List<VehicleView> vehicleViews;
     private FooterView footerView;
     private StatusView statusView;
-    //private EntityManager entityManager;
-    //private ItemManager itemManager;
+
 
 
     public GameState(StateManager stateManager, Controller controller){
