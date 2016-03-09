@@ -25,27 +25,29 @@ public class StatusView extends View implements ActionListener{
     private Inventory playerInventory;
     private PlayerStats stats;
     private Equipment equipment;
-    private boolean trading;
+    private boolean inventorySelected;
     private int whoseSide;
     private int highlighted;
     private int totalWidth;
     private int totalHeight;
     private List<TakeableItem> playerSelectedItems;
+    private List<TakeableItem> selectedEquipment;
 
     public StatusView(Inventory inv, PlayerStats ps, Equipment equip){
         setPreferredSize(new Dimension(StaticVar.gameWidth - 400, 200));
         display = false;
         menuOptions = new ArrayList<String>();
         type = 0;
-        trading = false;
         whoseSide = 0;
         highlighted = 0;
         playerInventory = inv;
         stats = ps;
         equipment = equip;
         playerSelectedItems = new ArrayList<TakeableItem>();
+        selectedEquipment = new ArrayList<TakeableItem>();
         totalWidth = StaticVar.gameWidth - 150;
         totalHeight = StaticVar.gameHeight - 200;
+        inventorySelected = true;
     }
 
     public void handleInput(int input){
@@ -62,7 +64,33 @@ public class StatusView extends View implements ActionListener{
             incrementWhoseSide();
         }
         else if(input == 4){
-            //select
+            if(whoseSide == 0){
+                if(playerSelectedItems.contains(playerInventory.getItemAtIndex(highlighted)))
+                    playerSelectedItems.remove(playerInventory.getItemAtIndex(highlighted));
+                else
+                    playerSelectedItems.add(playerInventory.getItemAtIndex(highlighted));
+            }
+            else if(whoseSide == 1){
+                if(inventorySelected) {
+                    for (TakeableItem item : playerSelectedItems) {
+                        equipment.addItem(item);
+                        playerInventory.getItems().remove(item);
+                    }
+                }
+                else{
+                    for (TakeableItem item : selectedEquipment) {
+                        playerInventory.addItem(item);
+                        equipment.getItems().remove(item);
+                    }
+                }
+                resetView();
+            }
+            else if(whoseSide == 2){
+                if(selectedEquipment.contains(equipment.getItemAtIndex(highlighted)))
+                    selectedEquipment.remove(equipment.getItemAtIndex(highlighted));
+                else
+                    selectedEquipment.add(equipment.getItemAtIndex(highlighted));
+            }
         }
         else if(input == 5){
             resetView();
@@ -92,6 +120,10 @@ public class StatusView extends View implements ActionListener{
             if(highlighted < playerInventory.getItems().size()-1)
                 ++highlighted;
         }
+        else if(whoseSide == 2){
+            if(highlighted < equipment.getItems().size()-1)
+                ++highlighted;
+        }
     }
 
     public void decrementHighlighted(){
@@ -100,16 +132,28 @@ public class StatusView extends View implements ActionListener{
     }
 
     public void incrementWhoseSide(){
-        if(whoseSide < 1) {
-            ++whoseSide;
+        if(whoseSide == 0){
             highlighted = 0;
+            ++whoseSide;
+        }
+        else if(whoseSide  == 1 && !equipment.isEmpty()){
+            playerSelectedItems.clear();
+            highlighted = 0;
+            ++whoseSide;
+            inventorySelected = false;
         }
     }
 
     public void decrementWhoseSide(){
-        if(whoseSide > 0) {
-            --whoseSide;
+        if(whoseSide == 2){
             highlighted = 0;
+            --whoseSide;
+        }
+        else if(whoseSide == 1 && !playerInventory.isEmpty()){
+            selectedEquipment.clear();
+            highlighted = 0;
+            --whoseSide;
+            inventorySelected = true;
         }
     }
 
@@ -119,8 +163,10 @@ public class StatusView extends View implements ActionListener{
 
     public void resetView(){
         whoseSide = 0;
+        inventorySelected = true;
         highlighted = 0;
         playerSelectedItems.clear();
+        selectedEquipment.clear();
     }
 
 
@@ -149,30 +195,6 @@ public class StatusView extends View implements ActionListener{
                 RenderingHints.VALUE_ANTIALIAS_ON);
 
 
-        //Draw stats bar
-        g2d.setColor(Color.black);
-        g2d.fillRect(0, 0, StaticVar.gameWidth, 50);
-        g2d.setColor(Color.white);
-        g2d.setFont(new Font("TimesRoman", Font.BOLD, 18));
-        g2d.drawString("      Health    Mana    Experience    Lives    Offense    Defense    Armor    Strength    " +
-                "Agility    Intellect    Hardiness    Speed", 10, 22);
-        g2d.drawLine(0, 25, StaticVar.gameWidth, 25);
-
-        //Draw stats
-        g2d.setFont(new Font("TimesRoman", Font.PLAIN, 18));
-        g2d.drawString(Integer.toString(stats.getCurrentLife()) + "/" + Integer.toString(stats.getLife()), 45, 45);
-        g2d.drawString(Integer.toString(stats.getCurrentMana()) + "/" + Integer.toString(stats.getMana()), 140, 45);
-        g2d.drawString(Integer.toString(stats.getExperience()) + "/" +
-                Integer.toString(stats.getExperienceRequiredForLevel(stats.getLevel()+1)), 230, 45);
-        g2d.drawString(Integer.toString(stats.getLivesLeft()), 380, 45);
-        g2d.drawString(Integer.toString(stats.getOffensiveRating()), 470, 45);
-        g2d.drawString(Integer.toString(stats.getDefensiveRating()), 570, 45);
-        g2d.drawString(Integer.toString(stats.getArmorRating()), 670, 45);
-        g2d.drawString(Integer.toString(stats.getStrength()), 770, 45);
-        g2d.drawString(Integer.toString(stats.getAgility()), 870, 45);
-        g2d.drawString(Integer.toString(stats.getIntellect()), 970, 45);
-        g2d.drawString(Integer.toString(stats.getHardiness()), 1100, 45);
-        g2d.drawString(Integer.toString(stats.getMovement()), 1210, 45);
 
 
         if(display) {
@@ -191,6 +213,18 @@ public class StatusView extends View implements ActionListener{
             g2d.drawLine(VIEW_X_START+totalWidth/3, VIEW_Y_START, VIEW_X_START+totalWidth/3, VIEW_Y_START+totalHeight);
             g2d.drawLine(VIEW_X_START+totalWidth/3, VIEW_Y_START+totalHeight/2,
                     VIEW_X_START+totalWidth, VIEW_Y_START+totalHeight/2);
+
+            g2d.setColor(Color.gray);
+            if(whoseSide == 1){
+                g2d.setColor(Color.red);
+            }
+            g2d.fillRect(VIEW_X_START+totalWidth/3-60, VIEW_Y_START+totalHeight/4 - 25, 120, 50);
+            g2d.setColor(Color.black);
+            g2d.setFont(new Font("TimesRoman", Font.BOLD, 20));
+            if(inventorySelected)
+                g2d.drawString("Equip", VIEW_X_START+totalWidth/3-30, VIEW_Y_START+totalHeight/4 + 5);
+            else
+                g2d.drawString("Unequip", VIEW_X_START+totalWidth/3-50, VIEW_Y_START+totalHeight/4 + 5);
 
 
 
@@ -219,17 +253,56 @@ public class StatusView extends View implements ActionListener{
             playerIter = 0;
             height = 200;
             g2d.setFont(new Font("TimesRoman", Font.BOLD, 20));
+            for (TakeableItem item : equipment.getItems()) {
+                g2d.setColor(Color.black);
+                if (playerIter == highlighted && whoseSide == 2)
+                    g2d.drawString(">", VIEW_X_START + totalWidth/2 - 55, height);
+                if (selectedEquipment.contains(equipment.getItemAtIndex(playerIter)))
+                    g2d.setColor(Color.red);
+                g2d.drawString(item.toString(), VIEW_X_START + totalWidth/2 - 30, height);
+                height += 20;
+                ++playerIter;
+            }
 
             //Draw Skills
             g2d.setColor(Color.black);
             g2d.setFont(new Font("TimesRoman", Font.BOLD, 40));
             g2d.drawString("Skills", VIEW_X_START+140+totalWidth/2, VIEW_Y_START+35+totalHeight/2);
             playerIter = 0;
+            g2d.drawString("TODO", VIEW_X_START+140+totalWidth/2, VIEW_Y_START+35+totalHeight/2+150);
             height = 200;
             g2d.setFont(new Font("TimesRoman", Font.BOLD, 20));
 
-            g2d.dispose();
         }
+
+
+        //Draw stats bar
+        g2d.setColor(Color.black);
+        g2d.fillRect(0, 0, StaticVar.gameWidth, 50);
+        g2d.setColor(Color.white);
+        g2d.setFont(new Font("TimesRoman", Font.BOLD, 18));
+        g2d.drawString("      Health    Mana    Experience    Lives    Offense    Defense    Armor    Strength    " +
+                "Agility    Intellect    Hardiness    Speed", 10, 22);
+        g2d.setStroke(new BasicStroke());
+        g2d.drawLine(0, 25, StaticVar.gameWidth, 25);
+
+        //Draw stats
+        g2d.setFont(new Font("TimesRoman", Font.PLAIN, 18));
+        g2d.drawString(Integer.toString(stats.getCurrentLife()) + "/" + Integer.toString(stats.getLife()), 45, 45);
+        g2d.drawString(Integer.toString(stats.getCurrentMana()) + "/" + Integer.toString(stats.getMana()), 140, 45);
+        g2d.drawString(Integer.toString(stats.getExperience()) + "/" +
+                Integer.toString(stats.getExperienceRequiredForLevel(stats.getLevel()+1)), 230, 45);
+        g2d.drawString(Integer.toString(stats.getLivesLeft()), 380, 45);
+        g2d.drawString(Integer.toString(stats.getOffensiveRating()), 470, 45);
+        g2d.drawString(Integer.toString(stats.getDefensiveRating()), 570, 45);
+        g2d.drawString(Integer.toString(stats.getArmorRating()), 670, 45);
+        g2d.drawString(Integer.toString(stats.getStrength()), 770, 45);
+        g2d.drawString(Integer.toString(stats.getAgility()), 870, 45);
+        g2d.drawString(Integer.toString(stats.getIntellect()), 970, 45);
+        g2d.drawString(Integer.toString(stats.getHardiness()), 1100, 45);
+        g2d.drawString(Integer.toString(stats.getMovement()), 1210, 45);
+
+        g2d.dispose();
     }
 
 }
