@@ -118,8 +118,8 @@ public class GameState extends State {
     @Override
     public void update(long elapsed) {
         //map.update(); //doesn't actually do anything
-        avatar.update(controller.getXMovement(),controller.getyMovement(), elapsed);
-        //avatarMapInteract.updateAvatarPos(elapsed,controller.getXMovement(), controller.getyMovement());
+        //avatar.update(controller.getXMovement(),controller.getyMovement(), elapsed);
+        avatarMapInteract.updateAvatarPos(elapsed,controller.getXMovement(), controller.getyMovement());
         View.update(controller.getCameraXMovement(), controller.getCameraYMovement(), elapsed);
         ant.checkTile();
         handleControllerInput();
