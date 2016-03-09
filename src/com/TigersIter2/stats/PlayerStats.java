@@ -350,7 +350,7 @@ public class PlayerStats extends Stats {
      * making a new exp curve. will use this for now.
      * :TODO: Make private
      */
-    private int getExperienceRequiredForLevel(int targetLevel) {
+    public int getExperienceRequiredForLevel(int targetLevel) {
         if (targetLevel < 1) {
             throw new RuntimeException("Level must be greater than or equal to 1");
         }
