@@ -281,8 +281,18 @@ public class StatusView extends View implements ActionListener{
         g2d.fillRect(0, 0, StaticVar.gameWidth, 50);
         g2d.setColor(Color.white);
         g2d.setFont(new Font("TimesRoman", Font.BOLD, 18));
-        g2d.drawString("      Health    Mana    Experience    Lives    Offense    Defense    Armor    Strength    " +
-                "Agility    Intellect    Hardiness    Speed", 10, 22);
+        g2d.drawString("Health", 45, 22);
+        g2d.drawString("Mana", 140, 22);
+        g2d.drawString("Experience", 230, 22);
+        g2d.drawString("Lives", 365, 22);
+        g2d.drawString("Offense", 445, 22);
+        g2d.drawString("Defense", 545, 22);
+        g2d.drawString("Armor", 655, 22);
+        g2d.drawString("Strength", 735, 22);
+        g2d.drawString("Agility", 855, 22);
+        g2d.drawString("Intellect", 945, 22);
+        g2d.drawString("Hardiness", 1065, 22);
+        g2d.drawString("Speed", 1185, 22);
         g2d.setStroke(new BasicStroke());
         g2d.drawLine(0, 25, StaticVar.gameWidth, 25);
 
