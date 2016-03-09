@@ -65,6 +65,10 @@ public class Avatar extends Entity{
         //System.out.println(xMovement + ", " + yMovement);
     }
 
+    public PlayerStats getStats(){
+        return stats;
+    }
+
     public void equipItemAtIndex(int i){
         if(inventory.getItemAtIndex(i).isEquippable())
             equipment.addItem(inventory.removeItemAtIndex(i));
