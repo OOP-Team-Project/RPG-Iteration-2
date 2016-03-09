@@ -5,6 +5,7 @@ import com.TigersIter2.items.Item;
 import com.TigersIter2.items.TakeableItem;
 import com.TigersIter2.location.Location;
 import com.TigersIter2.stats.NPCStats;
+import com.TigersIter2.stats.Stats;
 
 import java.util.List;
 
@@ -149,5 +150,13 @@ public abstract class NPC extends Entity{
     public int attack(){
         int attackStrength = 1;
         return attackStrength;
+    }
+
+    public Stats getStats(){
+        return stats;
+    }
+
+    public void setStats(NPCStats stats){
+        this.stats = stats;
     }
 }

@@ -11,10 +11,10 @@ import com.TigersIter2.stats.StatsModifier;
 
 public class InstantDeath extends AreaEffect{
 
-    public Stats affectEntity(){
-        int life = stats.getLife()-1;  // decrement lives by 1
-        stats.setCurrentLife(life);  // this needs to increment health
-        return stats;
+    public void affectEntity(Entity entity){
+        stats = entity.getStats();
+        stats.decreaseCurrentLife(1);  // this needs to decrement health
+        entity.setStats(stats);
     }
 
     public String getEffectName(){

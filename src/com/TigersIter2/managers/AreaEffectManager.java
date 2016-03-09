@@ -1,10 +1,9 @@
 package com.TigersIter2.managers;
 
-import com.TigersIter2.areaEffects.AreaEffect;
-import com.TigersIter2.areaEffects.InstantDeath;
-import com.TigersIter2.areaEffects.TakeDamage;
+import com.TigersIter2.areaEffects.*;
 import com.TigersIter2.entities.Avatar;
 import com.TigersIter2.entities.Entity;
+import com.TigersIter2.stats.Stats;
 import com.TigersIter2.stats.StatsModifier;
 
 /**
@@ -14,21 +13,25 @@ public class AreaEffectManager {
 
     private Entity entity;
     private AreaEffect areaEffect;
-    private StatsModifier statsMod;
+    private Stats stats;
     private InstantDeath instantDeath;
     private TakeDamage takeDamage;
-
+    private HealDamage healDamage;
+    private LevelUp levelUp;
 
     public void getStatsModifier(){
 
         switch(getAreaEffect()) {
 
-            case "instantDeath": statsMod = instantDeath.affectEntity();
+            case "instantDeath": instantDeath.affectEntity(entity);
 
-            case "takeDamage": statsMod = takeDamage.affectEntity();
+            case "takeDamage": takeDamage.affectEntity(entity);
 
+            case "healDamage": healDamage.affectEntity(entity);
 
+            case "levelUp": levelUp.affectEntity(entity);
                 // add other cases for other area effects
+                // is teleport an area affect???
         }
 
     }
