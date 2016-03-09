@@ -71,6 +71,7 @@ public class AvatarNPCInteract {
     }
 
     public void attack(){
+        //NEED SOME SORT OF TIMING FOR THIS METHOD
         Random rand = new Random();
         int attackAttempts = avatar.getStats().getOffensiveRating()/2 + 1;
         int randNumMax;
@@ -89,7 +90,7 @@ public class AvatarNPCInteract {
                         hit = true;
                 }
 
-                if(hit == true) {
+                if(hit) {
 
                     //Take skills into account
                     //int damage = rand.nextInt(getActiveSkill().getSkillLevel());
@@ -103,8 +104,10 @@ public class AvatarNPCInteract {
                     npc.getStats().decreaseCurrentLife(damage);
                     System.out.println("Dealt " + damage + " damage");
                     System.out.println(npc.getStats().getCurrentLife() + "/" + npc.getStats().getLife());
-                    if(npc.isAlive())
+                    if(npc.isAlive()) {
+                        //NEED SOME WAY OF TIMING THIS
                         retaliate(npc);
+                    }
                     else{
                         System.out.println("You killed the NPC!");
                         iter.remove();
@@ -118,7 +121,33 @@ public class AvatarNPCInteract {
     }
 
     private void retaliate(NPC npc){
+        Random rand = new Random();
+        int attackAttempts = npc.getStats().getOffensiveRating()/2 + 1;
+        int randNumMax = avatar.getStats().getDefensiveRating() + avatar.getStats().getArmor();
+        int numToHit = rand.nextInt(randNumMax);
+        boolean hit = false;
+        while(!hit && attackAttempts > 0){
+            --attackAttempts;
+            if(rand.nextInt(randNumMax) == numToHit)
+                hit = true;
+        }
 
+        if(hit) {
+
+            //Take skills into account
+            //int damage = rand.nextInt(getActiveSkill().getSkillLevel());
+            //Will be slightly different than this based on which type of weapon is being used
+
+
+            //TESTING
+            int damage = rand.nextInt(20);
+            //END TESTING
+
+            avatar.getStats().decreaseCurrentLife(damage);
+            if(avatar.getStats().getCurrentLife() <= 0)
+                System.out.println("You died!!");
+
+        }
     }
 
     public void addVehicle(Vehicle v){
