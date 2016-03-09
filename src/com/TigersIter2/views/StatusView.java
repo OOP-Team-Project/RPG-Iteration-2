@@ -269,6 +269,7 @@ public class StatusView extends View implements ActionListener{
             g2d.setFont(new Font("TimesRoman", Font.BOLD, 40));
             g2d.drawString("Skills", VIEW_X_START+140+totalWidth/2, VIEW_Y_START+35+totalHeight/2);
             playerIter = 0;
+            g2d.drawString("TODO", VIEW_X_START+140+totalWidth/2, VIEW_Y_START+35+totalHeight/2+150);
             height = 200;
             g2d.setFont(new Font("TimesRoman", Font.BOLD, 20));
 
