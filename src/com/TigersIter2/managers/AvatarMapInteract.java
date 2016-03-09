@@ -1,5 +1,6 @@
 package com.TigersIter2.managers;
 
+import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.entities.Avatar;
 import com.TigersIter2.location.Location;
 import com.TigersIter2.location.LocationConverter;
@@ -31,11 +32,26 @@ public class AvatarMapInteract {
 
     public void updateAvatarPos(long elapsed, int xMov, int yMov){
 
-        Location nextLocation = new Location(avatar.getLocation());
-        nextLocation.incrementX(xMov);
-        nextLocation.incrementY(yMov);
+        System.out.println("BEGIN");
+        System.out.println(avatar.getLocation().getX()+", "+avatar.getLocation().getY());
+        //Location nextLocation = new Location(avatar.getLocation());
+        Location nextLocation = new Location(0, 0, 0);
+        nextLocation.setX(avatar.getLocation().getX());
+        nextLocation.setY(avatar.getLocation().getY());
+
+        //TONS of things are considered when incrementing location, not just xMov and yMov
+        //Copied the next lines pretty much straight out of Avatar
+        //Works now
+        //In checkPassable(), can't just check grass
+        //Vehicles can give avatars ability to cross over other terrains
+        //Needs to be more robust
+        nextLocation.incrementX(Math.round(xMov * elapsed * StaticVar.entitySpeed*avatar.getStats().getMovement()));
+        nextLocation.incrementY(Math.round(yMov * elapsed * StaticVar.entitySpeed*avatar.getStats().getMovement()));
         //if next location is not on a different tile, update avatar position
         if (map.checkPassable(LocationConverter.PixelLocationToHex(nextLocation))) avatar.update(xMov,yMov, elapsed);
+        System.out.println("END");
+        System.out.println(avatar.getLocation().getX()+", "+avatar.getLocation().getY());
+        System.out.println(nextLocation.getX() +", "+nextLocation.getY());
     }
 
 }
