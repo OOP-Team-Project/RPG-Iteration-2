@@ -1,7 +1,9 @@
 package com.TigersIter2.states;
 
+import com.TigersIter2.areaEffects.TakeDamage;
 import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.items.Weapon;
+import com.TigersIter2.managers.AreaEffectManager;
 import com.TigersIter2.managers.StateManager;
 import com.TigersIter2.assets.sprites.*;
 import com.TigersIter2.entities.*;
@@ -28,6 +30,7 @@ public class GameState extends State {
     private Avatar avatar;
     private Vehicle vehicle;
     private AvatarNPCInteract ant;
+    private AreaEffectManager aem;
 
     //Views
     private AvatarView avatarView;
@@ -68,6 +71,11 @@ public class GameState extends State {
         list.add("So many things.");
         list.add("I suppose so.");
         ant.addVillager(list, true, true, false);
+
+
+        // FOR TESTING AREA EFFECTS
+        TakeDamage takeDamage = new TakeDamage();
+        aem = new AreaEffectManager(avatar, takeDamage);
 
 
         //pull in all pictures for GameState
@@ -120,7 +128,8 @@ public class GameState extends State {
         map.update();
         avatar.update(controller.getXMovement(),controller.getyMovement(), elapsed);
         View.update(controller.getCameraXMovement(), controller.getCameraYMovement(), elapsed);
-        ant.checkTile();
+        ant.checkTile();    // AvatarNPCInteract
+        aem.checkTile();    // AreaEffectManager
         handleControllerInput();
 
         if(avatar.getTrading()){

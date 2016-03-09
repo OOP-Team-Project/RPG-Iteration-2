@@ -1,5 +1,6 @@
 package com.TigersIter2.entities;
 
+import com.TigersIter2.location.Location;
 import com.TigersIter2.stats.NPCStats;
 import com.TigersIter2.stats.PlayerStats;
 import com.TigersIter2.stats.Stats;
@@ -20,6 +21,11 @@ public abstract class Entity extends Observable { //does Entity need to extend o
         return stats;
     }
     public void setStats(PlayerStats stats){}
+
+    public Location getLocation(){
+        Location l = new Location(0,0,0);
+        return l;
+    }
 
     //public abstract int getDirection();
 }

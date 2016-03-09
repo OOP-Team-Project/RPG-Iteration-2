@@ -3,6 +3,8 @@ package com.TigersIter2.managers;
 import com.TigersIter2.areaEffects.*;
 import com.TigersIter2.entities.Avatar;
 import com.TigersIter2.entities.Entity;
+import com.TigersIter2.entities.NPC;
+import com.TigersIter2.location.LocationConverter;
 import com.TigersIter2.stats.Stats;
 import com.TigersIter2.stats.StatsModifier;
 
@@ -11,24 +13,35 @@ import com.TigersIter2.stats.StatsModifier;
  */
 public class AreaEffectManager {
 
-    private Entity entity;
+    private Entity entityOnTile;
     private AreaEffect areaEffect;
     private InstantDeath instantDeath;
     private TakeDamage takeDamage;
     private HealDamage healDamage;
     private LevelUp levelUp;
 
-    public void getStatsModifier(){
+
+    public AreaEffectManager(Entity entity, AreaEffect effectType){
+        entityOnTile = entity;
+        areaEffect = effectType;
+
+        instantDeath = new InstantDeath();
+        takeDamage = new TakeDamage();
+        healDamage = new HealDamage();
+        levelUp = new LevelUp();
+    }
+
+    public void affectEntityOnTile(){
 
         switch(getAreaEffect()) {
 
-            case "instantDeath": instantDeath.affectEntity(entity);
+            case "instantDeath": instantDeath.affectEntity(entityOnTile);
 
-            case "takeDamage": takeDamage.affectEntity(entity);
+            case "takeDamage": takeDamage.affectEntity(entityOnTile);
 
-            case "healDamage": healDamage.affectEntity(entity);
+            case "healDamage": healDamage.affectEntity(entityOnTile);
 
-            case "levelUp": levelUp.affectEntity(entity);
+            case "levelUp": levelUp.affectEntity(entityOnTile);
                 // add other cases for other area effects
                 // is teleport an area affect???
         }
@@ -39,5 +52,14 @@ public class AreaEffectManager {
         return areaEffect.getEffectName();
     }
 
+
+    public void checkTile(){
+            if(LocationConverter.PixelLocationToHex(entityOnTile.getLocation()).getX() == LocationConverter.PixelLocationToHex(areaEffect.getLocation()).getX() &&
+                    LocationConverter.PixelLocationToHex(entityOnTile.getLocation()).getY() == LocationConverter.PixelLocationToHex(areaEffect.getLocation()).getY())
+            {
+                affectEntityOnTile();
+                System.out.println("Area effected player");
+            }
+    }
 
 }

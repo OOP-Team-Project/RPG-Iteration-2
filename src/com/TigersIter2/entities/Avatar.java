@@ -78,6 +78,10 @@ public class Avatar extends Entity{
         return stats;
     }
 
+    public void setStats(PlayerStats stats){
+        this.stats = stats;
+    }
+
     public void equipItemAtIndex(int i){
         if(inventory.getItemAtIndex(i).isEquippable())
             equipment.addItem(inventory.removeItemAtIndex(i));
@@ -218,12 +222,6 @@ public class Avatar extends Entity{
         System.out.println("Taking damage");
     }
 
-    public PlayerStats getStats(){
-        return stats;
-    }
 
-    public void setStats(PlayerStats stats){
-        this.stats = stats;
-    }
 
 }

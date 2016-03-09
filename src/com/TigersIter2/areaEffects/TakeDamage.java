@@ -14,6 +14,7 @@ public class TakeDamage extends AreaEffect{
         stats = entity.getStats();
         stats.decreaseCurrentLife(stats.getCurrentLife()/3);  // decrements health by 1/3
         entity.setStats(stats);
+        System.out.println("Avatar took damage");
     }
 
     public String getEffectName(){
