@@ -1,11 +1,12 @@
 package com.TigersIter2.main;
 
-import com.TigersIter2.items.Key;
 import com.TigersIter2.views.View;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Controller {
 
@@ -22,6 +23,7 @@ public class Controller {
     private boolean movingUp, movingDown, movingUpLeft, movingUpRight, movingDownLeft, movingDownRight;
     private int optionSelected;
     private int tradeMenuInput;
+    private List<String> controls;
 
     //temporary? --all temporary stuff added by Sam for MainMenu
     private int keyPressed;
@@ -37,6 +39,7 @@ public class Controller {
         movingDownRight = false;
         optionSelected = -1;
         tradeMenuInput = -1;
+        controls = new ArrayList<String>();
     }
 
     public int getXMovement(){
@@ -85,6 +88,10 @@ public class Controller {
         return ret;
     }
 
+    public List<String> getControls(){
+        return controls;
+    }
+
     public void setBindings(){
         InputMap inMap = component.getInputMap();
 
@@ -109,10 +116,12 @@ public class Controller {
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_3, 0, true), "OPTION3_STOP");
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_4, 0, true), "OPTION4_STOP");
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_5, 0, true), "OPTION5_STOP");
-        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, 0, true), "BACKSPACE_STOP");
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_Z, 0, true), "VEHICLE_STOP");
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_X, 0, true), "STATUS_VIEW_STOP");
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_C, 0, true), "ATTACK_STOP");
+        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, 0, true), "MENU_BACK");
+        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0,false),"MENU_SELECT");
+        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, true), "CONTROLLER_MENU");
 
         //For those who don't have a numpad, temporary controls...
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_W, 0, false), "UP_GO");
@@ -144,12 +153,9 @@ public class Controller {
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_L, 0, true), "DOWN_SCROLL_RIGHT_STOP");
 
         //temporary??
-        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0,false),"ENTER_GO");
-        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0,true),"ENTER_STOP");
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE,0,false),"SPACE_GO");
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE,0,true),"SPACE_STOP");
-        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_F,0,false),"F_GO");
-        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_F,0,true),"F_STOP");
+
         // Each entry in the InputMap is then inserted in the ActionMap
         // Actions defined below
         component.getActionMap().put("UP_GO", UP_GO);
@@ -170,10 +176,11 @@ public class Controller {
         component.getActionMap().put("OPTION3_STOP", OPTION3_STOP);
         component.getActionMap().put("OPTION4_STOP", OPTION4_STOP);
         component.getActionMap().put("OPTION5_STOP", OPTION5_STOP);
-        component.getActionMap().put("BACKSPACE_STOP", BACKSPACE_STOP);
+        component.getActionMap().put("MENU_BACK", MENU_BACK);
         component.getActionMap().put("VEHICLE_STOP", VEHICLE_STOP);
         component.getActionMap().put("STATUS_VIEW_STOP", STATUS_VIEW_STOP);
         component.getActionMap().put("ATTACK_STOP", ATTACK_STOP);
+        component.getActionMap().put("CONTROLLER_MENU", CONTROLLER_MENU);
 
         //For scrolling (Miles)
         component.getActionMap().put("UP_SCROLL_GO", UP_SCROLL_GO);
@@ -190,12 +197,28 @@ public class Controller {
         component.getActionMap().put("DOWN_SCROLL_RIGHT_STOP", DOWN_SCROLL_RIGHT_STOP);
 
         //temporary??
-        component.getActionMap().put("ENTER_GO", ENTER_KEY_GO);
-        component.getActionMap().put("ENTER_STOP", ENTER_KEY_STOP);
+        component.getActionMap().put("MENU_SELECT", ENTER_KEY_GO);
         component.getActionMap().put("SPACE_GO", SPACE_KEY_GO);
         component.getActionMap().put("SPACE_STOP", SPACE_KEY_STOP);
-        component.getActionMap().put("F_GO", F_KEY_GO);
-        component.getActionMap().put("F_STOP", F_KEY_STOP);
+
+
+        controls.add(KeyEvent.getKeyText(KeyEvent.VK_NUMPAD7));
+        controls.add(KeyEvent.getKeyText(KeyEvent.VK_NUMPAD8));
+        controls.add(KeyEvent.getKeyText(KeyEvent.VK_NUMPAD9));
+        controls.add(KeyEvent.getKeyText(KeyEvent.VK_NUMPAD1));
+        controls.add(KeyEvent.getKeyText(KeyEvent.VK_NUMPAD2));
+        controls.add(KeyEvent.getKeyText(KeyEvent.VK_NUMPAD3));
+        controls.add(KeyEvent.getKeyText(KeyEvent.VK_C));
+        controls.add(KeyEvent.getKeyText(KeyEvent.VK_Z));
+        controls.add(KeyEvent.getKeyText(KeyEvent.VK_X));
+        controls.add(KeyEvent.getKeyText(KeyEvent.VK_BACK_SPACE));
+        controls.add(KeyEvent.getKeyText(KeyEvent.VK_ENTER));
+    }
+
+    public void changeControl(KeyStroke ks, String s){
+        InputMap inMap = component.getInputMap();
+        inMap.remove(ks);
+        inMap.put(ks, s);
     }
 
     public void tradeBindings(){
@@ -207,8 +230,8 @@ public class Controller {
             component.getActionMap().put("DOWN_LEFT_GO", MENU_LEFT);
             component.getActionMap().put("UP_RIGHT_GO", MENU_RIGHT);
             component.getActionMap().put("DOWN_RIGHT_GO", MENU_RIGHT);
-            component.getActionMap().put("ENTER_GO", MENU_SELECT);
-            component.getActionMap().put("BACKSPACE_STOP", MENU_EXIT);
+            component.getActionMap().put("MENU_SELECT", MENU_SELECT);
+            component.getActionMap().put("MENU_BACK", MENU_EXIT);
         }
     }
 
@@ -229,8 +252,8 @@ public class Controller {
             component.getActionMap().put("DOWN_LEFT_GO", MENU_LEFT);
             component.getActionMap().put("UP_RIGHT_GO", MENU_RIGHT);
             component.getActionMap().put("DOWN_RIGHT_GO", MENU_RIGHT);
-            component.getActionMap().put("ENTER_GO", MENU_SELECT);
-            component.getActionMap().put("BACKSPACE_STOP", MENU_EXIT);
+            component.getActionMap().put("MENU_SELECT", MENU_SELECT);
+            component.getActionMap().put("MENU_BACK", MENU_EXIT);
             component.getActionMap().put("STATUS_VIEW_STOP", STATUS_VIEW_STOP);
         }
         else{
@@ -577,13 +600,6 @@ public class Controller {
         }
     };
 
-    Action ENTER_KEY_STOP = new AbstractAction() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            keyPressed = 0;
-        }
-    };
-
     Action SPACE_KEY_GO = new AbstractAction() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -595,20 +611,6 @@ public class Controller {
         @Override
         public void actionPerformed(ActionEvent e) {
             keyPressed = 0;
-        }
-    };
-
-    Action F_KEY_GO = new AbstractAction() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            optionSelected = -1;
-        }
-    };
-
-    Action F_KEY_STOP = new AbstractAction() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            optionSelected = 0;
         }
     };
 
@@ -654,7 +656,7 @@ public class Controller {
         }
     };
 
-    Action BACKSPACE_STOP = new AbstractAction() {
+    Action MENU_BACK = new AbstractAction() {
         @Override
         public void actionPerformed(ActionEvent e) {
             optionSelected = 100;
@@ -679,6 +681,13 @@ public class Controller {
         @Override
         public void actionPerformed(ActionEvent e) {
             optionSelected = 8;
+        }
+    };
+
+    Action CONTROLLER_MENU = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            optionSelected = 9;
         }
     };
 }
