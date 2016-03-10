@@ -59,7 +59,7 @@ public class GameState extends State {
         avatar.setOccupation(new Sneak());
         avatar.getInventory().addItem(new Potion("Health Potion", 10));
         //avatar.getInventory().addItem(new Potion("Strength Potion"));
-        avatar.getInventory().addItem(new Weapon());
+        avatar.getInventory().addItem(new OneHandedWeapon("Butter Knife", 1));
         ant = new AvatarNPCInteract(avatar, footerView);
         vehicleViews = new ArrayList<VehicleView>();
         itemManager = new ItemManager(avatar);
@@ -88,7 +88,7 @@ public class GameState extends State {
 
         //testing for item interactions
         Item item = new Key("Key", 1);
-        item.setLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight,0));
+        item.setLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight + 200,0));
         Item obstacle = new Obstacle();
         obstacle.setLocation(new Location(10 * StaticVar.terrainImageWidth + 400,10 * StaticVar.terrainImageHeight,0));
         itemManager.addItem(obstacle);
@@ -113,6 +113,7 @@ public class GameState extends State {
         for(NPC n : ant.getNpcList()){
             npcViews.add(new NPCView(n, avatar, map));
         }
+
         mapView = new MapView(map, avatar);
         areaView =  new AreaView(mapView,avatarView, vehicleViews, footerView, statusView, npcViews, controlView);
 

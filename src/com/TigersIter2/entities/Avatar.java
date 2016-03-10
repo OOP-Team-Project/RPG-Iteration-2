@@ -26,7 +26,7 @@ public class Avatar extends Entity{
     private int money;
 
     private boolean currentlyMoving = false;
-    private boolean onTileWithNPC;
+    private boolean onTileWithNPC = false;
     private boolean trading;
 
 

@@ -225,7 +225,7 @@ public class StatusView extends View implements ActionListener{
                 g2d.setColor(Color.black);
                 if (playerIter == highlighted && whoseSide == 0)
                     g2d.drawString(">", 125, height);
-                if (playerSelectedItems.contains(playerInventory.getItemAtIndex(playerIter)))
+                if (playerSelectedItems.contains(playerInventory.getItemAtIndex(playerIter).toString()))
                     g2d.setColor(Color.red);
                 g2d.drawString(item.toString(), 150, height);
                 height += 20;

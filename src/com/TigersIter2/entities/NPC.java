@@ -28,7 +28,7 @@ public abstract class NPC extends Entity{
     protected boolean willTalk;
     protected boolean willAttack;
     private boolean canAttack = true;
-
+    private boolean onTileWithAvatar = false;
 
 
     public NPC(){
@@ -41,6 +41,8 @@ public abstract class NPC extends Entity{
         equipment = new Equipment();
         stats = new NPCStats();
         attackTime = 500;
+        stats.setLife(100);
+        stats.setCurrentLife(100);
     }
 
     //What is this supposed to do? -Sam
@@ -170,5 +172,13 @@ public abstract class NPC extends Entity{
 
     public void setCanAttack(boolean b){
         canAttack = b;
+    }
+
+    public void setOnTileWithAvatar(boolean b){
+        onTileWithAvatar = b;
+    }
+
+    public boolean getOnTileWithAvatar(){
+        return onTileWithAvatar;
     }
 }

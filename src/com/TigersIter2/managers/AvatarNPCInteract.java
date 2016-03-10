@@ -1,8 +1,10 @@
 package com.TigersIter2.managers;
 
 import com.TigersIter2.entities.*;
+import com.TigersIter2.items.OneHandedWeapon;
 import com.TigersIter2.items.TakeableItem;
 import com.TigersIter2.items.RangedWeapon;
+import com.TigersIter2.items.Weapon;
 import com.TigersIter2.location.LocationConverter;
 import com.TigersIter2.views.FooterView;
 
@@ -315,23 +317,18 @@ public class AvatarNPCInteract implements ActionListener{
         m.getStats().setArmor(3);
         m.getStats().setStrength(13);
         m.getStats().setAttack(12);
-        m.getStats().setLife(100);
-        m.getStats().setCurrentLife(100);
         //END TESTING
 
         npcList.add(m);
     }
 
     public void addVillager(List<String> p, boolean talk, boolean trade, boolean attack){
-        Villager v = new Villager(p, talk, trade, attack);
-        v.getInventory().addItem(new Weapon("Sword"));
+        NPC v = new Villager(p, talk, trade, attack);
+        v.getInventory().addItem(new OneHandedWeapon("Sword",5));
         npcList.add(v);
-
+        v.getLocation().setX(avatar.getLocation().getX());
+        v.getLocation().setY(avatar.getLocation().getY());
     }
-
-
-        // This will not actually be here, just for testing
-        npcList.get(0).getInventory().addItem(new RangedWeapon("Bow", 5, 10, 0));
 
     public List<NPC> getNpcList(){
         return npcList;
@@ -345,6 +342,7 @@ public class AvatarNPCInteract implements ActionListener{
                 if(!avatar.getOnTileWithNPC()) {
                     avatar.setOnTileWithNPC(true);
                     npcOnTile = n;
+                    npcOnTile.setOnTileWithAvatar(true);
                     if(npcOnTile.willTalk() || npcOnTile.willTrade()) {
                         footerView.setDisplay(true);
                         footerView.setType(0);
@@ -352,14 +350,15 @@ public class AvatarNPCInteract implements ActionListener{
                     }
                     else if(npcOnTile.willAttack()){
                         //NPC attacks player
-                        //attack();
                         retaliate(npcOnTile);
-                        //System.out.println("Getting attacked now");
                     }
                 }
             }
             else if(avatar.getOnTileWithNPC()){
-                    resetOptions();
+                 if(n.getOnTileWithAvatar()){
+                     n.setOnTileWithAvatar(false);
+                     resetOptions();
+                 }
             }
         }
     }
