@@ -37,6 +37,7 @@ public class GameState extends State {
     private List<NPCView> npcViews;
     private FooterView footerView;
     private StatusView statusView;
+    private ControlView controlView;
     //private EntityManager entityManager;
     //private ItemManager itemManager;
 
@@ -49,6 +50,7 @@ public class GameState extends State {
     public void init() {
 
         footerView = new FooterView();
+        controlView = new ControlView(controller);
         map = new TerrainMap(StaticVar.map1);
         avatar = new Avatar();
         avatar.setOccupation(new Sneak());
@@ -93,7 +95,7 @@ public class GameState extends State {
             npcViews.add(new NPCView(n, avatar, map));
         }
         mapView = new MapView(map, avatar);
-        areaView =  new AreaView(mapView,avatarView, vehicleViews, footerView, statusView, npcViews);
+        areaView =  new AreaView(mapView,avatarView, vehicleViews, footerView, statusView, npcViews, controlView);
 
 
         this.add(areaView);
@@ -119,6 +121,10 @@ public class GameState extends State {
             case 8:
                 ant.attack();
                 break;
+            case 9:
+                controlView.toggle();
+                controller.setControlViewControls(controlView.getDisplay());
+                break;
             case -1:
                 break;
             default:
@@ -136,7 +142,15 @@ public class GameState extends State {
         ant.checkTile();
         handleControllerInput();
 
-        if(avatar.getTrading()){
+        if(controlView.getDisplay()) {
+            int input = controller.getTradeMenuInput();
+            controlView.handleInput(input);
+            //if(input == 5){
+                //controlView.toggle();
+                //controller.setStatusViewControls(controlView.getDisplay());
+            //}
+        }
+        else if(avatar.getTrading()){
             controller.tradeBindings();
             int input = controller.getTradeMenuInput();
             ant.navigateTradeMenu(input);
@@ -152,6 +166,7 @@ public class GameState extends State {
                 controller.setStatusViewControls(statusView.getDisplay());
             }
         }
+
 
         if (controller.getKeyPressed() == KeyEvent.VK_SPACE) {
             stateManager.setState(StateManager.INTRO);
