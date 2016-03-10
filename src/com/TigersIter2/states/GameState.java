@@ -55,6 +55,7 @@ public class GameState extends State {
         avatar.getInventory().addItem(new Potion("Health Potion"));
         avatar.getInventory().addItem(new Potion("Strength Potion"));
         avatar.getInventory().addItem(new Weapon("Battle Axe"));
+        avatar.setAttackTime(1000);
         ant = new AvatarNPCInteract(avatar, footerView);
         vehicleViews = new ArrayList<VehicleView>();
         npcViews = new ArrayList<NPCView>();
