@@ -4,6 +4,7 @@ import com.TigersIter2.areaEffects.*;
 import com.TigersIter2.entities.Avatar;
 import com.TigersIter2.entities.Entity;
 import com.TigersIter2.entities.NPC;
+import com.TigersIter2.location.Location;
 import com.TigersIter2.location.LocationConverter;
 import com.TigersIter2.stats.Stats;
 import com.TigersIter2.stats.StatsModifier;
@@ -21,10 +22,10 @@ public class AreaEffectManager {
     private LevelUp levelUp;
 
 
-    public AreaEffectManager(Entity entity, AreaEffect effectType){
+    public AreaEffectManager(Entity entity, AreaEffect effectType, Location l){
         entityOnTile = entity;
         areaEffect = effectType;
-
+        areaEffect.setLocation(l);
         instantDeath = new InstantDeath();
         takeDamage = new TakeDamage();
         healDamage = new HealDamage();

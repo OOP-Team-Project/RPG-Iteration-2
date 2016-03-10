@@ -11,8 +11,9 @@ import com.TigersIter2.stats.StatsModifier;
 public class TakeDamage extends AreaEffect{
 
     public void affectEntity(Entity entity){
-        entity.getStats().decreaseCurrentLife(5);
-        System.out.println("Avatar took damage!");
+        // the longer entity stands on tile, the lower the health goes until dead
+        entity.getStats().decreaseCurrentLife(1);
+        System.out.println("Entity took damage!");
     }
 
     public String getEffectName(){

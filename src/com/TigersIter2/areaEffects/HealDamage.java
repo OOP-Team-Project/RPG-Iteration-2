@@ -13,8 +13,9 @@ import com.TigersIter2.stats.StatsModifier;
 
 public class HealDamage extends AreaEffect{
 
-    public void affectEntity(Entity entity, Location location){
-        entity.getStats().setCurrentLife(entity.getStats().getLife());  // Sets life ot max depending on Avatar's occupation
+    public void affectEntity(Entity entity){
+        // the longer entity stands on tile, the higher the health goes until full
+        entity.getStats().increaseCurrentLife(1);
         System.out.println("Entity healed damage!");
     }
 
@@ -24,4 +25,3 @@ public class HealDamage extends AreaEffect{
 
 
 }
-//TODO add locations to all area affects
