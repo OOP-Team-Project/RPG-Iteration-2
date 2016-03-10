@@ -76,9 +76,9 @@ public class GameState extends State {
         //testing for item interactions
         Item item = new Key("Key", 1);
         item.setLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight,0));
-        Item chest = new Interactive(1);
-        chest.setLocation(new Location(10 * StaticVar.terrainImageWidth + 400,10 * StaticVar.terrainImageHeight,0));
-        itemManager.addItem(chest);
+        Item obstacle = new Obstacle();
+        obstacle.setLocation(new Location(10 * StaticVar.terrainImageWidth + 400,10 * StaticVar.terrainImageHeight,0));
+        itemManager.addItem(obstacle);
         itemManager.addItem(item);
 
 
@@ -130,10 +130,12 @@ public class GameState extends State {
     @Override
     public void update(long elapsed) {
         map.update();
-        avatar.update(controller.getXMovement(),controller.getyMovement(), elapsed);
+        boolean avatarCanMove = itemManager.checkTile(elapsed, controller.getXMovement(), controller.getyMovement()); //returns false if item is an obstacle
+        if(avatarCanMove) {
+            avatar.update(controller.getXMovement(), controller.getyMovement(), elapsed);
+        }
         View.update(controller.getCameraXMovement(), controller.getCameraYMovement(), elapsed);
         ant.checkTile();
-        itemManager.checkTile();
         handleControllerInput();
 
         if(avatar.getTrading()){

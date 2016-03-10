@@ -1,8 +1,11 @@
 package com.TigersIter2.managers;
 
 import java.util.*;
+
+import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.entities.Avatar;
 import com.TigersIter2.items.*;
+import com.TigersIter2.location.Location;
 import com.TigersIter2.location.LocationConverter;
 import com.TigersIter2.stats.PlayerStats;
 import com.TigersIter2.entities.Inventory;
@@ -29,21 +32,31 @@ public class ItemManager {
         itemList.add(item);
     }
 
-    /*checks the tile player is on to see if there is an item on it
-    * Handles the interaction based off the item type */
-    public void checkTile() {
+    /*checks the tile player is moving to to see if there is an item on it
+     *Handles the interaction based off the item type, returns false if item is
+     *an obstacle*/
+    public boolean checkTile(long elapsed, int xMov, int yMov) {
         Iterator<Item> iter = itemList.iterator();
+        Location nextLocation = new Location(0, 0, 0);
+        nextLocation.setX(avatar.getLocation().getX());
+        nextLocation.setY(avatar.getLocation().getY());
+        nextLocation.incrementX(Math.round(xMov * elapsed * StaticVar.entitySpeed*avatar.getStats().getMovement()));
+        nextLocation.incrementY(Math.round(yMov * elapsed * StaticVar.entitySpeed*avatar.getStats().getMovement()));
         while(iter.hasNext()) {
             Item item = iter.next();
-            if(LocationConverter.PixelLocationToHex(item.getLocation()).getX() == LocationConverter.PixelLocationToHex(avatar.getLocation()).getX() &&
-                    LocationConverter.PixelLocationToHex(item.getLocation()).getY() == LocationConverter.PixelLocationToHex(avatar.getLocation()).getY()) {
+            if(LocationConverter.PixelLocationToHex(item.getLocation()).getX() == LocationConverter.PixelLocationToHex(nextLocation).getX() &&
+                   LocationConverter.PixelLocationToHex(item.getLocation()).getY() == LocationConverter.PixelLocationToHex(nextLocation).getY()) {
+                System.out.println("item found!");
+
                 if (item instanceof TakeableItem) {
                     avatarInventory.addItem((TakeableItem) item);
                     iter.remove();
+                    return true;
                 }
                 else if(item instanceof OneShot) {
                     playerStats.addStatModifier(((OneShot) item).getStatsModifier());
                     iter.remove();
+                    return true;
                 }
                 else if(item instanceof Interactive) {
                     List<TakeableItem> avatarInventoryItems = avatarInventory.getItems();
@@ -56,14 +69,16 @@ public class ItemManager {
                             }
                         }
                     }
+                    return true;
                 }
-                else { //item is an obstacle
-
+                else if(item instanceof Obstacle) { //item is an obstacle
+                    System.out.println("obstacle encountered");
+                    return false;
                 }
             }
 
         }
-       // System.out.println("Location of avatar: " + avatar.getLocation().toString());
-       //System.out.println("THIS IS THE NEW PLAYER STAT FROM ITEM: " + playerStats.getLife());
+
+        return true;
     }
 }
