@@ -36,12 +36,13 @@ public class AreaEffectManager {
         switch(getAreaEffect()) {
 
             case "instantDeath": instantDeath.affectEntity(entityOnTile);
-
+                break;
             case "takeDamage": takeDamage.affectEntity(entityOnTile);
-
+                break;
             case "healDamage": healDamage.affectEntity(entityOnTile);
-
+                break;
             case "levelUp": levelUp.affectEntity(entityOnTile);
+                break;
                 // add other cases for other area effects
                 // is teleport an area affect???
         }
@@ -58,7 +59,6 @@ public class AreaEffectManager {
                     LocationConverter.PixelLocationToHex(entityOnTile.getLocation()).getY() == LocationConverter.PixelLocationToHex(areaEffect.getLocation()).getY())
             {
                 affectEntityOnTile();
-                System.out.println("Area effected player");
             }
     }
 

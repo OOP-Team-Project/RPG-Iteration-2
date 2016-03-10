@@ -1,5 +1,6 @@
 package com.TigersIter2.areaEffects;
 
+import com.TigersIter2.entities.Avatar;
 import com.TigersIter2.entities.Entity;
 import com.TigersIter2.stats.Stats;
 import com.TigersIter2.stats.StatsModifier;
@@ -12,9 +13,9 @@ public class LevelUp extends AreaEffect{
 
 
     public void affectEntity(Entity entity){
-        stats = entity.getStats();
-        //stats.incrementLevel();
-        // TODO   for when Rokas adds public function to increment level
+        // only an Avatar wil levelUp
+        ((Avatar)entity).getStats().incrementLevel();
+        System.out.println("Avatar leveled up!");
     }
     public String getEffectName(){
         return "levelUp";

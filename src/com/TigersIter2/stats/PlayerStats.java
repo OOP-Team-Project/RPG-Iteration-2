@@ -151,7 +151,6 @@ public class PlayerStats extends Stats {
         }
     }
 
-    //TODO: IMPLEMENT BELOW
     public void incrementLevel() {
         int currentExp = getExperience();
         int expNeeded = getExperienceRequiredForLevel(level + 1);

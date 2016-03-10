@@ -1,5 +1,7 @@
 package com.TigersIter2.states;
 
+import com.TigersIter2.areaEffects.InstantDeath;
+import com.TigersIter2.areaEffects.LevelUp;
 import com.TigersIter2.areaEffects.TakeDamage;
 import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.items.Weapon;
@@ -18,6 +20,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 //GameState should initialize everything that is needed in GameState. This is because if you go back to the main menu for ex, and wish to start a new game
 //when GameState gets reinitialized, this would all be possible - Sam
@@ -80,6 +83,8 @@ public class GameState extends State {
 
         // FOR TESTING AREA EFFECTS
         TakeDamage takeDamage = new TakeDamage();
+        InstantDeath instantDeath = new InstantDeath();
+        LevelUp levelUp = new LevelUp();
         aem = new AreaEffectManager(avatar, takeDamage);
 
 

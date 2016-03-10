@@ -17,12 +17,12 @@ public abstract class AreaEffect {
     private Location location;  //This is the location used by MODELS to determine where the areaEffect is
     private Location pixelLocation; //This is the location used by VIEWS to determine where the areaEffect is
 
-    public PlayerStats stats;
+    public Entity entity;
 
     public AreaEffect(){
 
-        // for now, this is same location as NPCs
-        location = new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight,0);
+        // for now, this is same location as Turtle1
+        location = new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight-50,0);
 
         //  to add with a visual
         //pixelLocation = new Location(Math.round(StaticVar.xTilesFromEdge*StaticVar.terrainImageWidth*.75f - 80), Math.round(StaticVar.yTilesFromEdge*StaticVar.terrainImageHeight - Math.round(StaticVar.terrainImageHeight*1.2f)), 0);

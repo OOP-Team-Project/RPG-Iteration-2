@@ -25,8 +25,8 @@ public abstract class Entity extends Observable { //does Entity need to extend o
         attackTime = a;
     }
 
-    public PlayerStats getStats(){   // to be overridden in subclasses Avatar and NPC
-        PlayerStats stats = new PlayerStats();
+    public Stats getStats(){   // to be overridden in subclasses Avatar and NPC
+        Stats stats = new NPCStats();
         return stats;
     }
     public void setStats(Stats stats) {};

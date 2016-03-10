@@ -174,10 +174,6 @@ public abstract class NPC extends Entity{
         canAttack = b;
     }
 
-//    public NPCStats getStats(){
-//        return stats;
-//    }
-
     public void setStats(NPCStats stats){
         this.stats = stats;
     }
