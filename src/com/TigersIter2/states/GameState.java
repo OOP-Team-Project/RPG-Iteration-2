@@ -34,7 +34,9 @@ public class GameState extends State {
     private MapView mapView;
     private AreaView areaView;
     private List<VehicleView> vehicleViews;
+    private List<NPCView> npcViews;
     private FooterView footerView;
+    private StatusView statusView;
     //private EntityManager entityManager;
     //private ItemManager itemManager;
 
@@ -53,8 +55,10 @@ public class GameState extends State {
         avatar.getInventory().addItem(new Potion("Health Potion"));
         avatar.getInventory().addItem(new Potion("Strength Potion"));
         avatar.getInventory().addItem(new Weapon("Battle Axe"));
+        avatar.setAttackTime(1000);
         ant = new AvatarNPCInteract(avatar, footerView);
         vehicleViews = new ArrayList<VehicleView>();
+        npcViews = new ArrayList<NPCView>();
 
         //THIS IS ALL FOR TESTING. WILL NOT STAY HERE
         ant.addVehicle(new Vehicle("Turtle", 5, true, true));
@@ -67,6 +71,7 @@ public class GameState extends State {
         list.add("So many things.");
         list.add("I suppose so.");
         ant.addVillager(list, true, true, false);
+        ant.addMonster();
 
 
         //pull in all pictures for GameState
@@ -76,13 +81,19 @@ public class GameState extends State {
         SmasherSprite.init();
         SneakSprite.init();
         VehicleSprite.init();
+        VillagerSprite.init();
+        MonsterSprite.init();
 
         avatarView = new AvatarView(avatar);
+        statusView = new StatusView(avatar.getInventory(), avatar.getStats(), avatar.getEquipment());
         for(Vehicle vv : ant.getVehicleList()) {
             vehicleViews.add(new VehicleView(vv, avatar, map));
         }
+        for(NPC n : ant.getNpcList()){
+            npcViews.add(new NPCView(n, avatar, map));
+        }
         mapView = new MapView(map, avatar);
-        areaView =  new AreaView(mapView,avatarView, vehicleViews, footerView);
+        areaView =  new AreaView(mapView,avatarView, vehicleViews, footerView, statusView, npcViews);
 
 
         this.add(areaView);
@@ -100,6 +111,13 @@ public class GameState extends State {
                 break;
             case 6:
                 ant.mountVehicle();
+                break;
+            case 7:
+                statusView.toggle();
+                controller.setStatusViewControls(statusView.getDisplay());
+                break;
+            case 8:
+                ant.attack();
                 break;
             case -1:
                 break;
@@ -124,6 +142,14 @@ public class GameState extends State {
             ant.navigateTradeMenu(input);
             if(input == 5){
                 controller.revertTradeBindings();
+            }
+        }
+        else if(statusView.getDisplay()){
+            int input = controller.getTradeMenuInput();
+            statusView.handleInput(input);
+            if(input == 5){
+                statusView.toggle();
+                controller.setStatusViewControls(statusView.getDisplay());
             }
         }
 

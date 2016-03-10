@@ -378,7 +378,7 @@ public class PlayerStats extends Stats {
      * Following two functions are from last iteration. was wasting too much time
      * making a new exp curve. will use this for now.
      */
-    private int getExperienceRequiredForLevel(int targetLevel) {
+    public int getExperienceRequiredForLevel(int targetLevel) {
         if (targetLevel < 1) {
             throw new RuntimeException("Level must be greater than or equal to 1");
         }

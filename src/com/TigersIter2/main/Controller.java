@@ -1,5 +1,6 @@
 package com.TigersIter2.main;
 
+import com.TigersIter2.items.Key;
 import com.TigersIter2.views.View;
 
 import javax.swing.*;
@@ -110,6 +111,8 @@ public class Controller {
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_5, 0, true), "OPTION5_STOP");
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, 0, true), "BACKSPACE_STOP");
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_Z, 0, true), "VEHICLE_STOP");
+        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_X, 0, true), "STATUS_VIEW_STOP");
+        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_C, 0, true), "ATTACK_STOP");
 
         //For those who don't have a numpad, temporary controls...
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_W, 0, false), "UP_GO");
@@ -169,6 +172,8 @@ public class Controller {
         component.getActionMap().put("OPTION5_STOP", OPTION5_STOP);
         component.getActionMap().put("BACKSPACE_STOP", BACKSPACE_STOP);
         component.getActionMap().put("VEHICLE_STOP", VEHICLE_STOP);
+        component.getActionMap().put("STATUS_VIEW_STOP", STATUS_VIEW_STOP);
+        component.getActionMap().put("ATTACK_STOP", ATTACK_STOP);
 
         //For scrolling (Miles)
         component.getActionMap().put("UP_SCROLL_GO", UP_SCROLL_GO);
@@ -195,16 +200,13 @@ public class Controller {
 
     public void tradeBindings(){
         if(component.getActionMap().get("UP_GO") != MENU_UP) {
-            component.getActionMap().remove("UP_GO");
-            component.getActionMap().remove("DOWN_GO");
-            component.getActionMap().remove("LEFT_GO");
-            component.getActionMap().remove("RIGHT_GO");
-            component.getActionMap().remove("ENTER_GO");
-            component.getActionMap().remove("BACKSPACE_STOP");
+            component.getActionMap().clear();
             component.getActionMap().put("UP_GO", MENU_UP);
             component.getActionMap().put("DOWN_GO", MENU_DOWN);
             component.getActionMap().put("UP_LEFT_GO", MENU_LEFT);
+            component.getActionMap().put("DOWN_LEFT_GO", MENU_LEFT);
             component.getActionMap().put("UP_RIGHT_GO", MENU_RIGHT);
+            component.getActionMap().put("DOWN_RIGHT_GO", MENU_RIGHT);
             component.getActionMap().put("ENTER_GO", MENU_SELECT);
             component.getActionMap().put("BACKSPACE_STOP", MENU_EXIT);
         }
@@ -212,18 +214,28 @@ public class Controller {
 
     public void revertTradeBindings(){
         if(component.getActionMap().get("UP_GO") == MENU_UP) {
-            component.getActionMap().remove("UP_GO");
-            component.getActionMap().remove("DOWN_GO");
-            component.getActionMap().remove("LEFT_GO");
-            component.getActionMap().remove("RIGHT_GO");
-            component.getActionMap().remove("ENTER_GO");
-            component.getActionMap().remove("BACKSPACE_STOP");
-            component.getActionMap().put("UP_GO", UP_GO);
-            component.getActionMap().put("DOWN_GO", DOWN_GO);
-            component.getActionMap().put("UP_LEFT_GO", UP_LEFT_GO);
-            component.getActionMap().put("UP_RIGHT_GO", UP_RIGHT_GO);
-            component.getActionMap().put("ENTER_GO", ENTER_KEY_GO);
-            component.getActionMap().put("BACKSPACE_STOP", BACKSPACE_STOP);
+            component.getActionMap().clear();
+            component.getInputMap().clear();
+            setBindings();
+        }
+    }
+
+    public void setStatusViewControls(boolean statusView){
+        component.getActionMap().clear();
+        if(statusView){
+            component.getActionMap().put("UP_GO", MENU_UP);
+            component.getActionMap().put("DOWN_GO", MENU_DOWN);
+            component.getActionMap().put("UP_LEFT_GO", MENU_LEFT);
+            component.getActionMap().put("DOWN_LEFT_GO", MENU_LEFT);
+            component.getActionMap().put("UP_RIGHT_GO", MENU_RIGHT);
+            component.getActionMap().put("DOWN_RIGHT_GO", MENU_RIGHT);
+            component.getActionMap().put("ENTER_GO", MENU_SELECT);
+            component.getActionMap().put("BACKSPACE_STOP", MENU_EXIT);
+            component.getActionMap().put("STATUS_VIEW_STOP", STATUS_VIEW_STOP);
+        }
+        else{
+            component.getInputMap().clear();
+            setBindings();
         }
     }
 
@@ -653,6 +665,20 @@ public class Controller {
         @Override
         public void actionPerformed(ActionEvent e) {
             optionSelected = 6;
+        }
+    };
+
+    Action STATUS_VIEW_STOP = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            optionSelected = 7;
+        }
+    };
+
+    Action ATTACK_STOP = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            optionSelected = 8;
         }
     };
 }

@@ -156,29 +156,29 @@ public class FooterView extends View implements ActionListener{
         }
         else if(display && trading){
             g2d.setColor(new Color(0.3f, 0.3f, 0.3f));
-            g2d.fillRect(300, 10, StaticVar.gameWidth - 600, 80);
+            g2d.fillRect(300, 40, StaticVar.gameWidth - 600, 80);
             g2d.setColor(Color.black);
             g2d.setFont(new Font("TimesRoman", Font.BOLD, 60));
-            g2d.drawString("T R A D I N G", 450, 70);
+            g2d.drawString("T R A D I N G", 450, 100);
 
             g2d.setColor(new Color(0.7607843f, 0.98039216f, 0.79607844f));
-            g2d.fillRect(75, 100, StaticVar.gameWidth/2 - 115, StaticVar.gameHeight-200);
-            g2d.fillRect(StaticVar.gameWidth/2 + 40, 100, StaticVar.gameWidth/2 - 115, StaticVar.gameHeight-200);
+            g2d.fillRect(75, 130, StaticVar.gameWidth/2 - 115, StaticVar.gameHeight-200);
+            g2d.fillRect(StaticVar.gameWidth/2 + 40, 130, StaticVar.gameWidth/2 - 115, StaticVar.gameHeight-200);
 
             g2d.setColor(Color.gray);
             if(whoseSide == 1) {
                 g2d.setColor(Color.red);
             }
-            g2d.fillRect(StaticVar.gameWidth/2 - 80, StaticVar.gameHeight/2 - 30, 160, 50);
+            g2d.fillRect(StaticVar.gameWidth/2 - 80, StaticVar.gameHeight/2 - 10, 160, 50);
             g2d.setColor(Color.black);
             g2d.setFont(new Font("TimesRoman", Font.BOLD, 20));
-            g2d.drawString("Submit Trade", StaticVar.gameWidth/2 - 65, StaticVar.gameHeight/2);
+            g2d.drawString("Submit Trade", StaticVar.gameWidth/2 - 75, StaticVar.gameHeight/2 + 30);
 
 
             g2d.setFont(new Font("TimesRoman", Font.BOLD, 20));
-            g2d.drawString("Your Stuff", 275, 120);
+            g2d.drawString("Your Stuff", 275, 150);
             int playerIter = 0;
-            int height = 140;
+            int height = 170;
             for(TakeableItem item : playerInventory.getItems()) {
                 g2d.setColor(Color.black);
                 if(playerIter == highlighted && whoseSide == 0)
@@ -192,9 +192,9 @@ public class FooterView extends View implements ActionListener{
 
 
             g2d.setColor(Color.black);
-            g2d.drawString("Their Stuff", 250 + StaticVar.gameWidth/2, 120);
+            g2d.drawString("Their Stuff", 250 + StaticVar.gameWidth/2, 150);
             int npcIter = 0;
-            height = 140;
+            height = 170;
             for(TakeableItem item : npcInventory.getItems()){
                 g2d.setColor(Color.black);
                 if(npcIter == highlighted && whoseSide == 2)
