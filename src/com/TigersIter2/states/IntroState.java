@@ -1,9 +1,8 @@
 package com.TigersIter2.states;
 
+import com.TigersIter2.assets.sprites.*;
 import com.TigersIter2.managers.StateManager;
 import com.TigersIter2.assets.StaticVar;
-import com.TigersIter2.assets.sprites.IntroSprite;
-import com.TigersIter2.assets.sprites.TerrainSprite;
 import com.TigersIter2.main.Controller;
 
 import java.awt.*;
@@ -18,6 +17,7 @@ public class IntroState extends State {
 
     private int counterBuffer;
 
+
     public IntroState(StateManager stateManager, Controller controller){
         super(stateManager, controller);
     }
@@ -31,6 +31,11 @@ public class IntroState extends State {
 
         //WTF this fixes map not displaying bug, DOESN'T MAKE SENSE
         TerrainSprite.init();
+        //Initialize for MainMenuState and NewGameState
+        WizardSprite.init();
+        SmasherSprite.init();
+        SneakSprite.init();
+
         System.out.println("IntroState initialized");
         name = "IntroState";
     }
@@ -54,10 +59,6 @@ public class IntroState extends State {
     public void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D)g.create();
         g2d.drawImage(IntroSprite.introImage,0,0,null);
-//        g2d.setColor(Color.GREEN);
-//        g2d.fillRect(0,20, this.getWidth(), this.getHeight()-20);
-//        g2d.setColor(Color.RED);
-//        g2d.drawString("Intro paintComponent. Components: " + this.getComponentCount(), 0, 400);
         g2d.dispose();
     }
 
