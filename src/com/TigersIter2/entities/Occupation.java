@@ -135,4 +135,6 @@ public abstract class Occupation {
     public void setManaIncrement(int manaIncrement) {
         this.manaIncrement = manaIncrement;
     }
+
+    public abstract String toString();
 }

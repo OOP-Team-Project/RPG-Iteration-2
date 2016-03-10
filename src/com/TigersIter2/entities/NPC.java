@@ -27,6 +27,8 @@ public abstract class NPC extends Entity{
     protected boolean willTrade;
     protected boolean willTalk;
     protected boolean willAttack;
+    private boolean canAttack = true;
+
 
 
     public NPC(){
@@ -38,6 +40,7 @@ public abstract class NPC extends Entity{
         inventory = new Inventory();
         equipment = new Equipment();
         stats = new NPCStats();
+        attackTime = 500;
     }
 
     //What is this supposed to do? -Sam
@@ -146,8 +149,26 @@ public abstract class NPC extends Entity{
         return responses.get(i);
     }
 
-    public int attack(){
-        int attackStrength = 1;
-        return attackStrength;
+    public NPCStats getStats(){
+        return stats;
+    }
+
+    public boolean isAlive(){
+        if(stats.getCurrentLife() <= 0)
+            return false;
+        else
+            return true;
+    }
+
+    public boolean isVillager(){
+        return !willAttack;
+    }
+
+    public boolean getCanAttack(){
+        return canAttack;
+    }
+
+    public void setCanAttack(boolean b){
+        canAttack = b;
     }
 }

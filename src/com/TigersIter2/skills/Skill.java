@@ -10,7 +10,7 @@ public abstract class Skill {
 
     public Skill() {
         skillLevel = 0;
-        maxLevel = 20;
+        maxLevel = 5;
     }
 
     /**
@@ -25,6 +25,8 @@ public abstract class Skill {
         } else return false;
     }
 
+    public int getSkillLevel() { return skillLevel; }
+
     /**
      * Shouldn't be used besides loading the game
      */
@@ -36,5 +38,6 @@ public abstract class Skill {
     /**
      * method to be overridden to update skill when it levels
      */
-    protected abstract void update();
+    protected  void update(){}
+
 }
