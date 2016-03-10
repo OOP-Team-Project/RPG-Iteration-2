@@ -199,9 +199,13 @@ public class AvatarNPCInteract {
                     if (npcOnTile.willTalk()) {
                         haveConversation(0);
                     }
-                    else {
+                    else if(npcOnTile.willTrade()){
                         //If NPC won't talk, but will trade, default to trading screen
                         haveConversation(5);
+                    }
+                    else if(npcOnTile.willAttack()){
+                        //If NPC won't talk/trade, but will attack, NPC attacks the player
+                        retaliate(npcOnTile);
                     }
                 } else if (selected == 2) {
                     //Player attacks NPC
