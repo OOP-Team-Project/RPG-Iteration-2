@@ -25,6 +25,8 @@ public abstract class Skill {
         } else return false;
     }
 
+    public int getSkillLevel() { return skillLevel; }
+
     /**
      * Shouldn't be used besides loading the game
      */

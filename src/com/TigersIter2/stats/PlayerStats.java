@@ -35,6 +35,7 @@ public class PlayerStats extends Stats {
     protected int currentMana;
     protected int barter;
     protected int lightRadius;
+    protected int abilityPoints;
 
     protected List<StatsModifier> mods;
 
@@ -79,6 +80,8 @@ public class PlayerStats extends Stats {
         this.maxLives = 10;
         this.experience = 0;
         this.level = 0;
+
+        this.abilityPoints = 0;
 
 
         //max the current mana and life
@@ -146,6 +149,13 @@ public class PlayerStats extends Stats {
                 timesLeveledUp--;
             }
         }
+    }
+
+    //TODO: IMPLEMENT BELOW
+    public void incrementLevel() {
+        int currentExp = getExperience();
+        int expNeeded = getExperienceRequiredForLevel(level + 1);
+        addExperience(expNeeded - currentExp);
     }
 
     /**
@@ -230,6 +240,7 @@ public class PlayerStats extends Stats {
         this.lightRadius = lightRadius;
     }
 
+
     /*************************************************************************************************
      * Getters
      ************************************************************************************************/
@@ -305,6 +316,10 @@ public class PlayerStats extends Stats {
         return o;
     }
 
+    public int getAbilityPoints() {
+        return abilityPoints;
+    }
+
 
     @Override
     public String toString() {
@@ -337,7 +352,11 @@ public class PlayerStats extends Stats {
         this.movement += o.getMovementIncrement();
         this.life += o.getLifeIncrement();
         this.mana += o.getManaIncrement();
-        level++;
+
+        this.level++;
+        this.abilityPoints++;
+        this.currentMana = getMana();
+        this.currentLife = getLife();
     }
 
     private void levelUp() {
@@ -348,17 +367,16 @@ public class PlayerStats extends Stats {
         this.movement += o.getMovementIncrement();
         this.life += o.getLifeIncrement();
         this.mana += o.getManaIncrement();
-        level++;
 
+        this.level++;
+        this.abilityPoints++;
         this.currentMana = getMana();
         this.currentLife = getLife();
-        //TODO: adjust skill attributes
     }
 
     /**
      * Following two functions are from last iteration. was wasting too much time
      * making a new exp curve. will use this for now.
-     * :TODO: Make private
      */
     private int getExperienceRequiredForLevel(int targetLevel) {
         if (targetLevel < 1) {
@@ -373,6 +391,10 @@ public class PlayerStats extends Stats {
 
     private int getLevelFromTotalExperience(int totalExperience) {
         return (int)Math.floor(Math.exp(Math.log(totalExperience / FIRST_LEVEL_EXPERIENCE) / LEVEL_EXPERIENCE_EXPONENT));
+    }
+
+    public void decrementAbilityPoint() {
+        this.abilityPoints--;
     }
 
     //***********************************************TESTING***************************************************//
