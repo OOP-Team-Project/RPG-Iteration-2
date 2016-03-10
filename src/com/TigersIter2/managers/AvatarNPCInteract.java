@@ -364,6 +364,8 @@ public class AvatarNPCInteract implements ActionListener{
     }
 
     public void navigateTradeMenu(int input){
+        if(input != -1)
+            footerView.setTooExpensive(false);
         if(input == 0){
             footerView.decrementHighlighted();
         }
@@ -380,21 +382,26 @@ public class AvatarNPCInteract implements ActionListener{
             int index = footerView.selectItem();
             if(footerView.getWhoseSide() == 0){
                 if(playerSelectedInventory.getItems().contains(avatar.getInventory().getItemAtIndex(index)))
-                playerSelectedInventory.getItems().remove(avatar.getInventory().getItemAtIndex(index));
+                    playerSelectedInventory.getItems().remove(avatar.getInventory().getItemAtIndex(index));
                 else
                     playerSelectedInventory.addItem(avatar.getInventory().getItemAtIndex(index));
             }
             else if(footerView.getWhoseSide() == 1){
-                for(TakeableItem item : playerSelectedInventory.getItems()){
-                    npcOnTile.getInventory().addItem(item);
-                    avatar.getInventory().getItems().remove(item);
+                if(footerView.getPlayerValue() >= footerView.getNpcValue()) {
+                    for (TakeableItem item : playerSelectedInventory.getItems()) {
+                        npcOnTile.getInventory().addItem(item);
+                        avatar.getInventory().getItems().remove(item);
+                    }
+                    for (TakeableItem item : npcSelectedInventory.getItems()) {
+                        avatar.getInventory().addItem(item);
+                        npcOnTile.getInventory().getItems().remove(item);
+                    }
+                    clearSelectedInventories();
+                    footerView.resetTrade();
                 }
-                for(TakeableItem item : npcSelectedInventory.getItems()){
-                    avatar.getInventory().addItem(item);
-                    npcOnTile.getInventory().getItems().remove(item);
+                else{
+                    footerView.setTooExpensive(true);
                 }
-                clearSelectedInventories();
-                footerView.resetTrade();
             }
             else if(footerView.getWhoseSide() == 2){
                 if(npcSelectedInventory.getItems().contains(npcOnTile.getInventory().getItemAtIndex(index)))

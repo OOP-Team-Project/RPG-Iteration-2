@@ -24,6 +24,9 @@ public class FooterView extends View implements ActionListener{
     private int highlighted;
     private List<TakeableItem> playerSelectedItems;
     private List<TakeableItem> npcSelectedItems;
+    private int playerValue = 0;
+    private int npcValue = 0;
+    private boolean tooExpensive = false;
 
     public FooterView(){
         setPreferredSize(new Dimension(StaticVar.gameWidth - 400, 200));
@@ -39,6 +42,10 @@ public class FooterView extends View implements ActionListener{
 
     public void setDisplay(boolean b){
         display = b;
+    }
+
+    public void setTooExpensive(boolean b){
+        tooExpensive = b;
     }
 
     //0 denotes a menu, 1 denotes a conversation
@@ -94,23 +101,41 @@ public class FooterView extends View implements ActionListener{
         return whoseSide;
     }
 
+    public int getPlayerValue(){
+        return playerValue;
+    }
+
+    public int getNpcValue(){
+        return npcValue;
+    }
+
     public void resetTrade(){
         whoseSide = 0;
         highlighted = 0;
         playerSelectedItems.clear();
         npcSelectedItems.clear();
+        playerValue = 0;
+        npcValue = 0;
     }
 
 
     public int selectItem(){
-        if(whoseSide == 0 && playerSelectedItems.contains(playerInventory.getItemAtIndex(highlighted)))
+        if(whoseSide == 0 && playerSelectedItems.contains(playerInventory.getItemAtIndex(highlighted))) {
             playerSelectedItems.remove(playerInventory.getItemAtIndex(highlighted));
-        else if(whoseSide == 0 && !playerSelectedItems.contains(playerInventory.getItemAtIndex(highlighted)))
+            playerValue -= playerInventory.getItemAtIndex(highlighted).getPrice();
+        }
+        else if(whoseSide == 0 && !playerSelectedItems.contains(playerInventory.getItemAtIndex(highlighted))) {
             playerSelectedItems.add(playerInventory.getItemAtIndex(highlighted));
-        else if(whoseSide == 2 && npcSelectedItems.contains(npcInventory.getItemAtIndex(highlighted)))
+            playerValue += playerInventory.getItemAtIndex(highlighted).getPrice();
+        }
+        else if(whoseSide == 2 && npcSelectedItems.contains(npcInventory.getItemAtIndex(highlighted))) {
             npcSelectedItems.remove(npcInventory.getItemAtIndex(highlighted));
-        else if(whoseSide == 2 && !npcSelectedItems.contains(npcInventory.getItemAtIndex(highlighted)))
+            npcValue -= npcInventory.getItemAtIndex(highlighted).getPrice();
+        }
+        else if(whoseSide == 2 && !npcSelectedItems.contains(npcInventory.getItemAtIndex(highlighted))) {
             npcSelectedItems.add(npcInventory.getItemAtIndex(highlighted));
+            npcValue += npcInventory.getItemAtIndex(highlighted).getPrice();
+        }
         return highlighted;
     }
 
@@ -174,7 +199,15 @@ public class FooterView extends View implements ActionListener{
             g2d.setFont(new Font("TimesRoman", Font.BOLD, 20));
             g2d.drawString("Submit Trade", StaticVar.gameWidth/2 - 75, StaticVar.gameHeight/2 + 30);
 
+            g2d.drawString("Value: " + playerValue, 85, StaticVar.gameHeight - 100);
+            g2d.drawString("Value: " + npcValue, 50 + StaticVar.gameWidth/2, StaticVar.gameHeight - 100);
+            if(tooExpensive){
+                g2d.setColor(Color.red);
+                g2d.setFont(new Font("TimesRoman", Font.BOLD, 50));
+                g2d.drawString("That's too expensive!", StaticVar.gameWidth/3, StaticVar.gameHeight/2 + 100);
+            }
 
+            g2d.setColor(Color.black);
             g2d.setFont(new Font("TimesRoman", Font.BOLD, 20));
             g2d.drawString("Your Stuff", 275, 150);
             int playerIter = 0;

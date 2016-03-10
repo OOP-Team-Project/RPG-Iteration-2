@@ -10,7 +10,7 @@ public abstract class TakeableItem extends Item {
 
     private boolean equippable;
     private String name;
-    private int priceValue; //this is the value of the item which is used in bartering
+    private int priceValue = 10; //this is the value of the item which is used in bartering
     StatsModifier sm;
 
     public String toString(){
