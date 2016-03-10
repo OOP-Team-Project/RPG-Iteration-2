@@ -246,7 +246,6 @@ public class ControlView extends View{
                     duplicateKey = true;
                 }
                 else {
-                    System.out.println(e.getKeyCode());
                     controller.changeControl(highlighted, e.getKeyCode());
                     controller.getComponent().removeKeyListener(listen);
                     controller.setControlViewControls(display);
@@ -255,7 +254,6 @@ public class ControlView extends View{
             }
             if(!duplicateKey)
                 changingKey = !changingKey;
-            System.out.println(changingKey);
 
         }
     }
