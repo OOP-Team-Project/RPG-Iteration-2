@@ -30,12 +30,6 @@ public class AreaView extends View {
         this.add(mapView);
     }
 
-
     @Override
-    public void paintComponent(Graphics g){
-        //System.out.println("Inside AreaView");
-        g.drawString("AreaView PaintComponent: " + this.getComponentCount(), 260, 200);
-    }
-
-
+    public void paintComponent(Graphics g){}
 }

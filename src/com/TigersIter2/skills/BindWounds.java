@@ -7,6 +7,10 @@ import java.util.Observable;
 /**
  * Created by Magic_Buddha on 3/3/2016.
  */
+
+/**
+ * A general skill that heals the player.
+ */
 public class BindWounds extends ActiveSkill {
 
     private final int BASE_HEAL = 10;
@@ -15,17 +19,16 @@ public class BindWounds extends ActiveSkill {
     private double probability;
     private Stats playerStats;
 
-    /**
-     * Constructor, will need some sort of handle to stats
-     */
+
     public BindWounds(Stats playerStats){
         super();
         derivedHealed = BASE_HEAL;
         probability = 0.0;
+        this.playerStats = playerStats;
     }
 
     /**
-     * update function to update the stats of the skill
+     * executed on each level up to update the stats of the skill
      */
     @Override
     protected void update() {
@@ -33,18 +36,15 @@ public class BindWounds extends ActiveSkill {
         derivedHealed = BASE_HEAL + (skillLevel - 1) * LEVEL_MULTIPLIER;
     }
 
-    private boolean activate() {
+    public boolean activate() {
         if ( skillLevel > 0 && Math.random() < probability ) {
             playerStats.increaseCurrentLife(derivedHealed);
             return true;
         } else return false;
     }
 
-    /**
-     * gets called when observable object notifies this object
-     * */
-    @Override
-    public void update(Observable observable, Object obj) {
-        activate();
+    public String toString() {
+        return "BindWounds";
     }
+
 }

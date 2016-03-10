@@ -7,12 +7,11 @@ import java.util.Observable;
  */
 public class Enchantment extends ActiveSkill {
     @Override
-    public void update(Observable observable, Object obj) {
+    protected void update() {
 
     }
 
-    @Override
-    protected void update() {
-
+    public String toString() {
+        return "Enchantment";
     }
 }

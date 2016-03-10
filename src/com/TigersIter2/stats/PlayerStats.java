@@ -35,26 +35,28 @@ public class PlayerStats extends Stats {
     protected int currentMana;
     protected int barter;
     protected int lightRadius;
+    protected int abilityPoints;
 
     protected List<StatsModifier> mods;
 
+
     protected Occupation o;
 
-    /**
-     * Constructor currently sets all stats to 0
-     */
-    public PlayerStats() {
-        super();
-        livesLeft = 2;
-        maxLives = 10;
-        experience = 0;
-        level = 0;
-        mana = 0;
-        currentMana = 0;
-        barter = 0;
-        lightRadius = 10;
-        mods = new ArrayList<StatsModifier>();
-    }
+//    /**
+//     * Constructor currently sets all stats to 0
+//     */
+//    public PlayerStats() {
+//        super();
+//        livesLeft = 2;
+//        maxLives = 10;
+//        experience = 0;
+//        level = 0;
+//        mana = 0;
+//        currentMana = 0;
+//        barter = 0;
+//        lightRadius = 10;
+//        mods = new ArrayList<StatsModifier>();
+//    }
 
     /**
      * or be a cool kid and pass me your occupation!
@@ -78,6 +80,8 @@ public class PlayerStats extends Stats {
         this.maxLives = 10;
         this.experience = 0;
         this.level = 0;
+
+        this.abilityPoints = 0;
 
 
         //max the current mana and life
@@ -147,6 +151,13 @@ public class PlayerStats extends Stats {
         }
     }
 
+    //TODO: IMPLEMENT BELOW
+    public void incrementLevel() {
+        int currentExp = getExperience();
+        int expNeeded = getExperienceRequiredForLevel(level + 1);
+        addExperience(expNeeded - currentExp);
+    }
+
     /**
      * should only use for loading
      */
@@ -182,6 +193,10 @@ public class PlayerStats extends Stats {
     }
 
     public void incrementBarter(int barter) { this.barter += barter; }
+
+    public void setOccupation(Occupation o) {
+        this.o = o;
+    }
 
     /**
      * adds a stat modifier and immediately affects the stats
@@ -224,6 +239,7 @@ public class PlayerStats extends Stats {
     public void setLightRadius(int lightRadius) {
         this.lightRadius = lightRadius;
     }
+
 
     /*************************************************************************************************
      * Getters
@@ -296,6 +312,15 @@ public class PlayerStats extends Stats {
         lightRadius -= lr;
     }
 
+    public Occupation getOccupation() {
+        return o;
+    }
+
+    public int getAbilityPoints() {
+        return abilityPoints;
+    }
+
+
     @Override
     public String toString() {
         String results = "";
@@ -327,7 +352,11 @@ public class PlayerStats extends Stats {
         this.movement += o.getMovementIncrement();
         this.life += o.getLifeIncrement();
         this.mana += o.getManaIncrement();
-        level++;
+
+        this.level++;
+        this.abilityPoints++;
+        this.currentMana = getMana();
+        this.currentLife = getLife();
     }
 
     private void levelUp() {
@@ -338,17 +367,16 @@ public class PlayerStats extends Stats {
         this.movement += o.getMovementIncrement();
         this.life += o.getLifeIncrement();
         this.mana += o.getManaIncrement();
-        level++;
 
+        this.level++;
+        this.abilityPoints++;
         this.currentMana = getMana();
         this.currentLife = getLife();
-        //TODO: adjust skill attributes
     }
 
     /**
      * Following two functions are from last iteration. was wasting too much time
      * making a new exp curve. will use this for now.
-     * :TODO: Make private
      */
     public int getExperienceRequiredForLevel(int targetLevel) {
         if (targetLevel < 1) {
@@ -363,6 +391,10 @@ public class PlayerStats extends Stats {
 
     private int getLevelFromTotalExperience(int totalExperience) {
         return (int)Math.floor(Math.exp(Math.log(totalExperience / FIRST_LEVEL_EXPERIENCE) / LEVEL_EXPERIENCE_EXPONENT));
+    }
+
+    public void decrementAbilityPoint() {
+        this.abilityPoints--;
     }
 
     //***********************************************TESTING***************************************************//

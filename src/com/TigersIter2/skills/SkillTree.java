@@ -1,8 +1,12 @@
 package com.TigersIter2.skills;
 
+import com.TigersIter2.entities.Occupation;
 import com.TigersIter2.stats.PlayerStats;
+import com.TigersIter2.stats.Stats;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -10,26 +14,28 @@ import java.util.Set;
  */
 public class SkillTree {
 
-    private int abilityPoints;
-    //skill tree is made up of passive, general, and occupation skills
-    private Set<Skill> skills;
+    /**
+     * Map of skills. Skillname String is the key, and the skill itself is the value.
+     */
+    private Map<String,Skill> skills;
+    private PlayerStats playerStats;
 
     /**
      * makes a skill tree depending on the entity type by first building
      * general skills and then occupation specific
      */
-    public SkillTree(String occupation) {
+    public SkillTree(PlayerStats playerStats) {
+        String o = playerStats.getOccupation().toString();
+        this.playerStats = playerStats;
 
-        abilityPoints = 0;
-
-        skills = new HashSet<Skill>();
+        skills = new HashMap<>();
 
         buildGeneralSkills();
-        if ( occupation.equalsIgnoreCase("Smasher") )
+        if (o.equalsIgnoreCase("Smasher") )
             buildSmasherSkills();
-        else if ( occupation.equalsIgnoreCase("Summoner") )
+        else if ( o.equalsIgnoreCase("Summoner") )
             buildSummonerSkills();
-        else if ( occupation.equalsIgnoreCase("Sneak") )
+        else if ( o.equalsIgnoreCase("Sneak") )
             buildSneakSkills();
         else
             System.out.println( "error" ); //will throw exception instead or something - rokas
@@ -39,59 +45,92 @@ public class SkillTree {
      * builds general skills
      */
     private void buildGeneralSkills() {
-        skills.add(new Bargain(new PlayerStats()));
-        skills.add(new BindWounds(new PlayerStats()));
-        skills.add(new Observation());
+        skills.put("BindWounds", new BindWounds(playerStats));
+        skills.put("Bargain", new Bargain(playerStats));
+        skills.put("Observation", new Observation());
     }
 
     /**
      * builds smasher skills
      */
     private void buildSmasherSkills() {
-
+        skills.put("OneHandedWeapon" ,new OneHandedWeapon(playerStats));
+        skills.put("TwoHandedWeapon", new TwoHandedWeapon(playerStats));
+        skills.put("Brawling", new Brawling(playerStats));
     }
 
     /**
      * builds summoner skills
      */
     private void buildSummonerSkills() {
-
+        skills.put("Enchantment", new Enchantment());
+        skills.put("Boon", new Boon(playerStats));
+        skills.put("Bane", new Bane(playerStats));
+        skills.put("Staff", new Staff(playerStats));
     }
 
     /**
      * builds sneak skills
      */
     private void buildSneakSkills() {
-
+        skills.put("PickPocket", new PickPocket());
+        skills.put("DetectRemoveTrap", new DetectRemoveTrap());
+        skills.put("Creep", new Creep());
+        skills.put("RangedWeapon", new RangedWeapon());
     }
 
     /**
      * raises a skill level of passive skill.
      */
-    public boolean raiseSkill( Skill s ) {
-        if ( skills.contains( s ) && abilityPoints > 0 ) {
-            abilityPoints--;
-            return s.raiseSkill();
+    public boolean raiseSkill( String s ) {
+        if ( skills.containsKey( s ) && playerStats.getAbilityPoints() > 0 ) {
+            boolean success = skills.get( s ).raiseSkill();
+            if ( success ) decrementAbilityPoints();
+            return success;
         }
         else return false;
     }
 
-
-    /**
-     * adds ability points to be used to raise the skills
-     */
-    public void addAbilityPoints( int ap ) {
-        abilityPoints += ap;
+    private void decrementAbilityPoints() {
+        playerStats.decrementAbilityPoint();
     }
 
-    public void incrementAbilityPoints() { abilityPoints++; }
+    /**
+     * If skill exists in the map, return the skill level, otherwise returns -1
+     */
+    public int getSkillLevel( String s ) {
+        if ( skills.containsKey( s ) ) {
+            return skills.get( s ).getSkillLevel();
+        }
+        else return -1;
+    }
+
+
+//    /**
+//     * adds ability points to be used to raise the skills
+//     */
+//    public void addAbilityPoints( int ap ) {
+//        abilityPoints += ap;
+//    }
+//
+//    public void incrementAbilityPoints() { abilityPoints++; }
 
     /**
      * returns the available ap's
      */
     public int getAbilityPoints() {
-        return abilityPoints;
+        return playerStats.getAbilityPoints();
     }
 
-    public void setAbilityPoints( int ap ) { abilityPoints = ap; }
+//    public void setAbilityPoints( int ap ) { abilityPoints = ap; }
+
+    public Map<String,Skill> getSkills() {
+        return skills;
+    }
+
+    public Set<String> getSkillsString() { return skills.keySet(); }
+
+    public String toString() {
+        return playerStats.getOccupation().toString();
+    }
 }
