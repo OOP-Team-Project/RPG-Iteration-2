@@ -16,15 +16,16 @@ public class AreaView extends View {
 
     //sets layout for components to overlap.
     //and sets the preferred size of this component to same as JFrame
-    public AreaView(MapView mapView, AvatarView avatarView, List<VehicleView> vehicleViews, FooterView footerView, StatusView sv, List<NPCView> nViews){
+    public AreaView(MapView mapView, AvatarView av, List<VehicleView> vv, FooterView fv, StatusView sv, List<NPCView> nv, ControlView cv){
         setLayout(new OverlayLayout(this));
         setPreferredSize(new Dimension(StaticVar.gameWidth, StaticVar.gameHeight));
         this.add(sv);
-        this.add(footerView);
-        for(VehicleView vv : vehicleViews)
-            this.add(vv);
-        this.add(avatarView);
-        for(NPCView n : nViews)
+        this.add(cv);
+        this.add(fv);
+        for(VehicleView v : vv)
+            this.add(v);
+        this.add(av);
+        for(NPCView n : nv)
             this.add(n);
         //MapView is fucked up - Sam
         this.add(mapView);
