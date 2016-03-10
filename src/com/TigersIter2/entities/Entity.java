@@ -20,7 +20,7 @@ public abstract class Entity extends Observable { //does Entity need to extend o
         PlayerStats stats = new PlayerStats();
         return stats;
     }
-    public void setStats(PlayerStats stats){}
+    public void setStats(Stats stats) {};
 
     public Location getLocation(){
         Location l = new Location(0,0,0);
