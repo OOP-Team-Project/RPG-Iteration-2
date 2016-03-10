@@ -34,6 +34,10 @@ public class StaticVar {
     public static final int sneakImageWidth = 100;
     public static final int vehicleImageHeight = 100;
     public static final int vehicleImageWidth = 100;
+    public static final int villagerImageHeight = 100;
+    public static final int villagerImageWidth = 100;
+    public static final int monsterImageHeight = 100;
+    public static final int monsterImageWidth = 100;
 
 
     //MapView Conventional Stuff (Miles)
