@@ -10,7 +10,7 @@ public abstract class Skill {
 
     public Skill() {
         skillLevel = 0;
-        maxLevel = 20;
+        maxLevel = 5;
     }
 
     /**

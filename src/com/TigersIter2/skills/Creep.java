@@ -1,18 +1,27 @@
 package com.TigersIter2.skills;
 
 import com.TigersIter2.entities.NPC;
+import com.TigersIter2.stats.PlayerStats;
 
 import java.util.Observable;
 
 /**
  * Created by Magic_Buddha on 3/5/2016.
  */
+
+/**
+ * "ability to stealthily move from place to place; movement is
+ * slowed while creeping. A successfully creeping character can
+ * surprise and back-stab an unwary opponent for extra damage."
+ */
 public class Creep extends ActiveSkill {
     private double probability;
+    private PlayerStats playerStats;
 
-    public Creep() {
+    public Creep( PlayerStats playerStats ) {
         super();
-        probability = 0.0;
+        this.probability = 0.0;
+        this.playerStats = playerStats;
     }
 
 

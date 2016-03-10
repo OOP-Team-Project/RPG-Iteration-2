@@ -393,6 +393,7 @@ public class PlayerStats extends Stats {
         return (int)Math.floor(Math.exp(Math.log(totalExperience / FIRST_LEVEL_EXPERIENCE) / LEVEL_EXPERIENCE_EXPONENT));
     }
 
+    //only used in skillTree
     public void decrementAbilityPoint() {
         this.abilityPoints--;
     }

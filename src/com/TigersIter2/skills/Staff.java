@@ -1,37 +1,57 @@
 package com.TigersIter2.skills;
 
-import com.TigersIter2.entities.NPC;
-import com.TigersIter2.stats.PlayerStats;
+import com.TigersIter2.stats.Stats;
 
 /**
  * Created by Magic_Buddha on 3/5/2016.
  */
+
+/**
+ * "out of mana? As a last resort one can try whacking an adversary with one's staff."
+ */
 public class Staff extends ActiveSkill {
+
+    /**
+     * Level bonus
+     */
     private final int ATTACK_PER_LEVEL = 10;
+
     private final int BASE_ATTACK = 25;
+
+    /**
+     * derived stats
+     */
     private int damage;
     private double probability;
-    private PlayerStats playerStats;
 
-    public Staff(PlayerStats playerStats) {
+    /*
+    handle to player stats in order to get offensive rating
+     */
+    private Stats playerStats;
+
+    public Staff(Stats playerStats) {
         super();
         this.playerStats = playerStats;
         damage = 0;
         probability = 0.0;
     }
 
-
+    /**
+     * executes on each level up
+     */
     @Override
     protected void update() {
-        probability = .5 + .1 * skillLevel;
+        probability = .3 + .1 * skillLevel;
         damage = skillLevel * ATTACK_PER_LEVEL + BASE_ATTACK;
     }
 
-    public boolean activate(NPC target) {
+    /**
+     * returns the damage that should be dealt to the enemy
+     */
+    public int getDamage() {
         if ( skillLevel > 0 && Math.random() < probability ) {
-//            target.attack(damage + playerStats.getOffensiveRating());
-            return true;
-        } else return false;
+            return damage + playerStats.getOffensiveRating();
+        } else return 0;
     }
 
     public String toString() {

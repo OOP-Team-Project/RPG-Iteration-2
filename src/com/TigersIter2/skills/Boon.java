@@ -13,8 +13,10 @@ import java.util.TimerTask;
  */
 
 /**
- * Summoners skill that alters players stats for some time depending on the level of the
- * skill.
+ * Summoners skill that alters players stats for some time
+ * depending on the level of the skill.
+ * "magic that heals, temporarily grants (partial) immunities
+ * and defensive bonuses, improves stats, and other beneficial things."
  */
 public class Boon extends ActiveSkill {
 
@@ -76,7 +78,7 @@ public class Boon extends ActiveSkill {
      */
     @Override
     protected void update() {
-        probability = .4 + .1 * skillLevel;
+        probability = .3 + .1 * skillLevel;
         derivedHealed = BASE_HEAL + (skillLevel - 1) * HEAL_LEVEL_MULTIPLIER;
         manaCost = MANA_COST + skillLevel * MANA_COST_LEVEL_MULTIPLIER;
         length = LENGTH + skillLevel + LENGTH_LEVEL_MULTIPLIER;
@@ -100,11 +102,17 @@ public class Boon extends ActiveSkill {
         } else return false;
     }
 
+    /**
+     * executed when the skill timer has finished
+     */
     private void skillEnded() {
         playerStats.removeStatModifier(sm);
         active = false;
     }
 
+    /**
+     * essentially, when a timer runs out, it executes run function which reverts this skills boosts
+     */
     private class TimedSkill extends TimerTask {
 
         @Override

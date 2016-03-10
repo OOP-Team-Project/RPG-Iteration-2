@@ -75,7 +75,7 @@ public class SkillTree {
     private void buildSneakSkills() {
         skills.put("PickPocket", new PickPocket());
         skills.put("DetectRemoveTrap", new DetectRemoveTrap());
-        skills.put("Creep", new Creep());
+        skills.put("Creep", new Creep(playerStats));
         skills.put("RangedWeapon", new RangedWeapon());
     }
 
@@ -133,4 +133,6 @@ public class SkillTree {
     public String toString() {
         return playerStats.getOccupation().toString();
     }
+
+    public Skill getSkill(String skillName) { return skills.get(skillName); }
 }
