@@ -13,9 +13,21 @@ import java.util.Observable;
  * Brawling adds damage when smasher isn't holding any weapons.
  * ^^Still need a way to implement it (need a handle to Equipment and be able to
  * check what type of weapon is held)
+ *
+ * "fighting with firsts and feet (note: this includes brass-knuckles, spiked gloves, &c.
+ * should you wish to have such items in your game). [Note: unarmed combat is low
+ * damage per blow, high speed attack]"
  */
 public class Brawling extends ActiveSkill {
-    private final int ATTACK_PER_LEVEL = 5;
+
+    /**
+     * base improvements while skill is actuve
+     */
+    private final int ATTACK_PER_LEVEL = 8;
+
+    /**
+     * derived stats of the skill
+     */
     private int damage;
     private double probability;
     private Stats playerStats;
@@ -23,22 +35,28 @@ public class Brawling extends ActiveSkill {
     public Brawling(Stats playerStats) {
         super();
         this.playerStats = playerStats;
-        damage = 0;
-        probability = 0.0;
+        this.damage = 0;
+        this.probability = 0.0;
     }
 
-
+    /**
+     * update function to update the stats of the skill
+     */
     @Override
     protected void update() {
-        probability = .5 + .1 * skillLevel;
+        probability = .3 + .1 * skillLevel;
         damage = skillLevel * ATTACK_PER_LEVEL;
     }
 
-    public boolean activate(NPC target) {
+    /**
+     * returns damage to be dealt to the enemy.
+     * returns 0 if failed to attack
+     */
+    //TODO: still need to check if holding no weapon..
+    public int getDamage() {
         if ( skillLevel > 0 && Math.random() < probability ) {
-//            target.attack(damage + playerStats.getOffensiveRating());
-            return true;
-        } else return false;
+            return damage + playerStats.getOffensiveRating();
+        } else return 0;
     }
 
     public String toString() {

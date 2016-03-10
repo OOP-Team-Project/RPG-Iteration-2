@@ -5,8 +5,6 @@ import com.TigersIter2.items.Item;
 import com.TigersIter2.items.TakeableItem;
 import com.TigersIter2.location.Location;
 import com.TigersIter2.stats.NPCStats;
-import com.TigersIter2.stats.PlayerStats;
-import com.TigersIter2.stats.Stats;
 
 import java.util.List;
 
@@ -30,7 +28,7 @@ public abstract class NPC extends Entity{
     protected boolean willTalk;
     protected boolean willAttack;
     private boolean canAttack = true;
-
+    private boolean onTileWithAvatar = false;
 
 
     public NPC(){
@@ -43,6 +41,8 @@ public abstract class NPC extends Entity{
         equipment = new Equipment();
         stats = new NPCStats();
         attackTime = 500;
+        stats.setLife(100);
+        stats.setCurrentLife(100);
     }
 
     //What is this supposed to do? -Sam
@@ -174,7 +174,11 @@ public abstract class NPC extends Entity{
         canAttack = b;
     }
 
-    public void setStats(NPCStats stats){
-        this.stats = stats;
+    public void setOnTileWithAvatar(boolean b){
+        onTileWithAvatar = b;
+    }
+
+    public boolean getOnTileWithAvatar(){
+        return onTileWithAvatar;
     }
 }

@@ -10,20 +10,32 @@ import java.util.Observable;
 
 /**
  * A general skill that heals the player.
+ * " heals some damage—the amount depends on the skill level."
  */
 public class BindWounds extends ActiveSkill {
 
+    /**
+     * skill stats modifiers for skill level
+     */
     private final int BASE_HEAL = 10;
     private final int LEVEL_MULTIPLIER = 10;
+
+    /**
+     * derived stats for the skill
+     */
     private int derivedHealed;
     private double probability;
+
+    /**
+     * handle to the player stat in order to heal
+     */
     private Stats playerStats;
 
 
     public BindWounds(Stats playerStats){
         super();
-        derivedHealed = BASE_HEAL;
-        probability = 0.0;
+        this.derivedHealed = BASE_HEAL;
+        this.probability = 0.0;
         this.playerStats = playerStats;
     }
 
@@ -32,10 +44,14 @@ public class BindWounds extends ActiveSkill {
      */
     @Override
     protected void update() {
-        probability = .2 * skillLevel;
-        derivedHealed = BASE_HEAL + (skillLevel - 1) * LEVEL_MULTIPLIER;
+        this.probability = .3 + .1 * skillLevel;
+        this.derivedHealed = BASE_HEAL + (skillLevel - 1) * LEVEL_MULTIPLIER;
     }
 
+    /**
+     * heals the player if successful
+     * returns false if failed to heal
+     */
     public boolean activate() {
         if ( skillLevel > 0 && Math.random() < probability ) {
             playerStats.increaseCurrentLife(derivedHealed);

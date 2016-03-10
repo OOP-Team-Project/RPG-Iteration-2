@@ -5,25 +5,24 @@ import com.TigersIter2.areaEffects.InstantDeath;
 import com.TigersIter2.areaEffects.LevelUp;
 import com.TigersIter2.areaEffects.TakeDamage;
 import com.TigersIter2.assets.StaticVar;
+import com.TigersIter2.items.OneHandedWeapon;
 import com.TigersIter2.items.Weapon;
 import com.TigersIter2.location.Location;
 import com.TigersIter2.managers.AreaEffectManager;
 import com.TigersIter2.managers.StateManager;
 import com.TigersIter2.assets.sprites.*;
 import com.TigersIter2.entities.*;
-import com.TigersIter2.items.Potion;
-import com.TigersIter2.items.TakeableItem;
+import com.TigersIter2.items.*;
 import com.TigersIter2.main.Controller;
 import com.TigersIter2.managers.AvatarNPCInteract;
+import com.TigersIter2.managers.ItemManager;
 import com.TigersIter2.maps.TerrainMap;
 import com.TigersIter2.views.*;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.awt.geom.Area;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 
 //GameState should initialize everything that is needed in GameState. This is because if you go back to the main menu for ex, and wish to start a new game
 //when GameState gets reinitialized, this would all be possible - Sam
@@ -36,9 +35,7 @@ public class GameState extends State {
     private Avatar avatar;
     private Vehicle vehicle;
     private AvatarNPCInteract ant;
-    private AreaEffectManager aem;
-    //private EntityManager entityManager;
-    //private ItemManager itemManager;
+    private ItemManager itemManager;
 
     //Views
     private AvatarView avatarView;
@@ -48,7 +45,9 @@ public class GameState extends State {
     private List<NPCView> npcViews;
     private FooterView footerView;
     private StatusView statusView;
-
+    private ControlView controlView;
+    //private EntityManager entityManager;
+    //private ItemManager itemManager;
 
 
     public GameState(StateManager stateManager, Controller controller){
@@ -59,16 +58,25 @@ public class GameState extends State {
     public void init() {
 
         footerView = new FooterView();
+        controlView = new ControlView(controller);
         map = new TerrainMap(StaticVar.map1);
         avatar = new Avatar();
         avatar.setOccupation(new Sneak());
-        avatar.getInventory().addItem(new Potion("Health Potion"));
-        avatar.getInventory().addItem(new Potion("Strength Potion"));
-        avatar.getInventory().addItem(new Weapon("Battle Axe"));
+        avatar.getInventory().addItem(new Potion("Health Potion", 10));
+        //avatar.getInventory().addItem(new Potion("Strength Potion"));
+        avatar.getInventory().addItem(new OneHandedWeapon("Butter Knife", 1));
+        ant = new AvatarNPCInteract(avatar, footerView);
+        vehicleViews = new ArrayList<VehicleView>();
+        itemManager = new ItemManager(avatar);
+
+       // avatar.getInventory().addItem(new Potion("Health Potion"));
+       // avatar.getInventory().addItem(new Potion("Strength Potion"));
+       // avatar.getInventory().addItem(new Weapon("Battle Axe"));
         avatar.setAttackTime(1000);
         ant = new AvatarNPCInteract(avatar, footerView);
         vehicleViews = new ArrayList<VehicleView>();
         npcViews = new ArrayList<NPCView>();
+
 
         //THIS IS ALL FOR TESTING. WILL NOT STAY HERE
         ant.addVehicle(new Vehicle("Turtle", 5, true, true));
@@ -82,6 +90,14 @@ public class GameState extends State {
         list.add("I suppose so.");
         ant.addVillager(list, true, true, false);
         ant.addMonster();
+
+        //testing for item interactions
+        Item item = new Key("Key", 1);
+        item.setLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight + 200,0));
+        Item obstacle = new Obstacle();
+        obstacle.setLocation(new Location(10 * StaticVar.terrainImageWidth + 400,10 * StaticVar.terrainImageHeight,0));
+        itemManager.addItem(obstacle);
+        itemManager.addItem(item);
 
 
 
@@ -103,8 +119,9 @@ public class GameState extends State {
         for(NPC n : ant.getNpcList()){
             npcViews.add(new NPCView(n, avatar, map));
         }
+
         mapView = new MapView(map, avatar);
-        areaView =  new AreaView(mapView,avatarView, vehicleViews, footerView, statusView, npcViews);
+        areaView =  new AreaView(mapView,avatarView, vehicleViews, footerView, statusView, npcViews, controlView);
 
 
         this.add(areaView);
@@ -130,6 +147,10 @@ public class GameState extends State {
             case 8:
                 ant.attack();
                 break;
+            case 9:
+                controlView.toggle();
+                controller.setControlViewControls(controlView.getDisplay());
+                break;
             case -1:
                 break;
             default:
@@ -142,13 +163,23 @@ public class GameState extends State {
     @Override
     public void update(long elapsed) {
         map.update();
-        avatar.update(controller.getXMovement(),controller.getyMovement(), elapsed);
+        boolean avatarCanMove = itemManager.checkTile(elapsed, controller.getXMovement(), controller.getyMovement()); //returns false if item is an obstacle
+        if(avatarCanMove) {
+            avatar.update(controller.getXMovement(), controller.getyMovement(), elapsed);
+        }
         View.update(controller.getCameraXMovement(), controller.getCameraYMovement(), elapsed);
-        ant.checkTile();    // AvatarNPCInteract
-        aem.checkTile();    // AreaEffectManager
+        ant.checkTile();
         handleControllerInput();
 
-        if(avatar.getTrading()){
+        if(controlView.getDisplay()) {
+            int input = controller.getTradeMenuInput();
+            controlView.handleInput(input);
+            //if(input == 5){
+                //controlView.toggle();
+                //controller.setStatusViewControls(controlView.getDisplay());
+            //}
+        }
+        else if(avatar.getTrading()){
             controller.tradeBindings();
             int input = controller.getTradeMenuInput();
             ant.navigateTradeMenu(input);
@@ -164,6 +195,7 @@ public class GameState extends State {
                 controller.setStatusViewControls(statusView.getDisplay());
             }
         }
+
 
         if (controller.getKeyPressed() == KeyEvent.VK_SPACE) {
             stateManager.setState(StateManager.INTRO);

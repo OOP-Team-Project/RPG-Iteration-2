@@ -8,29 +8,37 @@ import com.TigersIter2.stats.PlayerStats;
  */
 
 /**
- * This skill attacks an entity using magic damage
+ * This skill returns magicdamage to be dealt to an enemy
  * derived from int and skill level. Mana cost increases as the skill levels up.
  * Requires handle to playerStats on intantiation
- * Requires handle to target npc
  */
-public class Bane extends ActiveSkill {
-
+public class Bane extends Skill {
+    /**
+     * level modifiers and base stats of the skill
+     */
     private final int MANA_COST = 5;
     private final int MAGIC = 30;
     private final int MAGIC_PER_LEVEL = 15;
     private final int MANA_COST_LEVEL_MULTIPLIER = 3;
 
+    /**
+     * derived stats of the skill
+     */
     private int magicDamage;
     private int manaCost;
     private double probability;
+
+    /**
+     * handle to player stats to get avatars OffensiveRating
+     */
     private PlayerStats playerStats;
 
     public Bane(PlayerStats playerStats) {
         super();
         this.playerStats = playerStats;
-        magicDamage = 0;
-        manaCost = MANA_COST;
-        probability = 0.0;
+        this.magicDamage = 0;
+        this.manaCost = MANA_COST;
+        this.probability = 0.0;
     }
 
     /**
@@ -38,20 +46,20 @@ public class Bane extends ActiveSkill {
      */
     @Override
     protected void update() {
-        probability = .5 + .1 * skillLevel;
-        magicDamage = skillLevel * MAGIC_PER_LEVEL + MAGIC;
-        manaCost = MANA_COST + skillLevel * MANA_COST_LEVEL_MULTIPLIER;
+        this.probability = .5 + .1 * skillLevel;
+        this.magicDamage = skillLevel * MAGIC_PER_LEVEL + MAGIC;
+        this.manaCost = MANA_COST + skillLevel * MANA_COST_LEVEL_MULTIPLIER;
     }
 
     /**
-     * returns true if attack successful.
+     * depending on the current skill statistics,
+     * returns the damage to be dealt
      */
-    public boolean activate(NPC target) {
+    public int getDamage() {
         if ( skillLevel > 0 && Math.random() < probability && playerStats.getCurrentMana() >= manaCost) {
             playerStats.decreaseCurrentMana(manaCost);
-            // target.attack(magicDamage + playerStats.getOffensiveRating());
-            return true;
-        } else return false;
+            return magicDamage + playerStats.getOffensiveRating();
+        } else return 0;
     }
 
     public String toString() {
