@@ -6,9 +6,15 @@ import com.TigersIter2.items.Weapon;
 import com.TigersIter2.location.LocationConverter;
 import com.TigersIter2.views.FooterView;
 
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-public class AvatarNPCInteract {
+import java.util.Random;
+
+public class AvatarNPCInteract implements ActionListener{
 
     private Avatar avatar;
     private NPC npcOnTile;
@@ -20,6 +26,9 @@ public class AvatarNPCInteract {
     private boolean talking, fighting, usingSkill, usingItem, pressContinue, trading;
     private Inventory playerSelectedInventory;
     private Inventory npcSelectedInventory;
+    private boolean playerCanAttack = true;
+    private Timer playerAttackTimer;
+    private List<Timer> npcAttackTimers;
 
     public AvatarNPCInteract(Avatar a, FooterView fv){
         avatar = a;
@@ -37,6 +46,16 @@ public class AvatarNPCInteract {
         originalOptions = new ArrayList<String>();
         playerSelectedInventory = new Inventory();
         npcSelectedInventory = new Inventory();
+        playerAttackTimer = new Timer(avatar.getAttackTime(), this);
+        npcAttackTimers = new ArrayList<Timer>();
+        for(NPC n : npcList){
+            npcAttackTimers.add(new Timer(n.getAttackTime(), this));
+        }
+
+        playerAttackTimer.start();
+        for(Timer t : npcAttackTimers){
+            t.start();
+        }
         fillQuestions();
         fillOriginalOptions();
     }
@@ -56,8 +75,112 @@ public class AvatarNPCInteract {
         originalOptions.add("Use Item");
     }
 
+    public void actionPerformed(ActionEvent e) {
+        if(!playerCanAttack) {
+            playerCanAttack = true;
+        }
+
+        for(NPC n : npcList){
+            if(!n.getCanAttack())
+                n.setCanAttack(true);
+        }
+
+    }
+
+    private boolean inRange(NPC n){
+        //somehow determine if npc is in range based off of direction and attack range and such
+
+
+        //in the meantime, just use this (since ranged attacks are not implemented yet
+        if(n == npcOnTile)
+            return true;
+        else
+            return false;
+    }
+
     public void attack(){
-        //Check your position/direction/range against the NPC's in the list
+        //NEED SOME SORT OF TIMING FOR THIS METHOD
+        if(playerCanAttack) {
+            playerCanAttack = false;
+            Random rand = new Random();
+            int attackAttempts = avatar.getStats().getOffensiveRating() / 2 + 1;
+            int randNumMax;
+            //Check your position/direction/range against the NPC's in the list
+            Iterator<NPC> iter = npcList.iterator();
+            while (iter.hasNext()) {
+                NPC npc = iter.next();
+                if (inRange(npc)) {
+                    //Take stats into account
+                    randNumMax = npc.getStats().getDefensiveRating() + npc.getStats().getArmor();
+                    int numToHit = rand.nextInt(randNumMax);
+                    boolean hit = false;
+                    while (!hit && attackAttempts > 0) {
+                        --attackAttempts;
+                        if (rand.nextInt(randNumMax) == numToHit)
+                            hit = true;
+                    }
+
+                    if (hit) {
+
+                        //Take skills into account
+                        //int damage = rand.nextInt(getActiveSkill().getSkillLevel());
+                        //Will be slightly different than this based on which type of weapon is being used
+
+
+                        //TESTING
+                        int damage = rand.nextInt(20);
+                        //END TESTING
+
+                        npc.getStats().decreaseCurrentLife(damage);
+                        System.out.println("Dealt " + damage + " damage");
+                        System.out.println(npc.getStats().getCurrentLife() + "/" + npc.getStats().getLife());
+                        if (npc.isAlive()) {
+                            //NEED SOME WAY OF TIMING THIS
+                            retaliate(npc);
+                        } else {
+                            System.out.println("You killed the NPC!");
+                            iter.remove();
+                        }
+
+                    } else
+                        System.out.println("MISS!");
+                }
+            }
+        }
+    }
+
+    private void retaliate(NPC npc){
+        if(npc.getCanAttack()) {
+            npc.setCanAttack(false);
+            Random rand = new Random();
+            int attackAttempts = npc.getStats().getOffensiveRating() / 2 + 1;
+            int randNumMax = avatar.getStats().getDefensiveRating() + avatar.getStats().getArmor();
+            int numToHit = rand.nextInt(randNumMax);
+            boolean hit = false;
+            while (!hit && attackAttempts > 0) {
+                --attackAttempts;
+                if (rand.nextInt(randNumMax) == numToHit)
+                    hit = true;
+            }
+
+            if (hit) {
+
+                //Take skills into account
+                //int damage = rand.nextInt(getActiveSkill().getSkillLevel());
+                //Will be slightly different than this based on which type of weapon is being used
+
+
+                //TESTING
+                int damage = rand.nextInt(20);
+                System.out.println("You lost " + damage + " health!");
+                //END TESTING
+
+                avatar.getStats().decreaseCurrentLife(damage);
+                if (avatar.getStats().getCurrentLife() <= 0)
+                    System.out.println("You died!!");
+
+            }
+        }
     }
 
     public void addVehicle(Vehicle v){
@@ -109,9 +232,13 @@ public class AvatarNPCInteract {
                     if (npcOnTile.willTalk()) {
                         haveConversation(0);
                     }
-                    else {
+                    else if(npcOnTile.willTrade()){
                         //If NPC won't talk, but will trade, default to trading screen
                         haveConversation(5);
+                    }
+                    else if(npcOnTile.willAttack()){
+                        //If NPC won't talk/trade, but will attack, NPC attacks the player
+                        retaliate(npcOnTile);
                     }
                 } else if (selected == 2) {
                     //Player attacks NPC
@@ -180,14 +307,30 @@ public class AvatarNPCInteract {
 
     public void addMonster(){
         NPC m = new Monster();
+
+        //TESTING
+        m.getLocation().setX(avatar.getLocation().getX()+50);
+        m.getLocation().setY(avatar.getLocation().getY()+130);
+        m.getStats().setHardiness(20);
+        m.getStats().setArmor(3);
+        m.getStats().setStrength(13);
+        m.getStats().setAttack(12);
+        m.getStats().setLife(100);
+        m.getStats().setCurrentLife(100);
+        //END TESTING
+
         npcList.add(m);
     }
 
     public void addVillager(List<String> p, boolean talk, boolean trade, boolean attack){
-        npcList.add(new Villager(p, talk, trade, attack));
+        Villager v = new Villager(p, talk, trade, attack);
+        v.getInventory().addItem(new Weapon("Sword"));
+        npcList.add(v);
 
-        // This will not actually be here, just for testing
-        npcList.get(0).getInventory().addItem(new Weapon("Sword"));
+    }
+
+    public List<NPC> getNpcList(){
+        return npcList;
     }
 
     public void checkTile(){
@@ -205,8 +348,9 @@ public class AvatarNPCInteract {
                     }
                     else if(npcOnTile.willAttack()){
                         //NPC attacks player
-                        attack();
-                        System.out.println("Getting attacked now");
+                        //attack();
+                        retaliate(npcOnTile);
+                        //System.out.println("Getting attacked now");
                     }
                 }
             }

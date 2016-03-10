@@ -12,9 +12,18 @@ public abstract class Entity extends Observable { //does Entity need to extend o
 
 
     //private Location location;
+    protected int attackTime;
 
     //updates entity stuff
     public abstract void update(int x, int y, long elapsed);
+
+    public int getAttackTime(){
+        return attackTime;
+    }
+
+    public void setAttackTime(int a){
+        attackTime = a;
+    }
 
     public PlayerStats getStats(){   // to be overridden in subclasses Avatar and NPC
         PlayerStats stats = new PlayerStats();
