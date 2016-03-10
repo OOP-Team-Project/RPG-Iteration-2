@@ -123,7 +123,7 @@ public class GameState extends State {
                 break;
             case 9:
                 controlView.toggle();
-                controller.setStatusViewControls(controlView.getDisplay());
+                controller.setControlViewControls(controlView.getDisplay());
                 break;
             case -1:
                 break;
@@ -145,10 +145,10 @@ public class GameState extends State {
         if(controlView.getDisplay()) {
             int input = controller.getTradeMenuInput();
             controlView.handleInput(input);
-            if(input == 5){
-                controlView.toggle();
-                controller.setStatusViewControls(controlView.getDisplay());
-            }
+            //if(input == 5){
+                //controlView.toggle();
+                //controller.setStatusViewControls(controlView.getDisplay());
+            //}
         }
         else if(avatar.getTrading()){
             controller.tradeBindings();

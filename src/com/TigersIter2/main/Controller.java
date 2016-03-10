@@ -23,7 +23,8 @@ public class Controller {
     private boolean movingUp, movingDown, movingUpLeft, movingUpRight, movingDownLeft, movingDownRight;
     private int optionSelected;
     private int tradeMenuInput;
-    private List<String> controls;
+    private List<String> controlNames;
+    private List<Integer> controlCodes;
 
     //temporary? --all temporary stuff added by Sam for MainMenu
     private int keyPressed;
@@ -39,7 +40,42 @@ public class Controller {
         movingDownRight = false;
         optionSelected = -1;
         tradeMenuInput = -1;
-        controls = new ArrayList<String>();
+        controlNames = new ArrayList<String>();
+        controlCodes = new ArrayList<Integer>();
+        setDefaultControlCodes();
+    }
+
+    private void setDefaultControlCodes(){
+        //Movement
+        controlCodes.add(KeyEvent.VK_NUMPAD7);
+        controlCodes.add(KeyEvent.VK_NUMPAD8);
+        controlCodes.add(KeyEvent.VK_NUMPAD9);
+        controlCodes.add(KeyEvent.VK_NUMPAD1);
+        controlCodes.add(KeyEvent.VK_NUMPAD2);
+        controlCodes.add(KeyEvent.VK_NUMPAD3);
+
+        //Camera Movement
+        controlCodes.add(KeyEvent.VK_U);
+        controlCodes.add(KeyEvent.VK_I);
+        controlCodes.add(KeyEvent.VK_O);
+        controlCodes.add(KeyEvent.VK_J);
+        controlCodes.add(KeyEvent.VK_K);
+        controlCodes.add(KeyEvent.VK_L);
+
+        //Actions
+        controlCodes.add(KeyEvent.VK_C);
+        controlCodes.add(KeyEvent.VK_Z);
+        controlCodes.add(KeyEvent.VK_X);
+        controlCodes.add(KeyEvent.VK_BACK_SPACE);
+        controlCodes.add(KeyEvent.VK_ENTER);
+    }
+
+    public List<Integer> getControlCodes(){
+        return controlCodes;
+    }
+
+    public JComponent getComponent(){
+        return component;
     }
 
     public int getXMovement(){
@@ -88,39 +124,60 @@ public class Controller {
         return ret;
     }
 
-    public List<String> getControls(){
-        return controls;
+    public List<String> getControlNames(){
+        return controlNames;
     }
 
     public void setBindings(){
         InputMap inMap = component.getInputMap();
+        inMap.clear();
 
         // Each key we want to use is put into the InputMap
         // false means key pressed, true means key released
         // 0 means no modifiers
-        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD8, 0, false), "UP_GO");
-        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD8, 0, true), "UP_STOP");
-        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD2, 0, false), "DOWN_GO");
-        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD2, 0, true), "DOWN_STOP");
-        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD7, 0, false), "UP_LEFT_GO");
-        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD7, 0, true), "UP_LEFT_STOP");
-        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD9, 0, false), "UP_RIGHT_GO");
-        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD9, 0, true), "UP_RIGHT_STOP");
-        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD1, 0, false), "DOWN_LEFT_GO");
-        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD1, 0, true), "DOWN_LEFT_STOP");
-        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD3, 0, false), "DOWN_RIGHT_GO");
-        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD3, 0, true), "DOWN_RIGHT_STOP");
+
+        // Movement
+        inMap.put(KeyStroke.getKeyStroke(controlCodes.get(0), 0, false), "UP_LEFT_GO");
+        inMap.put(KeyStroke.getKeyStroke(controlCodes.get(0), 0, true), "UP_LEFT_STOP");
+        inMap.put(KeyStroke.getKeyStroke(controlCodes.get(1), 0, false), "UP_GO");
+        inMap.put(KeyStroke.getKeyStroke(controlCodes.get(1), 0, true), "UP_STOP");
+        inMap.put(KeyStroke.getKeyStroke(controlCodes.get(2), 0, false), "UP_RIGHT_GO");
+        inMap.put(KeyStroke.getKeyStroke(controlCodes.get(2), 0, true), "UP_RIGHT_STOP");
+        inMap.put(KeyStroke.getKeyStroke(controlCodes.get(3), 0, false), "DOWN_LEFT_GO");
+        inMap.put(KeyStroke.getKeyStroke(controlCodes.get(3), 0, true), "DOWN_LEFT_STOP");
+        inMap.put(KeyStroke.getKeyStroke(controlCodes.get(4), 0, false), "DOWN_GO");
+        inMap.put(KeyStroke.getKeyStroke(controlCodes.get(4), 0, true), "DOWN_STOP");
+        inMap.put(KeyStroke.getKeyStroke(controlCodes.get(5), 0, false), "DOWN_RIGHT_GO");
+        inMap.put(KeyStroke.getKeyStroke(controlCodes.get(5), 0, true), "DOWN_RIGHT_STOP");
+
+        //For scrolling I guess (Miles)
+        inMap.put(KeyStroke.getKeyStroke(controlCodes.get(6), 0, false), "UP_SCROLL_LEFT_GO");
+        inMap.put(KeyStroke.getKeyStroke(controlCodes.get(6), 0, true), "UP_SCROLL_LEFT_STOP");
+        inMap.put(KeyStroke.getKeyStroke(controlCodes.get(7), 0, false), "UP_SCROLL_GO");
+        inMap.put(KeyStroke.getKeyStroke(controlCodes.get(7), 0, true), "UP_SCROLL_STOP");
+        inMap.put(KeyStroke.getKeyStroke(controlCodes.get(8), 0, false), "UP_SCROLL_RIGHT_GO");
+        inMap.put(KeyStroke.getKeyStroke(controlCodes.get(8), 0, true), "UP_SCROLL_RIGHT_STOP");
+        inMap.put(KeyStroke.getKeyStroke(controlCodes.get(9), 0, false), "DOWN_SCROLL_LEFT_GO");
+        inMap.put(KeyStroke.getKeyStroke(controlCodes.get(9), 0, true), "DOWN_SCROLL_LEFT_STOP");
+        inMap.put(KeyStroke.getKeyStroke(controlCodes.get(10), 0, false), "DOWN_SCROLL_GO");
+        inMap.put(KeyStroke.getKeyStroke(controlCodes.get(10), 0, true), "DOWN_SCROLL_STOP");
+        inMap.put(KeyStroke.getKeyStroke(controlCodes.get(11), 0, false), "DOWN_SCROLL_RIGHT_GO");
+        inMap.put(KeyStroke.getKeyStroke(controlCodes.get(11), 0, true), "DOWN_SCROLL_RIGHT_STOP");
+
+        //Actions
+        inMap.put(KeyStroke.getKeyStroke(controlCodes.get(12), 0, true), "ATTACK_STOP");
+        inMap.put(KeyStroke.getKeyStroke(controlCodes.get(13), 0, true), "VEHICLE_STOP");
+        inMap.put(KeyStroke.getKeyStroke(controlCodes.get(14), 0, true), "STATUS_VIEW_STOP");
+        inMap.put(KeyStroke.getKeyStroke(controlCodes.get(15), 0, true), "MENU_BACK");
+        inMap.put(KeyStroke.getKeyStroke(controlCodes.get(16),0,false),"MENU_SELECT");
+
+        //Controls that can't be changed
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_1, 0, false), "OPTIONS_GO");
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_1, 0, true), "OPTION1_STOP");
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_2, 0, true), "OPTION2_STOP");
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_3, 0, true), "OPTION3_STOP");
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_4, 0, true), "OPTION4_STOP");
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_5, 0, true), "OPTION5_STOP");
-        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_Z, 0, true), "VEHICLE_STOP");
-        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_X, 0, true), "STATUS_VIEW_STOP");
-        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_C, 0, true), "ATTACK_STOP");
-        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, 0, true), "MENU_BACK");
-        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0,false),"MENU_SELECT");
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, true), "CONTROLLER_MENU");
 
         //For those who don't have a numpad, temporary controls...
@@ -138,100 +195,84 @@ public class Controller {
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_D, 0, true), "DOWN_RIGHT_STOP");
 
 
-        //For scrolling I guess (Miles)
-        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_I, 0, false), "UP_SCROLL_GO");
-        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_I, 0, true), "UP_SCROLL_STOP");
-        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_K, 0, false), "DOWN_SCROLL_GO");
-        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_K, 0, true), "DOWN_SCROLL_STOP");
-        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_U, 0, false), "UP_SCROLL_LEFT_GO");
-        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_U, 0, true), "UP_SCROLL_LEFT_STOP");
-        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_O, 0, false), "UP_SCROLL_RIGHT_GO");
-        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_O, 0, true), "UP_SCROLL_RIGHT_STOP");
-        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_J, 0, false), "DOWN_SCROLL_LEFT_GO");
-        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_J, 0, true), "DOWN_SCROLL_LEFT_STOP");
-        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_L, 0, false), "DOWN_SCROLL_RIGHT_GO");
-        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_L, 0, true), "DOWN_SCROLL_RIGHT_STOP");
-
         //temporary??
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE,0,false),"SPACE_GO");
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE,0,true),"SPACE_STOP");
 
         // Each entry in the InputMap is then inserted in the ActionMap
         // Actions defined below
-        component.getActionMap().put("UP_GO", UP_GO);
-        component.getActionMap().put("UP_STOP", UP_STOP);
-        component.getActionMap().put("DOWN_GO", DOWN_GO);
-        component.getActionMap().put("DOWN_STOP", DOWN_STOP);
-        component.getActionMap().put("UP_LEFT_GO", UP_LEFT_GO);
-        component.getActionMap().put("UP_LEFT_STOP", UP_LEFT_STOP);
-        component.getActionMap().put("UP_RIGHT_GO", UP_RIGHT_GO);
-        component.getActionMap().put("UP_RIGHT_STOP", UP_RIGHT_STOP);
-        component.getActionMap().put("DOWN_LEFT_GO", DOWN_LEFT_GO);
-        component.getActionMap().put("DOWN_LEFT_STOP", DOWN_LEFT_STOP);
-        component.getActionMap().put("DOWN_RIGHT_GO", DOWN_RIGHT_GO);
-        component.getActionMap().put("DOWN_RIGHT_STOP", DOWN_RIGHT_STOP);
-        component.getActionMap().put("OPTIONS_GO", OPTIONS_GO);
-        component.getActionMap().put("OPTION1_STOP", OPTION1_STOP);
-        component.getActionMap().put("OPTION2_STOP", OPTION2_STOP);
-        component.getActionMap().put("OPTION3_STOP", OPTION3_STOP);
-        component.getActionMap().put("OPTION4_STOP", OPTION4_STOP);
-        component.getActionMap().put("OPTION5_STOP", OPTION5_STOP);
-        component.getActionMap().put("MENU_BACK", MENU_BACK);
-        component.getActionMap().put("VEHICLE_STOP", VEHICLE_STOP);
-        component.getActionMap().put("STATUS_VIEW_STOP", STATUS_VIEW_STOP);
-        component.getActionMap().put("ATTACK_STOP", ATTACK_STOP);
-        component.getActionMap().put("CONTROLLER_MENU", CONTROLLER_MENU);
+        ActionMap aMap = component.getActionMap();
+        aMap.clear();
+        aMap.put("UP_GO", UP_GO);
+        aMap.put("UP_STOP", UP_STOP);
+        aMap.put("DOWN_GO", DOWN_GO);
+        aMap.put("DOWN_STOP", DOWN_STOP);
+        aMap.put("UP_LEFT_GO", UP_LEFT_GO);
+        aMap.put("UP_LEFT_STOP", UP_LEFT_STOP);
+        aMap.put("UP_RIGHT_GO", UP_RIGHT_GO);
+        aMap.put("UP_RIGHT_STOP", UP_RIGHT_STOP);
+        aMap.put("DOWN_LEFT_GO", DOWN_LEFT_GO);
+        aMap.put("DOWN_LEFT_STOP", DOWN_LEFT_STOP);
+        aMap.put("DOWN_RIGHT_GO", DOWN_RIGHT_GO);
+        aMap.put("DOWN_RIGHT_STOP", DOWN_RIGHT_STOP);
+        aMap.put("OPTIONS_GO", OPTIONS_GO);
+        aMap.put("OPTION1_STOP", OPTION1_STOP);
+        aMap.put("OPTION2_STOP", OPTION2_STOP);
+        aMap.put("OPTION3_STOP", OPTION3_STOP);
+        aMap.put("OPTION4_STOP", OPTION4_STOP);
+        aMap.put("OPTION5_STOP", OPTION5_STOP);
+        aMap.put("MENU_BACK", MENU_BACK);
+        aMap.put("VEHICLE_STOP", VEHICLE_STOP);
+        aMap.put("STATUS_VIEW_STOP", STATUS_VIEW_STOP);
+        aMap.put("ATTACK_STOP", ATTACK_STOP);
+        aMap.put("CONTROLLER_MENU", CONTROLLER_MENU);
 
         //For scrolling (Miles)
-        component.getActionMap().put("UP_SCROLL_GO", UP_SCROLL_GO);
-        component.getActionMap().put("UP_SCROLL_STOP", UP_SCROLL_STOP);
-        component.getActionMap().put("DOWN_SCROLL_GO", DOWN_SCROLL_GO);
-        component.getActionMap().put("DOWN_SCROLL_STOP", DOWN_SCROLL_STOP);
-        component.getActionMap().put("UP_SCROLL_LEFT_GO", UP_SCROLL_LEFT_GO);
-        component.getActionMap().put("UP_SCROLL_LEFT_STOP", UP_SCROLL_LEFT_STOP);
-        component.getActionMap().put("UP_SCROLL_RIGHT_GO", UP_SCROLL_RIGHT_GO);
-        component.getActionMap().put("UP_SCROLL_RIGHT_STOP", UP_SCROLL_RIGHT_STOP);
-        component.getActionMap().put("DOWN_SCROLL_LEFT_GO", DOWN_SCROLL_LEFT_GO);
-        component.getActionMap().put("DOWN_SCROLL_LEFT_STOP", DOWN_SCROLL_LEFT_STOP);
-        component.getActionMap().put("DOWN_SCROLL_RIGHT_GO", DOWN_SCROLL_RIGHT_GO);
-        component.getActionMap().put("DOWN_SCROLL_RIGHT_STOP", DOWN_SCROLL_RIGHT_STOP);
+        aMap.put("UP_SCROLL_GO", UP_SCROLL_GO);
+        aMap.put("UP_SCROLL_STOP", UP_SCROLL_STOP);
+        aMap.put("DOWN_SCROLL_GO", DOWN_SCROLL_GO);
+        aMap.put("DOWN_SCROLL_STOP", DOWN_SCROLL_STOP);
+        aMap.put("UP_SCROLL_LEFT_GO", UP_SCROLL_LEFT_GO);
+        aMap.put("UP_SCROLL_LEFT_STOP", UP_SCROLL_LEFT_STOP);
+        aMap.put("UP_SCROLL_RIGHT_GO", UP_SCROLL_RIGHT_GO);
+        aMap.put("UP_SCROLL_RIGHT_STOP", UP_SCROLL_RIGHT_STOP);
+        aMap.put("DOWN_SCROLL_LEFT_GO", DOWN_SCROLL_LEFT_GO);
+        aMap.put("DOWN_SCROLL_LEFT_STOP", DOWN_SCROLL_LEFT_STOP);
+        aMap.put("DOWN_SCROLL_RIGHT_GO", DOWN_SCROLL_RIGHT_GO);
+        aMap.put("DOWN_SCROLL_RIGHT_STOP", DOWN_SCROLL_RIGHT_STOP);
 
         //temporary??
-        component.getActionMap().put("MENU_SELECT", ENTER_KEY_GO);
-        component.getActionMap().put("SPACE_GO", SPACE_KEY_GO);
-        component.getActionMap().put("SPACE_STOP", SPACE_KEY_STOP);
+        aMap.put("MENU_SELECT", ENTER_KEY_GO);
+        aMap.put("SPACE_GO", SPACE_KEY_GO);
+        aMap.put("SPACE_STOP", SPACE_KEY_STOP);
 
 
-        controls.add(KeyEvent.getKeyText(KeyEvent.VK_NUMPAD7));
-        controls.add(KeyEvent.getKeyText(KeyEvent.VK_NUMPAD8));
-        controls.add(KeyEvent.getKeyText(KeyEvent.VK_NUMPAD9));
-        controls.add(KeyEvent.getKeyText(KeyEvent.VK_NUMPAD1));
-        controls.add(KeyEvent.getKeyText(KeyEvent.VK_NUMPAD2));
-        controls.add(KeyEvent.getKeyText(KeyEvent.VK_NUMPAD3));
-        controls.add(KeyEvent.getKeyText(KeyEvent.VK_C));
-        controls.add(KeyEvent.getKeyText(KeyEvent.VK_Z));
-        controls.add(KeyEvent.getKeyText(KeyEvent.VK_X));
-        controls.add(KeyEvent.getKeyText(KeyEvent.VK_BACK_SPACE));
-        controls.add(KeyEvent.getKeyText(KeyEvent.VK_ENTER));
+        controlNames.clear();
+
+        //Movement
+        for(int i = 0; i < controlCodes.size(); ++i)
+            controlNames.add(KeyEvent.getKeyText(controlCodes.get(i)));
     }
 
-    public void changeControl(KeyStroke ks, String s){
-        InputMap inMap = component.getInputMap();
-        inMap.remove(ks);
-        inMap.put(ks, s);
+    public void changeControl(int index, int keyCode){
+        controlCodes.remove(index);
+        controlCodes.add(index,keyCode);
+
+        setBindings();
     }
 
     public void tradeBindings(){
-        if(component.getActionMap().get("UP_GO") != MENU_UP) {
-            component.getActionMap().clear();
-            component.getActionMap().put("UP_GO", MENU_UP);
-            component.getActionMap().put("DOWN_GO", MENU_DOWN);
-            component.getActionMap().put("UP_LEFT_GO", MENU_LEFT);
-            component.getActionMap().put("DOWN_LEFT_GO", MENU_LEFT);
-            component.getActionMap().put("UP_RIGHT_GO", MENU_RIGHT);
-            component.getActionMap().put("DOWN_RIGHT_GO", MENU_RIGHT);
-            component.getActionMap().put("MENU_SELECT", MENU_SELECT);
-            component.getActionMap().put("MENU_BACK", MENU_EXIT);
+        ActionMap aMap = component.getActionMap();
+        if(aMap.get("UP_GO") != MENU_UP) {
+            aMap.clear();
+            aMap.put("UP_GO", MENU_UP);
+            aMap.put("DOWN_GO", MENU_DOWN);
+            aMap.put("UP_LEFT_GO", MENU_LEFT);
+            aMap.put("DOWN_LEFT_GO", MENU_LEFT);
+            aMap.put("UP_RIGHT_GO", MENU_RIGHT);
+            aMap.put("DOWN_RIGHT_GO", MENU_RIGHT);
+            aMap.put("MENU_SELECT", MENU_SELECT);
+            aMap.put("MENU_BACK", MENU_EXIT);
         }
     }
 
@@ -244,17 +285,38 @@ public class Controller {
     }
 
     public void setStatusViewControls(boolean statusView){
-        component.getActionMap().clear();
+        ActionMap aMap = component.getActionMap();
+        aMap.clear();
         if(statusView){
-            component.getActionMap().put("UP_GO", MENU_UP);
-            component.getActionMap().put("DOWN_GO", MENU_DOWN);
-            component.getActionMap().put("UP_LEFT_GO", MENU_LEFT);
-            component.getActionMap().put("DOWN_LEFT_GO", MENU_LEFT);
-            component.getActionMap().put("UP_RIGHT_GO", MENU_RIGHT);
-            component.getActionMap().put("DOWN_RIGHT_GO", MENU_RIGHT);
-            component.getActionMap().put("MENU_SELECT", MENU_SELECT);
-            component.getActionMap().put("MENU_BACK", MENU_EXIT);
-            component.getActionMap().put("STATUS_VIEW_STOP", STATUS_VIEW_STOP);
+            aMap.put("UP_GO", MENU_UP);
+            aMap.put("DOWN_GO", MENU_DOWN);
+            aMap.put("UP_LEFT_GO", MENU_LEFT);
+            aMap.put("DOWN_LEFT_GO", MENU_LEFT);
+            aMap.put("UP_RIGHT_GO", MENU_RIGHT);
+            aMap.put("DOWN_RIGHT_GO", MENU_RIGHT);
+            aMap.put("MENU_SELECT", MENU_SELECT);
+            aMap.put("MENU_BACK", MENU_EXIT);
+            aMap.put("STATUS_VIEW_STOP", STATUS_VIEW_STOP);
+        }
+        else{
+            component.getInputMap().clear();
+            setBindings();
+        }
+    }
+
+    public void setControlViewControls(boolean statusView){
+        ActionMap aMap = component.getActionMap();
+        aMap.clear();
+        if(statusView){
+            aMap.put("UP_GO", MENU_UP);
+            aMap.put("DOWN_GO", MENU_DOWN);
+            aMap.put("UP_LEFT_GO", MENU_LEFT);
+            aMap.put("DOWN_LEFT_GO", MENU_LEFT);
+            aMap.put("UP_RIGHT_GO", MENU_RIGHT);
+            aMap.put("DOWN_RIGHT_GO", MENU_RIGHT);
+            aMap.put("MENU_SELECT", MENU_SELECT);
+            aMap.put("MENU_BACK", MENU_EXIT);
+            aMap.put("CONTROLLER_MENU", CONTROLLER_MENU);
         }
         else{
             component.getInputMap().clear();

@@ -12,6 +12,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +26,10 @@ public class ControlView extends View{
     private int highlighted;
     private int totalWidth;
     private int totalHeight;
+    private boolean changingKey = false;
+    private boolean duplicateKey = false;
     private Controller controller;
+    private KeyListener listen;
 
     public ControlView(Controller c){
         setPreferredSize(new Dimension(StaticVar.gameWidth - 400, 200));
@@ -35,6 +39,7 @@ public class ControlView extends View{
         totalWidth = StaticVar.gameWidth - 150;
         totalHeight = StaticVar.gameHeight - 200;
         controller = c;
+        listen = new ChangeControls();
     }
 
     public void handleInput(int input){
@@ -51,10 +56,18 @@ public class ControlView extends View{
             incrementSide();
         }
         else if(input == 4){
-
+            if(!changingKey) {
+                if (side == 2) {
+                    resetView();
+                    display = false;
+                    controller.setControlViewControls(display);
+                } else {
+                    controller.getComponent().addKeyListener(listen);
+                }
+            }
         }
-        else if(input == 5){
-            resetView();
+        else if(input ==5){
+            //resetView();
         }
     }
 
@@ -68,40 +81,47 @@ public class ControlView extends View{
 
 
     public void incrementHighlighted(){
-        if(side == 0){
-            if(highlighted < 5)
-                ++highlighted;
-            else
-                side = 2;
-        }
-        else if(side == 1){
-            if(highlighted < controller.getControls().size()-1)
-                ++highlighted;
-            else
-                side = 2;
+        if(!changingKey) {
+            if (side == 0) {
+                if (highlighted < 11)
+                    ++highlighted;
+                else
+                    side = 2;
+            } else if (side == 1) {
+                if (highlighted < controller.getControlNames().size() - 1)
+                    ++highlighted;
+                else
+                    side = 2;
+            }
         }
     }
 
     public void decrementHighlighted(){
-        if(side == 2 && highlighted == controller.getControls().size()-1)
-            side = 1;
-        else if(side == 2 && highlighted == 5)
-            side = 0;
-        else if(highlighted > 0)
-            --highlighted;
+        if(!changingKey) {
+            if (side == 2 && highlighted == controller.getControlNames().size() - 1)
+                side = 1;
+            else if (side == 2 && highlighted == 11)
+                side = 0;
+            else if (highlighted > 0)
+                --highlighted;
+        }
     }
 
     public void incrementSide(){
-        if(side == 0) {
-            highlighted = 6;
-            ++side;
+        if(!changingKey) {
+            if (side == 0) {
+                highlighted = 12;
+                ++side;
+            }
         }
     }
 
     public void decrementSide(){
-        if(side == 1){
-            highlighted = 0;
-            --side;
+        if(!changingKey) {
+            if (side == 1) {
+                highlighted = 0;
+                --side;
+            }
         }
     }
 
@@ -146,13 +166,22 @@ public class ControlView extends View{
             g2d.drawString("Down-Left:",xVal, yVal+120);
             g2d.drawString("Down:",xVal, yVal+150);
             g2d.drawString("Down-Right:",xVal, yVal+180);
-            for(int i = 0; i < 6; ++i){
+            g2d.drawString("Pan Up-Left:",xVal, yVal+210);
+            g2d.drawString("Pan Up:",xVal, yVal+240);
+            g2d.drawString("Pan Up-Right:",xVal, yVal+270);
+            g2d.drawString("Pan Down-Left:",xVal, yVal+300);
+            g2d.drawString("Pan Down:",xVal, yVal+330);
+            g2d.drawString("Pan Down-Right:",xVal, yVal+360);
+            for(int i = 0; i < 12; ++i){
                 yVal += 30;
                 g2d.setColor(Color.black);
                 if(highlighted == i && side == 0){
-                    g2d.setColor(Color.white);
+                    if(changingKey)
+                        g2d.setColor(Color.red);
+                    else
+                        g2d.setColor(Color.white);
                 }
-                g2d.drawString(controller.getControls().get(i), xVal+125, yVal);
+                g2d.drawString(controller.getControlNames().get(i), xVal+165, yVal);
             }
 
 
@@ -169,15 +198,23 @@ public class ControlView extends View{
             g2d.drawString("Status View:",xVal, yVal+90);
             g2d.drawString("Menu Back:",xVal, yVal+120);
             g2d.drawString("Menu Select:",xVal, yVal+150);
-            for(int i = 6; i < controller.getControls().size(); ++i){
+            for(int i = 12; i < controller.getControlNames().size(); ++i){
                 yVal += 30;
                 g2d.setColor(Color.black);
                 if(highlighted == i && side == 1){
-                    g2d.setColor(Color.white);
+                    if(changingKey)
+                        g2d.setColor(Color.red);
+                    else
+                        g2d.setColor(Color.white);
                 }
-                g2d.drawString(controller.getControls().get(i), xVal+130, yVal);
+                g2d.drawString(controller.getControlNames().get(i), xVal+130, yVal);
             }
 
+            if(duplicateKey){
+                g2d.setColor(Color.red);
+                g2d.drawString("That key is already being used!", VIEW_X_START+totalWidth/2-120, VIEW_Y_START+totalHeight-150 + 5);
+                g2d.setColor(Color.black);
+            }
 
             g2d.setColor(Color.gray);
             if(side == 2){
@@ -190,6 +227,37 @@ public class ControlView extends View{
         }
 
         g2d.dispose();
+    }
+
+    public class ChangeControls implements KeyListener{
+        @Override
+        public void keyTyped(KeyEvent e) {
+
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+            if(changingKey) {
+                if(controller.getControlCodes().contains(e.getKeyCode())){
+                    duplicateKey = true;
+                }
+                else {
+                    System.out.println(e.getKeyCode());
+                    controller.changeControl(highlighted, e.getKeyCode());
+                    controller.getComponent().removeKeyListener(listen);
+                    controller.setControlViewControls(display);
+                    duplicateKey = false;
+                }
+            }
+            if(!duplicateKey)
+                changingKey = !changingKey;
+            System.out.println(changingKey);
+
+        }
     }
 
 }
