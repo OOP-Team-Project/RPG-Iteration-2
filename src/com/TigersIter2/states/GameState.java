@@ -38,6 +38,7 @@ public class GameState extends State {
     private AreaView areaView;
     private List<VehicleView> vehicleViews;
     private FooterView footerView;
+    private StatusView statusView;
     //private EntityManager entityManager;
     //private ItemManager itemManager;
 
@@ -83,11 +84,12 @@ public class GameState extends State {
         VehicleSprite.init();
 
         avatarView = new AvatarView(avatar);
+        statusView = new StatusView(avatar.getInventory(), avatar.getStats(), avatar.getEquipment());
         for(Vehicle vv : ant.getVehicleList()) {
             vehicleViews.add(new VehicleView(vv, avatar, map));
         }
         mapView = new MapView(map, avatar);
-        areaView =  new AreaView(mapView,avatarView, vehicleViews, footerView);
+        areaView =  new AreaView(mapView,avatarView, vehicleViews, footerView, statusView);
 
 
         this.add(areaView);
@@ -106,6 +108,9 @@ public class GameState extends State {
             case 6:
                 ant.mountVehicle();
                 break;
+            case 7:
+                statusView.toggle();
+                controller.setStatusViewControls(statusView.getDisplay());
             case -1:
                 break;
             default:
@@ -130,6 +135,14 @@ public class GameState extends State {
             ant.navigateTradeMenu(input);
             if(input == 5){
                 controller.revertTradeBindings();
+            }
+        }
+        else if(statusView.getDisplay()){
+            int input = controller.getTradeMenuInput();
+            statusView.handleInput(input);
+            if(input == 5){
+                statusView.toggle();
+                controller.setStatusViewControls(statusView.getDisplay());
             }
         }
 

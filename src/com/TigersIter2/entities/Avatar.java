@@ -70,6 +70,10 @@ public class Avatar extends Entity{
         return inventory;
     }
 
+    public Equipment getEquipment(){
+        return equipment;
+    }
+    
     public PlayerStats getStats(){
         return stats;
     }
