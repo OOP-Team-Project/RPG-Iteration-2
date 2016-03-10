@@ -320,11 +320,10 @@ public class PlayerStats extends Stats {
         return abilityPoints;
     }
 
-
     @Override
     public String toString() {
-        String results = "";
-        results = results + "Health: " + currentLife + "/" + getLife() +
+        String results =    "\nOccupation: " + o.toString() +
+                            "\nHealth: " + currentLife + "/" + getLife() +
                             "\nMana: " + currentMana + "/" + getMana() +
                             "\nLives: " + livesLeft + "/" + maxLives +
                             "\nStrength: " + strength +
@@ -337,7 +336,10 @@ public class PlayerStats extends Stats {
                             "\nLevel: " + level +
                             "\nOffensiveRating: " + getOffensiveRating() +
                             "\nDefensiveRating: " + getDefensiveRating() +
-                            "\nArmorRating: " + getArmorRating();
+                            "\nArmorRating: " + getArmorRating() +
+                            "\nLightRadius: " + getLightRadius() +
+                            "\nAbilityPoints: " + getAbilityPoints() +
+                            "\nStatusModifiers: " + mods.size();
         return results;
     }
 
