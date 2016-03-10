@@ -20,8 +20,6 @@ public class StatusView extends View implements ActionListener{
 
     int currentAnimationFrame = 0;
     private boolean display;
-    private int type;
-    private List<String> menuOptions;
     private Inventory playerInventory;
     private PlayerStats stats;
     private Equipment equipment;
@@ -36,8 +34,6 @@ public class StatusView extends View implements ActionListener{
     public StatusView(Inventory inv, PlayerStats ps, Equipment equip){
         setPreferredSize(new Dimension(StaticVar.gameWidth - 400, 200));
         display = false;
-        menuOptions = new ArrayList<String>();
-        type = 0;
         whoseSide = 0;
         highlighted = 0;
         playerInventory = inv;
@@ -103,16 +99,6 @@ public class StatusView extends View implements ActionListener{
 
     public boolean getDisplay(){
         return display;
-    }
-
-    //0 denotes a menu, 1 denotes a conversation
-    public void setType(int i){
-        type = i;
-    }
-
-    //MAXIMUM OF 5 OPTIONS
-    public void setMenuOptions(List<String> list){
-        menuOptions = list;
     }
 
     public void incrementHighlighted(){
