@@ -26,7 +26,7 @@ public class Avatar extends Entity{
     private int money;
 
     private boolean currentlyMoving = false;
-    private boolean onTileWithNPC;
+    private boolean onTileWithNPC = false;
     private boolean trading;
 
 
@@ -217,5 +217,8 @@ public class Avatar extends Entity{
         stats.decreaseCurrentLife(damageTaken);
         System.out.println("Taking damage");
     }
+
+    //added this getter method to get the player stats for item manager -- Breanna
+    public PlayerStats getPlayerStats() { return stats; }
 
 }
