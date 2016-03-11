@@ -38,6 +38,8 @@ public class StaticVar {
     public static final int villagerImageWidth = 100;
     public static final int monsterImageHeight = 100;
     public static final int monsterImageWidth = 100;
+    public static final int itemImageHeight = 100;
+    public static final int itemImageWidth = 100;
 
 
     //MapView Conventional Stuff (Miles)

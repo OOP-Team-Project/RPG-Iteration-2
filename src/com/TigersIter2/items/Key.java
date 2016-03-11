@@ -10,6 +10,7 @@ public class Key extends TakeableItem {
         setName(n);
         setEquippable(false);
         this.itemCode = itemCode;
+        itemType = 2;
     }
 
     public int getItemCode() { return itemCode; }

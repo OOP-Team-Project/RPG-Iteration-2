@@ -1,9 +1,14 @@
 package com.TigersIter2.states;
 
+import com.TigersIter2.areaEffects.HealDamage;
+import com.TigersIter2.areaEffects.InstantDeath;
+import com.TigersIter2.areaEffects.LevelUp;
+import com.TigersIter2.areaEffects.TakeDamage;
 import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.items.OneHandedWeapon;
 import com.TigersIter2.items.Weapon;
 import com.TigersIter2.location.Location;
+import com.TigersIter2.managers.AreaEffectManager;
 import com.TigersIter2.managers.StateManager;
 import com.TigersIter2.assets.sprites.*;
 import com.TigersIter2.entities.*;
@@ -38,6 +43,7 @@ public class GameState extends State {
     private AreaView areaView;
     private List<VehicleView> vehicleViews;
     private List<NPCView> npcViews;
+    private List<ItemView> itemViews;
     private FooterView footerView;
     private StatusView statusView;
     private ControlView controlView;
@@ -54,24 +60,27 @@ public class GameState extends State {
 
         footerView = new FooterView();
         controlView = new ControlView(controller);
+        vehicleViews = new ArrayList<VehicleView>();
+        npcViews = new ArrayList<NPCView>();
+        itemViews = new ArrayList<ItemView>();
         map = new TerrainMap(StaticVar.map1);
         avatar = new Avatar();
         avatar.setOccupation(new Sneak());
-        avatar.getInventory().addItem(new Potion("Health Potion", 10));
-        //avatar.getInventory().addItem(new Potion("Strength Potion"));
-        avatar.getInventory().addItem(new OneHandedWeapon("Butter Knife", 1));
+        TakeableItem potion = new Potion("Health Potion", 10);
+        TakeableItem butterKnife = new OneHandedWeapon("Butter Knife", 1);
         ant = new AvatarNPCInteract(avatar, footerView);
         vehicleViews = new ArrayList<VehicleView>();
         itemManager = new ItemManager(avatar);
 
-       // avatar.getInventory().addItem(new Potion("Health Potion"));
-       // avatar.getInventory().addItem(new Potion("Strength Potion"));
-       // avatar.getInventory().addItem(new Weapon("Battle Axe"));
+
+        itemManager.addItem(potion);
+        itemManager.addItem(butterKnife);
+        avatar.getInventory().addItem(potion);
+        avatar.getInventory().addItem(butterKnife);
+
+
         avatar.setAttackTime(1000);
         ant = new AvatarNPCInteract(avatar, footerView);
-        vehicleViews = new ArrayList<VehicleView>();
-        npcViews = new ArrayList<NPCView>();
-
 
         //THIS IS ALL FOR TESTING. WILL NOT STAY HERE
         ant.addVehicle(new Vehicle("Turtle", 5, true, true));
@@ -83,16 +92,22 @@ public class GameState extends State {
         list.add("The Detroit Tigers?");
         list.add("So many things.");
         list.add("I suppose so.");
+        TakeableItem ohSword = new  OneHandedWeapon("Sword",5);
+        itemManager.addItem(ohSword);
         ant.addVillager(list, true, true, false);
+        ant.getNpcList().get(0).getInventory().addItem(ohSword);
         ant.addMonster();
 
         //testing for item interactions
         Item item = new Key("Key", 1);
         item.setLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight + 200,0));
+        item.setPixelLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight + 200,0));
         Item obstacle = new Obstacle();
         obstacle.setLocation(new Location(10 * StaticVar.terrainImageWidth + 400,10 * StaticVar.terrainImageHeight,0));
+        obstacle.setPixelLocation(new Location(10 * StaticVar.terrainImageWidth + 400,10 * StaticVar.terrainImageHeight,0));
         itemManager.addItem(obstacle);
         itemManager.addItem(item);
+
 
 
         //pull in all pictures for GameState
@@ -104,18 +119,22 @@ public class GameState extends State {
         VehicleSprite.init();
         VillagerSprite.init();
         MonsterSprite.init();
+        ItemSprite.init();
 
         avatarView = new AvatarView(avatar);
-        statusView = new StatusView(avatar.getInventory(), avatar.getStats(), avatar.getEquipment());
+        statusView = new StatusView(avatar);
         for(Vehicle vv : ant.getVehicleList()) {
             vehicleViews.add(new VehicleView(vv, avatar, map));
         }
         for(NPC n : ant.getNpcList()){
             npcViews.add(new NPCView(n, avatar, map));
         }
+        for(Item i : itemManager.getItemList()){
+            itemViews.add(new ItemView(i, avatar, map));
+        }
 
         mapView = new MapView(map, avatar);
-        areaView =  new AreaView(mapView,avatarView, vehicleViews, footerView, statusView, npcViews, controlView);
+        areaView =  new AreaView(mapView,avatarView, vehicleViews, footerView, statusView, npcViews, controlView, itemViews);
 
 
         this.add(areaView);
