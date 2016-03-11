@@ -29,10 +29,10 @@ public class ItemView extends View {
 
     private void drawItem(Graphics2D g2d){
         if(iHandle.getItemType() == 0) {
-            //drawArmor
+            g2d.drawImage(ItemSprite.armor, iHandle.getPixelLocation().getX(), iHandle.getPixelLocation().getY(), null);
         }
         else if(iHandle.getItemType() == 1){
-            //interactive
+            g2d.drawImage(ItemSprite.interactive, iHandle.getPixelLocation().getX(), iHandle.getPixelLocation().getY(), null);
         }
         else if(iHandle.getItemType() == 2){
             g2d.drawImage(ItemSprite.key, iHandle.getPixelLocation().getX(), iHandle.getPixelLocation().getY(), null);
@@ -41,7 +41,7 @@ public class ItemView extends View {
             g2d.drawImage(ItemSprite.obstacle, iHandle.getPixelLocation().getX(), iHandle.getPixelLocation().getY(), null);
         }
         else if(iHandle.getItemType() == 4){
-            //oneShot
+            g2d.drawImage(ItemSprite.oneShot, iHandle.getPixelLocation().getX(), iHandle.getPixelLocation().getY(), null);
         }
         else if(iHandle.getItemType() == 5){
             g2d.drawImage(ItemSprite.potion, iHandle.getPixelLocation().getX(), iHandle.getPixelLocation().getY(), null);
