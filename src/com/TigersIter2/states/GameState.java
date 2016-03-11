@@ -28,6 +28,7 @@ public class GameState extends State {
     //Model Data
     private TerrainMap map;
     private Avatar avatar;
+    private Pet pet;
     private Vehicle vehicle;
     private AvatarNPCInteract ant;
     private ItemManager itemManager;
@@ -63,6 +64,8 @@ public class GameState extends State {
         ant = new AvatarNPCInteract(avatar, footerView);
         vehicleViews = new ArrayList<VehicleView>();
         itemManager = new ItemManager(avatar);
+
+        pet = new Pet("Crab", avatar);
 
        // avatar.getInventory().addItem(new Potion("Health Potion"));
        // avatar.getInventory().addItem(new Potion("Strength Potion"));
@@ -160,6 +163,7 @@ public class GameState extends State {
         boolean avatarCanMove = itemManager.checkTile(elapsed, controller.getXMovement(), controller.getyMovement()); //returns false if item is an obstacle
         if(avatarCanMove) {
             avatar.update(controller.getXMovement(), controller.getyMovement(), elapsed);
+            pet.update(controller.getXMovement(), controller.getyMovement(), elapsed);
         }
         View.update(controller.getCameraXMovement(), controller.getCameraYMovement(), elapsed);
         ant.checkTile();
