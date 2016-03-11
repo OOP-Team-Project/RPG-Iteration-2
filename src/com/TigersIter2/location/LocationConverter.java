@@ -14,6 +14,10 @@ public class LocationConverter {
 
     }
 
+    public static Location HexLocationToPixel(Location hex){
+        return (new Location(hex.getX()*StaticVar.terrainImageWidth, hex.getY()*StaticVar.terrainImageHeight, 0));
+    }
+
 
     static HexLocation cube2hex(CubeLocation cubeLocation){
         int q = cubeLocation.getX();

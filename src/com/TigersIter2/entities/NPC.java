@@ -6,6 +6,7 @@ import com.TigersIter2.items.TakeableItem;
 import com.TigersIter2.location.Location;
 import com.TigersIter2.stats.NPCStats;
 
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -27,6 +28,9 @@ public abstract class NPC extends Entity{
     protected boolean willTrade;
     protected boolean willTalk;
     protected boolean willAttack;
+    protected boolean isVillager;
+    private boolean canAttack = true;
+    private boolean onTileWithAvatar = false;
 
 
     public NPC(){
@@ -38,6 +42,9 @@ public abstract class NPC extends Entity{
         inventory = new Inventory();
         equipment = new Equipment();
         stats = new NPCStats();
+        attackTime = 500;
+        stats.setLife(100);
+        stats.setCurrentLife(100);
     }
 
     //What is this supposed to do? -Sam
@@ -70,17 +77,32 @@ public abstract class NPC extends Entity{
             System.out.println("That item isn't equippable!");
     }
 
-    public void unequipItemAtIndex(int i){
-        if(!equipment.isEmpty())
-            inventory.addItem(equipment.removeItemAtIndex(i));
-        else
-            System.out.println("There is nothing to unequip!");
+    public void dropItems(){
+        Iterator<TakeableItem> iter = inventory.getItems().iterator();
+        while (iter.hasNext()) {
+            TakeableItem item = iter.next();
+            int xLoc = location.getX();
+            int yLoc = location.getY()+100;
+            item.setLocation(new Location(xLoc, yLoc, 0));
+            item.setPixelLocation(pixelLocation);
+            item.setDisplay(true);
+            iter.remove();
+        }
+
+        iter = equipment.getItems().iterator();
+        while (iter.hasNext()) {
+            TakeableItem item = iter.next();
+            int xLoc = location.getX();
+            int yLoc = location.getY()+100;
+            item.setLocation(new Location(xLoc, yLoc, 0));
+            item.setPixelLocation(pixelLocation);
+            item.setDisplay(true);
+            iter.remove();
+        }
     }
 
-    public void dropItemAtIndex(int i){
-        TakeableItem item = inventory.removeItemAtIndex(i);
-
-        //Do something here to put item on the current tile
+    public Equipment getEquipment(){
+        return equipment;
     }
 
     public int getDirection(){
@@ -146,8 +168,38 @@ public abstract class NPC extends Entity{
         return responses.get(i);
     }
 
-    public int attack(){
-        int attackStrength = 1;
-        return attackStrength;
+    public NPCStats getStats(){
+        return stats;
+    }
+
+    public boolean isAlive(){
+        if(stats.getCurrentLife() <= 0)
+            return false;
+        else
+            return true;
+    }
+
+    public boolean isVillager(){
+        return isVillager;
+    }
+
+    public boolean getCanAttack(){
+        return canAttack;
+    }
+
+    public void setCanAttack(boolean b){
+        canAttack = b;
+    }
+
+    public void setOnTileWithAvatar(boolean b){
+        onTileWithAvatar = b;
+    }
+
+    public boolean getOnTileWithAvatar(){
+        return onTileWithAvatar;
+    }
+
+    public void setWillAttack(boolean b){
+        willAttack = b;
     }
 }
