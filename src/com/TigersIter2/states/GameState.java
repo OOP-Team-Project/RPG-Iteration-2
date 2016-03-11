@@ -59,7 +59,7 @@ public class GameState extends State {
         itemViews = new ArrayList<ItemView>();
         map = new TerrainMap(StaticVar.map1);
         avatar = new Avatar();
-        avatar.setOccupation(new Sneak());
+        avatar.setOccupation(new Smasher());
         TakeableItem potion = new Potion("Health Potion", 10);
         TakeableItem butterKnife = new OneHandedWeaponItem("Butter Knife", 1);
         ant = new AvatarNPCInteract(avatar, footerView);
@@ -169,7 +169,6 @@ public class GameState extends State {
 
     @Override
     public void update(long elapsed) {
-        System.out.println(avatar.getLocation().getX() + ", " + avatar.getLocation().getY());
         map.update();
         boolean avatarCanMove = itemManager.checkTile(elapsed, controller.getXMovement(), controller.getyMovement()); //returns false if item is an obstacle
         if(avatarCanMove) {

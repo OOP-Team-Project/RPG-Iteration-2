@@ -19,5 +19,6 @@ public class TwoHandedWeaponItem extends Weapon{
         /* adds to the attack rating and decreases the movement */
         sm.setAttack(sm.getAttack()+damageModifier);
         sm.setMovement(sm.getMovement()-decreaseMovement);
+        weaponType = "TwoHandedWeapon";
     }
 }

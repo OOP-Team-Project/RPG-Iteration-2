@@ -3,6 +3,7 @@ package com.TigersIter2.managers;
 import com.TigersIter2.entities.*;
 import com.TigersIter2.items.TakeableItem;
 import com.TigersIter2.location.LocationConverter;
+import com.TigersIter2.skills.OneHandedWeapon;
 import com.TigersIter2.views.FooterView;
 
 import javax.swing.*;
@@ -80,8 +81,9 @@ public class AvatarNPCInteract implements ActionListener{
         }
 
         for(NPC n : npcList){
-            if(!n.getCanAttack())
+            if(!n.getCanAttack()) {
                 n.setCanAttack(true);
+            }
         }
 
     }
@@ -109,30 +111,18 @@ public class AvatarNPCInteract implements ActionListener{
             while (iter.hasNext()) {
                 NPC npc = iter.next();
                 if (inRange(npc)) {
-                    //Take stats into account
-                    randNumMax = npc.getStats().getDefensiveRating() + npc.getStats().getArmor() + 1;
-                    int numToHit = rand.nextInt(randNumMax);
-                    boolean hit = false;
-                    while (!hit && attackAttempts > 0) {
-                        --attackAttempts;
-                        if (rand.nextInt(randNumMax) == numToHit)
-                            hit = true;
-                    }
-
-                    if (hit) {
-
-                        //Take skills into account
-                        //int damage = rand.nextInt(getActiveSkill().getSkillLevel());
-                        //Will be slightly different than this based on which type of weapon is being used
-
-
-                        //TESTING
-                        int damage = rand.nextInt(20);
-                        //END TESTING
-
-                        npc.getStats().decreaseCurrentLife(damage);
-                        System.out.println("Dealt " + damage + " damage");
+                    String weaponType = avatar.getWeaponType();
+                    if(!weaponType.equals("none")) {
+                        int damage = avatar.getSkills().getSkill(weaponType).getDamage() - npc.getStats().getDefensiveRating() + npc.getStats().getArmorRating();
+                        if (damage > 0) {
+                            damage = rand.nextInt(damage);
+                            npc.getStats().decreaseCurrentLife(damage);
+                            System.out.println("Dealt " + damage + " damage");
+                        } else {
+                            System.out.println("MISS");
+                        }
                         System.out.println(npc.getStats().getCurrentLife() + "/" + npc.getStats().getLife());
+
                         if (npc.isAlive()) {
                             //NEED SOME WAY OF TIMING THIS
                             retaliate(npc);
@@ -141,9 +131,9 @@ public class AvatarNPCInteract implements ActionListener{
                             npc.dropItems();
                             iter.remove();
                         }
-
-                    } else
-                        System.out.println("MISS!");
+                    }
+                    else
+                        System.out.println("Not holding a weapon, can't attack");
                 }
             }
         }
@@ -154,24 +144,18 @@ public class AvatarNPCInteract implements ActionListener{
             npc.setCanAttack(false);
             Random rand = new Random();
             int attackAttempts = npc.getStats().getOffensiveRating() / 2 + 1;
-            int randNumMax = avatar.getStats().getDefensiveRating() + avatar.getStats().getArmor();
+            int randNumMax = avatar.getStats().getDefensiveRating() + avatar.getStats().getArmor() + 1;
             int numToHit = rand.nextInt(randNumMax);
             boolean hit = false;
-            while (!hit && attackAttempts > 0) {
+            while (!hit && attackAttempts > 1) {
                 --attackAttempts;
-                if (rand.nextInt(randNumMax) == numToHit)
+                if (rand.nextInt(attackAttempts) == numToHit)
                     hit = true;
             }
 
             if (hit) {
-
-                //Take skills into account
-                //int damage = rand.nextInt(getActiveSkill().getSkillLevel());
-                //Will be slightly different than this based on which type of weapon is being used
-
-
                 //TESTING
-                int damage = rand.nextInt(20);
+                int damage = rand.nextInt(npc.getStats().getOffensiveRating() + 1);
                 System.out.println("You lost " + damage + " health!");
                 //END TESTING
 
@@ -180,6 +164,8 @@ public class AvatarNPCInteract implements ActionListener{
                     System.out.println("You died!!");
 
             }
+            else
+                System.out.println("NPC missed!");
         }
     }
 
@@ -314,10 +300,13 @@ public class AvatarNPCInteract implements ActionListener{
         m.getStats().setHardiness(20);
         m.getStats().setArmor(3);
         m.getStats().setStrength(13);
-        m.getStats().setAttack(12);
+        m.getStats().setAttack(20);
         //END TESTING
 
         npcList.add(m);
+        Timer t = new Timer(m.getAttackTime(), this);
+        npcAttackTimers.add(t);
+        t.start();
     }
 
     public void addVillager(List<String> p, boolean talk, boolean trade, boolean attack){
@@ -346,11 +335,12 @@ public class AvatarNPCInteract implements ActionListener{
                         footerView.setType(0);
                         footerView.setMenuOptions(originalOptions);
                     }
-                    else if(npcOnTile.willAttack()){
-                        //NPC attacks player
-                        retaliate(npcOnTile);
-                    }
                 }
+                if(npcOnTile.willAttack()){
+                    //NPC attacks player
+                    retaliate(npcOnTile);
+                }
+
             }
             else if(avatar.getOnTileWithNPC()){
                  if(n.getOnTileWithAvatar()){

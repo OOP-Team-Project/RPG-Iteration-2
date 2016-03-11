@@ -20,7 +20,7 @@ public class Creep extends ActiveSkill {
 
     public Creep( PlayerStats playerStats ) {
         super();
-        this.probability = 0.0;
+        this.probability = 0.5;
         this.playerStats = playerStats;
     }
 

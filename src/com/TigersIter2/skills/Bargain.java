@@ -23,7 +23,7 @@ public class Bargain extends Skill {
     private final int BARTER_PER_LEVEL = 5;
 
     public Bargain( PlayerStats playerStats ) {
-        super();
+        //super();
         this.playerStats = playerStats;
     }
 

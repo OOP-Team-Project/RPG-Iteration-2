@@ -55,7 +55,7 @@ public class Equipment {
         while(iter.hasNext()){
             TakeableItem item = iter.next();
             if(item.getItemType() == 6){
-                return item.toString();
+                return item.getWeaponType();
             }
         }
         return "none";

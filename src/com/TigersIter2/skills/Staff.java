@@ -32,8 +32,8 @@ public class Staff extends ActiveSkill {
     public Staff(Stats playerStats) {
         super();
         this.playerStats = playerStats;
-        damage = 0;
-        probability = 0.0;
+        this.damage = ATTACK_PER_LEVEL;
+        this.probability = .3;
     }
 
     /**
