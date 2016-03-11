@@ -10,6 +10,7 @@ public class OneShot extends Item {
     public OneShot() {
         this.sm = new StatsModifier();
         sm.setLife(sm.getLife() + 1); //adds a life to the players lives left
+        itemType = 4;
     }
 
     public StatsModifier getStatsModifier() { return sm; }
