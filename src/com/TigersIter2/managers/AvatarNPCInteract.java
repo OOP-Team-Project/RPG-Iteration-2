@@ -1,10 +1,7 @@
 package com.TigersIter2.managers;
 
 import com.TigersIter2.entities.*;
-import com.TigersIter2.items.OneHandedWeapon;
 import com.TigersIter2.items.TakeableItem;
-import com.TigersIter2.items.RangedWeapon;
-import com.TigersIter2.items.Weapon;
 import com.TigersIter2.location.LocationConverter;
 import com.TigersIter2.views.FooterView;
 
@@ -325,7 +322,7 @@ public class AvatarNPCInteract implements ActionListener{
 
     public void addVillager(List<String> p, boolean talk, boolean trade, boolean attack){
         NPC v = new Villager(p, talk, trade, attack);
-        //v.getInventory().addItem(new OneHandedWeapon("Sword",5));
+        //v.getInventory().addItem(new OneHandedWeaponItem("Sword",5));
         npcList.add(v);
         v.getLocation().setX(avatar.getLocation().getX());
         v.getLocation().setY(avatar.getLocation().getY());

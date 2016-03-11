@@ -5,10 +5,10 @@ import com.TigersIter2.stats.StatsModifier;
 /**
  * Created by Breanna on 3/7/16.
  */
-public class OneHandedWeapon extends Weapon {
+public class OneHandedWeaponItem extends Weapon {
 
-    //constructor to create OneHandedWeapon
-    public OneHandedWeapon(String n, int damage){
+    //constructor to create OneHandedWeaponItem
+    public OneHandedWeaponItem(String n, int damage){
         this.damageModifier = damage;
         setName(n);
         setEquippable(true);

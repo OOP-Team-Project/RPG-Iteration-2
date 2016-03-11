@@ -5,12 +5,12 @@ import com.TigersIter2.stats.StatsModifier;
 /**
  * Created by Breanna on 3/7/16.
  */
-public class TwoHandedWeapon extends Weapon{
+public class TwoHandedWeaponItem extends Weapon{
     /*TwoHanded weapons effect the movement of the player */
     private int decreaseMovement = 0;
 
-    //constructor to create TwoHandedWeapon
-    public TwoHandedWeapon(String n, int damage, int decreaseMovement){
+    //constructor to create TwoHandedWeaponItem
+    public TwoHandedWeaponItem(String n, int damage, int decreaseMovement){
         this.damageModifier = damage;
         this.decreaseMovement = decreaseMovement;
         setName(n);
