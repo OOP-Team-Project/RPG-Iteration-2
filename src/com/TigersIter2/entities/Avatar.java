@@ -4,6 +4,7 @@ import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.items.TakeableItem;
 import com.TigersIter2.location.Location;
 import com.TigersIter2.location.LocationConverter;
+import com.TigersIter2.skills.SkillTree;
 import com.TigersIter2.stats.PlayerStats;
 import com.TigersIter2.stats.Stats;
 import com.TigersIter2.stats.StatsModifier;
@@ -20,6 +21,7 @@ public class Avatar extends Entity{
     private Pet pet;
     private Vehicle vehicle;
     private PlayerStats stats;
+    private SkillTree skills;
 
     private int direction;
     private boolean canPassWater;
@@ -149,10 +151,15 @@ public class Avatar extends Entity{
     public void setOccupation(Occupation o){
         occupation = o;
         stats = new PlayerStats(o);
+        skills = new SkillTree(stats);
     }
 
     public Occupation getOccupation(){
         return occupation;
+    }
+
+    public SkillTree getSkills(){
+        return skills;
     }
 
     private void changeDirection(int x, int y){
@@ -225,5 +232,16 @@ public class Avatar extends Entity{
 
     //added this getter method to get the player stats for item manager -- Breanna
     public PlayerStats getPlayerStats() { return stats; }
+
+    public String getWeaponType(){
+        String ret = equipment.getWeaponType();
+        if(ret.equals("none")){
+            if(occupation.toString().equals("Summoner"))
+                ret = "Staff";
+            else if(occupation.toString().equals("Smasher"))
+                ret = "Brawling";
+        }
+        return ret;
+    }
 
 }

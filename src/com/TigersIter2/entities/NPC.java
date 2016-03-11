@@ -28,6 +28,7 @@ public abstract class NPC extends Entity{
     protected boolean willTrade;
     protected boolean willTalk;
     protected boolean willAttack;
+    protected boolean isVillager;
     private boolean canAttack = true;
     private boolean onTileWithAvatar = false;
 
@@ -179,7 +180,7 @@ public abstract class NPC extends Entity{
     }
 
     public boolean isVillager(){
-        return !willAttack;
+        return isVillager;
     }
 
     public boolean getCanAttack(){
@@ -196,5 +197,9 @@ public abstract class NPC extends Entity{
 
     public boolean getOnTileWithAvatar(){
         return onTileWithAvatar;
+    }
+
+    public void setWillAttack(boolean b){
+        willAttack = b;
     }
 }

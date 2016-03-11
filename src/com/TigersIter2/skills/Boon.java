@@ -66,7 +66,7 @@ public class Boon extends ActiveSkill {
         super();
         sm = new StatsModifier();
         derivedHealed = BASE_HEAL;
-        probability = 0.0;
+        probability = 0.3;
         manaCost = MANA_COST;
         timer = new Timer();
         active = false;

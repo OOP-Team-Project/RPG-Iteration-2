@@ -17,6 +17,7 @@ public class Villager extends NPC {
         willTrade = trade;
         willTalk = talk;
         willAttack = attack;
+        isVillager = true;
     }
 
 }

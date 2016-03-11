@@ -1,14 +1,8 @@
 package com.TigersIter2.states;
 
-import com.TigersIter2.areaEffects.HealDamage;
-import com.TigersIter2.areaEffects.InstantDeath;
-import com.TigersIter2.areaEffects.LevelUp;
-import com.TigersIter2.areaEffects.TakeDamage;
 import com.TigersIter2.assets.StaticVar;
-import com.TigersIter2.items.OneHandedWeapon;
-import com.TigersIter2.items.Weapon;
+import com.TigersIter2.items.OneHandedWeaponItem;
 import com.TigersIter2.location.Location;
-import com.TigersIter2.managers.AreaEffectManager;
 import com.TigersIter2.managers.StateManager;
 import com.TigersIter2.assets.sprites.*;
 import com.TigersIter2.entities.*;
@@ -65,9 +59,9 @@ public class GameState extends State {
         itemViews = new ArrayList<ItemView>();
         map = new TerrainMap(StaticVar.map1);
         avatar = new Avatar();
-        avatar.setOccupation(new Sneak());
+        avatar.setOccupation(new Smasher());
         TakeableItem potion = new Potion("Health Potion", 10);
-        TakeableItem butterKnife = new OneHandedWeapon("Butter Knife", 1);
+        TakeableItem butterKnife = new OneHandedWeaponItem("Butter Knife", 1);
         ant = new AvatarNPCInteract(avatar, footerView);
         vehicleViews = new ArrayList<VehicleView>();
         itemManager = new ItemManager(avatar);
@@ -92,7 +86,7 @@ public class GameState extends State {
         list.add("The Detroit Tigers?");
         list.add("So many things.");
         list.add("I suppose so.");
-        TakeableItem ohSword = new  OneHandedWeapon("Sword",5);
+        TakeableItem ohSword = new OneHandedWeaponItem("Sword",5);
         itemManager.addItem(ohSword);
         ant.addVillager(list, true, true, false);
         ant.getNpcList().get(0).getInventory().addItem(ohSword);

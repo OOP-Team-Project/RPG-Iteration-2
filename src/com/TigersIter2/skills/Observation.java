@@ -26,7 +26,7 @@ public class Observation extends ActiveSkill {
 
     public Observation() {
         this.distanceModifier = .1;
-        this.accuracy = 0.0;
+        this.accuracy = 0.3;
         this.accuracyDistance[0] = accuracy;
         this.accuracyDistance[1] = distanceModifier;
         //this.pni = pni;
