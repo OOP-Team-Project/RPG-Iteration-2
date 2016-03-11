@@ -213,6 +213,7 @@ public class PlayerStats extends Stats {
         this.mana += sm.getMana();
         this.barter += sm.getBarter();
         this.lightRadius += sm.getLightRadius();
+        this.livesLeft += sm.getLives();
     }
 
     /**
