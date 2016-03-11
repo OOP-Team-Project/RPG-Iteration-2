@@ -14,6 +14,7 @@ public class Smasher extends Occupation {
         life = 75;
         mana = 25;
         attackTime = 750;
+        influenceRadius = 0;
 
         strengthIncrement = 5;
         agilityIncrement = 1;

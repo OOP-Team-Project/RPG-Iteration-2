@@ -244,4 +244,8 @@ public class Avatar extends Entity{
         return ret;
     }
 
+    public int getInfluenceRadius(){
+        return stats.getInfluenceRadius();
+    }
+
 }

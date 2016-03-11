@@ -3,7 +3,6 @@ package com.TigersIter2.managers;
 import com.TigersIter2.entities.*;
 import com.TigersIter2.items.TakeableItem;
 import com.TigersIter2.location.LocationConverter;
-import com.TigersIter2.skills.OneHandedWeapon;
 import com.TigersIter2.views.FooterView;
 
 import javax.swing.*;
@@ -89,10 +88,10 @@ public class AvatarNPCInteract implements ActionListener{
 
     private boolean inRange(NPC n){
         //somehow determine if npc is in range based off of direction and attack range and such
+        int xDist = Math.abs(LocationConverter.PixelLocationToHex(n.getPixelLocation()).getX() - LocationConverter.PixelLocationToHex(avatar.getPixelLocation()).getX());
+        int yDist = Math.abs(LocationConverter.PixelLocationToHex(n.getPixelLocation()).getY() - LocationConverter.PixelLocationToHex(avatar.getPixelLocation()).getY());
 
-
-        //in the meantime, just use this (since ranged attacks are not implemented yet
-        if(n == npcOnTile)
+        if(xDist <= avatar.getInfluenceRadius() || yDist <= avatar.getInfluenceRadius())
             return true;
         else
             return false;

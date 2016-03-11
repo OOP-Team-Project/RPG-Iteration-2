@@ -22,6 +22,7 @@ public abstract class Stats {
     protected int agility;
     protected int intellect;
     protected int attackTime;
+    protected int influenceRadius;
 
 
     public Stats() {
@@ -35,6 +36,7 @@ public abstract class Stats {
         agility = 0;
         intellect = 0;
         attackTime = 0;
+        influenceRadius = 0;
     }
 
     /**
@@ -48,6 +50,14 @@ public abstract class Stats {
         return movement;
     }
 
+    public int getAttackTime(){
+        return attackTime;
+    }
+
+    public int getInfluenceRadius(){
+        return influenceRadius;
+    }
+
     /**
      * needs to be overridden to account for it being derived
      */
@@ -57,10 +67,6 @@ public abstract class Stats {
 
     public int getCurrentLife() {
         return currentLife;
-    }
-
-    public int getAttackTime(){
-        return attackTime;
     }
 
     /**
@@ -153,6 +159,10 @@ public abstract class Stats {
 
     public void setAttackTime(int attackTime){
         this.attackTime = attackTime;
+    }
+
+    public void setInfluenceRadius(int influenceRadius){
+        this.influenceRadius = influenceRadius;
     }
 
 }

@@ -15,6 +15,7 @@ public abstract class Occupation {
     protected int life;
     protected int mana;
     protected int attackTime;
+    protected int influenceRadius;
 
     protected int strengthIncrement;
     protected int agilityIncrement;
@@ -86,6 +87,14 @@ public abstract class Occupation {
 
     public void setAttackTime(int attackTime){
         this.attackTime = attackTime;
+    }
+
+    public int getInfluenceRadius(){
+        return influenceRadius;
+    }
+
+    public void setInfluenceRadius(int influenceRadius){
+        this.influenceRadius = influenceRadius;
     }
 
 

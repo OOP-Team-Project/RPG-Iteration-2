@@ -14,6 +14,7 @@ public class Summoner extends Occupation {
         life = 40;
         mana = 75;
         attackTime = 750;
+        influenceRadius = 2;
 
         strengthIncrement = 1;
         agilityIncrement = 1;
