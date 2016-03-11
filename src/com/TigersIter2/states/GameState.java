@@ -17,6 +17,7 @@ import com.TigersIter2.main.Controller;
 import com.TigersIter2.managers.AvatarNPCInteract;
 import com.TigersIter2.managers.ItemManager;
 import com.TigersIter2.maps.TerrainMap;
+import com.TigersIter2.skills.SkillTree;
 import com.TigersIter2.views.*;
 
 import java.awt.*;
@@ -46,6 +47,7 @@ public class GameState extends State {
     private FooterView footerView;
     private StatusView statusView;
     private ControlView controlView;
+    private SkillManagementView smv;
     //private EntityManager entityManager;
     //private ItemManager itemManager;
 
@@ -68,6 +70,10 @@ public class GameState extends State {
         ant = new AvatarNPCInteract(avatar, footerView);
         vehicleViews = new ArrayList<VehicleView>();
         itemManager = new ItemManager(avatar);
+
+        SkillTree st = new SkillTree(avatar.getPlayerStats());
+        smv = new SkillManagementView(st);
+
 
        // avatar.getInventory().addItem(new Potion("Health Potion"));
        // avatar.getInventory().addItem(new Potion("Strength Potion"));
@@ -122,6 +128,8 @@ public class GameState extends State {
 
         mapView = new MapView(map, avatar);
         areaView =  new AreaView(mapView,avatarView, vehicleViews, footerView, statusView, npcViews, controlView);
+
+        areaView.add(smv, 0);
 
 
         this.add(areaView);
