@@ -1,8 +1,10 @@
 package com.TigersIter2.states;
 
+import com.TigersIter2.areaEffects.*;
 import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.items.OneHandedWeaponItem;
 import com.TigersIter2.location.Location;
+import com.TigersIter2.managers.AreaEffectManager;
 import com.TigersIter2.managers.StateManager;
 import com.TigersIter2.assets.sprites.*;
 import com.TigersIter2.entities.*;
@@ -30,6 +32,7 @@ public class GameState extends State {
     private Vehicle vehicle;
     private AvatarNPCInteract ant;
     private ItemManager itemManager;
+    private AreaEffectManager aem;
 
     //Views
     private AvatarView avatarView;
@@ -41,8 +44,6 @@ public class GameState extends State {
     private FooterView footerView;
     private StatusView statusView;
     private ControlView controlView;
-    //private EntityManager entityManager;
-    //private ItemManager itemManager;
 
 
     public GameState(StateManager stateManager, Controller controller){
@@ -142,7 +143,11 @@ public class GameState extends State {
 
         this.add(areaView);
 
+        aem = new AreaEffectManager(avatar);
+        AreaEffect effect = new InstantDeath();
+        aem.addEffect(effect);
         System.out.println("GameState initialized");
+
 
     }
 
@@ -184,6 +189,7 @@ public class GameState extends State {
             avatar.update(controller.getXMovement(), controller.getyMovement(), elapsed);
         }
         View.update(controller.getCameraXMovement(), controller.getCameraYMovement(), elapsed);
+        aem.checkTile();
         ant.checkTile();
         handleControllerInput();
 
