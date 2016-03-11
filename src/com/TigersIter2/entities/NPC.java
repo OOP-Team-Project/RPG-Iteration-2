@@ -42,7 +42,6 @@ public abstract class NPC extends Entity{
         inventory = new Inventory();
         equipment = new Equipment();
         stats = new NPCStats();
-        attackTime = 500;
         stats.setLife(100);
         stats.setCurrentLife(100);
     }

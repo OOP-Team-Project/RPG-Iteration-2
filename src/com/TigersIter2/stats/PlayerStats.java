@@ -72,6 +72,7 @@ public class PlayerStats extends Stats {
         this.movement = o.getMovement();
         this.life = o.getLife();
         this.mana = o.getMana();
+        this.attackTime = o.getAttackTime();
 
         this.lightRadius = 10;
 
@@ -214,6 +215,7 @@ public class PlayerStats extends Stats {
         this.barter += sm.getBarter();
         this.lightRadius += sm.getLightRadius();
         this.livesLeft += sm.getLives();
+        this.attackTime += sm.getAttackTime();
     }
 
     /**
@@ -233,6 +235,7 @@ public class PlayerStats extends Stats {
             this.mana -= sm.getMana();
             this.barter -= sm.getBarter();
             this.lightRadius -= sm.getLightRadius();
+            this.attackTime -= sm.getAttackTime();
         }
     }
 
@@ -339,6 +342,7 @@ public class PlayerStats extends Stats {
                             "\nArmorRating: " + getArmorRating() +
                             "\nLightRadius: " + getLightRadius() +
                             "\nAbilityPoints: " + getAbilityPoints() +
+                            "\nAttackTime: " + getAttackTime() +
                             "\nStatusModifiers: " + mods.size();
         return results;
     }

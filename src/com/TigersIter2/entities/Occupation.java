@@ -14,6 +14,7 @@ public abstract class Occupation {
     protected int movement;
     protected int life;
     protected int mana;
+    protected int attackTime;
 
     protected int strengthIncrement;
     protected int agilityIncrement;
@@ -77,6 +78,14 @@ public abstract class Occupation {
 
     public void setMana(int mana) {
         this.mana = mana;
+    }
+
+    public int getAttackTime(){
+        return attackTime;
+    }
+
+    public void setAttackTime(int attackTime){
+        this.attackTime = attackTime;
     }
 
 

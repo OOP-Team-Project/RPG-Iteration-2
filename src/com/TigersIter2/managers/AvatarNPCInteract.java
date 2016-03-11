@@ -308,6 +308,7 @@ public class AvatarNPCInteract implements ActionListener{
         m.getStats().setArmor(3);
         m.getStats().setStrength(13);
         m.getStats().setAttack(20);
+        m.setAttackTime(1000);
         //END TESTING
 
         npcList.add(m);

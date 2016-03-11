@@ -13,6 +13,7 @@ public class Sneak extends Occupation {
         movement = 8;
         life = 50;
         mana = 50;
+        attackTime = 750;
 
         strengthIncrement = 1;
         agilityIncrement = 5;

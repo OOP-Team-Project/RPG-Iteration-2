@@ -21,6 +21,7 @@ public abstract class Stats {
     protected int strength;
     protected int agility;
     protected int intellect;
+    protected int attackTime;
 
 
     public Stats() {
@@ -33,6 +34,7 @@ public abstract class Stats {
         strength = 0;
         agility = 0;
         intellect = 0;
+        attackTime = 0;
     }
 
     /**
@@ -55,6 +57,10 @@ public abstract class Stats {
 
     public int getCurrentLife() {
         return currentLife;
+    }
+
+    public int getAttackTime(){
+        return attackTime;
     }
 
     /**
@@ -144,4 +150,9 @@ public abstract class Stats {
     public void setStrength(int strength) {
         this.strength = strength;
     }
+
+    public void setAttackTime(int attackTime){
+        this.attackTime = attackTime;
+    }
+
 }
