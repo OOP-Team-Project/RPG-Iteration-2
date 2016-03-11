@@ -8,8 +8,26 @@ import com.TigersIter2.location.Location;
  */
 public class Item {
     private Location location;
+    private Location pixelLocation;
+    protected int itemType;       //to differentiate between keys, potions, obstacles, weapons, armor, interactive, and oneShot
 
-    public void setLocation(Location location)  { this.location = location; }
+    public void setLocation(Location location){
+        int x = ((location.getX()+50)/100)*100;
+        int y = ((location.getY()+50)/100)*100;
+        this.location = new Location(x, y, 0);
+    }
 
     public Location getLocation() { return location; }
+
+    public void setPixelLocation(Location location){
+        pixelLocation = location;
+    }
+
+    public Location getPixelLocation(){
+        return pixelLocation;
+    }
+
+    public int getItemType(){
+        return itemType;
+    }
 }

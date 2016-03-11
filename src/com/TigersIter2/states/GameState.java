@@ -38,6 +38,7 @@ public class GameState extends State {
     private AreaView areaView;
     private List<VehicleView> vehicleViews;
     private List<NPCView> npcViews;
+    private List<ItemView> itemViews;
     private FooterView footerView;
     private StatusView statusView;
     private ControlView controlView;
@@ -71,7 +72,7 @@ public class GameState extends State {
         ant = new AvatarNPCInteract(avatar, footerView);
         vehicleViews = new ArrayList<VehicleView>();
         npcViews = new ArrayList<NPCView>();
-
+        itemViews = new ArrayList<ItemView>();
 
         //THIS IS ALL FOR TESTING. WILL NOT STAY HERE
         ant.addVehicle(new Vehicle("Turtle", 5, true, true));
@@ -89,8 +90,10 @@ public class GameState extends State {
         //testing for item interactions
         Item item = new Key("Key", 1);
         item.setLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight + 200,0));
+        item.setPixelLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight + 200,0));
         Item obstacle = new Obstacle();
         obstacle.setLocation(new Location(10 * StaticVar.terrainImageWidth + 400,10 * StaticVar.terrainImageHeight,0));
+        obstacle.setPixelLocation(new Location(10 * StaticVar.terrainImageWidth + 400,10 * StaticVar.terrainImageHeight,0));
         itemManager.addItem(obstacle);
         itemManager.addItem(item);
 
@@ -104,6 +107,7 @@ public class GameState extends State {
         VehicleSprite.init();
         VillagerSprite.init();
         MonsterSprite.init();
+        ItemSprite.init();
 
         avatarView = new AvatarView(avatar);
         statusView = new StatusView(avatar.getInventory(), avatar.getStats(), avatar.getEquipment());
@@ -113,9 +117,12 @@ public class GameState extends State {
         for(NPC n : ant.getNpcList()){
             npcViews.add(new NPCView(n, avatar, map));
         }
+        for(Item i : itemManager.getItemList()){
+            itemViews.add(new ItemView(i, avatar, map));
+        }
 
         mapView = new MapView(map, avatar);
-        areaView =  new AreaView(mapView,avatarView, vehicleViews, footerView, statusView, npcViews, controlView);
+        areaView =  new AreaView(mapView,avatarView, vehicleViews, footerView, statusView, npcViews, controlView, itemViews);
 
 
         this.add(areaView);

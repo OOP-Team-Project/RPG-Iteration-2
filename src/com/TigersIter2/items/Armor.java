@@ -15,6 +15,7 @@ public class Armor extends TakeableItem {
         setEquippable(true);
         this.sm = new StatsModifier();
         sm.setArmor(sm.getArmor() + increaseDefense); //increases the defense of the player
+        itemType = 0;
     }
 
     public int getArmorSlot() { return armorSlot; }

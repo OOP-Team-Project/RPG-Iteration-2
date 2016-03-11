@@ -32,6 +32,10 @@ public class ItemManager {
         itemList.add(item);
     }
 
+    public List<Item> getItemList(){
+        return itemList;
+    }
+
     /*checks the tile player is moving to to see if there is an item on it
      *Handles the interaction based off the item type, returns false if item is
      *an obstacle*/
