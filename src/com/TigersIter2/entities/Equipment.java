@@ -3,6 +3,7 @@ package com.TigersIter2.entities;
 import com.TigersIter2.items.TakeableItem;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -18,6 +19,7 @@ public class Equipment {
 
     public void addItem(TakeableItem item){
         items.add(item);
+
         item.setDisplay(false);
     }
 
@@ -46,5 +48,16 @@ public class Equipment {
 
     public boolean isEmpty(){
         return items.isEmpty();
+    }
+
+    public String getWeaponType(){
+        Iterator<TakeableItem> iter = items.iterator();
+        while(iter.hasNext()){
+            TakeableItem item = iter.next();
+            if(item.getItemType() == 6){
+                return item.toString();
+            }
+        }
+        return "none";
     }
 }

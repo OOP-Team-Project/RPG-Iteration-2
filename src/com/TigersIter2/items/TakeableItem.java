@@ -8,7 +8,7 @@ import com.TigersIter2.stats.StatsModifier;
  */
 public abstract class TakeableItem extends Item {
 
-    private boolean equippable;
+    protected boolean equippable = false;
     private String name;
     private int priceValue = 10; //this is the value of the item which is used in bartering
     StatsModifier sm;
