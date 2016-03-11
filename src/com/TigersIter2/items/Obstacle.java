@@ -6,7 +6,7 @@ package com.TigersIter2.items;
 public class Obstacle extends Item {
 
     public Obstacle() {
-
+        itemType = 3;
     }
 
 }

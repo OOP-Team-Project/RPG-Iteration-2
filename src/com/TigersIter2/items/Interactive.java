@@ -9,6 +9,7 @@ public class Interactive extends Item {
 
     public Interactive(int itemCode) {
         this.itemCode = itemCode;
+        itemType = 1;
     }
 
     public boolean getInteractedWith() { return interactedWith; }

@@ -137,7 +137,7 @@ public class PlayerStats extends Stats {
     }
 
     /**
-     * adds experience and checks if levelUp happend, if so it executes levelup function
+         * adds experience and checks if levelUp happend, if so it executes levelup function
      * for the levels gained
      */
     public void addExperience(int experience) {
@@ -151,7 +151,6 @@ public class PlayerStats extends Stats {
         }
     }
 
-    //TODO: IMPLEMENT BELOW
     public void incrementLevel() {
         int currentExp = getExperience();
         int expNeeded = getExperienceRequiredForLevel(level + 1);

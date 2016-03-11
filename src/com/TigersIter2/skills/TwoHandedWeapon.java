@@ -33,8 +33,8 @@ public class TwoHandedWeapon extends ActiveSkill {
     public TwoHandedWeapon(Stats playerStats) {
         super();
         this.playerStats = playerStats;
-        this.damage = 0;
-        this.probability = 0.0;
+        this.damage = ATTACK_PER_LEVEL;
+        this.probability = .3;
     }
 
     /**
@@ -57,6 +57,6 @@ public class TwoHandedWeapon extends ActiveSkill {
     }
 
     public String toString() {
-        return "TwoHandedWeapon";
+        return "TwoHandedWeaponItem";
     }
 }

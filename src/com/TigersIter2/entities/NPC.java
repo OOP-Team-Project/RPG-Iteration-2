@@ -6,6 +6,7 @@ import com.TigersIter2.items.TakeableItem;
 import com.TigersIter2.location.Location;
 import com.TigersIter2.stats.NPCStats;
 
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -27,6 +28,7 @@ public abstract class NPC extends Entity{
     protected boolean willTrade;
     protected boolean willTalk;
     protected boolean willAttack;
+    protected boolean isVillager;
     private boolean canAttack = true;
     private boolean onTileWithAvatar = false;
 
@@ -75,17 +77,32 @@ public abstract class NPC extends Entity{
             System.out.println("That item isn't equippable!");
     }
 
-    public void unequipItemAtIndex(int i){
-        if(!equipment.isEmpty())
-            inventory.addItem(equipment.removeItemAtIndex(i));
-        else
-            System.out.println("There is nothing to unequip!");
+    public void dropItems(){
+        Iterator<TakeableItem> iter = inventory.getItems().iterator();
+        while (iter.hasNext()) {
+            TakeableItem item = iter.next();
+            int xLoc = location.getX();
+            int yLoc = location.getY()+100;
+            item.setLocation(new Location(xLoc, yLoc, 0));
+            item.setPixelLocation(pixelLocation);
+            item.setDisplay(true);
+            iter.remove();
+        }
+
+        iter = equipment.getItems().iterator();
+        while (iter.hasNext()) {
+            TakeableItem item = iter.next();
+            int xLoc = location.getX();
+            int yLoc = location.getY()+100;
+            item.setLocation(new Location(xLoc, yLoc, 0));
+            item.setPixelLocation(pixelLocation);
+            item.setDisplay(true);
+            iter.remove();
+        }
     }
 
-    public void dropItemAtIndex(int i){
-        TakeableItem item = inventory.removeItemAtIndex(i);
-
-        //Do something here to put item on the current tile
+    public Equipment getEquipment(){
+        return equipment;
     }
 
     public int getDirection(){
@@ -163,7 +180,7 @@ public abstract class NPC extends Entity{
     }
 
     public boolean isVillager(){
-        return !willAttack;
+        return isVillager;
     }
 
     public boolean getCanAttack(){
@@ -180,5 +197,9 @@ public abstract class NPC extends Entity{
 
     public boolean getOnTileWithAvatar(){
         return onTileWithAvatar;
+    }
+
+    public void setWillAttack(boolean b){
+        willAttack = b;
     }
 }

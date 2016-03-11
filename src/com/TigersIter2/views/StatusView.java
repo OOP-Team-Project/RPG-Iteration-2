@@ -1,6 +1,7 @@
 package com.TigersIter2.views;
 
 import com.TigersIter2.assets.StaticVar;
+import com.TigersIter2.entities.Avatar;
 import com.TigersIter2.entities.Equipment;
 import com.TigersIter2.entities.Inventory;
 import com.TigersIter2.items.TakeableItem;
@@ -11,6 +12,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class StatusView extends View implements ActionListener{
@@ -23,6 +25,7 @@ public class StatusView extends View implements ActionListener{
     private Inventory playerInventory;
     private PlayerStats stats;
     private Equipment equipment;
+    private Avatar avatar;
     private boolean inventorySelected;
     private int whoseSide;
     private int highlighted;
@@ -30,15 +33,17 @@ public class StatusView extends View implements ActionListener{
     private int totalHeight;
     private List<TakeableItem> playerSelectedItems;
     private List<TakeableItem> selectedEquipment;
+    private boolean notEquippableMessage = false;
 
-    public StatusView(Inventory inv, PlayerStats ps, Equipment equip){
+    public StatusView(Avatar a){
         setPreferredSize(new Dimension(StaticVar.gameWidth - 400, 200));
         display = false;
         whoseSide = 0;
         highlighted = 0;
-        playerInventory = inv;
-        stats = ps;
-        equipment = equip;
+        avatar = a;
+        playerInventory = a.getInventory();
+        stats = a.getStats();
+        equipment = a.getEquipment();
         playerSelectedItems = new ArrayList<TakeableItem>();
         selectedEquipment = new ArrayList<TakeableItem>();
         totalWidth = StaticVar.gameWidth - 150;
@@ -47,6 +52,9 @@ public class StatusView extends View implements ActionListener{
     }
 
     public void handleInput(int input){
+        if(input != -1)
+            notEquippableMessage = false;
+
         if(input == 0){
             decrementHighlighted();
         }
@@ -69,14 +77,27 @@ public class StatusView extends View implements ActionListener{
             else if(whoseSide == 1){
                 if(inventorySelected) {
                     for (TakeableItem item : playerSelectedItems) {
-                        equipment.addItem(item);
-                        playerInventory.getItems().remove(item);
+                        if(highlighted == 0) {
+                            if(item.isEquippable()) {
+                                equipItem(item);
+                            }
+                            else{
+                                notEquippableMessage = true;
+                            }
+                        }
+                        else {
+                            avatar.dropItem(item);
+                        }
                     }
                 }
                 else{
                     for (TakeableItem item : selectedEquipment) {
                         playerInventory.addItem(item);
                         equipment.getItems().remove(item);
+                        avatar.getStats().removeStatModifier(item.getStatsModifier());
+                        if(highlighted == 1){
+                            avatar.dropItem(item);
+                        }
                     }
                 }
                 resetView();
@@ -93,6 +114,39 @@ public class StatusView extends View implements ActionListener{
         }
     }
 
+    private void equipItem(TakeableItem item){
+        //If a weapon is already equipped, replace it
+        if(item.getItemType() == 6){
+            boolean canEquipWeaponType = false;
+            String occupation = avatar.getOccupation().toString();
+            String weaponType = item.getWeaponType();
+            if(occupation.equals("Sneak")){
+                if(weaponType.equals("RangedWeapon"))
+                    canEquipWeaponType = true;
+            }
+            else if(occupation.equals("Smasher")){
+                if(weaponType.equals("OneHandedWeapon") || weaponType.equals("TwoHandedWeapon"))
+                    canEquipWeaponType = true;
+            }
+
+            if(canEquipWeaponType) {
+                Iterator<TakeableItem> iter = equipment.getItems().iterator();
+                while (iter.hasNext()) {
+                    TakeableItem i = iter.next();
+                    playerInventory.addItem(i);
+                    iter.remove();
+                }
+            }
+            else {
+                notEquippableMessage = true;
+                return;
+            }
+        }
+        equipment.addItem(item);
+        playerInventory.getItems().remove(item);
+        avatar.getStats().addStatModifier(item.getStatsModifier());
+    }
+
     public void toggle(){
         display = !display;
     }
@@ -104,6 +158,10 @@ public class StatusView extends View implements ActionListener{
     public void incrementHighlighted(){
         if(whoseSide == 0){
             if(highlighted < playerInventory.getItems().size()-1)
+                ++highlighted;
+        }
+        else if(whoseSide == 1){
+            if(highlighted == 0)
                 ++highlighted;
         }
         else if(whoseSide == 2){
@@ -201,7 +259,7 @@ public class StatusView extends View implements ActionListener{
                     VIEW_X_START+totalWidth, VIEW_Y_START+totalHeight/2);
 
             g2d.setColor(Color.gray);
-            if(whoseSide == 1){
+            if(whoseSide == 1 && highlighted == 0){
                 g2d.setColor(Color.red);
             }
             g2d.fillRect(VIEW_X_START+totalWidth/3-60, VIEW_Y_START+totalHeight/4 - 25, 120, 50);
@@ -211,6 +269,21 @@ public class StatusView extends View implements ActionListener{
                 g2d.drawString("Equip", VIEW_X_START+totalWidth/3-30, VIEW_Y_START+totalHeight/4 + 5);
             else
                 g2d.drawString("Unequip", VIEW_X_START+totalWidth/3-50, VIEW_Y_START+totalHeight/4 + 5);
+
+            g2d.setColor(Color.gray);
+            if(whoseSide == 1 && highlighted == 1){
+                g2d.setColor(Color.red);
+            }
+            g2d.fillRect(VIEW_X_START+totalWidth/3-60, VIEW_Y_START+totalHeight/4 + 75, 120, 50);
+            g2d.setColor(Color.black);
+            g2d.setFont(new Font("TimesRoman", Font.BOLD, 20));
+            g2d.drawString("Drop", VIEW_X_START+totalWidth/3-30, VIEW_Y_START+totalHeight/4 + 105);
+
+            if(notEquippableMessage) {
+                g2d.setColor(Color.red);
+                g2d.setFont(new Font("TimesRoman", Font.BOLD, 50));
+                g2d.drawString("That item is not equippable!", VIEW_X_START + totalWidth / 3 + 70, VIEW_Y_START + totalHeight / 4);
+            }
 
 
 
@@ -225,7 +298,7 @@ public class StatusView extends View implements ActionListener{
                 g2d.setColor(Color.black);
                 if (playerIter == highlighted && whoseSide == 0)
                     g2d.drawString(">", 125, height);
-                if (playerSelectedItems.contains(playerInventory.getItemAtIndex(playerIter).toString()))
+                if (playerSelectedItems.contains(playerInventory.getItemAtIndex(playerIter)))
                     g2d.setColor(Color.red);
                 g2d.drawString(item.toString(), 150, height);
                 height += 20;
