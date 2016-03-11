@@ -57,4 +57,8 @@ public class AreaEffectManager {
         }
     }
 
+    public List<AreaEffect> getAreaEffects(){
+        return effects;
+    }
+
 }

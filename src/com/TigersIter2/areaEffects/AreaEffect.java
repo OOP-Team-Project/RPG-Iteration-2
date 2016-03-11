@@ -16,18 +16,27 @@ public abstract class AreaEffect {
 
     private Location location;  //This is the location used by MODELS to determine where the areaEffect is
     protected boolean display = true;
+    protected int areaEffectType;
     public Entity entity;
 
     public AreaEffect(){
 
         // for now, this is same location as Turtle1
-        location = new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight-50,0);
+        int x = 10 * StaticVar.terrainImageWidth+100;
+        int y = 10 * StaticVar.terrainImageHeight-50;
+        x = ((x+50)/100)*100;
+        y = ((y+50)/100)*100;
+        location = new Location(x, y, 0);
 
         //  to add with a visual
         //pixelLocation = new Location(Math.round(StaticVar.xTilesFromEdge*StaticVar.terrainImageWidth*.75f - 80), Math.round(StaticVar.yTilesFromEdge*StaticVar.terrainImageHeight - Math.round(StaticVar.terrainImageHeight*1.2f)), 0);
     }
 
-    public void setLocation(Location l){ location = l; }
+    public void setLocation(Location l){
+        int x = ((location.getX()+50)/100)*100;
+        int y = ((location.getY()+50)/100)*100;
+        location = new Location(x, y, 0);
+    }
 
     public Location getLocation() {
         return location;
@@ -35,6 +44,10 @@ public abstract class AreaEffect {
 
     public boolean getDisplay(){
         return display;
+    }
+
+    public int getAreaEffectType(){
+        return areaEffectType;
     }
 
     // to be overridden by subclasses

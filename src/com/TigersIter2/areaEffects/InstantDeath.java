@@ -12,6 +12,10 @@ public class InstantDeath extends AreaEffect{
 
     private boolean used = false;
 
+    public InstantDeath(){
+        areaEffectType = 1;
+    }
+
     public void affectEntity(Entity entity){
         //  decreases current health by the amount of health entity currently has
         if(!used) {
