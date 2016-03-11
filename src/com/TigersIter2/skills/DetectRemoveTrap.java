@@ -18,7 +18,7 @@ public class DetectRemoveTrap extends ActiveSkill {
 
     public DetectRemoveTrap() {
         super();
-        probability = 0.0;
+        probability = 0.4;
     }
 
     /**

@@ -59,7 +59,6 @@ public class ItemManager {
                         return true;
                     } else if (item instanceof OneShot) {
                         playerStats.addStatModifier(((OneShot) item).getStatsModifier());
-                        iter.remove();
                         item.setDisplay(false);
                         return true;
                     } else if (item instanceof Interactive) {
@@ -67,13 +66,16 @@ public class ItemManager {
                     /* Iterates through the player's inventory to see if it holds the corresponding Key */
                         for (TakeableItem i : avatarInventoryItems) {
                             if (i instanceof Key) {
-                                if (((Key) i).getItemCode() == ((Interactive) item).getItemCode() && !((Interactive) item).getInteractedWith()) { //keys match!
-                                    ((Interactive) item).setInteractedWith(true);
-                                    System.out.println("ITEM SUCCESSFULLY INTERACTED WITH!");
+                                if (!((Interactive) item).getInteractedWith()) { //keys match!
+                                    if (((Key) i).getItemCode() == ((Interactive) item).getItemCode()) {
+                                        ((Interactive) item).setInteractedWith(true);
+                                        return true;
+                                    }
                                 }
                             }
                         }
-                        return true;
+                        if(!((Interactive) item).getInteractedWith())
+                            return false;
                     } else if (item instanceof Obstacle) { //item is an obstacle
                         System.out.println("obstacle encountered");
                         return false;

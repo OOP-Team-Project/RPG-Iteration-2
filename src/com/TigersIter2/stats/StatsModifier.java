@@ -17,6 +17,7 @@ public class StatsModifier {
     private int mana;
     private int barter;
     private int lightRadius;
+    private int lives;
 
     /**
      * The stats modifier class initializes stat boosts to 0
@@ -33,6 +34,7 @@ public class StatsModifier {
         mana = 0;
         barter = 0;
         lightRadius = 0;
+        lives = 0;
     }
 
 
@@ -125,6 +127,14 @@ public class StatsModifier {
 
     public void setLightRadius(int lightRadius) {
         this.lightRadius = lightRadius;
+    }
+
+    public int getLives(){
+        return lives;
+    }
+
+    public void setLives(int l){
+        lives = l;
     }
 
 }

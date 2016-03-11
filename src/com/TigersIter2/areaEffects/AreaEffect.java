@@ -15,7 +15,7 @@ import com.TigersIter2.stats.StatsModifier;
 public abstract class AreaEffect {
 
     private Location location;  //This is the location used by MODELS to determine where the areaEffect is
-    
+    protected boolean display = true;
     public Entity entity;
 
     public AreaEffect(){
@@ -33,11 +33,14 @@ public abstract class AreaEffect {
         return location;
     }
 
+    public boolean getDisplay(){
+        return display;
+    }
+
     // to be overridden by subclasses
     public abstract void affectEntity(Entity entity);
 
     public abstract String getEffectName();
-
 
 
 }

@@ -35,7 +35,7 @@ public class BindWounds extends ActiveSkill {
     public BindWounds(Stats playerStats){
         super();
         this.derivedHealed = BASE_HEAL;
-        this.probability = 0.0;
+        this.probability = 0.3;
         this.playerStats = playerStats;
     }
 

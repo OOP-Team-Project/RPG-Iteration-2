@@ -2,8 +2,7 @@ package com.TigersIter2.states;
 
 import com.TigersIter2.areaEffects.*;
 import com.TigersIter2.assets.StaticVar;
-import com.TigersIter2.items.OneHandedWeapon;
-import com.TigersIter2.items.Weapon;
+import com.TigersIter2.items.OneHandedWeaponItem;
 import com.TigersIter2.location.Location;
 import com.TigersIter2.managers.AreaEffectManager;
 import com.TigersIter2.managers.StateManager;
@@ -34,6 +33,7 @@ public class GameState extends State {
     private AvatarNPCInteract ant;
     private ItemManager itemManager;
     private AreaEffectManager aem;
+    private AreaEffect effect;
 
     //Views
     private AvatarView avatarView;
@@ -45,8 +45,6 @@ public class GameState extends State {
     private FooterView footerView;
     private StatusView statusView;
     private ControlView controlView;
-    //private EntityManager entityManager;
-    //private ItemManager itemManager;
 
 
     public GameState(StateManager stateManager, Controller controller){
@@ -63,9 +61,9 @@ public class GameState extends State {
         itemViews = new ArrayList<ItemView>();
         map = new TerrainMap(StaticVar.map1);
         avatar = new Avatar();
-        avatar.setOccupation(new Sneak());
+        avatar.setOccupation(new Smasher());
         TakeableItem potion = new Potion("Health Potion", 10);
-        TakeableItem butterKnife = new OneHandedWeapon("Butter Knife", 1);
+        TakeableItem butterKnife = new OneHandedWeaponItem("Butter Knife", 1);
         ant = new AvatarNPCInteract(avatar, footerView);
         vehicleViews = new ArrayList<VehicleView>();
         itemManager = new ItemManager(avatar);
@@ -90,7 +88,7 @@ public class GameState extends State {
         list.add("The Detroit Tigers?");
         list.add("So many things.");
         list.add("I suppose so.");
-        TakeableItem ohSword = new  OneHandedWeapon("Sword",5);
+        TakeableItem ohSword = new OneHandedWeaponItem("Sword",5);
         itemManager.addItem(ohSword);
         ant.addVillager(list, true, true, false);
         ant.getNpcList().get(0).getInventory().addItem(ohSword);
@@ -103,15 +101,17 @@ public class GameState extends State {
         Item obstacle = new Obstacle();
         obstacle.setLocation(new Location(10 * StaticVar.terrainImageWidth + 400,10 * StaticVar.terrainImageHeight,0));
         obstacle.setPixelLocation(new Location(10 * StaticVar.terrainImageWidth + 400,10 * StaticVar.terrainImageHeight,0));
+        Item interactive = new Interactive(1);
+        interactive.setLocation(new Location(10 * StaticVar.terrainImageWidth + 200,10 * StaticVar.terrainImageHeight + 200,0));
+        interactive.setPixelLocation(new Location(10 * StaticVar.terrainImageWidth + 200,10 * StaticVar.terrainImageHeight + 200,0));
+        Item oneShot = new OneShot();
+        oneShot.setLocation(new Location(10 * StaticVar.terrainImageWidth + 200,10 * StaticVar.terrainImageHeight,0));
+        oneShot.setPixelLocation(new Location(10 * StaticVar.terrainImageWidth + 200,10 * StaticVar.terrainImageHeight,0));
+
         itemManager.addItem(obstacle);
         itemManager.addItem(item);
-
-        // FOR TESTING AREA-EFFECTSa
-        Location dest = new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight - 50, 0);
-        Location origin = new Location(0,0,0);
-        Teleport teleport = new Teleport(dest);
-        TakeDamage takeDamage = new TakeDamage();
-        aem = new AreaEffectManager(avatar, takeDamage, dest);
+        itemManager.addItem(interactive);
+        itemManager.addItem(oneShot);
 
         //pull in all pictures for GameState
 
@@ -142,7 +142,13 @@ public class GameState extends State {
 
         this.add(areaView);
 
+        aem = new AreaEffectManager(avatar);
+        Location dest = new Location(10 * StaticVar.terrainImageWidth +500,10 * StaticVar.terrainImageHeight+500, 0);
+        effect = new Teleport(dest);
+        aem.addEffect(effect);
+
         System.out.println("GameState initialized");
+
 
     }
 
@@ -184,6 +190,7 @@ public class GameState extends State {
             avatar.update(controller.getXMovement(), controller.getyMovement(), elapsed);
         }
         View.update(controller.getCameraXMovement(), controller.getCameraYMovement(), elapsed);
+        aem.checkTile();
         ant.checkTile();
         handleControllerInput();
 

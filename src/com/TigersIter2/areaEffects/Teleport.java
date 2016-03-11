@@ -10,8 +10,7 @@ import com.TigersIter2.managers.AreaEffectManager;
  */
 public class Teleport extends AreaEffect {
 
-    private Location origin;
-    private Location destination;
+    private final Location destination;
 
     public Teleport(Location destination){
         this.destination = destination;
@@ -21,6 +20,7 @@ public class Teleport extends AreaEffect {
         // only an Avatar wil levelUp
         if (entity instanceof Avatar) {
             ((Avatar)entity).setLocation(destination);
+            System.out.println(destination.toString()); // for testing
             System.out.println("Avatar teleported!");
         }
     }
