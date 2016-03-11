@@ -87,7 +87,10 @@ public class GameState extends State {
         list.add("The Detroit Tigers?");
         list.add("So many things.");
         list.add("I suppose so.");
+        TakeableItem ohSword = new  OneHandedWeapon("Sword",5);
+        itemManager.addItem(ohSword);
         ant.addVillager(list, true, true, false);
+        ant.getNpcList().get(0).getInventory().addItem(ohSword);
         ant.addMonster();
 
         //testing for item interactions
