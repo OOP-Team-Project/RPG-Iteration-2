@@ -41,6 +41,7 @@ public class GameState extends State {
     private List<VehicleView> vehicleViews;
     private List<NPCView> npcViews;
     private List<ItemView> itemViews;
+    private List<AreaEffectView> areaEffectViews;
     private FooterView footerView;
     private StatusView statusView;
     private ControlView controlView;
@@ -58,6 +59,7 @@ public class GameState extends State {
         vehicleViews = new ArrayList<VehicleView>();
         npcViews = new ArrayList<NPCView>();
         itemViews = new ArrayList<ItemView>();
+        areaEffectViews = new ArrayList<AreaEffectView>();
         map = new TerrainMap(StaticVar.map1);
         avatar = new Avatar();
         avatar.setOccupation(new Smasher());
@@ -114,6 +116,11 @@ public class GameState extends State {
 
 
 
+        aem = new AreaEffectManager(avatar);
+        AreaEffect effect = new TakeDamage();
+        aem.addEffect(effect);
+
+
         //pull in all pictures for GameState
 
         //Technically only one of these will need to be initialized
@@ -124,6 +131,7 @@ public class GameState extends State {
         VillagerSprite.init();
         MonsterSprite.init();
         ItemSprite.init();
+        AreaEffectSprite.init();
 
         avatarView = new AvatarView(avatar);
         statusView = new StatusView(avatar);
@@ -136,16 +144,16 @@ public class GameState extends State {
         for(Item i : itemManager.getItemList()){
             itemViews.add(new ItemView(i, avatar, map));
         }
+        for(AreaEffect aEffect : aem.getAreaEffects()){
+            areaEffectViews.add(new AreaEffectView(aEffect, avatar, map));
+        }
 
         mapView = new MapView(map, avatar);
-        areaView =  new AreaView(mapView,avatarView, vehicleViews, footerView, statusView, npcViews, controlView, itemViews);
+        areaView =  new AreaView(mapView,avatarView, vehicleViews, footerView, statusView, npcViews, controlView, itemViews, areaEffectViews);
 
 
         this.add(areaView);
 
-        aem = new AreaEffectManager(avatar);
-        AreaEffect effect = new InstantDeath();
-        aem.addEffect(effect);
         System.out.println("GameState initialized");
 
 

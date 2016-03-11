@@ -14,6 +14,10 @@ public class LevelUp extends AreaEffect{
 
     private boolean used = false;
 
+    public LevelUp(){
+        areaEffectType = 2;
+    }
+
     public void affectEntity(Entity entity){
         // only an Avatar wil levelUp
         if (entity.getClass().equals(Avatar.class) && !used) {
