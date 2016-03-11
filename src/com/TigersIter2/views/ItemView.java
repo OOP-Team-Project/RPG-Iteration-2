@@ -52,70 +52,63 @@ public class ItemView extends View {
     }
 
     public void paintComponent(Graphics g){
+        if(iHandle.getDisplay()) {
 
-        switch (View.currentMapMode) {
-            case PLAYER_FOLLOW_MODE:
+            switch (View.currentMapMode) {
+                case PLAYER_FOLLOW_MODE:
 
-                if((float) (aHandle.getLocation().getX())/StaticVar.terrainImageWidth < ((float) StaticVar.xTilesFromEdge)) {
-                    iHandle.setPixelLocation(new Location(Math.round(iHandle.getLocation().getX()*.75f - 80), iHandle.getPixelLocation().getY(), 0));
+                    if ((float) (aHandle.getLocation().getX()) / StaticVar.terrainImageWidth < ((float) StaticVar.xTilesFromEdge)) {
+                        iHandle.setPixelLocation(new Location(Math.round(iHandle.getLocation().getX() * .75f - 80), iHandle.getPixelLocation().getY(), 0));
 
-                }
-                else if((float) (aHandle.getLocation().getX())/StaticVar.terrainImageWidth > (mapXLength - StaticVar.xTilesFromEdge + 1)) {
-                    iHandle.setPixelLocation(new Location(Math.round((iHandle.getLocation().getX() - ((mapXLength - StaticVar.xTilesFromEdge*2 + 1) * StaticVar.terrainImageWidth))*.75f - 80), iHandle.getPixelLocation().getY(), 0));
-                     }
-                else  {
-                    iHandle.setPixelLocation(new Location(Math.round((iHandle.getLocation().getX() - aHandle.getLocation().getX() + StaticVar.xTilesFromEdge*StaticVar.terrainImageWidth)*.75f) - 80, iHandle.getPixelLocation().getY(), 0));
+                    } else if ((float) (aHandle.getLocation().getX()) / StaticVar.terrainImageWidth > (mapXLength - StaticVar.xTilesFromEdge + 1)) {
+                        iHandle.setPixelLocation(new Location(Math.round((iHandle.getLocation().getX() - ((mapXLength - StaticVar.xTilesFromEdge * 2 + 1) * StaticVar.terrainImageWidth)) * .75f - 80), iHandle.getPixelLocation().getY(), 0));
+                    } else {
+                        iHandle.setPixelLocation(new Location(Math.round((iHandle.getLocation().getX() - aHandle.getLocation().getX() + StaticVar.xTilesFromEdge * StaticVar.terrainImageWidth) * .75f) - 80, iHandle.getPixelLocation().getY(), 0));
 
-                }
-
-                //Y Stuff Below
-                if((float) (aHandle.getLocation().getY())/StaticVar.terrainImageHeight < (float) StaticVar.yTilesFromEdge) {
-                    iHandle.setPixelLocation(new Location(iHandle.getPixelLocation().getX(), Math.round(iHandle.getLocation().getY() - Math.round(StaticVar.terrainImageHeight*1.2f)), 0));
-                }
-                else if((float) (aHandle.getLocation().getY())/StaticVar.terrainImageHeight > (mapYLength - StaticVar.yTilesFromEdge)) {
-                    iHandle.setPixelLocation(new Location(iHandle.getPixelLocation().getX(), Math.round((iHandle.getLocation().getY() - ((mapYLength - StaticVar.yTilesFromEdge*2) * StaticVar.terrainImageHeight)) - Math.round(StaticVar.terrainImageHeight*1.2f)), 0));
                     }
-                else {
-                    iHandle.setPixelLocation(new Location(iHandle.getPixelLocation().getX(), iHandle.getLocation().getY() - aHandle.getLocation().getY() + Math.round(StaticVar.yTilesFromEdge*StaticVar.terrainImageHeight) - StaticVar.terrainImageHeight - 20, 0));
-                }
-                break;
 
-            case SCROLL_MODE:
-                if((float) (View.cameraLocation.getX())/StaticVar.terrainImageWidth < ((float) StaticVar.xTilesFromEdge)) {
-                    iHandle.setPixelLocation(new Location(Math.round(iHandle.getLocation().getX()*.75f - 80), iHandle.getPixelLocation().getY(), 0));
-                }
-                else if((float) (View.cameraLocation.getX())/StaticVar.terrainImageWidth > (mapXLength - StaticVar.xTilesFromEdge + 1)) {
-                    iHandle.setPixelLocation(new Location(Math.round((iHandle.getLocation().getX() - ((mapXLength - StaticVar.xTilesFromEdge*2 + 1) * StaticVar.terrainImageWidth))*.75f - 80), iHandle.getPixelLocation().getY(), 0));
-                }
-                else  {
-                    iHandle.setPixelLocation(new Location(Math.round((iHandle.getLocation().getX() - View.cameraLocation.getX() + StaticVar.xTilesFromEdge*StaticVar.terrainImageWidth)*.75f) - 80, iHandle.getPixelLocation().getY(), 0));
+                    //Y Stuff Below
+                    if ((float) (aHandle.getLocation().getY()) / StaticVar.terrainImageHeight < (float) StaticVar.yTilesFromEdge) {
+                        iHandle.setPixelLocation(new Location(iHandle.getPixelLocation().getX(), Math.round(iHandle.getLocation().getY() - Math.round(StaticVar.terrainImageHeight * 1.2f)), 0));
+                    } else if ((float) (aHandle.getLocation().getY()) / StaticVar.terrainImageHeight > (mapYLength - StaticVar.yTilesFromEdge)) {
+                        iHandle.setPixelLocation(new Location(iHandle.getPixelLocation().getX(), Math.round((iHandle.getLocation().getY() - ((mapYLength - StaticVar.yTilesFromEdge * 2) * StaticVar.terrainImageHeight)) - Math.round(StaticVar.terrainImageHeight * 1.2f)), 0));
+                    } else {
+                        iHandle.setPixelLocation(new Location(iHandle.getPixelLocation().getX(), iHandle.getLocation().getY() - aHandle.getLocation().getY() + Math.round(StaticVar.yTilesFromEdge * StaticVar.terrainImageHeight) - StaticVar.terrainImageHeight - 20, 0));
+                    }
+                    break;
 
-                }
+                case SCROLL_MODE:
+                    if ((float) (View.cameraLocation.getX()) / StaticVar.terrainImageWidth < ((float) StaticVar.xTilesFromEdge)) {
+                        iHandle.setPixelLocation(new Location(Math.round(iHandle.getLocation().getX() * .75f - 80), iHandle.getPixelLocation().getY(), 0));
+                    } else if ((float) (View.cameraLocation.getX()) / StaticVar.terrainImageWidth > (mapXLength - StaticVar.xTilesFromEdge + 1)) {
+                        iHandle.setPixelLocation(new Location(Math.round((iHandle.getLocation().getX() - ((mapXLength - StaticVar.xTilesFromEdge * 2 + 1) * StaticVar.terrainImageWidth)) * .75f - 80), iHandle.getPixelLocation().getY(), 0));
+                    } else {
+                        iHandle.setPixelLocation(new Location(Math.round((iHandle.getLocation().getX() - View.cameraLocation.getX() + StaticVar.xTilesFromEdge * StaticVar.terrainImageWidth) * .75f) - 80, iHandle.getPixelLocation().getY(), 0));
 
-                //Y Stuff Below
-                if((float) (View.cameraLocation.getY())/StaticVar.terrainImageHeight < (float) StaticVar.yTilesFromEdge) {
-                    iHandle.setPixelLocation(new Location(iHandle.getPixelLocation().getX(), Math.round(iHandle.getLocation().getY() - Math.round(StaticVar.terrainImageHeight*1.2f)), 0));
-                }
-                else if((float) (View.cameraLocation.getY())/StaticVar.terrainImageHeight > (mapYLength - StaticVar.yTilesFromEdge)) {
-                    iHandle.setPixelLocation(new Location(iHandle.getPixelLocation().getX(), Math.round((iHandle.getLocation().getY() - ((mapYLength - StaticVar.yTilesFromEdge*2) * StaticVar.terrainImageHeight)) - Math.round(StaticVar.terrainImageHeight*1.2f)), 0));
-                }
-                else {
-                    iHandle.setPixelLocation(new Location(iHandle.getPixelLocation().getX(), iHandle.getLocation().getY() - View.cameraLocation.getY() + Math.round(StaticVar.yTilesFromEdge*StaticVar.terrainImageHeight) - StaticVar.terrainImageHeight - 20, 0));
-                }
+                    }
 
-            default:
-                break;
-        }
+                    //Y Stuff Below
+                    if ((float) (View.cameraLocation.getY()) / StaticVar.terrainImageHeight < (float) StaticVar.yTilesFromEdge) {
+                        iHandle.setPixelLocation(new Location(iHandle.getPixelLocation().getX(), Math.round(iHandle.getLocation().getY() - Math.round(StaticVar.terrainImageHeight * 1.2f)), 0));
+                    } else if ((float) (View.cameraLocation.getY()) / StaticVar.terrainImageHeight > (mapYLength - StaticVar.yTilesFromEdge)) {
+                        iHandle.setPixelLocation(new Location(iHandle.getPixelLocation().getX(), Math.round((iHandle.getLocation().getY() - ((mapYLength - StaticVar.yTilesFromEdge * 2) * StaticVar.terrainImageHeight)) - Math.round(StaticVar.terrainImageHeight * 1.2f)), 0));
+                    } else {
+                        iHandle.setPixelLocation(new Location(iHandle.getPixelLocation().getX(), iHandle.getLocation().getY() - View.cameraLocation.getY() + Math.round(StaticVar.yTilesFromEdge * StaticVar.terrainImageHeight) - StaticVar.terrainImageHeight - 20, 0));
+                    }
 
-        Graphics2D g2d = (Graphics2D)g.create();
-        //gotta use that AA
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
-        if(iHandle.getDisplay())
+                default:
+                    break;
+            }
+
+            Graphics2D g2d = (Graphics2D) g.create();
+            //gotta use that AA
+            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                    RenderingHints.VALUE_ANTIALIAS_ON);
+
             drawItem(g2d);
 
-
-        g2d.dispose();
+            g2d.dispose();
+        }
     }
 
 }

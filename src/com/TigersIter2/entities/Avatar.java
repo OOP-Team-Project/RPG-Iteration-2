@@ -92,8 +92,14 @@ public class Avatar extends Entity{
             System.out.println("There is nothing to unequip!");
     }
 
-    public void dropItemAtIndex(int i){
-        TakeableItem item = inventory.removeItemAtIndex(i);
+    public void dropItem(TakeableItem item){
+        inventory.getItems().remove(item);
+        int xLoc = location.getX();
+        int yLoc = location.getY()+100;
+        item.setLocation(new Location(xLoc, yLoc, 0));
+        item.setPixelLocation(pixelLocation);
+        item.setDisplay(true);
+
 
         //Do something here to put item on the current tile
     }

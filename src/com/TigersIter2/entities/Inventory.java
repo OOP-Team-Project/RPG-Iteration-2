@@ -18,6 +18,7 @@ public class Inventory {
 
     public void addItem(TakeableItem item){
         items.add(item);
+        item.setDisplay(false);
     }
 
     public TakeableItem getItemAtIndex(int i){

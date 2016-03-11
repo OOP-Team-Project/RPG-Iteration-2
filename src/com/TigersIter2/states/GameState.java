@@ -67,6 +67,9 @@ public class GameState extends State {
         vehicleViews = new ArrayList<VehicleView>();
         itemManager = new ItemManager(avatar);
 
+
+        itemManager.addItem(potion);
+        itemManager.addItem(butterKnife);
         avatar.getInventory().addItem(potion);
         avatar.getInventory().addItem(butterKnife);
 
@@ -110,7 +113,7 @@ public class GameState extends State {
         ItemSprite.init();
 
         avatarView = new AvatarView(avatar);
-        statusView = new StatusView(avatar.getInventory(), avatar.getStats(), avatar.getEquipment());
+        statusView = new StatusView(avatar);
         for(Vehicle vv : ant.getVehicleList()) {
             vehicleViews.add(new VehicleView(vv, avatar, map));
         }
