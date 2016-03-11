@@ -1,9 +1,6 @@
 package com.TigersIter2.states;
 
-import com.TigersIter2.areaEffects.HealDamage;
-import com.TigersIter2.areaEffects.InstantDeath;
-import com.TigersIter2.areaEffects.LevelUp;
-import com.TigersIter2.areaEffects.TakeDamage;
+import com.TigersIter2.areaEffects.*;
 import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.items.OneHandedWeapon;
 import com.TigersIter2.items.Weapon;
@@ -36,6 +33,7 @@ public class GameState extends State {
     private Vehicle vehicle;
     private AvatarNPCInteract ant;
     private ItemManager itemManager;
+    private AreaEffectManager aem;
 
     //Views
     private AvatarView avatarView;
@@ -108,7 +106,12 @@ public class GameState extends State {
         itemManager.addItem(obstacle);
         itemManager.addItem(item);
 
-
+        // FOR TESTING AREA-EFFECTSa
+        Location dest = new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight - 50, 0);
+        Location origin = new Location(0,0,0);
+        Teleport teleport = new Teleport(dest);
+        TakeDamage takeDamage = new TakeDamage();
+        aem = new AreaEffectManager(avatar, takeDamage, dest);
 
         //pull in all pictures for GameState
 
