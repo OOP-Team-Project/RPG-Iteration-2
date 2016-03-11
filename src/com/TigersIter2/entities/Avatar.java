@@ -3,6 +3,7 @@ package com.TigersIter2.entities;
 import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.items.TakeableItem;
 import com.TigersIter2.location.Location;
+import com.TigersIter2.location.LocationConverter;
 import com.TigersIter2.stats.PlayerStats;
 import com.TigersIter2.stats.Stats;
 import com.TigersIter2.stats.StatsModifier;
@@ -92,10 +93,14 @@ public class Avatar extends Entity{
             System.out.println("There is nothing to unequip!");
     }
 
-    public void dropItemAtIndex(int i){
-        TakeableItem item = inventory.removeItemAtIndex(i);
+    public void dropItem(TakeableItem item){
+        inventory.getItems().remove(item);
+        int xLoc = location.getX();
+        int yLoc = location.getY()+100;
 
-        //Do something here to put item on the current tile
+        item.setLocation(new Location(xLoc, yLoc, 0));
+        item.setPixelLocation(pixelLocation);
+        item.setDisplay(true);
     }
 
     public void mountOrUnmountVehicle(Vehicle v){

@@ -30,6 +30,11 @@ public class ItemManager {
 
     public void addItem(Item item) {
         itemList.add(item);
+        item.setDisplay(true);
+    }
+
+    public List<Item> getItemList(){
+        return itemList;
     }
 
     /*checks the tile player is moving to to see if there is an item on it
@@ -44,36 +49,35 @@ public class ItemManager {
         nextLocation.incrementY(Math.round(yMov * elapsed * StaticVar.entitySpeed*avatar.getStats().getMovement()));
         while(iter.hasNext()) {
             Item item = iter.next();
-            if(LocationConverter.PixelLocationToHex(item.getLocation()).getX() == LocationConverter.PixelLocationToHex(nextLocation).getX() &&
-                   LocationConverter.PixelLocationToHex(item.getLocation()).getY() == LocationConverter.PixelLocationToHex(nextLocation).getY()) {
-                System.out.println("item found!");
+            if(item.getDisplay()) {
+                if (LocationConverter.PixelLocationToHex(item.getLocation()).getX() == LocationConverter.PixelLocationToHex(nextLocation).getX() &&
+                        LocationConverter.PixelLocationToHex(item.getLocation()).getY() == LocationConverter.PixelLocationToHex(nextLocation).getY()) {
 
-                if (item instanceof TakeableItem) {
-                    avatarInventory.addItem((TakeableItem) item);
-                    iter.remove();
-                    return true;
-                }
-                else if(item instanceof OneShot) {
-                    playerStats.addStatModifier(((OneShot) item).getStatsModifier());
-                    iter.remove();
-                    return true;
-                }
-                else if(item instanceof Interactive) {
-                    List<TakeableItem> avatarInventoryItems = avatarInventory.getItems();
+                    if (item instanceof TakeableItem) {
+                        avatarInventory.addItem((TakeableItem) item);
+                        item.setDisplay(false);
+                        return true;
+                    } else if (item instanceof OneShot) {
+                        playerStats.addStatModifier(((OneShot) item).getStatsModifier());
+                        iter.remove();
+                        item.setDisplay(false);
+                        return true;
+                    } else if (item instanceof Interactive) {
+                        List<TakeableItem> avatarInventoryItems = avatarInventory.getItems();
                     /* Iterates through the player's inventory to see if it holds the corresponding Key */
-                    for(TakeableItem i : avatarInventoryItems) {
-                        if(i instanceof Key) {
-                            if(((Key) i).getItemCode() == ((Interactive) item).getItemCode() && !((Interactive) item).getInteractedWith()) { //keys match!
-                                ((Interactive) item).setInteractedWith(true);
-                                System.out.println("ITEM SUCCESSFULLY INTERACTED WITH!");
+                        for (TakeableItem i : avatarInventoryItems) {
+                            if (i instanceof Key) {
+                                if (((Key) i).getItemCode() == ((Interactive) item).getItemCode() && !((Interactive) item).getInteractedWith()) { //keys match!
+                                    ((Interactive) item).setInteractedWith(true);
+                                    System.out.println("ITEM SUCCESSFULLY INTERACTED WITH!");
+                                }
                             }
                         }
+                        return true;
+                    } else if (item instanceof Obstacle) { //item is an obstacle
+                        System.out.println("obstacle encountered");
+                        return false;
                     }
-                    return true;
-                }
-                else if(item instanceof Obstacle) { //item is an obstacle
-                    System.out.println("obstacle encountered");
-                    return false;
                 }
             }
 
