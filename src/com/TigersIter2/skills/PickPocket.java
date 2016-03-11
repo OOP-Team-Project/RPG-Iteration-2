@@ -8,7 +8,7 @@ public class PickPocket extends ActiveSkill {
 
     public PickPocket() {
         super();
-        probability = 0.0;
+        probability = 0.3;
     }
 
 

@@ -33,27 +33,8 @@ public class AreaEffectManager {
     }
 
     public void affectEntityOnTile(){
-
-        switch(getAreaEffect()) {
-
-            case "instantDeath": instantDeath.affectEntity(entityOnTile);
-                break;
-            case "takeDamage": takeDamage.affectEntity(entityOnTile);
-                break;
-            case "healDamage": healDamage.affectEntity(entityOnTile);
-                break;
-            case "levelUp": levelUp.affectEntity(entityOnTile);
-                break;
-                // add other cases for other area effects
-                // is teleport an area affect???
-        }
-
+        areaEffect.affectEntity(entityOnTile);
     }
-
-    public String getAreaEffect(){
-        return areaEffect.getEffectName();
-    }
-
 
     public void checkTile(){
             if(LocationConverter.PixelLocationToHex(entityOnTile.getLocation()).getX() == LocationConverter.PixelLocationToHex(areaEffect.getLocation()).getX() &&

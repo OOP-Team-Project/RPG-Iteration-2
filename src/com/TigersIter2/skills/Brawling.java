@@ -35,8 +35,8 @@ public class Brawling extends ActiveSkill {
     public Brawling(Stats playerStats) {
         super();
         this.playerStats = playerStats;
-        this.damage = 0;
-        this.probability = 0.0;
+        this.damage = ATTACK_PER_LEVEL;
+        this.probability = .3;
     }
 
     /**

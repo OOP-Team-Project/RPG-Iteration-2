@@ -15,8 +15,7 @@ import com.TigersIter2.stats.StatsModifier;
 public abstract class AreaEffect {
 
     private Location location;  //This is the location used by MODELS to determine where the areaEffect is
-    private Location pixelLocation; //This is the location used by VIEWS to determine where the areaEffect is
-
+    
     public Entity entity;
 
     public AreaEffect(){

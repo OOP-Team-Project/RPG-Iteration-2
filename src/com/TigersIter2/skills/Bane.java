@@ -36,9 +36,9 @@ public class Bane extends Skill {
     public Bane(PlayerStats playerStats) {
         super();
         this.playerStats = playerStats;
-        this.magicDamage = 0;
+        this.magicDamage = MAGIC_PER_LEVEL + MAGIC;
         this.manaCost = MANA_COST;
-        this.probability = 0.0;
+        this.probability = 0.5;
     }
 
     /**

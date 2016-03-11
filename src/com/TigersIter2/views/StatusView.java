@@ -117,13 +117,32 @@ public class StatusView extends View implements ActionListener{
     private void equipItem(TakeableItem item){
         //If a weapon is already equipped, replace it
         if(item.getItemType() == 6){
-            Iterator<TakeableItem> iter = equipment.getItems().iterator();
-            while(iter.hasNext()){
-                TakeableItem i = iter.next();
-                if(i.getItemType() == 6){
-                    playerInventory.addItem(i);
-                    iter.remove();
+            boolean canEquipWeaponType = false;
+            String occupation = avatar.getOccupation().toString();
+            String weaponType = item.getWeaponType();
+            if(occupation.equals("Sneak")){
+                if(weaponType.equals("RangedWeapon"))
+                    canEquipWeaponType = true;
+            }
+            else if(occupation.equals("Smasher")){
+                if(weaponType.equals("OneHandedWeapon") || weaponType.equals("TwoHandedWeapon"))
+                    canEquipWeaponType = true;
+            }
+
+            if(canEquipWeaponType) {
+                Iterator<TakeableItem> iter = equipment.getItems().iterator();
+                while (iter.hasNext()) {
+                    TakeableItem i = iter.next();
+                    if(i.getItemType() == 6) {
+                        playerInventory.addItem(i);
+                        avatar.getStats().removeStatModifier(i.getStatsModifier());
+                        iter.remove();
+                    }
                 }
+            }
+            else {
+                notEquippableMessage = true;
+                return;
             }
         }
         equipment.addItem(item);

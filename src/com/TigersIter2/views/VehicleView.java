@@ -172,9 +172,6 @@ public class VehicleView extends View implements ActionListener{
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
         drawVehicle(g2d);
-
-        g2d.drawString(vHandle.getName() + vHandle.getLocation().getX() + " " + vHandle.getLocation().getY(), vHandle.getPixelLocation().getX(), vHandle.getPixelLocation().getY());
-
         g2d.dispose();
     }
 

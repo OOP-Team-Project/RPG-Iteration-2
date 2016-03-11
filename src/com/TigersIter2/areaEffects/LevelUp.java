@@ -14,8 +14,10 @@ public class LevelUp extends AreaEffect{
 
     public void affectEntity(Entity entity){
         // only an Avatar wil levelUp
-        ((Avatar)entity).getStats().incrementLevel();
-        System.out.println("Avatar leveled up!");
+        if (entity.getClass().equals(Avatar.class)) {
+            ((Avatar) entity).getStats().incrementLevel();
+            System.out.println("Avatar leveled up!");
+        }
     }
     public String getEffectName(){
         return "levelUp";
