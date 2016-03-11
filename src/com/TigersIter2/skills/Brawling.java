@@ -54,7 +54,6 @@ public class Brawling extends ActiveSkill {
      */
     //TODO: still need to check if holding no weapon..
     public int getDamage() {
-        System.out.println(playerStats.getOffensiveRating() + "/" + probability);
         if ( skillLevel > 0 && Math.random() < probability ) {
             return damage + playerStats.getOffensiveRating();
         } else return 0;
