@@ -173,6 +173,7 @@ public class AvatarNPCInteract implements ActionListener{
 
     private void killNPC(NPC npc){
         System.out.println("You killed the NPC!");
+        avatar.getStats().addExperience(npc.getStats().getLife());
         npc.dropItems();
         avatar.setOnTileWithNPC(false);
         npc.setOnTileWithAvatar(false);
