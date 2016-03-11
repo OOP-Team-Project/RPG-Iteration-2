@@ -133,8 +133,11 @@ public class StatusView extends View implements ActionListener{
                 Iterator<TakeableItem> iter = equipment.getItems().iterator();
                 while (iter.hasNext()) {
                     TakeableItem i = iter.next();
-                    playerInventory.addItem(i);
-                    iter.remove();
+                    if(i.getItemType() == 6) {
+                        playerInventory.addItem(i);
+                        avatar.getStats().removeStatModifier(i.getStatsModifier());
+                        iter.remove();
+                    }
                 }
             }
             else {
