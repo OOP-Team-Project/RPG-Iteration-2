@@ -113,7 +113,7 @@ public class AvatarNPCInteract implements ActionListener{
                 NPC npc = iter.next();
                 if (inRange(npc)) {
                     //Take stats into account
-                    randNumMax = npc.getStats().getDefensiveRating() + npc.getStats().getArmor();
+                    randNumMax = npc.getStats().getDefensiveRating() + npc.getStats().getArmor() + 1;
                     int numToHit = rand.nextInt(randNumMax);
                     boolean hit = false;
                     while (!hit && attackAttempts > 0) {
@@ -141,6 +141,7 @@ public class AvatarNPCInteract implements ActionListener{
                             retaliate(npc);
                         } else {
                             System.out.println("You killed the NPC!");
+                            npc.dropItems();
                             iter.remove();
                         }
 
@@ -324,7 +325,7 @@ public class AvatarNPCInteract implements ActionListener{
 
     public void addVillager(List<String> p, boolean talk, boolean trade, boolean attack){
         NPC v = new Villager(p, talk, trade, attack);
-        v.getInventory().addItem(new OneHandedWeapon("Sword",5));
+        //v.getInventory().addItem(new OneHandedWeapon("Sword",5));
         npcList.add(v);
         v.getLocation().setX(avatar.getLocation().getX());
         v.getLocation().setY(avatar.getLocation().getY());
