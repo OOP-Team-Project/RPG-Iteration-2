@@ -1,9 +1,14 @@
 package com.TigersIter2.states;
 
+import com.TigersIter2.areaEffects.HealDamage;
+import com.TigersIter2.areaEffects.InstantDeath;
+import com.TigersIter2.areaEffects.LevelUp;
+import com.TigersIter2.areaEffects.TakeDamage;
 import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.items.OneHandedWeapon;
 import com.TigersIter2.items.Weapon;
 import com.TigersIter2.location.Location;
+import com.TigersIter2.managers.AreaEffectManager;
 import com.TigersIter2.managers.StateManager;
 import com.TigersIter2.assets.sprites.*;
 import com.TigersIter2.entities.*;
@@ -102,6 +107,7 @@ public class GameState extends State {
         obstacle.setPixelLocation(new Location(10 * StaticVar.terrainImageWidth + 400,10 * StaticVar.terrainImageHeight,0));
         itemManager.addItem(obstacle);
         itemManager.addItem(item);
+
 
 
         //pull in all pictures for GameState
