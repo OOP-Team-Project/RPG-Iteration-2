@@ -23,7 +23,7 @@ public class AvatarNPCInteract implements ActionListener{
     private List<String> questions;
     private List<String> originalOptions;
     private FooterView footerView;
-    private boolean talking, fighting, usingSkill, usingItem, pressContinue, trading;
+    private boolean talking, usingSkill, usingItem, pressContinue, trading;
     private Inventory playerSelectedInventory;
     private Inventory npcSelectedInventory;
     private boolean playerCanAttack = true;
@@ -37,7 +37,6 @@ public class AvatarNPCInteract implements ActionListener{
         npcOnTile = null;
         footerView = fv;
         talking = false;
-        fighting = false;
         usingSkill = false;
         usingItem = false;
         trading = false;
@@ -127,9 +126,8 @@ public class AvatarNPCInteract implements ActionListener{
                             //NEED SOME WAY OF TIMING THIS
                             retaliate(npc);
                         } else {
-                            System.out.println("You killed the NPC!");
-                            npc.dropItems();
-                            iter.remove();
+                            killNPC(npc);
+                            resetOptions();
                         }
                     }
                     else
@@ -140,6 +138,10 @@ public class AvatarNPCInteract implements ActionListener{
     }
 
     private void retaliate(NPC npc){
+        footerView.setDisplay(false);
+        footerView.setTradingView(false);
+        avatar.setTrading(trading);
+        npc.setWillAttack(true);
         if(npc.getCanAttack()) {
             npc.setCanAttack(false);
             Random rand = new Random();
@@ -167,6 +169,14 @@ public class AvatarNPCInteract implements ActionListener{
             else
                 System.out.println("NPC missed!");
         }
+    }
+
+    private void killNPC(NPC npc){
+        System.out.println("You killed the NPC!");
+        npc.dropItems();
+        avatar.setOnTileWithNPC(false);
+        npc.setOnTileWithAvatar(false);
+        resetOptions();
     }
 
     public void addVehicle(Vehicle v){
@@ -208,8 +218,6 @@ public class AvatarNPCInteract implements ActionListener{
             if (avatar.getOnTileWithNPC()) {
                 if (talking) {
                     haveConversation(selected);
-                } else if (fighting) {
-                    attack();
                 } else if (usingSkill) {
 
                 } else if (usingItem) {
@@ -227,7 +235,6 @@ public class AvatarNPCInteract implements ActionListener{
                         retaliate(npcOnTile);
                     }
                 } else if (selected == 2) {
-                    //Player attacks NPC
                     attack();
                 } else if (selected == 3) {
                     //Use Skill
@@ -323,30 +330,30 @@ public class AvatarNPCInteract implements ActionListener{
 
     public void checkTile(){
         for(NPC n : npcList){
-            if(LocationConverter.PixelLocationToHex(n.getLocation()).getX() == LocationConverter.PixelLocationToHex(avatar.getLocation()).getX() &&
-               LocationConverter.PixelLocationToHex(n.getLocation()).getY() == LocationConverter.PixelLocationToHex(avatar.getLocation()).getY())
-            {
-                if(!avatar.getOnTileWithNPC()) {
-                    avatar.setOnTileWithNPC(true);
-                    npcOnTile = n;
-                    npcOnTile.setOnTileWithAvatar(true);
-                    if(npcOnTile.willTalk() || npcOnTile.willTrade()) {
-                        footerView.setDisplay(true);
-                        footerView.setType(0);
-                        footerView.setMenuOptions(originalOptions);
+            if(n.isAlive()) {
+                if (LocationConverter.PixelLocationToHex(n.getLocation()).getX() == LocationConverter.PixelLocationToHex(avatar.getLocation()).getX() &&
+                        LocationConverter.PixelLocationToHex(n.getLocation()).getY() == LocationConverter.PixelLocationToHex(avatar.getLocation()).getY()) {
+                    if (!avatar.getOnTileWithNPC()) {
+                        avatar.setOnTileWithNPC(true);
+                        npcOnTile = n;
+                        npcOnTile.setOnTileWithAvatar(true);
+                        if (npcOnTile.willTalk() || npcOnTile.willTrade()) {
+                            footerView.setDisplay(true);
+                            footerView.setType(0);
+                            footerView.setMenuOptions(originalOptions);
+                        }
+                    }
+                    if (npcOnTile.willAttack()) {
+                        //NPC attacks player
+                        retaliate(npcOnTile);
+                    }
+
+                } else if (avatar.getOnTileWithNPC()) {
+                    if (n.getOnTileWithAvatar()) {
+                        n.setOnTileWithAvatar(false);
+                        resetOptions();
                     }
                 }
-                if(npcOnTile.willAttack()){
-                    //NPC attacks player
-                    retaliate(npcOnTile);
-                }
-
-            }
-            else if(avatar.getOnTileWithNPC()){
-                 if(n.getOnTileWithAvatar()){
-                     n.setOnTileWithAvatar(false);
-                     resetOptions();
-                 }
             }
         }
     }
@@ -417,7 +424,6 @@ public class AvatarNPCInteract implements ActionListener{
         npcOnTile = null;
         footerView.setDisplay(false);
         talking = false;
-        fighting = false;
         usingSkill = false;
         usingItem = false;
         trading = false;

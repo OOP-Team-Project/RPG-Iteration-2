@@ -9,6 +9,7 @@ public class Monster extends NPC{
         willTalk = false;
         willTrade = false;
         willAttack = true;
+        isVillager = false;
     }
 
     public int attack(){
