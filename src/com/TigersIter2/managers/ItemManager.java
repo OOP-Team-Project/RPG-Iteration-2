@@ -30,6 +30,7 @@ public class ItemManager {
 
     public void addItem(Item item) {
         itemList.add(item);
+        item.setDisplay(true);
     }
 
     public List<Item> getItemList(){
@@ -55,6 +56,7 @@ public class ItemManager {
                 if (item instanceof TakeableItem) {
                     avatarInventory.addItem((TakeableItem) item);
                     iter.remove();
+                    item.setDisplay(false);
                     return true;
                 }
                 else if(item instanceof OneShot) {

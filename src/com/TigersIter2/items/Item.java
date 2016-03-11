@@ -10,6 +10,7 @@ public class Item {
     private Location location;
     private Location pixelLocation;
     protected int itemType;       //to differentiate between keys, potions, obstacles, weapons, armor, interactive, and oneShot
+    private boolean display = false;
 
     public void setLocation(Location location){
         int x = ((location.getX()+50)/100)*100;
@@ -29,5 +30,13 @@ public class Item {
 
     public int getItemType(){
         return itemType;
+    }
+
+    public boolean getDisplay(){
+        return display;
+    }
+
+    public void setDisplay(boolean b){
+        display = b;
     }
 }

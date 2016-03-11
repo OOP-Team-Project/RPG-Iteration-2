@@ -111,7 +111,8 @@ public class ItemView extends View {
         //gotta use that AA
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
-        drawItem(g2d);
+        if(iHandle.getDisplay())
+            drawItem(g2d);
 
 
         g2d.dispose();

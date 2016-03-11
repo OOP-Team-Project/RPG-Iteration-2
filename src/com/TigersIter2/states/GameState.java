@@ -55,24 +55,24 @@ public class GameState extends State {
 
         footerView = new FooterView();
         controlView = new ControlView(controller);
+        vehicleViews = new ArrayList<VehicleView>();
+        npcViews = new ArrayList<NPCView>();
+        itemViews = new ArrayList<ItemView>();
         map = new TerrainMap(StaticVar.map1);
         avatar = new Avatar();
         avatar.setOccupation(new Sneak());
-        avatar.getInventory().addItem(new Potion("Health Potion", 10));
-        //avatar.getInventory().addItem(new Potion("Strength Potion"));
-        avatar.getInventory().addItem(new OneHandedWeapon("Butter Knife", 1));
+        TakeableItem potion = new Potion("Health Potion", 10);
+        TakeableItem butterKnife = new OneHandedWeapon("Butter Knife", 1);
         ant = new AvatarNPCInteract(avatar, footerView);
         vehicleViews = new ArrayList<VehicleView>();
         itemManager = new ItemManager(avatar);
 
-       // avatar.getInventory().addItem(new Potion("Health Potion"));
-       // avatar.getInventory().addItem(new Potion("Strength Potion"));
-       // avatar.getInventory().addItem(new Weapon("Battle Axe"));
+        avatar.getInventory().addItem(potion);
+        avatar.getInventory().addItem(butterKnife);
+
+
         avatar.setAttackTime(1000);
         ant = new AvatarNPCInteract(avatar, footerView);
-        vehicleViews = new ArrayList<VehicleView>();
-        npcViews = new ArrayList<NPCView>();
-        itemViews = new ArrayList<ItemView>();
 
         //THIS IS ALL FOR TESTING. WILL NOT STAY HERE
         ant.addVehicle(new Vehicle("Turtle", 5, true, true));
