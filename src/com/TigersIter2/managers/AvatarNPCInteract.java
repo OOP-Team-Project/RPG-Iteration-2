@@ -86,12 +86,23 @@ public class AvatarNPCInteract implements ActionListener{
 
     }
 
-    private boolean inRange(NPC n){
+    private boolean playerInRange(NPC n){
         //somehow determine if npc is in range based off of direction and attack range and such
-        int xDist = Math.abs(LocationConverter.PixelLocationToHex(n.getPixelLocation()).getX() - LocationConverter.PixelLocationToHex(avatar.getPixelLocation()).getX());
-        int yDist = Math.abs(LocationConverter.PixelLocationToHex(n.getPixelLocation()).getY() - LocationConverter.PixelLocationToHex(avatar.getPixelLocation()).getY());
+        int xDist = Math.abs(LocationConverter.PixelLocationToHex(n.getLocation()).getX() - LocationConverter.PixelLocationToHex(avatar.getLocation()).getX());
+        int yDist = Math.abs(LocationConverter.PixelLocationToHex(n.getLocation()).getY() - LocationConverter.PixelLocationToHex(avatar.getLocation()).getY());
 
-        if(xDist <= avatar.getInfluenceRadius() || yDist <= avatar.getInfluenceRadius())
+        if(xDist <= avatar.getInfluenceRadius() && yDist <= avatar.getInfluenceRadius())
+            return true;
+        else
+            return false;
+    }
+
+    private boolean npcInRange(NPC n){
+        //somehow determine if npc is in range based off of direction and attack range and such
+        int xDist = Math.abs(LocationConverter.PixelLocationToHex(n.getLocation()).getX() - LocationConverter.PixelLocationToHex(avatar.getLocation()).getX());
+        int yDist = Math.abs(LocationConverter.PixelLocationToHex(n.getLocation()).getY() - LocationConverter.PixelLocationToHex(avatar.getLocation()).getY());
+        System.out.println(xDist + ", " + yDist + ", " + n.getInfluenceRadius());
+        if(xDist <= n.getInfluenceRadius() && yDist <= n.getInfluenceRadius())
             return true;
         else
             return false;
@@ -102,13 +113,11 @@ public class AvatarNPCInteract implements ActionListener{
         if(playerCanAttack) {
             playerCanAttack = false;
             Random rand = new Random();
-            int attackAttempts = avatar.getStats().getOffensiveRating() / 2 + 1;
-            int randNumMax;
             //Check your position/direction/range against the NPC's in the list
             Iterator<NPC> iter = npcList.iterator();
             while (iter.hasNext()) {
                 NPC npc = iter.next();
-                if (inRange(npc)) {
+                if (playerInRange(npc)) {
                     String weaponType = avatar.getWeaponType();
                     if(!weaponType.equals("none")) {
                         int damage = avatar.getSkills().getSkill(weaponType).getDamage() - npc.getStats().getDefensiveRating() + npc.getStats().getArmorRating();
@@ -122,7 +131,6 @@ public class AvatarNPCInteract implements ActionListener{
                         System.out.println(npc.getStats().getCurrentLife() + "/" + npc.getStats().getLife());
 
                         if (npc.isAlive()) {
-                            //NEED SOME WAY OF TIMING THIS
                             retaliate(npc);
                         } else {
                             killNPC(npc);
@@ -142,31 +150,32 @@ public class AvatarNPCInteract implements ActionListener{
         avatar.setTrading(trading);
         npc.setWillAttack(true);
         if(npc.getCanAttack()) {
-            npc.setCanAttack(false);
-            Random rand = new Random();
-            int attackAttempts = npc.getStats().getOffensiveRating() / 2 + 1;
-            int randNumMax = avatar.getStats().getDefensiveRating() + avatar.getStats().getArmor() + 1;
-            int numToHit = rand.nextInt(randNumMax);
-            boolean hit = false;
-            while (!hit && attackAttempts > 1) {
-                --attackAttempts;
-                if (rand.nextInt(attackAttempts) == numToHit)
-                    hit = true;
+            if(npcInRange(npc)) {
+                npc.setCanAttack(false);
+                Random rand = new Random();
+                int attackAttempts = npc.getStats().getOffensiveRating() / 2 + 1;
+                int randNumMax = avatar.getStats().getDefensiveRating() + avatar.getStats().getArmor() + 1;
+                int numToHit = rand.nextInt(randNumMax);
+                boolean hit = false;
+                while (!hit && attackAttempts > 1) {
+                    --attackAttempts;
+                    if (rand.nextInt(attackAttempts) == numToHit)
+                        hit = true;
+                }
+
+                if (hit) {
+                    //TESTING
+                    int damage = rand.nextInt(npc.getStats().getOffensiveRating() + 1);
+                    System.out.println("You lost " + damage + " health!");
+                    //END TESTING
+
+                    avatar.getStats().decreaseCurrentLife(damage);
+                    if (avatar.getStats().getCurrentLife() <= 0)
+                        System.out.println("You died!!");
+
+                } else
+                    System.out.println("NPC missed!");
             }
-
-            if (hit) {
-                //TESTING
-                int damage = rand.nextInt(npc.getStats().getOffensiveRating() + 1);
-                System.out.println("You lost " + damage + " health!");
-                //END TESTING
-
-                avatar.getStats().decreaseCurrentLife(damage);
-                if (avatar.getStats().getCurrentLife() <= 0)
-                    System.out.println("You died!!");
-
-            }
-            else
-                System.out.println("NPC missed!");
         }
     }
 
@@ -344,16 +353,17 @@ public class AvatarNPCInteract implements ActionListener{
                             footerView.setMenuOptions(originalOptions);
                         }
                     }
-                    if (npcOnTile.willAttack()) {
-                        //NPC attacks player
-                        retaliate(npcOnTile);
-                    }
 
                 } else if (avatar.getOnTileWithNPC()) {
                     if (n.getOnTileWithAvatar()) {
                         n.setOnTileWithAvatar(false);
                         resetOptions();
                     }
+                }
+
+                if (n.willAttack()) {
+                    //NPC attacks player
+                    retaliate(n);
                 }
             }
         }

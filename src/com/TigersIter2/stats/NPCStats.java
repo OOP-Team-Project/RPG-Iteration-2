@@ -13,6 +13,7 @@ public class NPCStats extends Stats {
     public NPCStats() {
         super();
         mods = new ArrayList<>();
+        influenceRadius = 0;
     }
 
     @Override

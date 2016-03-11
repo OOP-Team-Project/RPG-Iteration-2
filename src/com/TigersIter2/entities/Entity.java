@@ -35,5 +35,9 @@ public abstract class Entity extends Observable { //does Entity need to extend o
         getStats().setAttackTime(at);
     }
 
+    public int getInfluenceRadius(){
+        return getStats().getInfluenceRadius();
+    }
+
     //public abstract int getDirection();
 }

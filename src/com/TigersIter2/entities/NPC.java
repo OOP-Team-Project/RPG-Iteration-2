@@ -44,6 +44,7 @@ public abstract class NPC extends Entity{
         stats = new NPCStats();
         stats.setLife(100);
         stats.setCurrentLife(100);
+
     }
 
     //What is this supposed to do? -Sam
