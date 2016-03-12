@@ -118,10 +118,10 @@ public class GameState extends State {
         // for testing Teleport TODO: only works once??? value of destination gets changed automatically
         aem = new AreaEffectManager(avatar);
         Location dest = new Location(10 * StaticVar.terrainImageWidth +500,10 * StaticVar.terrainImageHeight+500, 0);
-        //effect = new Teleport(dest);
-        effect = new Trap();
-        effect.setLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight+300,0));
-        effect.setPixelLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight+300,0));
+        effect = new Teleport(dest);
+        //effect = new Trap();
+        effect.setLocation(new Location(10 * StaticVar.terrainImageWidth-200,10 * StaticVar.terrainImageHeight,0));
+        //effect.setPixelLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight+300,0));
         aem.addEffect(effect);
 
         //pull in all pictures for GameState
