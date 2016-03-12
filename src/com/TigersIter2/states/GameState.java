@@ -63,7 +63,7 @@ public class GameState extends State {
         areaEffectViews = new ArrayList<AreaEffectView>();
         map = new TerrainMap(StaticVar.map1);
         avatar = new Avatar();
-        avatar.setOccupation(new Sneak());
+        //avatar.setOccupation(new Sneak()); no longer needed, since loading in type of avatar
         TakeableItem potion = new Potion("Health Potion", 10);
         TakeableItem butterKnife = new RangedWeaponItem("Crossbow", 1, 1, 0);
         ant = new AvatarNPCInteract(avatar, footerView);
