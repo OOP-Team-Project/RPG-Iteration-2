@@ -18,27 +18,21 @@ public class AreaEffectManager {
     private Entity entityOnTile;
     private AreaEffect areaEffect;
     private List<AreaEffect> effects;
-    private InstantDeath instantDeath;
-    private TakeDamage takeDamage;
-    private HealDamage healDamage;
-    private LevelUp levelUp;
 
 
     //public AreaEffectManager(Entity entity, AreaEffect effectType, Location l){
     public AreaEffectManager(Entity entity){
         entityOnTile = entity;
         effects = new ArrayList<AreaEffect>();
-        //areaEffect = effectType;
-        //areaEffect.setLocation(l);
-        //instantDeath = new InstantDeath();
-        //takeDamage = new TakeDamage();
-        //healDamage = new HealDamage();
-        //levelUp = new LevelUp();
     }
 
     public void addEffect(AreaEffect ae){
         effects.add(ae);
-        ae.setDisplay(true);
+        if (ae instanceof Trap) {
+            // keep traps hidden until encountered
+            ae.setDisplay(false);
+        }
+        else ae.setDisplay(true);
     }
 
     public void removeEffect(AreaEffect ae){
@@ -48,13 +42,18 @@ public class AreaEffectManager {
     public void checkTile(){
         Iterator<AreaEffect> iter = effects.iterator();
         while(iter.hasNext()){
-            AreaEffect effect = iter.next();
-            if(LocationConverter.PixelLocationToHex(entityOnTile.getLocation()).getX() == LocationConverter.PixelLocationToHex(effect.getLocation()).getX() &&
-                    LocationConverter.PixelLocationToHex(entityOnTile.getLocation()).getY() == LocationConverter.PixelLocationToHex(effect.getLocation()).getY())
-            {
-                effect.affectEntity(entityOnTile);
-            }
-
+                AreaEffect effect = iter.next();
+                if (LocationConverter.PixelLocationToHex(entityOnTile.getLocation()).getX() == LocationConverter.PixelLocationToHex(effect.getLocation()).getX() &&
+                        LocationConverter.PixelLocationToHex(entityOnTile.getLocation()).getY() == LocationConverter.PixelLocationToHex(effect.getLocation()).getY()) {
+                    if (effect instanceof Trap) {
+                        if (((Trap) effect).getRemoved() == true) {
+                        }
+                        else effect.affectEntity(entityOnTile);  // trap only effects avatar if it hasn't been removed
+                    }
+                    else{
+                        effect.affectEntity(entityOnTile);
+                    }
+                }
         }
     }
 

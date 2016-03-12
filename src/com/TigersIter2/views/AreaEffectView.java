@@ -48,6 +48,9 @@ public class AreaEffectView extends View {
         else if(aEffectHandle.getAreaEffectType() == 4) {
             g2d.drawImage(AreaEffectSprite.teleport, pixelLocation.getX(), pixelLocation.getY(), null);
         }
+        else if(aEffectHandle.getAreaEffectType() == 5) {
+            g2d.drawImage(AreaEffectSprite.trap, pixelLocation.getX(), pixelLocation.getY(), null);
+        }
     }
 
     public void paintComponent(Graphics g){
