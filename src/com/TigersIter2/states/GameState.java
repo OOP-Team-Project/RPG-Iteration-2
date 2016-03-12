@@ -61,9 +61,9 @@ public class GameState extends State {
         itemViews = new ArrayList<ItemView>();
         map = new TerrainMap(StaticVar.map1);
         avatar = new Avatar();
-        avatar.setOccupation(new Smasher());
+        avatar.setOccupation(new Sneak());
         TakeableItem potion = new Potion("Health Potion", 10);
-        TakeableItem butterKnife = new OneHandedWeaponItem("Butter Knife", 1);
+        TakeableItem butterKnife = new RangedWeaponItem("Crossbow", 1, 1, 0);
         ant = new AvatarNPCInteract(avatar, footerView);
         vehicleViews = new ArrayList<VehicleView>();
         itemManager = new ItemManager(avatar);
@@ -105,8 +105,17 @@ public class GameState extends State {
         Item obstacle = new Obstacle();
         obstacle.setLocation(new Location(10 * StaticVar.terrainImageWidth + 400,10 * StaticVar.terrainImageHeight,0));
         obstacle.setPixelLocation(new Location(10 * StaticVar.terrainImageWidth + 400,10 * StaticVar.terrainImageHeight,0));
+        Item interactive = new Interactive(1);
+        interactive.setLocation(new Location(10 * StaticVar.terrainImageWidth + 200,10 * StaticVar.terrainImageHeight + 200,0));
+        interactive.setPixelLocation(new Location(10 * StaticVar.terrainImageWidth + 200,10 * StaticVar.terrainImageHeight + 200,0));
+        Item oneShot = new OneShot();
+        oneShot.setLocation(new Location(10 * StaticVar.terrainImageWidth + 200,10 * StaticVar.terrainImageHeight,0));
+        oneShot.setPixelLocation(new Location(10 * StaticVar.terrainImageWidth + 200,10 * StaticVar.terrainImageHeight,0));
+
         itemManager.addItem(obstacle);
         itemManager.addItem(item);
+        itemManager.addItem(interactive);
+        itemManager.addItem(oneShot);
 
 
 

@@ -3,6 +3,7 @@ package com.TigersIter2.views;
 import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.assets.sprites.ItemSprite;
 import com.TigersIter2.entities.Avatar;
+import com.TigersIter2.items.Interactive;
 import com.TigersIter2.items.Item;
 import com.TigersIter2.location.Location;
 import com.TigersIter2.maps.TerrainMap;
@@ -32,7 +33,11 @@ public class ItemView extends View {
             g2d.drawImage(ItemSprite.armor, iHandle.getPixelLocation().getX(), iHandle.getPixelLocation().getY(), null);
         }
         else if(iHandle.getItemType() == 1){
-            g2d.drawImage(ItemSprite.interactive, iHandle.getPixelLocation().getX(), iHandle.getPixelLocation().getY(), null);
+
+            if(((Interactive) iHandle).getInteractedWith())
+                g2d.drawImage(ItemSprite.interactive2, iHandle.getPixelLocation().getX(), iHandle.getPixelLocation().getY(), null);
+            else
+                g2d.drawImage(ItemSprite.interactive1, iHandle.getPixelLocation().getX(), iHandle.getPixelLocation().getY(), null);
         }
         else if(iHandle.getItemType() == 2){
             g2d.drawImage(ItemSprite.key, iHandle.getPixelLocation().getX(), iHandle.getPixelLocation().getY(), null);

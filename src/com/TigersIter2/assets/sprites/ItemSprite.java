@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 
 public class ItemSprite {
 
-    public static BufferedImage key, potion, weapon, obstacle, armor, interactive, oneShot;
+    public static BufferedImage key, potion, weapon, obstacle, armor, interactive1, interactive2, oneShot;
 
     //needs to be called once
     public static void init(){
@@ -23,7 +23,8 @@ public class ItemSprite {
         weapon = weaponSheet.cropSheet(0, 0, StaticVar.itemImageWidth, StaticVar.itemImageHeight);
         obstacle = obstacleSheet.cropSheet(0, 0, StaticVar.itemImageWidth, StaticVar.itemImageHeight);
         armor = armorSheet.cropSheet(0, 0, StaticVar.itemImageWidth, StaticVar.itemImageHeight);
-        interactive = interactiveSheet.cropSheet(0, 0, StaticVar.itemImageWidth, StaticVar.itemImageHeight);
+        interactive1 = interactiveSheet.cropSheet(0, 0, StaticVar.itemImageWidth, StaticVar.itemImageHeight);
+        interactive2 = interactiveSheet.cropSheet(StaticVar.itemImageWidth, 0, StaticVar.itemImageWidth, StaticVar.itemImageHeight);
         oneShot = oneShotSheet.cropSheet(0, 0, StaticVar.itemImageWidth, StaticVar.itemImageHeight);
     }
 

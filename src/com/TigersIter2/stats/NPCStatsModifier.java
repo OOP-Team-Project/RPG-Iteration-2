@@ -8,11 +8,13 @@ public class NPCStatsModifier {
     private int hardiness;
     private int attack;
     private int agility;
+    private int attackTime;
 
     public NPCStatsModifier() {
         this.hardiness = 0;
         this.attack = 0;
         this.agility = 0;
+        this.attackTime = 0;
     }
 
     public int getHardiness() {
@@ -37,5 +39,13 @@ public class NPCStatsModifier {
 
     public void setAgility(int agility) {
         this.agility = agility;
+    }
+
+    public int getAttackTime(){
+        return attackTime;
+    }
+
+    public void setAttackTime(int attackTime){
+        this.attackTime = attackTime;
     }
 }

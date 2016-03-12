@@ -79,7 +79,7 @@ public class SkillTree {
         skills.put("PickPocket", new PickPocket());
         skills.put("DetectRemoveTrap", new DetectRemoveTrap());
         skills.put("Creep", new Creep(playerStats));
-        skills.put("RangedWeapon", new RangedWeapon());
+        skills.put("RangedWeapon", new RangedWeapon(playerStats));
     }
 
     /**
