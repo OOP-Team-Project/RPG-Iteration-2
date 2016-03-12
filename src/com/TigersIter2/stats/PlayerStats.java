@@ -120,6 +120,9 @@ public class PlayerStats extends Stats {
 
     public void decrementLivesLeft() {
         livesLeft--;
+        if(livesLeft > 0){
+            setCurrentLife(getLife());
+        }
     }
 
     public void setMaxLives(int maxLives) {
@@ -156,7 +159,7 @@ public class PlayerStats extends Stats {
     public void incrementLevel() {
         int currentExp = getExperience();
         int expNeeded = getExperienceRequiredForLevel(level + 1);
-        addExperience(expNeeded - currentExp);
+        addExperience(expNeeded - currentExp + 1);
     }
 
     /**
@@ -402,7 +405,7 @@ public class PlayerStats extends Stats {
     }
 
     private int getLevelFromTotalExperience(int totalExperience) {
-        return (int)Math.floor(Math.exp(Math.log(totalExperience / FIRST_LEVEL_EXPERIENCE) / LEVEL_EXPERIENCE_EXPONENT));
+        return (int)Math.ceil(Math.pow((totalExperience/FIRST_LEVEL_EXPERIENCE), 1/LEVEL_EXPERIENCE_EXPONENT));
     }
 
     //only used in skillTree
