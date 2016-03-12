@@ -21,7 +21,9 @@ public class Pet extends Entity {
         int avatarXLocation = avatar.getLocation().getX();
         int avatarYLocation = avatar.getLocation().getY();
         this.location = new Location(avatarXLocation, avatarYLocation, 0);
-        this.pixelLocation = location;
+        int avatarXPixelLoc = avatar.getPixelLocation().getX();
+        int avatarYPixelLoc = avatar.getPixelLocation().getY();
+        this.pixelLocation = new Location(avatarXPixelLoc+100, avatarYPixelLoc-100, 0);
     }
 
     @Override
