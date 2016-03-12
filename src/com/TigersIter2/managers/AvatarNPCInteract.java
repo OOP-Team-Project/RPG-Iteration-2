@@ -12,6 +12,7 @@ import com.TigersIter2.stats.NPCStatsModifier;
 import com.TigersIter2.views.FooterView;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class AvatarNPCInteract implements ActionListener{
     private List<String> questions;
     private List<String> originalOptions;
     private FooterView footerView;
-    private boolean talking, skillMain, skillSecondary, usingItem, pressContinue, trading;
+    private boolean talking, skillMain, skillSecondary, usingItem, pressContinue, trading, notFromInteraction;
     private Inventory playerSelectedInventory;
     private Inventory npcSelectedInventory;
     private boolean playerCanAttack = true;
@@ -48,6 +49,7 @@ public class AvatarNPCInteract implements ActionListener{
         usingItem = false;
         trading = false;
         pressContinue = false;
+        notFromInteraction = false;
         questions = new ArrayList<String>();
         originalOptions = new ArrayList<String>();
         playerSelectedInventory = new Inventory();
@@ -535,6 +537,8 @@ public class AvatarNPCInteract implements ActionListener{
                 resetOptions();
             }
         }
+        else if(notFromInteraction && (skillMain || skillSecondary))
+            chooseSkills(selected);
         else {
             if (avatar.getOnTileWithNPC()) {
                 if (talking) {
@@ -657,6 +661,7 @@ public class AvatarNPCInteract implements ActionListener{
                         LocationConverter.PixelLocationToHex(n.getLocation()).getY() == LocationConverter.PixelLocationToHex(avatar.getLocation()).getY()) {
                     if (!avatar.getOnTileWithNPC()) {
                         avatar.setOnTileWithNPC(true);
+                        notFromInteraction = false;
                         npcOnTile = n;
                         npcOnTile.setOnTileWithAvatar(true);
                         if (npcOnTile.willTalk() || npcOnTile.willTrade()) {
@@ -737,6 +742,18 @@ public class AvatarNPCInteract implements ActionListener{
         }
     }
 
+    public void startSkillsNotFromInteraction(){
+        if(!notFromInteraction) {
+            footerView.setDisplay(true);
+            notFromInteraction = true;
+            drawSkillMenu();
+        }
+        else {
+            notFromInteraction = false;
+            resetOptions();
+        }
+    }
+
     private void drawSkillMenu(){
         footerView.setType(0);
         List<String> skillList = new ArrayList<String>();
@@ -802,7 +819,7 @@ public class AvatarNPCInteract implements ActionListener{
                     whichSkillSelect = 2;
                 }
             }
-            else if (selected == 100) {
+            else if (selected == 100 && !notFromInteraction) {
                 resetOptions();
             }
         }

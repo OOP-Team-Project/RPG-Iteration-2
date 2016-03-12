@@ -184,6 +184,8 @@ public class GameState extends State {
                 controller.setControlViewControls(controlView.getDisplay());
                 break;
             case 10:
+                ant.startSkillsNotFromInteraction();
+                break;
             case -1:
                 break;
             default:
