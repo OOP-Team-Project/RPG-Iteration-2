@@ -54,6 +54,7 @@ public class GameState extends State {
 
     @Override
     public void init() {
+        controller.setBindings(); //added this to remove enter key functionality from previous menustates
 
         footerView = new FooterView();
         controlView = new ControlView(controller);

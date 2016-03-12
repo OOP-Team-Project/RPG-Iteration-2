@@ -196,6 +196,9 @@ public class Controller {
 
 
         //temporary??
+        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0,false),"ENTER_GO");
+        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0,true),"ENTER_STOP");
+
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE,0,false),"SPACE_GO");
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE,0,true),"SPACE_STOP");
 
@@ -243,6 +246,8 @@ public class Controller {
 
         //temporary??
         aMap.put("MENU_SELECT", ENTER_KEY_GO);
+
+
         aMap.put("SPACE_GO", SPACE_KEY_GO);
         aMap.put("SPACE_STOP", SPACE_KEY_STOP);
 
@@ -259,6 +264,12 @@ public class Controller {
         controlCodes.add(index,keyCode);
 
         setBindings();
+    }
+
+    public void menuBindings(){
+        ActionMap aMap = component.getActionMap();
+        aMap.put("ENTER_GO", ENTER_KEY_GO);
+        aMap.put("ENTER_STOP", ENTER_KEY_STOP);
     }
 
     public void tradeBindings(){
@@ -659,6 +670,13 @@ public class Controller {
         @Override
         public void actionPerformed(ActionEvent e) {
             keyPressed = KeyEvent.VK_ENTER;
+        }
+    };
+
+    Action ENTER_KEY_STOP = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            keyPressed = 0;
         }
     };
 

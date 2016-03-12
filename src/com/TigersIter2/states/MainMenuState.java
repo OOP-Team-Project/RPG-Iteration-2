@@ -31,6 +31,7 @@ public class MainMenuState extends State {
         name = "MainMenuState";
         counterBuffer = 0;
         MainMenuSprite.init();
+        controller.menuBindings();
 
     }
 

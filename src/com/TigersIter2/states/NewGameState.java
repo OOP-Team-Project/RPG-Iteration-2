@@ -29,6 +29,7 @@ public class NewGameState extends State {
         counterBuffer = 0;
         NewGameMenuSprites.init();
         avatarSel = 2;
+        //controller.menuBindings();
     }
 
     @Override
@@ -45,8 +46,9 @@ public class NewGameState extends State {
         }
         else if (controller.getKeyPressed() == KeyEvent.VK_SPACE) stateManager.setState(StateManager.MAINMENU);
 
-        if (controller.getKeyPressed()==KeyEvent.VK_ENTER){
+        if (controller.getKeyPressed()==KeyEvent.VK_ENTER&&counterBuffer>3){
             FileWriter.stringToFile(StaticVar.avatarFile,FileWriter.intToString(avatarSel));
+            stateManager.setState(StateManager.GAME);
         }
     }
 
@@ -68,17 +70,17 @@ public class NewGameState extends State {
         g2d.drawImage(MainMenuSprite.largeWizard,550,250,null);
         g2d.drawImage(MainMenuSprite.largeSneak,825,250,null);
 
-        if (avatarSel == 0){
+        if (avatarSel == StaticVar.smasher){
             g2d.drawImage(NewGameMenuSprites.SmasherStringPressed,200,450,null);
             g2d.drawImage(NewGameMenuSprites.SummonerString,500,450,null);
             g2d.drawImage(NewGameMenuSprites.SneakString,825,450,null);
         }
-        else if (avatarSel == 1){
+        else if (avatarSel == StaticVar.summoner){
             g2d.drawImage(NewGameMenuSprites.SmasherString,200,450,null);
             g2d.drawImage(NewGameMenuSprites.SummonerStringPressed,500,450,null);
             g2d.drawImage(NewGameMenuSprites.SneakString,825,450,null);
         }
-        if (avatarSel == 2){
+        if (avatarSel == StaticVar.sneak){
             g2d.drawImage(NewGameMenuSprites.SmasherString,200,450,null);
             g2d.drawImage(NewGameMenuSprites.SummonerString,500,450,null);
             g2d.drawImage(NewGameMenuSprites.SneakStringPressed,825,450,null);
