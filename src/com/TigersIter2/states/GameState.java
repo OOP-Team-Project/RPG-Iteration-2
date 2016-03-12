@@ -42,6 +42,7 @@ public class GameState extends State {
     private List<VehicleView> vehicleViews;
     private List<NPCView> npcViews;
     private List<ItemView> itemViews;
+    private List<AreaEffectView> areaEffectViews;
     private FooterView footerView;
     private StatusView statusView;
     private ControlView controlView;
@@ -59,6 +60,7 @@ public class GameState extends State {
         vehicleViews = new ArrayList<VehicleView>();
         npcViews = new ArrayList<NPCView>();
         itemViews = new ArrayList<ItemView>();
+        areaEffectViews = new ArrayList<AreaEffectView>();
         map = new TerrainMap(StaticVar.map1);
         avatar = new Avatar();
         avatar.setOccupation(new Smasher());
@@ -113,6 +115,13 @@ public class GameState extends State {
         itemManager.addItem(interactive);
         itemManager.addItem(oneShot);
 
+        // for testing Teleport TODO: only works once??? value of destination gets changed automatically
+        aem = new AreaEffectManager(avatar);
+        Location dest = new Location(10 * StaticVar.terrainImageWidth +500,10 * StaticVar.terrainImageHeight+500, 0);
+        effect = new Teleport(dest);
+        effect.setLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight+200,0));
+        aem.addEffect(effect);
+
         //pull in all pictures for GameState
 
         //Technically only one of these will need to be initialized
@@ -136,16 +145,16 @@ public class GameState extends State {
             itemViews.add(new ItemView(i, avatar, map));
         }
 
+        for(AreaEffect aEffect : aem.getAreaEffects()){
+            areaEffectViews.add(new AreaEffectView(aEffect, avatar, map));
+        }
+
+
         mapView = new MapView(map, avatar);
-        areaView =  new AreaView(mapView,avatarView, vehicleViews, footerView, statusView, npcViews, controlView, itemViews);
+        areaView =  new AreaView(mapView,avatarView, vehicleViews, footerView, statusView, npcViews, controlView, itemViews, areaEffectViews);
 
 
         this.add(areaView);
-
-        aem = new AreaEffectManager(avatar);
-        Location dest = new Location(10 * StaticVar.terrainImageWidth +500,10 * StaticVar.terrainImageHeight+500, 0);
-        effect = new Teleport(dest);
-        aem.addEffect(effect);
 
         System.out.println("GameState initialized");
 
