@@ -119,7 +119,8 @@ public class GameState extends State {
         aem = new AreaEffectManager(avatar);
         Location dest = new Location(10 * StaticVar.terrainImageWidth +500,10 * StaticVar.terrainImageHeight+500, 0);
         effect = new Teleport(dest);
-        effect.setLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight+200,0));
+        effect.setLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight+300,0));
+        effect.setPixelLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight+300,0));
         aem.addEffect(effect);
 
         //pull in all pictures for GameState
@@ -132,6 +133,7 @@ public class GameState extends State {
         VillagerSprite.init();
         MonsterSprite.init();
         ItemSprite.init();
+        AreaEffectSprite.init();
 
         avatarView = new AvatarView(avatar);
         statusView = new StatusView(avatar);
@@ -152,8 +154,6 @@ public class GameState extends State {
 
         mapView = new MapView(map, avatar);
         areaView =  new AreaView(mapView,avatarView, vehicleViews, footerView, statusView, npcViews, controlView, itemViews, areaEffectViews);
-
-
         this.add(areaView);
 
         System.out.println("GameState initialized");

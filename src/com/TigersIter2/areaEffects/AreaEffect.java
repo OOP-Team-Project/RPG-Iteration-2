@@ -15,6 +15,7 @@ import com.TigersIter2.stats.StatsModifier;
 public abstract class AreaEffect {
 
     private Location location;  //This is the location used by MODELS to determine where the areaEffect is
+    private Location pixelLocation;
     protected boolean display = true;
     protected int areaEffectType;
     public Entity entity;
@@ -29,7 +30,7 @@ public abstract class AreaEffect {
         location = new Location(x, y, 0);
 
         //  to add with a visual
-        //pixelLocation = new Location(Math.round(StaticVar.xTilesFromEdge*StaticVar.terrainImageWidth*.75f - 80), Math.round(StaticVar.yTilesFromEdge*StaticVar.terrainImageHeight - Math.round(StaticVar.terrainImageHeight*1.2f)), 0);
+        pixelLocation = new Location(Math.round(StaticVar.xTilesFromEdge*StaticVar.terrainImageWidth*.75f - 80), Math.round(StaticVar.yTilesFromEdge*StaticVar.terrainImageHeight - Math.round(StaticVar.terrainImageHeight*1.2f)), 0);
     }
 
     public void setLocation(Location l){
@@ -42,8 +43,16 @@ public abstract class AreaEffect {
         return location;
     }
 
+    public void setPixelLocation(Location location){
+        pixelLocation = location;
+    }
+
     public boolean getDisplay(){
         return display;
+    }
+
+    public void setDisplay(boolean val){
+        display = val;
     }
 
     public int getAreaEffectType(){

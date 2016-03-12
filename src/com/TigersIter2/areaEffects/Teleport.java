@@ -13,6 +13,7 @@ public class Teleport extends AreaEffect {
     private final Location destination;
 
     public Teleport(Location destination){
+        areaEffectType = 4;
         this.destination = destination;
     }
 

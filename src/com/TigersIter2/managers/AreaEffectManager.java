@@ -38,6 +38,7 @@ public class AreaEffectManager {
 
     public void addEffect(AreaEffect ae){
         effects.add(ae);
+        ae.setDisplay(true);
     }
 
     public void removeEffect(AreaEffect ae){
