@@ -66,7 +66,9 @@ public class SkillTree {
         skills.put("EnchantingShot", new EnchantingShot(playerStats));
         skills.put("EnchantingBlast", new EnchantingBlast(playerStats));
         skills.put("EnchantingStorm", new EnchantingStorm(playerStats));
-        skills.put("Boon", new Boon(playerStats));
+        skills.put("BoonIntellect", new BoonIntellect(playerStats));
+        skills.put("BoonHardiness", new BoonHardiness(playerStats));
+        skills.put("BoonHealth", new BoonHealth(playerStats));
         skills.put("FireShot", new FireShot(playerStats));
         skills.put("FireBlast", new FireBlast(playerStats));
         skills.put("FireStorm", new FireStorm(playerStats));

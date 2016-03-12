@@ -18,15 +18,13 @@ import java.util.TimerTask;
  * "magic that heals, temporarily grants (partial) immunities
  * and defensive bonuses, improves stats, and other beneficial things."
  */
-public class Boon extends ActiveSkill {
+public class Boon extends Skill {
 
     /**
      * base improvements while skill is actuve
      */
     private final int BASE_HEAL = 20;
-    private final int BASE_INT = 10;
     private final int BASE_MANA = 10;
-    private final int LIGHT_RADIUS = 5;
     private final int BASE_HARDINESS = 2;
     private final long LENGTH = 30000;
     private final int MANA_COST = 5;
@@ -35,7 +33,6 @@ public class Boon extends ActiveSkill {
      * level bonuses
      */
     private final int HEAL_LEVEL_MULTIPLIER = 15;
-    private final int INT_LEVEL_MULTIPLIER = 10;
     private final int MANA_LEVEL_MULTIPLIER = 10;
     private final int HARDINESS_LEVEL_MULTIPLIER = 1;
     private final int MANA_COST_LEVEL_MULTIPLIER = 1;
@@ -50,6 +47,7 @@ public class Boon extends ActiveSkill {
     private PlayerStats playerStats;
 
     private StatsModifier sm;
+    protected int boonSelect;
 
     /**
      * util time used to make the skill active for a period of time
@@ -79,27 +77,36 @@ public class Boon extends ActiveSkill {
     @Override
     protected void update() {
         probability = .3 + .1 * skillLevel;
-        derivedHealed = BASE_HEAL + (skillLevel - 1) * HEAL_LEVEL_MULTIPLIER;
-        manaCost = MANA_COST + skillLevel * MANA_COST_LEVEL_MULTIPLIER;
         length = LENGTH + skillLevel + LENGTH_LEVEL_MULTIPLIER;
-        sm.setIntellect(BASE_INT + INT_LEVEL_MULTIPLIER * skillLevel);
-        sm.setMana((BASE_MANA + MANA_LEVEL_MULTIPLIER * skillLevel));
-        sm.setLightRadius(LIGHT_RADIUS);
-        sm.setHardiness(BASE_HARDINESS + HARDINESS_LEVEL_MULTIPLIER * skillLevel);
+        manaCost = MANA_COST + skillLevel * MANA_COST_LEVEL_MULTIPLIER;
     }
 
     public boolean activate() {
-        if ( skillLevel > 0 && Math.random() < probability) {
-            playerStats.increaseCurrentMana(derivedHealed);
+        if(boonSelect == 0){
+            sm.setIntellect(20);
+        }
+        else if(boonSelect == 1){
+            sm.setHardiness(BASE_HARDINESS + HARDINESS_LEVEL_MULTIPLIER * skillLevel);
+        }
+        else if(boonSelect == 2){
+            derivedHealed = BASE_HEAL + (skillLevel - 1) * HEAL_LEVEL_MULTIPLIER;
+        }
+        if(playerStats.getCurrentMana() >= manaCost)
             playerStats.decreaseCurrentMana(manaCost);
+        if ( skillLevel > 0 && Math.random() < probability) {
+            playerStats.increaseCurrentLife(derivedHealed);
+            derivedHealed = 0;
             if (!active) {
-
                 //adds a statmodifier and starts a timer to remove it
                 playerStats.addStatModifier(sm);
                 timer.schedule(new TimedSkill(), LENGTH + skillLevel * LENGTH_LEVEL_MULTIPLIER);
             }
             return true;
-        } else return false;
+        }
+        else{
+            System.out.println("Failed to boon your stats");
+            return false;
+        }
     }
 
     /**

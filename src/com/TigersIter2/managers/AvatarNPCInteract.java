@@ -5,6 +5,7 @@ import com.TigersIter2.items.TakeableItem;
 import com.TigersIter2.location.Location;
 import com.TigersIter2.location.LocationConverter;
 import com.TigersIter2.skills.Bane;
+import com.TigersIter2.skills.Boon;
 import com.TigersIter2.skills.Enchantment;
 import com.TigersIter2.stats.NPCStatsModifier;
 import com.TigersIter2.views.FooterView;
@@ -363,12 +364,16 @@ public class AvatarNPCInteract implements ActionListener{
                             // Melee attack
                             //attackEnemy(npc);
 
-                            useEnchantment("EnchantingBlast", npc);
+                            useBoon("BoonHardiness", npc);
                         }
                     }
                 }
             }
         }
+    }
+
+    private void useBoon(String spellName, NPC npc){
+        ((Boon)avatar.getSkills().getSkill(spellName)).activate();
     }
 
     private void useEnchantment(String spellName, NPC npc){
