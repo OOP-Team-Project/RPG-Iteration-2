@@ -63,7 +63,9 @@ public class SkillTree {
      * builds summoner skills
      */
     private void buildSummonerSkills() {
-        skills.put("Enchantment", new Enchantment());
+        skills.put("EnchantingShot", new EnchantingShot(playerStats));
+        skills.put("EnchantingBlast", new EnchantingBlast(playerStats));
+        skills.put("EnchantingStorm", new EnchantingStorm(playerStats));
         skills.put("Boon", new Boon(playerStats));
         skills.put("FireShot", new FireShot(playerStats));
         skills.put("FireBlast", new FireBlast(playerStats));

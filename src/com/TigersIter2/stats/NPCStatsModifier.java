@@ -48,4 +48,11 @@ public class NPCStatsModifier {
     public void setAttackTime(int attackTime){
         this.attackTime = attackTime;
     }
+
+    public boolean isEmpty(){
+        if(hardiness == 0 && attack == 0 && agility == 0 && attackTime == 0)
+            return true;
+        else
+            return false;
+    }
 }

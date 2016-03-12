@@ -31,7 +31,7 @@ public class Bane extends Skill {
     /**
      * handle to player stats to get avatars OffensiveRating
      */
-    protected PlayerStats playerStats;
+    private PlayerStats playerStats;
 
     public Bane(){}
 
@@ -40,8 +40,8 @@ public class Bane extends Skill {
         this.playerStats = playerStats;
         this.magicDamage = MAGIC_PER_LEVEL + MAGIC;
         this.manaCost = MANA_COST;
-        this.probability = 0.5;
-        influenceRadiusType = "angular";
+        this.probability = 0.3;
+        this.influenceRadiusType = "none";
     }
 
     /**
@@ -49,7 +49,7 @@ public class Bane extends Skill {
      */
     @Override
     protected void update() {
-        this.probability = .5 + .1 * skillLevel;
+        this.probability = .3 + .1 * skillLevel;
         this.magicDamage = skillLevel * MAGIC_PER_LEVEL + MAGIC;
         this.manaCost = MANA_COST + skillLevel * MANA_COST_LEVEL_MULTIPLIER;
     }
@@ -70,7 +70,7 @@ public class Bane extends Skill {
         return "Bane";
     }
 
-    public String getEffectType(){
+    public String getInfluenceRadiusType(){
         return influenceRadiusType;
     }
 }

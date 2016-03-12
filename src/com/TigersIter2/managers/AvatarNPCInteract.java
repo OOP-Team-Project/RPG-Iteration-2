@@ -6,6 +6,7 @@ import com.TigersIter2.location.Location;
 import com.TigersIter2.location.LocationConverter;
 import com.TigersIter2.skills.Bane;
 import com.TigersIter2.skills.Enchantment;
+import com.TigersIter2.stats.NPCStatsModifier;
 import com.TigersIter2.views.FooterView;
 
 import javax.swing.*;
@@ -362,7 +363,7 @@ public class AvatarNPCInteract implements ActionListener{
                             // Melee attack
                             //attackEnemy(npc);
 
-                            useBane("FireStorm", npc);
+                            useEnchantment("EnchantingBlast", npc);
                         }
                     }
                 }
@@ -370,9 +371,20 @@ public class AvatarNPCInteract implements ActionListener{
         }
     }
 
+    private void useEnchantment(String spellName, NPC npc){
+        if(withinInfluenceRadius(avatar.getSkills().getSkill(spellName).getInfluenceRadiusType(), npc) > -1){
+            Enchantment spell = (Enchantment)avatar.getSkills().getSkill(spellName);
+            NPCStatsModifier nsm = spell.getStatModifier();
+            if(nsm.isEmpty())
+                npc.setWillAttack(true);
+            else
+                npc.getStats().addStatModifier(nsm);
+        }
+    }
+
     private void useBane(String spellName, NPC npc){
         int radialRing;
-        if((radialRing = withinInfluenceRadius(((Bane)avatar.getSkills().getSkill(spellName)).getEffectType(), npc)) > -1) {
+        if((radialRing = (withinInfluenceRadius(avatar.getSkills().getSkill(spellName).getInfluenceRadiusType(), npc))) > -1) {
             int damage = avatar.getSkills().getSkill(spellName).getDamage() - npc.getStats().getDefensiveRating() + npc.getStats().getArmorRating();
             damage = damage - (radialRing * (damage/(avatar.getInfluenceRadius()+1)));     //Accounts for lessening damage the farther from center you go
             Random rand = new Random();
