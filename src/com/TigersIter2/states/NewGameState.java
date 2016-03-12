@@ -29,7 +29,6 @@ public class NewGameState extends State {
         counterBuffer = 0;
         NewGameMenuSprites.init();
         avatarSel = 2;
-        //controller.menuBindings();
     }
 
     @Override

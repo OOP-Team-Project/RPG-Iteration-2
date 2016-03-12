@@ -170,7 +170,7 @@ public class Controller {
         inMap.put(KeyStroke.getKeyStroke(controlCodes.get(14), 0, true), "STATUS_VIEW_STOP");
         inMap.put(KeyStroke.getKeyStroke(controlCodes.get(15), 0, true), "MENU_BACK");
         inMap.put(KeyStroke.getKeyStroke(controlCodes.get(16),0,false),"MENU_SELECT");
-
+        inMap.put(KeyStroke.getKeyStroke(controlCodes.get(16),0,true),"MENU_SELECT_STOP");
         //Controls that can't be changed
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_1, 0, false), "OPTIONS_GO");
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_1, 0, true), "OPTION1_STOP");
@@ -196,8 +196,8 @@ public class Controller {
 
 
         //temporary??
-        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0,false),"ENTER_GO");
-        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0,true),"ENTER_STOP");
+        //inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0,false),"ENTER_GO");
+        //inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0,true),"ENTER_STOP");
 
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE,0,false),"SPACE_GO");
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE,0,true),"SPACE_STOP");
@@ -246,7 +246,7 @@ public class Controller {
 
         //temporary??
         aMap.put("MENU_SELECT", ENTER_KEY_GO);
-
+        aMap.put("MENU_SELECT_STOP",ENTER_KEY_STOP);
 
         aMap.put("SPACE_GO", SPACE_KEY_GO);
         aMap.put("SPACE_STOP", SPACE_KEY_STOP);
