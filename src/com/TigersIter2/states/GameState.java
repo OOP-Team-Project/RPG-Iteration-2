@@ -63,9 +63,9 @@ public class GameState extends State {
         areaEffectViews = new ArrayList<AreaEffectView>();
         map = new TerrainMap(StaticVar.map1);
         avatar = new Avatar();
-        avatar.setOccupation(new Smasher());
+        avatar.setOccupation(new Sneak());
         TakeableItem potion = new Potion("Health Potion", 10);
-        TakeableItem butterKnife = new OneHandedWeaponItem("Butter Knife", 1);
+        TakeableItem butterKnife = new RangedWeaponItem("Crossbow", 1, 1, 0);
         ant = new AvatarNPCInteract(avatar, footerView);
         vehicleViews = new ArrayList<VehicleView>();
         itemManager = new ItemManager(avatar);

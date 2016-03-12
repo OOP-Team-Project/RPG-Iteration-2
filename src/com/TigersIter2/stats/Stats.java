@@ -21,6 +21,8 @@ public abstract class Stats {
     protected int strength;
     protected int agility;
     protected int intellect;
+    protected int attackTime;
+    protected int influenceRadius;
 
 
     public Stats() {
@@ -33,6 +35,8 @@ public abstract class Stats {
         strength = 0;
         agility = 0;
         intellect = 0;
+        attackTime = 0;
+        influenceRadius = 0;
     }
 
     /**
@@ -44,6 +48,14 @@ public abstract class Stats {
 
     public int getMovement() {
         return movement;
+    }
+
+    public int getAttackTime(){
+        return attackTime;
+    }
+
+    public int getInfluenceRadius(){
+        return influenceRadius;
     }
 
     /**
@@ -144,4 +156,13 @@ public abstract class Stats {
     public void setStrength(int strength) {
         this.strength = strength;
     }
+
+    public void setAttackTime(int attackTime){
+        this.attackTime = attackTime;
+    }
+
+    public void setInfluenceRadius(int influenceRadius){
+        this.influenceRadius = influenceRadius;
+    }
+
 }
