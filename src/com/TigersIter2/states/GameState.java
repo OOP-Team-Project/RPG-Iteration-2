@@ -119,7 +119,7 @@ public class GameState extends State {
         aem = new AreaEffectManager(avatar);
         Location dest = new Location(10 * StaticVar.terrainImageWidth +500,10 * StaticVar.terrainImageHeight+500, 0);
         //effect = new Teleport(dest);
-        effect = new Trap();
+        effect = new Teleport(dest);
         effect.setLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight+300,0));
         effect.setPixelLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight+300,0));
         aem.addEffect(effect);
