@@ -44,7 +44,7 @@ public class IntroState extends State {
     @Override
     public void update(long elapsed) {
 
-        if ((controller.getKeyPressed()== KeyEvent.VK_ENTER || controller.getKeyPressed()==KeyEvent.VK_SPACE)) {
+        if (controller.getKeyPressed()==KeyEvent.VK_SPACE) {
             stateManager.setState(StateManager.MAINMENU);
         }
     }
