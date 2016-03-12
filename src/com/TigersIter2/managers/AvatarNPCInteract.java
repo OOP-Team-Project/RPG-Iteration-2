@@ -4,6 +4,8 @@ import com.TigersIter2.entities.*;
 import com.TigersIter2.items.TakeableItem;
 import com.TigersIter2.location.Location;
 import com.TigersIter2.location.LocationConverter;
+import com.TigersIter2.skills.Bane;
+import com.TigersIter2.skills.Enchantment;
 import com.TigersIter2.views.FooterView;
 
 import javax.swing.*;
@@ -87,7 +89,7 @@ public class AvatarNPCInteract implements ActionListener{
 
     }
 
-    private boolean playerInLineRange(NPC n){
+    private boolean enemyInRange(NPC n){
         //somehow determine if npc is in range based off of direction and attack range and such
         int xDist = Math.abs(LocationConverter.PixelLocationToHex(n.getLocation()).getX() - LocationConverter.PixelLocationToHex(avatar.getLocation()).getX());
         int yDist = Math.abs(LocationConverter.PixelLocationToHex(n.getLocation()).getY() - LocationConverter.PixelLocationToHex(avatar.getLocation()).getY());
@@ -98,7 +100,7 @@ public class AvatarNPCInteract implements ActionListener{
             return false;
     }
 
-    private boolean npcInLineRange(NPC n){
+    private boolean playerInRange(NPC n){
         //somehow determine if npc is in range based off of direction and attack range and such
         int xDist = Math.abs(LocationConverter.PixelLocationToHex(n.getLocation()).getX() - LocationConverter.PixelLocationToHex(avatar.getLocation()).getX());
         int yDist = Math.abs(LocationConverter.PixelLocationToHex(n.getLocation()).getY() - LocationConverter.PixelLocationToHex(avatar.getLocation()).getY());
@@ -108,7 +110,7 @@ public class AvatarNPCInteract implements ActionListener{
             return false;
     }
 
-    private boolean enemyInLine(NPC npc) {
+    private boolean inLinearRange(NPC npc) {
         boolean ret = false;
         int dir = avatar.getDirection();
         int xDist = LocationConverter.PixelLocationToHex(npc.getLocation()).getX() - LocationConverter.PixelLocationToHex(avatar.getLocation()).getX();
@@ -164,7 +166,7 @@ public class AvatarNPCInteract implements ActionListener{
         return ret;
     }
 
-    private boolean enemyInAngle(NPC npc){
+    private boolean inAngularRange(NPC npc){
         boolean ret = false;
         int dir = avatar.getDirection();
         int xDist = LocationConverter.PixelLocationToHex(npc.getLocation()).getX() - LocationConverter.PixelLocationToHex(avatar.getLocation()).getX();
@@ -298,7 +300,7 @@ public class AvatarNPCInteract implements ActionListener{
         return ret;
     }
 
-    private int enemyDistanceInRadius(NPC npc){
+    private int inRadialRange(NPC npc){
         int ret = avatar.getStats().getInfluenceRadius()+1;
         int xDist = LocationConverter.PixelLocationToHex(npc.getLocation()).getX() - LocationConverter.PixelLocationToHex(avatar.getLocation()).getX();
         int yDist = LocationConverter.PixelLocationToHex(npc.getLocation()).getY() - LocationConverter.PixelLocationToHex(avatar.getLocation()).getY();
@@ -325,6 +327,10 @@ public class AvatarNPCInteract implements ActionListener{
         return ret;
     }
 
+    private boolean withinInfluenceRadius(String type, NPC npc){
+        return false;
+    }
+
     public void attack(){
         //NEED SOME SORT OF TIMING FOR THIS METHOD
         if(playerCanAttack) {
@@ -333,22 +339,45 @@ public class AvatarNPCInteract implements ActionListener{
             Iterator<NPC> iter = npcList.iterator();
             while (iter.hasNext()) {
                 NPC npc = iter.next();
-                //if (playerInLineRange(npc)) {     //UNCOMMENT THIS
-                    String weaponType = avatar.getWeaponType();
-                    if(weaponType.equals("none")){
-                        System.out.println("Not holding a weapon, can't attack");
-                    }
-                    else if(weaponType.equals("RangedWeapon")){
-                        // Ranged attack
-                        if(enemyInLine(npc)){
-                            attackEnemy(npc);
+                if(npc.isAlive()) {
+                    if (enemyInRange(npc)) {
+                        String weaponType = avatar.getWeaponType();
+                        if (weaponType.equals("none")) {
+                            System.out.println("Not holding a weapon, can't attack");
+                        } else if (weaponType.equals("RangedWeapon")) {
+                            // Ranged attack
+                            if (inLinearRange(npc))
+                                attackEnemy(npc);
+                        } else {
+                            // Melee attack
+                            //attackEnemy(npc);
+                            if (inAngularRange(npc))
+                                useBane("Bane", npc);
                         }
                     }
-                    else{
-                        // Melee attack
-                        attackEnemy(npc);
-                    }
-                //}
+                }
+            }
+        }
+    }
+
+    private void useBane(String spellName, NPC npc){
+        if(withinInfluenceRadius(((Bane)avatar.getSkills().getSkill(spellName)).getEffectType(), npc)) {
+            int damage = avatar.getSkills().getSkill(spellName).getDamage() - npc.getStats().getDefensiveRating() + npc.getStats().getArmorRating();
+            Random rand = new Random();
+            if (damage > 0) {
+                damage = rand.nextInt(damage);
+                npc.getStats().decreaseCurrentLife(damage);
+                System.out.println("Dealt " + damage + " damage");
+            } else {
+                System.out.println("MISS");
+            }
+            System.out.println(npc.getStats().getCurrentLife() + "/" + npc.getStats().getLife());
+
+            if (npc.isAlive()) {
+                retaliate(npc);
+            } else {
+                killNPC(npc);
+                resetOptions();
             }
         }
     }
@@ -376,7 +405,7 @@ public class AvatarNPCInteract implements ActionListener{
 
     private void retaliate(NPC npc){
         if(npc.getCanAttack()) {
-            if(npcInLineRange(npc)) {
+            if(playerInRange(npc)) {
                 footerView.setDisplay(false);
                 footerView.setTradingView(false);
                 avatar.setTrading(trading);
@@ -411,6 +440,7 @@ public class AvatarNPCInteract implements ActionListener{
 
     private void killNPC(NPC npc){
         System.out.println("You killed the NPC!");
+
         avatar.getStats().addExperience(npc.getStats().getLife());
         npc.dropItems();
         avatar.setOnTileWithNPC(false);

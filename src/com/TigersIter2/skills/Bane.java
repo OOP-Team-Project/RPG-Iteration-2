@@ -27,6 +27,7 @@ public class Bane extends Skill {
     private int magicDamage;
     private int manaCost;
     private double probability;
+    private String effectType = "LINEAR";
 
     /**
      * handle to player stats to get avatars OffensiveRating
@@ -64,5 +65,9 @@ public class Bane extends Skill {
 
     public String toString() {
         return "Bane";
+    }
+
+    public String getEffectType(){
+        return effectType;
     }
 }

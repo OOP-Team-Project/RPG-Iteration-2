@@ -63,7 +63,7 @@ public class GameState extends State {
         areaEffectViews = new ArrayList<AreaEffectView>();
         map = new TerrainMap(StaticVar.map1);
         avatar = new Avatar();
-        avatar.setOccupation(new Sneak());
+        avatar.setOccupation(new Summoner());
         TakeableItem potion = new Potion("Health Potion", 10);
         TakeableItem butterKnife = new RangedWeaponItem("Crossbow", 1, 1, 0);
         ant = new AvatarNPCInteract(avatar, footerView);
@@ -117,9 +117,9 @@ public class GameState extends State {
 
         // for testing Teleport TODO: only works once??? value of destination gets changed automatically
         aem = new AreaEffectManager(avatar);
-        Location dest = new Location(10 * StaticVar.terrainImageWidth +500,10 * StaticVar.terrainImageHeight+500, 0);
-        effect = new Teleport(dest);
-        //effect = new Trap();
+        //Location dest = new Location(10 * StaticVar.terrainImageWidth +500,10 * StaticVar.terrainImageHeight+500, 0);
+        //effect = new Teleport(dest);
+        effect = new Trap();
         effect.setLocation(new Location(10 * StaticVar.terrainImageWidth-200,10 * StaticVar.terrainImageHeight,0));
         //effect.setPixelLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight+300,0));
         aem.addEffect(effect);
