@@ -12,11 +12,18 @@ import com.sun.xml.internal.bind.v2.TODO;
 public class LevelUp extends AreaEffect{
 
 
+    private boolean used = false;
+
+    public LevelUp(){
+        areaEffectType = 2;
+    }
+
     public void affectEntity(Entity entity){
         // only an Avatar wil levelUp
-        if (entity.getClass().equals(Avatar.class)) {
+        if ((entity instanceof Avatar) && !used) {
             ((Avatar) entity).getStats().incrementLevel();
-            System.out.println("Avatar leveled up!");
+            used = true;
+            display = false;
         }
     }
     public String getEffectName(){
