@@ -8,6 +8,7 @@ public abstract class Skill {
     protected int skillLevel;
     protected int maxLevel;
     protected int damage;
+    protected String influenceRadiusType;
 
     public Skill() {
         skillLevel = 1;
@@ -44,6 +45,10 @@ public abstract class Skill {
 
     public int getDamage(){
         return damage;
+    }
+
+    public String getInfluenceRadiusType(){
+        return "none";
     }
 
 }

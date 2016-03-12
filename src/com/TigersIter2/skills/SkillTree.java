@@ -1,14 +1,11 @@
 package com.TigersIter2.skills;
 
-import com.TigersIter2.entities.Occupation;
 import com.TigersIter2.entities.Smasher;
 import com.TigersIter2.entities.Sneak;
 import com.TigersIter2.entities.Summoner;
 import com.TigersIter2.stats.PlayerStats;
-import com.TigersIter2.stats.Stats;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -68,7 +65,9 @@ public class SkillTree {
     private void buildSummonerSkills() {
         skills.put("Enchantment", new Enchantment());
         skills.put("Boon", new Boon(playerStats));
-        skills.put("Bane", new Bane(playerStats));
+        skills.put("FireShot", new FireShot(playerStats));
+        skills.put("FireBlast", new FireBlast(playerStats));
+        skills.put("FireStorm", new FireStorm(playerStats));
         skills.put("Staff", new Staff(playerStats));
     }
 

@@ -162,7 +162,6 @@ public class AvatarNPCInteract implements ActionListener{
                     ret = true;
             }
         }
-        System.out.println(ret);
         return ret;
     }
 
@@ -327,8 +326,19 @@ public class AvatarNPCInteract implements ActionListener{
         return ret;
     }
 
-    private boolean withinInfluenceRadius(String type, NPC npc){
-        return false;
+    private int withinInfluenceRadius(String type, NPC npc){
+        if(enemyInRange(npc)) {
+            if (type.equals("linear") && inLinearRange(npc))
+                return 0;
+            else if (type.equals("angular") && inAngularRange(npc))
+                return 0;
+            else if (type.equals("radial"))
+                return inRadialRange(npc);
+            else
+                return -1;
+        }
+        else
+            return -1;
     }
 
     public void attack(){
@@ -351,8 +361,8 @@ public class AvatarNPCInteract implements ActionListener{
                         } else {
                             // Melee attack
                             //attackEnemy(npc);
-                            if (inAngularRange(npc))
-                                useBane("Bane", npc);
+
+                            useBane("FireStorm", npc);
                         }
                     }
                 }
@@ -361,8 +371,10 @@ public class AvatarNPCInteract implements ActionListener{
     }
 
     private void useBane(String spellName, NPC npc){
-        if(withinInfluenceRadius(((Bane)avatar.getSkills().getSkill(spellName)).getEffectType(), npc)) {
+        int radialRing;
+        if((radialRing = withinInfluenceRadius(((Bane)avatar.getSkills().getSkill(spellName)).getEffectType(), npc)) > -1) {
             int damage = avatar.getSkills().getSkill(spellName).getDamage() - npc.getStats().getDefensiveRating() + npc.getStats().getArmorRating();
+            damage = damage - (radialRing * (damage/(avatar.getInfluenceRadius()+1)));     //Accounts for lessening damage the farther from center you go
             Random rand = new Random();
             if (damage > 0) {
                 damage = rand.nextInt(damage);

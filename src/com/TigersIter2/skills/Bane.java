@@ -27,12 +27,13 @@ public class Bane extends Skill {
     private int magicDamage;
     private int manaCost;
     private double probability;
-    private String effectType = "LINEAR";
 
     /**
      * handle to player stats to get avatars OffensiveRating
      */
-    private PlayerStats playerStats;
+    protected PlayerStats playerStats;
+
+    public Bane(){}
 
     public Bane(PlayerStats playerStats) {
         super();
@@ -40,6 +41,7 @@ public class Bane extends Skill {
         this.magicDamage = MAGIC_PER_LEVEL + MAGIC;
         this.manaCost = MANA_COST;
         this.probability = 0.5;
+        influenceRadiusType = "angular";
     }
 
     /**
@@ -57,8 +59,9 @@ public class Bane extends Skill {
      * returns the damage to be dealt
      */
     public int getDamage() {
-        if ( skillLevel > 0 && Math.random() < probability && playerStats.getCurrentMana() >= manaCost) {
+        if(playerStats.getCurrentMana() >= manaCost)
             playerStats.decreaseCurrentMana(manaCost);
+        if ( skillLevel > 0 && Math.random() < probability) {
             return magicDamage + playerStats.getOffensiveRating();
         } else return 0;
     }
@@ -68,6 +71,6 @@ public class Bane extends Skill {
     }
 
     public String getEffectType(){
-        return effectType;
+        return influenceRadiusType;
     }
 }
