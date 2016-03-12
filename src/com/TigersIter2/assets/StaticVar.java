@@ -6,7 +6,7 @@ import java.awt.*;
 public class StaticVar {
 
     //maps and respective names
-    public static String map1 = "res/maps/terrainMap.txt";
+    public static String map1 = "res/savefiles/maps/terrainMap.txt";
 
     public static final int gameHeight = 720;//720;
     public static final int gameWidth = 1280;//1280;
@@ -34,6 +34,14 @@ public class StaticVar {
     public static final int sneakImageWidth = 100;
     public static final int vehicleImageHeight = 100;
     public static final int vehicleImageWidth = 100;
+    public static final int villagerImageHeight = 100;
+    public static final int villagerImageWidth = 100;
+    public static final int monsterImageHeight = 100;
+    public static final int monsterImageWidth = 100;
+    public static final int itemImageHeight = 100;
+    public static final int itemImageWidth = 100;
+    public static final int areaEffectImageHeight = 100;
+    public static final int areaEffectImageWidth = 100;
 
 
     //MapView Conventional Stuff (Miles)

@@ -35,26 +35,28 @@ public class PlayerStats extends Stats {
     protected int currentMana;
     protected int barter;
     protected int lightRadius;
+    protected int abilityPoints;
 
     protected List<StatsModifier> mods;
 
+
     protected Occupation o;
 
-    /**
-     * Constructor currently sets all stats to 0
-     */
-    public PlayerStats() {
-        super();
-        livesLeft = 2;
-        maxLives = 10;
-        experience = 0;
-        level = 0;
-        mana = 0;
-        currentMana = 0;
-        barter = 0;
-        lightRadius = 10;
-        mods = new ArrayList<StatsModifier>();
-    }
+//    /**
+//     * Constructor currently sets all stats to 0
+//     */
+//    public PlayerStats() {
+//        super();
+//        livesLeft = 2;
+//        maxLives = 10;
+//        experience = 0;
+//        level = 0;
+//        mana = 0;
+//        currentMana = 0;
+//        barter = 0;
+//        lightRadius = 10;
+//        mods = new ArrayList<StatsModifier>();
+//    }
 
     /**
      * or be a cool kid and pass me your occupation!
@@ -70,6 +72,8 @@ public class PlayerStats extends Stats {
         this.movement = o.getMovement();
         this.life = o.getLife();
         this.mana = o.getMana();
+        this.attackTime = o.getAttackTime();
+        this.influenceRadius = o.getInfluenceRadius();
 
         this.lightRadius = 10;
 
@@ -78,6 +82,8 @@ public class PlayerStats extends Stats {
         this.maxLives = 10;
         this.experience = 0;
         this.level = 0;
+
+        this.abilityPoints = 0;
 
 
         //max the current mana and life
@@ -114,6 +120,9 @@ public class PlayerStats extends Stats {
 
     public void decrementLivesLeft() {
         livesLeft--;
+        if(livesLeft > 0){
+            setCurrentLife(getLife());
+        }
     }
 
     public void setMaxLives(int maxLives) {
@@ -133,7 +142,7 @@ public class PlayerStats extends Stats {
     }
 
     /**
-     * adds experience and checks if levelUp happend, if so it executes levelup function
+         * adds experience and checks if levelUp happend, if so it executes levelup function
      * for the levels gained
      */
     public void addExperience(int experience) {
@@ -145,6 +154,12 @@ public class PlayerStats extends Stats {
                 timesLeveledUp--;
             }
         }
+    }
+
+    public void incrementLevel() {
+        int currentExp = getExperience();
+        int expNeeded = getExperienceRequiredForLevel(level + 1);
+        addExperience(expNeeded - currentExp + 1);
     }
 
     /**
@@ -183,6 +198,10 @@ public class PlayerStats extends Stats {
 
     public void incrementBarter(int barter) { this.barter += barter; }
 
+    public void setOccupation(Occupation o) {
+        this.o = o;
+    }
+
     /**
      * adds a stat modifier and immediately affects the stats
      */
@@ -199,6 +218,9 @@ public class PlayerStats extends Stats {
         this.mana += sm.getMana();
         this.barter += sm.getBarter();
         this.lightRadius += sm.getLightRadius();
+        this.livesLeft += sm.getLives();
+        this.attackTime += sm.getAttackTime();
+        this.influenceRadius += sm.getInfluenceRadius();
     }
 
     /**
@@ -218,12 +240,15 @@ public class PlayerStats extends Stats {
             this.mana -= sm.getMana();
             this.barter -= sm.getBarter();
             this.lightRadius -= sm.getLightRadius();
+            this.attackTime -= sm.getAttackTime();
+            this.influenceRadius -= sm.getInfluenceRadius();
         }
     }
 
     public void setLightRadius(int lightRadius) {
         this.lightRadius = lightRadius;
     }
+
 
     /*************************************************************************************************
      * Getters
@@ -296,10 +321,18 @@ public class PlayerStats extends Stats {
         lightRadius -= lr;
     }
 
+    public Occupation getOccupation() {
+        return o;
+    }
+
+    public int getAbilityPoints() {
+        return abilityPoints;
+    }
+
     @Override
     public String toString() {
-        String results = "";
-        results = results + "Health: " + currentLife + "/" + getLife() +
+        String results =    "\nOccupation: " + o.toString() +
+                            "\nHealth: " + currentLife + "/" + getLife() +
                             "\nMana: " + currentMana + "/" + getMana() +
                             "\nLives: " + livesLeft + "/" + maxLives +
                             "\nStrength: " + strength +
@@ -312,7 +345,12 @@ public class PlayerStats extends Stats {
                             "\nLevel: " + level +
                             "\nOffensiveRating: " + getOffensiveRating() +
                             "\nDefensiveRating: " + getDefensiveRating() +
-                            "\nArmorRating: " + getArmorRating();
+                            "\nArmorRating: " + getArmorRating() +
+                            "\nLightRadius: " + getLightRadius() +
+                            "\nAbilityPoints: " + getAbilityPoints() +
+                            "\nAttackTime: " + getAttackTime() +
+                            "\nInfluenceRadius: " + getInfluenceRadius() +
+                            "\nStatusModifiers: " + mods.size();
         return results;
     }
 
@@ -327,7 +365,12 @@ public class PlayerStats extends Stats {
         this.movement += o.getMovementIncrement();
         this.life += o.getLifeIncrement();
         this.mana += o.getManaIncrement();
-        level++;
+        this.influenceRadius += this.level % 3;
+
+        this.level++;
+        this.abilityPoints++;
+        this.currentMana = getMana();
+        this.currentLife = getLife();
     }
 
     private void levelUp() {
@@ -338,17 +381,17 @@ public class PlayerStats extends Stats {
         this.movement += o.getMovementIncrement();
         this.life += o.getLifeIncrement();
         this.mana += o.getManaIncrement();
-        level++;
+        this.influenceRadius += this.level % 3;
 
+        this.level++;
+        this.abilityPoints++;
         this.currentMana = getMana();
         this.currentLife = getLife();
-        //TODO: adjust skill attributes
     }
 
     /**
      * Following two functions are from last iteration. was wasting too much time
      * making a new exp curve. will use this for now.
-     * :TODO: Make private
      */
     public int getExperienceRequiredForLevel(int targetLevel) {
         if (targetLevel < 1) {
@@ -362,7 +405,12 @@ public class PlayerStats extends Stats {
     }
 
     private int getLevelFromTotalExperience(int totalExperience) {
-        return (int)Math.floor(Math.exp(Math.log(totalExperience / FIRST_LEVEL_EXPERIENCE) / LEVEL_EXPERIENCE_EXPONENT));
+        return (int)Math.ceil(Math.pow((totalExperience/FIRST_LEVEL_EXPERIENCE), 1/LEVEL_EXPERIENCE_EXPONENT));
+    }
+
+    //only used in skillTree
+    public void decrementAbilityPoint() {
+        this.abilityPoints--;
     }
 
     //***********************************************TESTING***************************************************//

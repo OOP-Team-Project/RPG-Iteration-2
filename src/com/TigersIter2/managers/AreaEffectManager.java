@@ -1,36 +1,64 @@
 package com.TigersIter2.managers;
 
-import com.TigersIter2.areaEffects.AreaEffect;
-import com.TigersIter2.areaEffects.InstantDeath;
-import com.TigersIter2.entities.Avatar;
+import com.TigersIter2.areaEffects.*;
 import com.TigersIter2.entities.Entity;
-import com.TigersIter2.stats.StatsModifier;
+import com.TigersIter2.location.Location;
+import com.TigersIter2.location.LocationConverter;
+
+import java.awt.geom.Area;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by Nicole on 3/7/16.
  */
 public class AreaEffectManager {
 
-    private Entity entity;
+    private Entity entityOnTile;
     private AreaEffect areaEffect;
-    private StatsModifier statsMod;
-    private InstantDeath instantDeath;
+    private List<AreaEffect> effects;
 
 
-    public void getStatsModifier(){
+    //public AreaEffectManager(Entity entity, AreaEffect effectType, Location l){
+    public AreaEffectManager(Entity entity){
+        entityOnTile = entity;
+        effects = new ArrayList<AreaEffect>();
+    }
 
-        switch(getAreaEffect()) {
-
-            case "instantDeath": statsMod = instantDeath.affectEntity();
-
-                // add other cases for other area effects
+    public void addEffect(AreaEffect ae){
+        effects.add(ae);
+        if (ae instanceof Trap) {
+            // keep traps hidden until encountered
+            ae.setDisplay(false);
         }
-
+        else ae.setDisplay(true);
     }
 
-    public String getAreaEffect(){
-        return areaEffect.getEffectName();
+    public void removeEffect(AreaEffect ae){
+        effects.remove(ae);
     }
 
+    public void checkTile(){
+        Iterator<AreaEffect> iter = effects.iterator();
+        while(iter.hasNext()){
+                AreaEffect effect = iter.next();
+                if (LocationConverter.PixelLocationToHex(entityOnTile.getLocation()).getX() == LocationConverter.PixelLocationToHex(effect.getLocation()).getX() &&
+                        LocationConverter.PixelLocationToHex(entityOnTile.getLocation()).getY() == LocationConverter.PixelLocationToHex(effect.getLocation()).getY()) {
+                    if (effect instanceof Trap) {
+                        if (((Trap) effect).getRemoved()) {
+                        }
+                        else effect.affectEntity(entityOnTile);  // trap only effects avatar if it hasn't been removed
+                    }
+                    else{
+                        effect.affectEntity(entityOnTile);
+                    }
+                }
+        }
+    }
+
+    public List<AreaEffect> getAreaEffects(){
+        return effects;
+    }
 
 }

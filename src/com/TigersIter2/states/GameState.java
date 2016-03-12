@@ -1,15 +1,17 @@
 package com.TigersIter2.states;
 
+import com.TigersIter2.areaEffects.*;
 import com.TigersIter2.assets.StaticVar;
-import com.TigersIter2.managers.AvatarMapInteract;
-import com.TigersIter2.items.Weapon;
+import com.TigersIter2.items.OneHandedWeaponItem;
+import com.TigersIter2.location.Location;
+import com.TigersIter2.managers.AreaEffectManager;
 import com.TigersIter2.managers.StateManager;
 import com.TigersIter2.assets.sprites.*;
 import com.TigersIter2.entities.*;
-import com.TigersIter2.items.Potion;
-import com.TigersIter2.items.TakeableItem;
+import com.TigersIter2.items.*;
 import com.TigersIter2.main.Controller;
 import com.TigersIter2.managers.AvatarNPCInteract;
+import com.TigersIter2.managers.ItemManager;
 import com.TigersIter2.maps.TerrainMap;
 import com.TigersIter2.views.*;
 
@@ -27,20 +29,23 @@ public class GameState extends State {
     //Model Data
     private TerrainMap map;
     private Avatar avatar;
-    private AvatarMapInteract avatarMapInteract;
-
     private Vehicle vehicle;
     private AvatarNPCInteract ant;
+    private ItemManager itemManager;
+    private AreaEffectManager aem;
+    private AreaEffect effect;
 
     //Views
     private AvatarView avatarView;
     private MapView mapView;
     private AreaView areaView;
     private List<VehicleView> vehicleViews;
+    private List<NPCView> npcViews;
+    private List<ItemView> itemViews;
+    private List<AreaEffectView> areaEffectViews;
     private FooterView footerView;
     private StatusView statusView;
-    //private EntityManager entityManager;
-    //private ItemManager itemManager;
+    private ControlView controlView;
 
 
     public GameState(StateManager stateManager, Controller controller){
@@ -51,17 +56,29 @@ public class GameState extends State {
     public void init() {
 
         footerView = new FooterView();
+        controlView = new ControlView(controller);
+        vehicleViews = new ArrayList<VehicleView>();
+        npcViews = new ArrayList<NPCView>();
+        itemViews = new ArrayList<ItemView>();
+        areaEffectViews = new ArrayList<AreaEffectView>();
         map = new TerrainMap(StaticVar.map1);
         avatar = new Avatar();
-
         avatar.setOccupation(new Sneak());
-        avatar.getInventory().addItem(new Potion("Health Potion"));
-        avatar.getInventory().addItem(new Potion("Strength Potion"));
-        avatar.getInventory().addItem(new Weapon("Battle Axe"));
-
-        avatarMapInteract = new AvatarMapInteract(avatar, map);
+        TakeableItem potion = new Potion("Health Potion", 10);
+        TakeableItem butterKnife = new RangedWeaponItem("Crossbow", 1, 1, 0);
         ant = new AvatarNPCInteract(avatar, footerView);
         vehicleViews = new ArrayList<VehicleView>();
+        itemManager = new ItemManager(avatar);
+
+
+        itemManager.addItem(potion);
+        itemManager.addItem(butterKnife);
+        avatar.getInventory().addItem(potion);
+        avatar.getInventory().addItem(butterKnife);
+
+
+        avatar.setAttackTime(1000);
+        ant = new AvatarNPCInteract(avatar, footerView);
 
         //THIS IS ALL FOR TESTING. WILL NOT STAY HERE
         ant.addVehicle(new Vehicle("Turtle", 5, true, true));
@@ -73,7 +90,39 @@ public class GameState extends State {
         list.add("The Detroit Tigers?");
         list.add("So many things.");
         list.add("I suppose so.");
+        TakeableItem ohSword = new OneHandedWeaponItem("Sword",5);
+        itemManager.addItem(ohSword);
         ant.addVillager(list, true, true, false);
+        ant.getNpcList().get(0).getInventory().addItem(ohSword);
+        ant.addMonster();
+
+        //testing for item interactions
+        Item item = new Key("Key", 1);
+        item.setLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight + 200,0));
+        item.setPixelLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight + 200,0));
+        Item obstacle = new Obstacle();
+        obstacle.setLocation(new Location(10 * StaticVar.terrainImageWidth + 400,10 * StaticVar.terrainImageHeight,0));
+        obstacle.setPixelLocation(new Location(10 * StaticVar.terrainImageWidth + 400,10 * StaticVar.terrainImageHeight,0));
+        Item interactive = new Interactive(1);
+        interactive.setLocation(new Location(10 * StaticVar.terrainImageWidth + 200,10 * StaticVar.terrainImageHeight + 200,0));
+        interactive.setPixelLocation(new Location(10 * StaticVar.terrainImageWidth + 200,10 * StaticVar.terrainImageHeight + 200,0));
+        Item oneShot = new OneShot();
+        oneShot.setLocation(new Location(10 * StaticVar.terrainImageWidth + 200,10 * StaticVar.terrainImageHeight,0));
+        oneShot.setPixelLocation(new Location(10 * StaticVar.terrainImageWidth + 200,10 * StaticVar.terrainImageHeight,0));
+
+        itemManager.addItem(obstacle);
+        itemManager.addItem(item);
+        itemManager.addItem(interactive);
+        itemManager.addItem(oneShot);
+
+        // for testing Teleport TODO: only works once??? value of destination gets changed automatically
+        aem = new AreaEffectManager(avatar);
+        Location dest = new Location(10 * StaticVar.terrainImageWidth +500,10 * StaticVar.terrainImageHeight+500, 0);
+        effect = new Teleport(dest);
+        //effect = new Trap();
+        effect.setLocation(new Location(10 * StaticVar.terrainImageWidth-200,10 * StaticVar.terrainImageHeight,0));
+        //effect.setPixelLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight+300,0));
+        aem.addEffect(effect);
 
         //pull in all pictures for GameState
 
@@ -82,19 +131,34 @@ public class GameState extends State {
         SmasherSprite.init();
         SneakSprite.init();
         VehicleSprite.init();
+        VillagerSprite.init();
+        MonsterSprite.init();
+        ItemSprite.init();
+        AreaEffectSprite.init();
 
         avatarView = new AvatarView(avatar);
-        statusView = new StatusView(avatar.getInventory(), avatar.getStats(), avatar.getEquipment());
+        statusView = new StatusView(avatar);
         for(Vehicle vv : ant.getVehicleList()) {
             vehicleViews.add(new VehicleView(vv, avatar, map));
         }
+        for(NPC n : ant.getNpcList()){
+            npcViews.add(new NPCView(n, avatar, map));
+        }
+        for(Item i : itemManager.getItemList()){
+            itemViews.add(new ItemView(i, avatar, map));
+        }
+
+        for(AreaEffect aEffect : aem.getAreaEffects()){
+            areaEffectViews.add(new AreaEffectView(aEffect, avatar, map));
+        }
+
+
         mapView = new MapView(map, avatar);
-        areaView =  new AreaView(mapView,avatarView, vehicleViews, footerView, statusView);
-
-
+        areaView =  new AreaView(mapView,avatarView, vehicleViews, footerView, statusView, npcViews, controlView, itemViews, areaEffectViews);
         this.add(areaView);
 
         System.out.println("GameState initialized");
+
 
     }
 
@@ -111,6 +175,14 @@ public class GameState extends State {
             case 7:
                 statusView.toggle();
                 controller.setStatusViewControls(statusView.getDisplay());
+                break;
+            case 8:
+                ant.attack();
+                break;
+            case 9:
+                controlView.toggle();
+                controller.setControlViewControls(controlView.getDisplay());
+                break;
             case -1:
                 break;
             default:
@@ -122,14 +194,25 @@ public class GameState extends State {
 
     @Override
     public void update(long elapsed) {
-        //map.update(); //doesn't actually do anything
-        //avatar.update(controller.getXMovement(),controller.getyMovement(), elapsed);
-        avatarMapInteract.updateAvatarPos(elapsed,controller.getXMovement(), controller.getyMovement());
+        map.update();
+        boolean avatarCanMove = itemManager.checkTile(elapsed, controller.getXMovement(), controller.getyMovement()); //returns false if item is an obstacle
+        if(avatarCanMove) {
+            avatar.update(controller.getXMovement(), controller.getyMovement(), elapsed);
+        }
         View.update(controller.getCameraXMovement(), controller.getCameraYMovement(), elapsed);
+        aem.checkTile();
         ant.checkTile();
         handleControllerInput();
 
-        if(avatar.getTrading()){
+        if(controlView.getDisplay()) {
+            int input = controller.getTradeMenuInput();
+            controlView.handleInput(input);
+            //if(input == 5){
+            //controlView.toggle();
+            //controller.setStatusViewControls(controlView.getDisplay());
+            //}
+        }
+        else if(avatar.getTrading()){
             controller.tradeBindings();
             int input = controller.getTradeMenuInput();
             ant.navigateTradeMenu(input);
@@ -145,6 +228,7 @@ public class GameState extends State {
                 controller.setStatusViewControls(statusView.getDisplay());
             }
         }
+
 
         if (controller.getKeyPressed() == KeyEvent.VK_SPACE) {
             stateManager.setState(StateManager.INTRO);
@@ -169,3 +253,279 @@ public class GameState extends State {
         return name;
     }
 }
+//package com.TigersIter2.states;
+//
+//import com.TigersIter2.areaEffects.*;
+//import com.TigersIter2.assets.StaticVar;
+//
+//import com.TigersIter2.managers.AvatarMapInteract;
+//import com.TigersIter2.items.Weapon;
+//
+//import com.TigersIter2.items.OneHandedWeaponItem;
+//import com.TigersIter2.location.Location;
+//import com.TigersIter2.managers.AreaEffectManager;
+//
+//import com.TigersIter2.managers.StateManager;
+//import com.TigersIter2.assets.sprites.*;
+//import com.TigersIter2.entities.*;
+//import com.TigersIter2.items.*;
+//import com.TigersIter2.main.Controller;
+//import com.TigersIter2.managers.AvatarNPCInteract;
+//import com.TigersIter2.managers.ItemManager;
+//import com.TigersIter2.maps.TerrainMap;
+//import com.TigersIter2.views.*;
+//
+//import java.awt.*;
+//import java.awt.event.KeyEvent;
+//import java.util.ArrayList;
+//import java.util.List;
+//
+////GameState should initialize everything that is needed in GameState. This is because if you go back to the main menu for ex, and wish to start a new game
+////when GameState gets reinitialized, this would all be possible - Sam
+//public class GameState extends State {
+//
+//    private final String name = "GameState";
+//
+//    //Model Data
+//    private TerrainMap map;
+//    private Avatar avatar;
+//    private AvatarMapInteract avatarMapInteract;
+//
+//    private Vehicle vehicle;
+//    private AvatarNPCInteract ant;
+//    private ItemManager itemManager;
+//    private AreaEffectManager aem;
+//    private AreaEffect effect;
+//
+//    //Views
+//    private AvatarView avatarView;
+//    private MapView mapView;
+//    private AreaView areaView;
+//    private List<VehicleView> vehicleViews;
+//    private List<NPCView> npcViews;
+//    private List<ItemView> itemViews;
+//    private List<AreaEffectView> areaEffectViews;
+//    private FooterView footerView;
+//    private StatusView statusView;
+//    private ControlView controlView;
+//
+//
+//    public GameState(StateManager stateManager, Controller controller){
+//        super(stateManager, controller);
+//    }
+//
+//    @Override
+//    public void init() {
+//
+//        footerView = new FooterView();
+//        controlView = new ControlView(controller);
+//        vehicleViews = new ArrayList<VehicleView>();
+//        npcViews = new ArrayList<NPCView>();
+//        itemViews = new ArrayList<ItemView>();
+//        areaEffectViews = new ArrayList<AreaEffectView>();
+//        map = new TerrainMap(StaticVar.map1);
+//        avatar = new Avatar();
+//
+//        avatar.setOccupation(new Sneak());
+////<<<<<<< HEAD
+////        avatar.getInventory().addItem(new Potion("Health Potion"));
+////        avatar.getInventory().addItem(new Potion("Strength Potion"));
+////        avatar.getInventory().addItem(new Weapon("Battle Axe"));
+////
+////        avatarMapInteract = new AvatarMapInteract(avatar, map);
+////=======
+//        TakeableItem potion = new Potion("Health Potion", 10);
+//        TakeableItem butterKnife = new RangedWeaponItem("Crossbow", 1, 1, 0);
+//
+//        ant = new AvatarNPCInteract(avatar, footerView);
+//        vehicleViews = new ArrayList<VehicleView>();
+//        itemManager = new ItemManager(avatar);
+//
+//
+//        itemManager.addItem(potion);
+//        itemManager.addItem(butterKnife);
+//        avatar.getInventory().addItem(potion);
+//        avatar.getInventory().addItem(butterKnife);
+//
+//
+//        avatar.setAttackTime(1000);
+//        ant = new AvatarNPCInteract(avatar, footerView);
+//
+//        //THIS IS ALL FOR TESTING. WILL NOT STAY HERE
+//        ant.addVehicle(new Vehicle("Turtle", 5, true, true));
+//        ant.addVehicle(new Vehicle("Turtle2", 2, false, true));
+//        //ant.addMonster();
+//        List<String> list = new ArrayList<String>();
+//        list.add("My name is John Cena. I'm an internet sensation.");
+//        list.add("What does anyone do anywhere?");
+//        list.add("The Detroit Tigers?");
+//        list.add("So many things.");
+//        list.add("I suppose so.");
+//        TakeableItem ohSword = new OneHandedWeaponItem("Sword",5);
+//        itemManager.addItem(ohSword);
+//
+//        ant.getNpcList().get(0).getInventory().addItem(ohSword);
+//        ant.addMonster();
+//
+//        //testing for item interactions
+//        Item item = new Key("Key", 1);
+//        item.setLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight + 200,0));
+//        item.setPixelLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight + 200,0));
+//        Item obstacle = new Obstacle();
+//        obstacle.setLocation(new Location(10 * StaticVar.terrainImageWidth + 400,10 * StaticVar.terrainImageHeight,0));
+//        obstacle.setPixelLocation(new Location(10 * StaticVar.terrainImageWidth + 400,10 * StaticVar.terrainImageHeight,0));
+//        Item interactive = new Interactive(1);
+//        interactive.setLocation(new Location(10 * StaticVar.terrainImageWidth + 200,10 * StaticVar.terrainImageHeight + 200,0));
+//        interactive.setPixelLocation(new Location(10 * StaticVar.terrainImageWidth + 200,10 * StaticVar.terrainImageHeight + 200,0));
+//        Item oneShot = new OneShot();
+//        oneShot.setLocation(new Location(10 * StaticVar.terrainImageWidth + 200,10 * StaticVar.terrainImageHeight,0));
+//        oneShot.setPixelLocation(new Location(10 * StaticVar.terrainImageWidth + 200,10 * StaticVar.terrainImageHeight,0));
+//
+//        itemManager.addItem(obstacle);
+//        itemManager.addItem(item);
+//        itemManager.addItem(interactive);
+//        itemManager.addItem(oneShot);
+//
+//        // for testing Teleport TODO: only works once??? value of destination gets changed automatically
+//        aem = new AreaEffectManager(avatar);
+//        Location dest = new Location(10 * StaticVar.terrainImageWidth +500,10 * StaticVar.terrainImageHeight+500, 0);
+//        effect = new Teleport(dest);
+//        //effect = new Trap();
+//        effect.setLocation(new Location(10 * StaticVar.terrainImageWidth-200,10 * StaticVar.terrainImageHeight,0));
+//        //effect.setPixelLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight+300,0));
+//        aem.addEffect(effect);
+//
+//        //pull in all pictures for GameState
+//
+//        //Technically only one of these will need to be initialized
+//        WizardSprite.init();
+//        SmasherSprite.init();
+//        SneakSprite.init();
+//        VehicleSprite.init();
+//        VillagerSprite.init();
+//        MonsterSprite.init();
+//        ItemSprite.init();
+//        AreaEffectSprite.init();
+//
+//        avatarView = new AvatarView(avatar);
+//        statusView = new StatusView(avatar);
+//        for(Vehicle vv : ant.getVehicleList()) {
+//            vehicleViews.add(new VehicleView(vv, avatar, map));
+//        }
+//        for(NPC n : ant.getNpcList()){
+//            npcViews.add(new NPCView(n, avatar, map));
+//        }
+//        for(Item i : itemManager.getItemList()){
+//            itemViews.add(new ItemView(i, avatar, map));
+//        }
+//
+//        for(AreaEffect aEffect : aem.getAreaEffects()){
+//            areaEffectViews.add(new AreaEffectView(aEffect, avatar, map));
+//        }
+//
+//
+//        mapView = new MapView(map, avatar);
+//        areaView =  new AreaView(mapView,avatarView, vehicleViews, footerView, statusView, npcViews, controlView, itemViews, areaEffectViews);
+//        this.add(areaView);
+//
+//        System.out.println("GameState initialized");
+//
+//
+//    }
+//
+//    private void handleControllerInput(){
+//        int optionSelected = controller.getOptionSelected();
+//        switch(optionSelected){
+//            case 0:
+//                System.out.println("Attacking");
+//                //ant.attack();
+//                break;
+//            case 6:
+//                ant.mountVehicle();
+//                break;
+//            case 7:
+//                statusView.toggle();
+//                controller.setStatusViewControls(statusView.getDisplay());
+//                break;
+//            case 8:
+//                ant.attack();
+//                break;
+//            case 9:
+//                controlView.toggle();
+//                controller.setControlViewControls(controlView.getDisplay());
+//                break;
+//            case -1:
+//                break;
+//            default:
+//                ant.chooseOption(optionSelected);
+//                break;
+//        }
+//        controller.resetOptionSelected();
+//    }
+//
+//    @Override
+//    public void update(long elapsed) {
+////<<<<<<< HEAD
+////        //map.update(); //doesn't actually do anything
+////        //avatar.update(controller.getXMovement(),controller.getyMovement(), elapsed);
+////        avatarMapInteract.updateAvatarPos(elapsed,controller.getXMovement(), controller.getyMovement());
+////=======
+//        map.update();
+//        boolean avatarCanMove = itemManager.checkTile(elapsed, controller.getXMovement(), controller.getyMovement()); //returns false if item is an obstacle
+//        if(avatarCanMove) {
+//            avatar.update(controller.getXMovement(), controller.getyMovement(), elapsed);
+//        }
+//        View.update(controller.getCameraXMovement(), controller.getCameraYMovement(), elapsed);
+//        aem.checkTile();
+//        ant.checkTile();
+//        handleControllerInput();
+//
+//        if(controlView.getDisplay()) {
+//            int input = controller.getTradeMenuInput();
+//            controlView.handleInput(input);
+//            //if(input == 5){
+//                //controlView.toggle();
+//                //controller.setStatusViewControls(controlView.getDisplay());
+//            //}
+//        }
+//        else if(avatar.getTrading()){
+//            controller.tradeBindings();
+//            int input = controller.getTradeMenuInput();
+//            ant.navigateTradeMenu(input);
+//            if(input == 5){
+//                controller.revertTradeBindings();
+//            }
+//        }
+//        else if(statusView.getDisplay()){
+//            int input = controller.getTradeMenuInput();
+//            statusView.handleInput(input);
+//            if(input == 5){
+//                statusView.toggle();
+//                controller.setStatusViewControls(statusView.getDisplay());
+//            }
+//        }
+//
+//
+//        if (controller.getKeyPressed() == KeyEvent.VK_SPACE) {
+//            stateManager.setState(StateManager.INTRO);
+//        }
+//    }
+//
+//    @Override
+//    public void paintComponent(Graphics g) {
+//        Graphics2D g2d = (Graphics2D)g.create();
+//        //setting background to gray somehow eliminates tile tearing caused by non-perfect hexagons(hexagons can't really by represented perfectly with pixels)
+//        g2d.setColor(Color.RED);
+//        g2d.fillRect(0,0, this.getWidth(), this.getHeight());//getHeight
+//        g2d.dispose();
+//    }
+//
+//    @Override
+//    public void handleInput() {
+//    }
+//
+//    @Override
+//    public String returnName() {
+//        return name;
+//    }
+//}
