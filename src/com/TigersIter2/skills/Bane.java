@@ -33,12 +33,15 @@ public class Bane extends Skill {
      */
     private PlayerStats playerStats;
 
+    public Bane(){}
+
     public Bane(PlayerStats playerStats) {
         super();
         this.playerStats = playerStats;
-        this.magicDamage = 0;
+        this.magicDamage = MAGIC_PER_LEVEL + MAGIC;
         this.manaCost = MANA_COST;
-        this.probability = 0.0;
+        this.probability = 0.3;
+        this.influenceRadiusType = "none";
     }
 
     /**
@@ -46,7 +49,7 @@ public class Bane extends Skill {
      */
     @Override
     protected void update() {
-        this.probability = .5 + .1 * skillLevel;
+        this.probability = .3 + .1 * skillLevel;
         this.magicDamage = skillLevel * MAGIC_PER_LEVEL + MAGIC;
         this.manaCost = MANA_COST + skillLevel * MANA_COST_LEVEL_MULTIPLIER;
     }
@@ -56,13 +59,18 @@ public class Bane extends Skill {
      * returns the damage to be dealt
      */
     public int getDamage() {
-        if ( skillLevel > 0 && Math.random() < probability && playerStats.getCurrentMana() >= manaCost) {
+        if(playerStats.getCurrentMana() >= manaCost)
             playerStats.decreaseCurrentMana(manaCost);
+        if ( skillLevel > 0 && Math.random() < probability) {
             return magicDamage + playerStats.getOffensiveRating();
         } else return 0;
     }
 
     public String toString() {
         return "Bane";
+    }
+
+    public String getInfluenceRadiusType(){
+        return influenceRadiusType;
     }
 }

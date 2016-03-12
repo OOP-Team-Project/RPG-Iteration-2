@@ -72,6 +72,8 @@ public class PlayerStats extends Stats {
         this.movement = o.getMovement();
         this.life = o.getLife();
         this.mana = o.getMana();
+        this.attackTime = o.getAttackTime();
+        this.influenceRadius = o.getInfluenceRadius();
 
         this.lightRadius = 10;
 
@@ -118,6 +120,9 @@ public class PlayerStats extends Stats {
 
     public void decrementLivesLeft() {
         livesLeft--;
+        if(livesLeft > 0){
+            setCurrentLife(getLife());
+        }
     }
 
     public void setMaxLives(int maxLives) {
@@ -154,7 +159,7 @@ public class PlayerStats extends Stats {
     public void incrementLevel() {
         int currentExp = getExperience();
         int expNeeded = getExperienceRequiredForLevel(level + 1);
-        addExperience(expNeeded - currentExp);
+        addExperience(expNeeded - currentExp + 1);
     }
 
     /**
@@ -213,6 +218,9 @@ public class PlayerStats extends Stats {
         this.mana += sm.getMana();
         this.barter += sm.getBarter();
         this.lightRadius += sm.getLightRadius();
+        this.livesLeft += sm.getLives();
+        this.attackTime += sm.getAttackTime();
+        this.influenceRadius += sm.getInfluenceRadius();
     }
 
     /**
@@ -232,6 +240,8 @@ public class PlayerStats extends Stats {
             this.mana -= sm.getMana();
             this.barter -= sm.getBarter();
             this.lightRadius -= sm.getLightRadius();
+            this.attackTime -= sm.getAttackTime();
+            this.influenceRadius -= sm.getInfluenceRadius();
         }
     }
 
@@ -338,6 +348,8 @@ public class PlayerStats extends Stats {
                             "\nArmorRating: " + getArmorRating() +
                             "\nLightRadius: " + getLightRadius() +
                             "\nAbilityPoints: " + getAbilityPoints() +
+                            "\nAttackTime: " + getAttackTime() +
+                            "\nInfluenceRadius: " + getInfluenceRadius() +
                             "\nStatusModifiers: " + mods.size();
         return results;
     }
@@ -353,6 +365,7 @@ public class PlayerStats extends Stats {
         this.movement += o.getMovementIncrement();
         this.life += o.getLifeIncrement();
         this.mana += o.getManaIncrement();
+        this.influenceRadius += this.level % 3;
 
         this.level++;
         this.abilityPoints++;
@@ -368,6 +381,7 @@ public class PlayerStats extends Stats {
         this.movement += o.getMovementIncrement();
         this.life += o.getLifeIncrement();
         this.mana += o.getManaIncrement();
+        this.influenceRadius += this.level % 3;
 
         this.level++;
         this.abilityPoints++;
@@ -391,7 +405,7 @@ public class PlayerStats extends Stats {
     }
 
     private int getLevelFromTotalExperience(int totalExperience) {
-        return (int)Math.floor(Math.exp(Math.log(totalExperience / FIRST_LEVEL_EXPERIENCE) / LEVEL_EXPERIENCE_EXPONENT));
+        return (int)Math.ceil(Math.pow((totalExperience/FIRST_LEVEL_EXPERIENCE), 1/LEVEL_EXPERIENCE_EXPONENT));
     }
 
     //only used in skillTree

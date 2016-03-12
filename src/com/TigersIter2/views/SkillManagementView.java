@@ -26,11 +26,7 @@ public class SkillManagementView extends JComponent {
         setLayout(new FlowLayout());
         info = "Size: " + getWidth() + "x" + getHeight();
 
-//        JTextArea textArea = new JTextArea("TEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\n");
-//        textArea.setLocation(150,150);
-//        textArea.setLineWrap(true);
-//
-//        this.add(textArea);
+
     }
 
     @Override
@@ -41,7 +37,7 @@ public class SkillManagementView extends JComponent {
                 RenderingHints.VALUE_ANTIALIAS_ON);
 
         g2d.setColor(Color.GRAY);
-        g2d.fillRect(0,STATS_OFFSET,this.getWidth(),this.getHeight()-STATS_OFFSET-BOTTOM_OFFSET_BUG);
+        g2d.fillRect(0,STATS_OFFSET,this.getWidth(),this.getHeight()-STATS_OFFSET);
 
         g2d.setColor(Color.BLACK);
         g2d.setFont(new Font("TimesRoman", Font.BOLD, 18));
@@ -50,7 +46,6 @@ public class SkillManagementView extends JComponent {
         g2d.setStroke(new BasicStroke(5));
         g2d.drawLine((getWidth()/3) * 2, 50,(getWidth()/3) * 2, getHeight() );
         g2d.dispose();
-        System.out.println(this.getComponentCount());
     }
 
     private void paintSkills(Graphics2D g2d, int width, int height) {

@@ -5,10 +5,10 @@ import com.TigersIter2.stats.StatsModifier;
 /**
  * Created by Breanna on 3/7/16.
  */
-public class RangedWeapon extends Weapon {
+public class RangedWeaponItem extends Weapon {
     private int range = 0;
     private int angle = 0;
-    public RangedWeapon(String n, int damage, int range, int angle){
+    public RangedWeaponItem(String n, int damage, int range, int angle){
         this.damageModifier = damage;
         this.range = range;
         this.angle = angle;
@@ -17,5 +17,7 @@ public class RangedWeapon extends Weapon {
         this.sm = new StatsModifier();
         /* adds to the attack rating and decreases the movement */
         sm.setAttack(sm.getAttack()+damageModifier);
+        sm.setInfluenceRadius(range);
+        weaponType = "RangedWeapon";
     }
 }

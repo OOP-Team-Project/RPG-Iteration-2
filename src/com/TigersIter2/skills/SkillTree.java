@@ -1,16 +1,11 @@
 package com.TigersIter2.skills;
 
-import com.TigersIter2.entities.Occupation;
 import com.TigersIter2.entities.Smasher;
 import com.TigersIter2.entities.Sneak;
 import com.TigersIter2.entities.Summoner;
 import com.TigersIter2.stats.PlayerStats;
-import com.TigersIter2.stats.Stats;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Magic_Buddha on 3/3/2016.
@@ -22,6 +17,7 @@ public class SkillTree {
      */
     private Map<String,Skill> skills;
     private PlayerStats playerStats;
+    private List<String> mainSkillList = new ArrayList<String>();
 
     /**
      * makes a skill tree depending on the entity type by first building
@@ -66,10 +62,19 @@ public class SkillTree {
      * builds summoner skills
      */
     private void buildSummonerSkills() {
-        skills.put("Enchantment", new Enchantment());
-        skills.put("Boon", new Boon(playerStats));
-        skills.put("Bane", new Bane(playerStats));
+        skills.put("EnchantingShot", new EnchantingShot(playerStats));
+        skills.put("EnchantingBlast", new EnchantingBlast(playerStats));
+        skills.put("EnchantingStorm", new EnchantingStorm(playerStats));
+        skills.put("BoonIntellect", new BoonIntellect(playerStats));
+        skills.put("BoonHardiness", new BoonHardiness(playerStats));
+        skills.put("BoonHealth", new BoonHealth(playerStats));
+        skills.put("FireShot", new FireShot(playerStats));
+        skills.put("FireBlast", new FireBlast(playerStats));
+        skills.put("FireStorm", new FireStorm(playerStats));
         skills.put("Staff", new Staff(playerStats));
+        mainSkillList.add("Bane Spells");
+        mainSkillList.add("Boon Spells");
+        mainSkillList.add("Enchantment Spells");
     }
 
     /**
@@ -79,7 +84,9 @@ public class SkillTree {
         skills.put("PickPocket", new PickPocket());
         skills.put("DetectRemoveTrap", new DetectRemoveTrap());
         skills.put("Creep", new Creep(playerStats));
-        skills.put("RangedWeapon", new RangedWeapon());
+        skills.put("RangedWeapon", new RangedWeapon(playerStats));
+        mainSkillList.add("Pick-pocket");
+        mainSkillList.add("Creep");
     }
 
     /**
@@ -138,6 +145,10 @@ public class SkillTree {
     }
 
     public Skill getSkill(String skillName) { return skills.get(skillName); }
+
+    public List<String> getMainSkillList(){
+        return mainSkillList;
+    }
 
     public String debuggingString() {
         String result = "Skills Available:\n";

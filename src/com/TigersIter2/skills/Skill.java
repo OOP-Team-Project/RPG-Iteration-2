@@ -7,10 +7,13 @@ public abstract class Skill {
 
     protected int skillLevel;
     protected int maxLevel;
+    protected int damage;
+    protected String influenceRadiusType;
 
     public Skill() {
-        skillLevel = 0;
+        skillLevel = 1;
         maxLevel = 5;
+        damage = 0;
     }
 
     /**
@@ -39,5 +42,13 @@ public abstract class Skill {
      * method to be overridden to update skill when it levels
      */
     protected  void update(){}
+
+    public int getDamage(){
+        return damage;
+    }
+
+    public String getInfluenceRadiusType(){
+        return "none";
+    }
 
 }

@@ -1,11 +1,14 @@
 package com.TigersIter2.managers;
 
 import com.TigersIter2.entities.*;
-import com.TigersIter2.items.OneHandedWeapon;
 import com.TigersIter2.items.TakeableItem;
-import com.TigersIter2.items.RangedWeapon;
-import com.TigersIter2.items.Weapon;
+import com.TigersIter2.location.Location;
 import com.TigersIter2.location.LocationConverter;
+import com.TigersIter2.skills.Bane;
+import com.TigersIter2.skills.BindWounds;
+import com.TigersIter2.skills.Boon;
+import com.TigersIter2.skills.Enchantment;
+import com.TigersIter2.stats.NPCStatsModifier;
 import com.TigersIter2.views.FooterView;
 
 import javax.swing.*;
@@ -25,12 +28,13 @@ public class AvatarNPCInteract implements ActionListener{
     private List<String> questions;
     private List<String> originalOptions;
     private FooterView footerView;
-    private boolean talking, fighting, usingSkill, usingItem, pressContinue, trading;
+    private boolean talking, skillMain, skillSecondary, usingItem, pressContinue, trading;
     private Inventory playerSelectedInventory;
     private Inventory npcSelectedInventory;
     private boolean playerCanAttack = true;
     private Timer playerAttackTimer;
     private List<Timer> npcAttackTimers;
+    private int whichSkillSelect;
 
     public AvatarNPCInteract(Avatar a, FooterView fv){
         avatar = a;
@@ -39,8 +43,8 @@ public class AvatarNPCInteract implements ActionListener{
         npcOnTile = null;
         footerView = fv;
         talking = false;
-        fighting = false;
-        usingSkill = false;
+        skillMain = false;
+        skillSecondary = false;
         usingItem = false;
         trading = false;
         pressContinue = false;
@@ -83,106 +87,417 @@ public class AvatarNPCInteract implements ActionListener{
         }
 
         for(NPC n : npcList){
-            if(!n.getCanAttack())
+            if(!n.getCanAttack()) {
                 n.setCanAttack(true);
+            }
         }
 
     }
 
-    private boolean inRange(NPC n){
+    private boolean enemyInRange(NPC n){
         //somehow determine if npc is in range based off of direction and attack range and such
+        int xDist = Math.abs(LocationConverter.PixelLocationToHex(n.getLocation()).getX() - LocationConverter.PixelLocationToHex(avatar.getLocation()).getX());
+        int yDist = Math.abs(LocationConverter.PixelLocationToHex(n.getLocation()).getY() - LocationConverter.PixelLocationToHex(avatar.getLocation()).getY());
 
-
-        //in the meantime, just use this (since ranged attacks are not implemented yet
-        if(n == npcOnTile)
+        if(xDist <= avatar.getInfluenceRadius() && yDist <= avatar.getInfluenceRadius())
             return true;
         else
             return false;
+    }
+
+    private boolean playerInRange(NPC n){
+        //somehow determine if npc is in range based off of direction and attack range and such
+        int xDist = Math.abs(LocationConverter.PixelLocationToHex(n.getLocation()).getX() - LocationConverter.PixelLocationToHex(avatar.getLocation()).getX());
+        int yDist = Math.abs(LocationConverter.PixelLocationToHex(n.getLocation()).getY() - LocationConverter.PixelLocationToHex(avatar.getLocation()).getY());
+        if(xDist <= n.getInfluenceRadius() && yDist <= n.getInfluenceRadius())
+            return true;
+        else
+            return false;
+    }
+
+    private boolean inLinearRange(NPC npc) {
+        boolean ret = false;
+        int dir = avatar.getDirection();
+        int xDist = LocationConverter.PixelLocationToHex(npc.getLocation()).getX() - LocationConverter.PixelLocationToHex(avatar.getLocation()).getX();
+        int yDist = LocationConverter.PixelLocationToHex(npc.getLocation()).getY() - LocationConverter.PixelLocationToHex(avatar.getLocation()).getY();
+        int xTile = LocationConverter.PixelLocationToHex(npc.getLocation()).getX();
+
+        if (xDist == 0) {
+            if (yDist < 0 && dir == 90)
+                ret = true;
+            else if (yDist == 0)
+                ret = true;
+            else if (yDist > 0 && dir == 270)
+                ret = true;
+        }
+
+        if (xTile % 2 == 0) {    //Even
+            if (xDist < 0) {
+                if (yDist < 0 && dir == 135 && Math.abs(xDist / 2) == Math.abs(yDist))
+                    ret = true;
+                else if(yDist == 0 && dir == 135 && Math.abs(xDist) == Math.abs(yDist)+1)
+                    ret = true;
+                else if (yDist > 0 && dir == 225 && (Math.abs(xDist)+1) / 2 == Math.abs(yDist))
+                    ret = true;
+            }
+            else if (xDist > 0) {
+                if (yDist < 0 && dir == 45 && xDist / 2 == Math.abs(yDist))
+                    ret = true;
+                else if(yDist == 0 && dir == 45 && xDist == Math.abs(yDist)+1)
+                    ret = true;
+                else if (yDist > 0 && dir == 315 && (xDist+1) / 2 == Math.abs(yDist))
+                    ret = true;
+            }
+        }
+        else{
+            if (xDist < 0) {
+                if (yDist < 0 && dir == 135 && (Math.abs(xDist)+1) / 2 == Math.abs(yDist))
+                    ret = true;
+                else if(yDist == 0 && dir == 225 && Math.abs(xDist) == Math.abs(yDist)+1)
+                    ret = true;
+                else if (yDist > 0 && dir == 225 && Math.abs(xDist / 2) == Math.abs(yDist))
+                    ret = true;
+            }
+            else if (xDist > 0) {
+                if (yDist < 0 && dir == 45 && (xDist+1) / 2 == Math.abs(yDist))
+                    ret = true;
+                else if(yDist == 0 && dir == 315 && xDist == Math.abs(yDist)+1)
+                    ret = true;
+                else if (yDist > 0 && dir == 315 && xDist / 2 == Math.abs(yDist))
+                    ret = true;
+            }
+        }
+        return ret;
+    }
+
+    private boolean inAngularRange(NPC npc){
+        boolean ret = false;
+        int dir = avatar.getDirection();
+        int xDist = LocationConverter.PixelLocationToHex(npc.getLocation()).getX() - LocationConverter.PixelLocationToHex(avatar.getLocation()).getX();
+        int yDist = LocationConverter.PixelLocationToHex(npc.getLocation()).getY() - LocationConverter.PixelLocationToHex(avatar.getLocation()).getY();
+        int xTile = LocationConverter.PixelLocationToHex(npc.getLocation()).getX();
+        int range = avatar.getStats().getInfluenceRadius();
+
+        if(dir == 45){
+            if(xDist == 0)
+                ret = (yDist == 0);
+            else if(yDist > 0)
+                ret = false;
+            else if(xDist < 0)
+                ret = false;
+            else if(yDist == 0 && xDist < 1)
+                ret = false;
+            else if(Math.abs(yDist/xDist) <= 2 && xTile % 2 == 1 && Math.abs(xDist) <= range) {
+                if(-yDist <= range)
+                    ret = true;
+            }
+            else if(Math.abs(yDist/xDist) <= 1 && xTile % 2 == 0 && -yDist <= range && xDist <= range){
+                ret = true;
+            }
+        }
+        else if(dir == 90){
+            if(yDist == 0)
+                ret = (xDist == 0);
+            else if(yDist > 0)
+                ret = false;
+            else if(xDist == 0)
+                ret = (-yDist <= range);
+            else if(Math.abs(xDist/yDist) < 1 && xTile % 2 == 1 && Math.abs(xDist) < range) {
+                if(-yDist <= range)
+                    ret = true;
+            }
+            else if(Math.abs(xDist/yDist) <= 1 && xTile % 2 == 0 && yDist <= range && xDist < range){
+                if(Math.abs(yDist) == Math.abs(xDist) && Math.abs(yDist) > 1)
+                    ret = false;
+                else
+                    ret = true;
+            }
+        }
+
+        else if(dir == 135){
+            if(xDist == 0)
+                ret = (yDist == 0);
+            else if(yDist > 0)
+                ret = false;
+            else if(xDist > 0)
+                ret = false;
+            else if(yDist == 0 && -xDist >= 1 && xTile % 2 == 1)
+                ret = false;
+            else if(Math.abs(yDist/xDist) <= 2 && xTile % 2 == 1 && -yDist <= range ) {
+                if(-xDist <= range)
+                    ret = true;
+                else if(-xDist <= range+1 && -yDist <= 1)
+                    ret = true;
+            }
+            else if(Math.abs(yDist/xDist) <= 1 && xTile % 2 == 0 && -yDist <= range){
+                if(-xDist <= range+1 && -yDist <= 1)
+                    ret = true;
+            }
+        }
+
+        else if(dir == 270){
+            if(yDist == 0)
+                ret = (xDist == 0);
+            else if(yDist < 0)
+                ret = false;
+            else if(xDist == 0)
+                ret = (yDist <= range);
+            else if(Math.abs(xDist/yDist) < 1 && xTile % 2 == 0 && Math.abs(xDist) < range) {
+                if(yDist <= range)
+                    ret = true;
+                else if(yDist <= range+1 & Math.abs(xDist) < range-1)
+                    ret = true;
+            }
+            else if(Math.abs(xDist/yDist) <= 1 && xTile % 2 == 1 && yDist <= range && xDist < range){
+                if(Math.abs(yDist) == Math.abs(xDist) && Math.abs(yDist) > 1)
+                    ret = false;
+                else
+                    ret = true;
+            }
+        }
+
+        else if(dir == 225){
+            if(xDist == 0)
+                ret = (yDist == 0);
+            else if(yDist < 0)
+                ret = false;
+            else if(xDist > 0)
+                ret = false;
+            else if(Math.abs(yDist/xDist) <= 2 && xTile % 2 == 1 && yDist <= range ) {
+                if(-xDist <= range)
+                    ret = true;
+                else if(-xDist <= range+1 && yDist <= 1)
+                    ret = true;
+            }
+            else if(Math.abs(yDist/xDist) <= 2 && xTile % 2 == 0 && yDist <= range){
+                if(yDist == 0)
+                    ret = (-xDist > 1);
+                else if(-xDist <= range+1 && yDist <= 1)
+                    ret = true;
+                else if (-xDist <= range)
+                    ret = true;
+            }
+        }
+        if(dir == 315){
+            if(xDist == 0)
+                ret = (yDist == 0);
+            else if(yDist < 0)
+                ret = false;
+            else if(xDist < 0)
+                ret = false;
+            else if(yDist == 0 && xDist <= 1)
+                ret = false;
+            else if(Math.abs(yDist/xDist) <= 1 && xTile % 2 == 1) {
+                if(Math.abs(xDist) <= range+1 && yDist <= 1)
+                    ret = true;
+                else if(Math.abs(xDist) <= range && yDist <= range)
+                    ret = true;
+            }
+            else if(Math.abs(yDist/xDist) <= 2 && xTile % 2 == 0 && yDist <= range){
+                if(xDist <= range+1 && yDist <= 1)
+                    ret = true;
+                else if(xDist <= range)
+                        ret= true;
+            }
+        }
+
+        return ret;
+    }
+
+    private int inRadialRange(NPC npc){
+        int ret = avatar.getStats().getInfluenceRadius()+1;
+        int xDist = LocationConverter.PixelLocationToHex(npc.getLocation()).getX() - LocationConverter.PixelLocationToHex(avatar.getLocation()).getX();
+        int yDist = LocationConverter.PixelLocationToHex(npc.getLocation()).getY() - LocationConverter.PixelLocationToHex(avatar.getLocation()).getY();
+        int xTile = LocationConverter.PixelLocationToHex(npc.getLocation()).getX();
+        int range = avatar.getStats().getInfluenceRadius();
+
+        if(yDist > 0 && xTile % 2 == 1)
+            yDist += (Math.abs(xDist)+1)/2;
+        else if(yDist > 0 && xTile % 2 == 0)
+            yDist += Math.abs(xDist)/2;
+        else if(yDist < 0 && xTile % 2 == 1)
+            yDist -= (Math.abs(xDist))/2;
+        else if(yDist < 0 && xTile % 2 == 0)
+            yDist -= (Math.abs(xDist)+1)/2;
+
+        xDist = Math.abs(xDist);
+        yDist = Math.abs(yDist);
+        if(xDist <= range && yDist <= range){
+            if(xDist >= yDist)
+                ret = xDist;
+            else
+                ret = yDist;
+        }
+        return ret;
+    }
+
+    private int withinInfluenceRadius(String type, NPC npc){
+        if(enemyInRange(npc)) {
+            if (type.equals("linear") && inLinearRange(npc))
+                return 0;
+            else if (type.equals("angular") && inAngularRange(npc))
+                return 0;
+            else if (type.equals("radial"))
+                return inRadialRange(npc);
+            else
+                return -1;
+        }
+        else
+            return -1;
     }
 
     public void attack(){
         //NEED SOME SORT OF TIMING FOR THIS METHOD
         if(playerCanAttack) {
             playerCanAttack = false;
-            Random rand = new Random();
-            int attackAttempts = avatar.getStats().getOffensiveRating() / 2 + 1;
-            int randNumMax;
             //Check your position/direction/range against the NPC's in the list
             Iterator<NPC> iter = npcList.iterator();
             while (iter.hasNext()) {
                 NPC npc = iter.next();
-                if (inRange(npc)) {
-                    //Take stats into account
-                    randNumMax = npc.getStats().getDefensiveRating() + npc.getStats().getArmor();
-                    int numToHit = rand.nextInt(randNumMax);
-                    boolean hit = false;
-                    while (!hit && attackAttempts > 0) {
-                        --attackAttempts;
-                        if (rand.nextInt(randNumMax) == numToHit)
-                            hit = true;
-                    }
-
-                    if (hit) {
-
-                        //Take skills into account
-                        //int damage = rand.nextInt(getActiveSkill().getSkillLevel());
-                        //Will be slightly different than this based on which type of weapon is being used
-
-
-                        //TESTING
-                        int damage = rand.nextInt(20);
-                        //END TESTING
-
-                        npc.getStats().decreaseCurrentLife(damage);
-                        System.out.println("Dealt " + damage + " damage");
-                        System.out.println(npc.getStats().getCurrentLife() + "/" + npc.getStats().getLife());
-                        if (npc.isAlive()) {
-                            //NEED SOME WAY OF TIMING THIS
-                            retaliate(npc);
+                if(npc.isAlive()) {
+                    if (enemyInRange(npc)) {
+                        String weaponType = avatar.getWeaponType();
+                        if (weaponType.equals("none")) {
+                            System.out.println("Not holding a weapon, can't attack");
+                        } else if (weaponType.equals("RangedWeapon")) {
+                            // Ranged attack
+                            if (inLinearRange(npc))
+                                attackEnemy(npc);
                         } else {
-                            System.out.println("You killed the NPC!");
-                            iter.remove();
+                            // Melee attack
+                            attackEnemy(npc);
                         }
-
-                    } else
-                        System.out.println("MISS!");
+                    }
                 }
             }
         }
     }
 
-    private void retaliate(NPC npc){
-        if(npc.getCanAttack()) {
-            npc.setCanAttack(false);
-            Random rand = new Random();
-            int attackAttempts = npc.getStats().getOffensiveRating() / 2 + 1;
-            int randNumMax = avatar.getStats().getDefensiveRating() + avatar.getStats().getArmor();
-            int numToHit = rand.nextInt(randNumMax);
-            boolean hit = false;
-            while (!hit && attackAttempts > 0) {
-                --attackAttempts;
-                if (rand.nextInt(randNumMax) == numToHit)
-                    hit = true;
-            }
+    private void useBoon(String spellName){
+        ((Boon)avatar.getSkills().getSkill(spellName)).activate();
+    }
 
-            if (hit) {
+    private void useEnchantment(String spellName){
+        if(playerCanAttack) {
+            playerCanAttack = false;
+            //Check your position/direction/range against the NPC's in the list
+            Iterator<NPC> iter = npcList.iterator();
+            while (iter.hasNext()) {
+                NPC npc = iter.next();
+                if(npc.isAlive()) {
+                    if(withinInfluenceRadius(avatar.getSkills().getSkill(spellName).getInfluenceRadiusType(), npc) > -1){
+                    Enchantment spell = (Enchantment)avatar.getSkills().getSkill(spellName);
+                    NPCStatsModifier nsm = spell.getStatModifier();
+                    if(nsm.isEmpty())
+                        npc.setWillAttack(true);
+                    else
+                        npc.getStats().addStatModifier(nsm);
+                }
 
-                //Take skills into account
-                //int damage = rand.nextInt(getActiveSkill().getSkillLevel());
-                //Will be slightly different than this based on which type of weapon is being used
-
-
-                //TESTING
-                int damage = rand.nextInt(20);
-                System.out.println("You lost " + damage + " health!");
-                //END TESTING
-
-                avatar.getStats().decreaseCurrentLife(damage);
-                if (avatar.getStats().getCurrentLife() <= 0)
-                    System.out.println("You died!!");
-
+                }
             }
         }
+    }
+
+    private void useBane(String spellName){
+        if(playerCanAttack) {
+            playerCanAttack = false;
+            //Check your position/direction/range against the NPC's in the list
+            Iterator<NPC> iter = npcList.iterator();
+            while (iter.hasNext()) {
+                NPC npc = iter.next();
+                if(npc.isAlive()) {
+                    int radialRing;
+                    if((radialRing = (withinInfluenceRadius(avatar.getSkills().getSkill(spellName).getInfluenceRadiusType(), npc))) > -1) {
+                        int damage = avatar.getSkills().getSkill(spellName).getDamage() - npc.getStats().getDefensiveRating() + npc.getStats().getArmorRating();
+                        damage = damage - (radialRing * (damage/(avatar.getInfluenceRadius()+1)));     //Accounts for lessening damage the farther from center you go
+                        Random rand = new Random();
+                        if (damage > 0) {
+                            damage = rand.nextInt(damage);
+                            npc.getStats().decreaseCurrentLife(damage);
+                            System.out.println("Dealt " + damage + " damage");
+                        } else {
+                            System.out.println("MISS");
+                        }
+                        System.out.println(npc.getStats().getCurrentLife() + "/" + npc.getStats().getLife());
+
+                        if (npc.isAlive()) {
+                            retaliate(npc);
+                        } else {
+                            killNPC(npc);
+                            resetOptions();
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+
+    private void attackEnemy(NPC npc){
+        String weaponType = avatar.getWeaponType();
+        Random rand = new Random();
+        int damage = avatar.getSkills().getSkill(weaponType).getDamage() - npc.getStats().getDefensiveRating() + npc.getStats().getArmorRating();
+        if (damage > 0) {
+            damage = rand.nextInt(damage);
+            npc.getStats().decreaseCurrentLife(damage);
+            System.out.println("Dealt " + damage + " damage");
+        } else {
+            System.out.println("MISS");
+        }
+        System.out.println(npc.getStats().getCurrentLife() + "/" + npc.getStats().getLife());
+
+        if (npc.isAlive()) {
+            retaliate(npc);
+        } else {
+            killNPC(npc);
+            resetOptions();
+        }
+    }
+
+    private void retaliate(NPC npc){
+        if(npc.getCanAttack()) {
+            if(playerInRange(npc)) {
+                footerView.setDisplay(false);
+                footerView.setTradingView(false);
+                avatar.setTrading(trading);
+                npc.setWillAttack(true);
+                npc.setCanAttack(false);
+                Random rand = new Random();
+                int attackAttempts = npc.getStats().getOffensiveRating() / 2 + 1;
+                int randNumMax = avatar.getStats().getDefensiveRating() + avatar.getStats().getArmor() + 1;
+                int numToHit = rand.nextInt(randNumMax);
+                boolean hit = false;
+                while (!hit && attackAttempts > 1) {
+                    --attackAttempts;
+                    if (rand.nextInt(attackAttempts) == numToHit)
+                        hit = true;
+                }
+
+                if (hit) {
+                    //TESTING
+                    int damage = rand.nextInt(npc.getStats().getOffensiveRating() + 1);
+                    System.out.println("You lost " + damage + " health!");
+                    //END TESTING
+
+                    avatar.getStats().decreaseCurrentLife(damage);
+                    if (avatar.getStats().getCurrentLife() <= 0)
+                        System.out.println("You died!!");
+
+                } else
+                    System.out.println("NPC missed!");
+            }
+        }
+    }
+
+    private void killNPC(NPC npc){
+        System.out.println("You killed the NPC!");
+
+        avatar.getStats().addExperience(npc.getStats().getLife());
+        npc.dropItems();
+        avatar.setOnTileWithNPC(false);
+        npc.setOnTileWithAvatar(false);
+        resetOptions();
     }
 
     public void addVehicle(Vehicle v){
@@ -224,10 +539,8 @@ public class AvatarNPCInteract implements ActionListener{
             if (avatar.getOnTileWithNPC()) {
                 if (talking) {
                     haveConversation(selected);
-                } else if (fighting) {
-                    attack();
-                } else if (usingSkill) {
-
+                } else if (skillMain || skillSecondary) {
+                    chooseSkills(selected);
                 } else if (usingItem) {
 
                 } else if (selected == 1) {
@@ -243,10 +556,9 @@ public class AvatarNPCInteract implements ActionListener{
                         retaliate(npcOnTile);
                     }
                 } else if (selected == 2) {
-                    //Player attacks NPC
                     attack();
                 } else if (selected == 3) {
-                    //Use Skill
+                    drawSkillMenu();
                 } else if (selected == 4) {
                     //Use Item
                 } else if (selected == 100) {
@@ -316,17 +628,21 @@ public class AvatarNPCInteract implements ActionListener{
         m.getStats().setHardiness(20);
         m.getStats().setArmor(3);
         m.getStats().setStrength(13);
-        m.getStats().setAttack(12);
+        m.getStats().setAttack(20);
+        m.setAttackTime(1000);
         //END TESTING
 
         npcList.add(m);
+        Timer t = new Timer(m.getAttackTime(), this);
+        npcAttackTimers.add(t);
+        t.start();
     }
 
     public void addVillager(List<String> p, boolean talk, boolean trade, boolean attack){
         NPC v = new Villager(p, talk, trade, attack);
-        v.getInventory().addItem(new OneHandedWeapon("Sword",5));
+        //v.getInventory().addItem(new OneHandedWeaponItem("Sword",5));
         npcList.add(v);
-        v.getLocation().setX(avatar.getLocation().getX());
+        v.getLocation().setX(avatar.getLocation().getX()-50);
         v.getLocation().setY(avatar.getLocation().getY());
     }
 
@@ -336,29 +652,31 @@ public class AvatarNPCInteract implements ActionListener{
 
     public void checkTile(){
         for(NPC n : npcList){
-            if(LocationConverter.PixelLocationToHex(n.getLocation()).getX() == LocationConverter.PixelLocationToHex(avatar.getLocation()).getX() &&
-               LocationConverter.PixelLocationToHex(n.getLocation()).getY() == LocationConverter.PixelLocationToHex(avatar.getLocation()).getY())
-            {
-                if(!avatar.getOnTileWithNPC()) {
-                    avatar.setOnTileWithNPC(true);
-                    npcOnTile = n;
-                    npcOnTile.setOnTileWithAvatar(true);
-                    if(npcOnTile.willTalk() || npcOnTile.willTrade()) {
-                        footerView.setDisplay(true);
-                        footerView.setType(0);
-                        footerView.setMenuOptions(originalOptions);
+            if(n.isAlive()) {
+                if (LocationConverter.PixelLocationToHex(n.getLocation()).getX() == LocationConverter.PixelLocationToHex(avatar.getLocation()).getX() &&
+                        LocationConverter.PixelLocationToHex(n.getLocation()).getY() == LocationConverter.PixelLocationToHex(avatar.getLocation()).getY()) {
+                    if (!avatar.getOnTileWithNPC()) {
+                        avatar.setOnTileWithNPC(true);
+                        npcOnTile = n;
+                        npcOnTile.setOnTileWithAvatar(true);
+                        if (npcOnTile.willTalk() || npcOnTile.willTrade()) {
+                            footerView.setDisplay(true);
+                            footerView.setType(0);
+                            footerView.setMenuOptions(originalOptions);
+                        }
                     }
-                    else if(npcOnTile.willAttack()){
-                        //NPC attacks player
-                        retaliate(npcOnTile);
+
+                } else if (avatar.getOnTileWithNPC()) {
+                    if (n.getOnTileWithAvatar()) {
+                        n.setOnTileWithAvatar(false);
+                        resetOptions();
                     }
                 }
-            }
-            else if(avatar.getOnTileWithNPC()){
-                 if(n.getOnTileWithAvatar()){
-                     n.setOnTileWithAvatar(false);
-                     resetOptions();
-                 }
+
+                if (n.willAttack()) {
+                    //NPC attacks player
+                    retaliate(n);
+                }
             }
         }
     }
@@ -419,6 +737,108 @@ public class AvatarNPCInteract implements ActionListener{
         }
     }
 
+    private void drawSkillMenu(){
+        footerView.setType(0);
+        List<String> skillList = new ArrayList<String>();
+        skillList.add("Bind wounds");
+        skillList.add("Observe");
+        for(String skill : avatar.getSkills().getMainSkillList())
+            skillList.add(skill);
+        footerView.setMenuOptions(skillList);
+        skillMain = true;
+    }
+
+    private void chooseSkills(int selected){
+        if(skillMain){
+            if(selected == 1){
+                ((BindWounds)avatar.getSkills().getSkill("BindWounds")).activate();
+                //resetOptions();
+            }
+            else if(selected == 2){
+                //observe()
+            }
+            else if(selected == 3){
+                if(avatar.getOccupation().toString().equals("Summoner")){
+                    footerView.setType(0);
+                    List<String> skillList = new ArrayList<String>();
+                    skillList.add("Fire Shot");
+                    skillList.add("Fire Blast");
+                    skillList.add("Fire Storm");
+                    footerView.setMenuOptions(skillList);
+                    skillSecondary = true;
+                    skillMain = false;
+                    whichSkillSelect = 0;
+                }
+                else if(avatar.getOccupation().toString().equals("Sneak")){
+                    //pickpocket()
+                }
+            }
+            else if(selected == 4){
+                if(avatar.getOccupation().toString().equals("Summoner")){
+                    footerView.setType(0);
+                    List<String> skillList = new ArrayList<String>();
+                    skillList.add("Boon Hardiness");
+                    skillList.add("Boon Health");
+                    skillList.add("Boon Intellect");
+                    footerView.setMenuOptions(skillList);
+                    skillSecondary = true;
+                    skillMain = false;
+                    whichSkillSelect = 1;
+                }
+                else if(avatar.getOccupation().toString().equals("Sneak")){
+                    //creep()
+                }
+            }
+            else if(selected == 5){
+                if(avatar.getOccupation().toString().equals("Summoner")){
+                    footerView.setType(0);
+                    List<String> skillList = new ArrayList<String>();
+                    skillList.add("Enchanting Shot");
+                    skillList.add("Enchanting Blast");
+                    skillList.add("Enchanting Storm");
+                    footerView.setMenuOptions(skillList);
+                    skillSecondary = true;
+                    skillMain = false;
+                    whichSkillSelect = 2;
+                }
+            }
+            else if (selected == 100) {
+                resetOptions();
+            }
+        }
+        else{
+            if(selected == 100){
+                skillSecondary = false;
+                skillMain = true;
+                drawSkillMenu();
+            }
+            if(whichSkillSelect == 0){
+                if(selected == 1)
+                    useBane("FireShot");
+                else if(selected == 2)
+                    useBane("FireBlast");
+                else if(selected == 3)
+                    useBane("FireStorm");
+            }
+            else if(whichSkillSelect == 1){
+                if(selected == 1)
+                    useBoon("BoonHardiness");
+                else if(selected == 2)
+                    useBoon("BoonHealth");
+                else if(selected == 3)
+                    useBoon("BoonIntellect");
+            }
+            else if(whichSkillSelect == 2){
+                if(selected == 1)
+                    useEnchantment("EnchantingShot");
+                else if(selected == 2)
+                    useEnchantment("EnchantingBlast");
+                else if(selected == 3)
+                    useEnchantment("EnchantingStorm");
+            }
+        }
+    }
+
     private void clearSelectedInventories(){
         npcSelectedInventory.clearInventory();
         playerSelectedInventory.clearInventory();
@@ -429,8 +849,7 @@ public class AvatarNPCInteract implements ActionListener{
         npcOnTile = null;
         footerView.setDisplay(false);
         talking = false;
-        fighting = false;
-        usingSkill = false;
+        skillMain = false;
         usingItem = false;
         trading = false;
         pressContinue = false;
