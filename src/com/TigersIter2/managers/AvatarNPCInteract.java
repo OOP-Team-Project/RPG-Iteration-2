@@ -101,56 +101,125 @@ public class AvatarNPCInteract implements ActionListener{
         //somehow determine if npc is in range based off of direction and attack range and such
         int xDist = Math.abs(LocationConverter.PixelLocationToHex(n.getLocation()).getX() - LocationConverter.PixelLocationToHex(avatar.getLocation()).getX());
         int yDist = Math.abs(LocationConverter.PixelLocationToHex(n.getLocation()).getY() - LocationConverter.PixelLocationToHex(avatar.getLocation()).getY());
-        System.out.println(xDist + ", " + yDist + ", " + n.getInfluenceRadius());
         if(xDist <= n.getInfluenceRadius() && yDist <= n.getInfluenceRadius())
             return true;
         else
             return false;
     }
 
+    private boolean enemyInLine(NPC npc) {
+        boolean ret = false;
+        int dir = avatar.getDirection();
+        int xDist = LocationConverter.PixelLocationToHex(npc.getLocation()).getX() - LocationConverter.PixelLocationToHex(avatar.getLocation()).getX();
+        int yDist = LocationConverter.PixelLocationToHex(npc.getLocation()).getY() - LocationConverter.PixelLocationToHex(avatar.getLocation()).getY();
+        int xTile = LocationConverter.PixelLocationToHex(npc.getLocation()).getX();
+
+        if (xDist == 0) {
+            if (yDist < 0 && dir == 90)
+                ret = true;
+            else if (yDist == 0)
+                ret = true;
+            else if (yDist > 0 && dir == 270)
+                ret = true;
+        }
+
+        if (xTile % 2 == 0) {    //Even
+            if (xDist < 0) {
+                if (yDist < 0 && dir == 135 && Math.abs(xDist / 2) == Math.abs(yDist))
+                    ret = true;
+                else if(yDist == 0 && dir == 135 && Math.abs(xDist) == Math.abs(yDist)+1)
+                    ret = true;
+                else if (yDist > 0 && dir == 225 && (Math.abs(xDist)+1) / 2 == Math.abs(yDist))
+                    ret = true;
+            }
+            else if (xDist > 0) {
+                if (yDist < 0 && dir == 45 && xDist / 2 == Math.abs(yDist))
+                    ret = true;
+                else if(yDist == 0 && dir == 45 && xDist == Math.abs(yDist)+1)
+                    ret = true;
+                else if (yDist > 0 && dir == 315 && (xDist+1) / 2 == Math.abs(yDist))
+                    ret = true;
+            }
+        }
+        else{
+            if (xDist < 0) {
+                if (yDist < 0 && dir == 135 && (Math.abs(xDist)+1) / 2 == Math.abs(yDist))
+                    ret = true;
+                else if(yDist == 0 && dir == 225 && Math.abs(xDist) == Math.abs(yDist)+1)
+                    ret = true;
+                else if (yDist > 0 && dir == 225 && Math.abs(xDist / 2) == Math.abs(yDist))
+                    ret = true;
+            }
+            else if (xDist > 0) {
+                if (yDist < 0 && dir == 45 && (xDist+1) / 2 == Math.abs(yDist))
+                    ret = true;
+                else if(yDist == 0 && dir == 315 && xDist == Math.abs(yDist)+1)
+                    ret = true;
+                else if (yDist > 0 && dir == 315 && xDist / 2 == Math.abs(yDist))
+                    ret = true;
+            }
+        }
+        System.out.println(ret);
+        return ret;
+    }
+
+
     public void attack(){
         //NEED SOME SORT OF TIMING FOR THIS METHOD
         if(playerCanAttack) {
             playerCanAttack = false;
-            Random rand = new Random();
             //Check your position/direction/range against the NPC's in the list
             Iterator<NPC> iter = npcList.iterator();
             while (iter.hasNext()) {
                 NPC npc = iter.next();
                 if (playerInRange(npc)) {
                     String weaponType = avatar.getWeaponType();
-                    if(!weaponType.equals("none")) {
-                        int damage = avatar.getSkills().getSkill(weaponType).getDamage() - npc.getStats().getDefensiveRating() + npc.getStats().getArmorRating();
-                        if (damage > 0) {
-                            damage = rand.nextInt(damage);
-                            npc.getStats().decreaseCurrentLife(damage);
-                            System.out.println("Dealt " + damage + " damage");
-                        } else {
-                            System.out.println("MISS");
-                        }
-                        System.out.println(npc.getStats().getCurrentLife() + "/" + npc.getStats().getLife());
-
-                        if (npc.isAlive()) {
-                            retaliate(npc);
-                        } else {
-                            killNPC(npc);
-                            resetOptions();
+                    if(weaponType.equals("none")){
+                        System.out.println("Not holding a weapon, can't attack");
+                    }
+                    else if(weaponType.equals("RangedWeapon")){
+                        // Ranged attack
+                        if(enemyInLine(npc)){
+                            // Melee attack
+                            attackEnemy(npc);
                         }
                     }
-                    else
-                        System.out.println("Not holding a weapon, can't attack");
+                    else{
+                        attackEnemy(npc);
+                    }
                 }
             }
         }
     }
 
+    private void attackEnemy(NPC npc){
+        String weaponType = avatar.getWeaponType();
+        Random rand = new Random();
+        int damage = avatar.getSkills().getSkill(weaponType).getDamage() - npc.getStats().getDefensiveRating() + npc.getStats().getArmorRating();
+        if (damage > 0) {
+            damage = rand.nextInt(damage);
+            npc.getStats().decreaseCurrentLife(damage);
+            System.out.println("Dealt " + damage + " damage");
+        } else {
+            System.out.println("MISS");
+        }
+        System.out.println(npc.getStats().getCurrentLife() + "/" + npc.getStats().getLife());
+
+        if (npc.isAlive()) {
+            retaliate(npc);
+        } else {
+            killNPC(npc);
+            resetOptions();
+        }
+    }
+
     private void retaliate(NPC npc){
-        footerView.setDisplay(false);
-        footerView.setTradingView(false);
-        avatar.setTrading(trading);
-        npc.setWillAttack(true);
         if(npc.getCanAttack()) {
             if(npcInRange(npc)) {
+                footerView.setDisplay(false);
+                footerView.setTradingView(false);
+                avatar.setTrading(trading);
+                npc.setWillAttack(true);
                 npc.setCanAttack(false);
                 Random rand = new Random();
                 int attackAttempts = npc.getStats().getOffensiveRating() / 2 + 1;
@@ -330,7 +399,7 @@ public class AvatarNPCInteract implements ActionListener{
         NPC v = new Villager(p, talk, trade, attack);
         //v.getInventory().addItem(new OneHandedWeaponItem("Sword",5));
         npcList.add(v);
-        v.getLocation().setX(avatar.getLocation().getX());
+        v.getLocation().setX(avatar.getLocation().getX()-50);
         v.getLocation().setY(avatar.getLocation().getY());
     }
 
