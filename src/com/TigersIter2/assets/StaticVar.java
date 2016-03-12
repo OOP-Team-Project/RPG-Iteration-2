@@ -6,7 +6,8 @@ import java.awt.*;
 public class StaticVar {
 
     //maps and respective names
-    public static String map1 = "res/savefiles/maps/terrainMap.txt";
+    public static String map1 = "res/saveFiles/terrainMap.txt";
+    public static String avatarFile = "res/saveFiles/avatar.txt";
 
     public static final int gameHeight = 720;//720;
     public static final int gameWidth = 1280;//1280;
@@ -52,6 +53,11 @@ public class StaticVar {
     public static final int grass = 1;
     public static final int water = 2;
     public static final int mountain = 3;
+
+    //avatarLoading stuff
+    public static final int smasher = 1;
+    public static final int summoner = 2;
+    public static final int sneak = 3;
 
 
     public static enum mapMode {

@@ -5,9 +5,13 @@ import java.awt.event.*;
 import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
 import java.awt.image.BufferStrategy;
+import java.util.Arrays;
+
+import com.TigersIter2.assets.FileWriter;
 import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.managers.StateManager;
 import javax.swing.*;
+
 
 //contains main method, kicks off everything
 public class RunGame extends JFrame {
@@ -41,6 +45,9 @@ public class RunGame extends JFrame {
         stateManager = new StateManager();
         this.getContentPane().add(stateManager);
         this.setVisible(true);
+
+        FileWriter.stringToFile(StaticVar.avatarFile,FileWriter.intToString(5)+"\n"+FileWriter.intToString(-1));
+
 
     }
 
