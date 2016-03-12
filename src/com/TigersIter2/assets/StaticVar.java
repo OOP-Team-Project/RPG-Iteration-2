@@ -40,7 +40,8 @@ public class StaticVar {
     public static final int monsterImageWidth = 100;
     public static final int itemImageHeight = 100;
     public static final int itemImageWidth = 100;
-
+    public static final int petImageHeight = 100;
+    public static final int petImageWidth = 100;
 
     //MapView Conventional Stuff (Miles)
     public static final int xTilesFromEdge = 9; //8

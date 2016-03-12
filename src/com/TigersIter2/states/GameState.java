@@ -34,6 +34,7 @@ public class GameState extends State {
 
     //Views
     private AvatarView avatarView;
+    private PetView petView;
     private MapView mapView;
     private AreaView areaView;
     private List<VehicleView> vehicleViews;
@@ -119,8 +120,10 @@ public class GameState extends State {
         VillagerSprite.init();
         MonsterSprite.init();
         ItemSprite.init();
+        PetSprite.init();
 
         avatarView = new AvatarView(avatar);
+        petView = new PetView(pet, avatar, map);
         statusView = new StatusView(avatar);
         for(Vehicle vv : ant.getVehicleList()) {
             vehicleViews.add(new VehicleView(vv, avatar, map));
@@ -133,7 +136,7 @@ public class GameState extends State {
         }
 
         mapView = new MapView(map, avatar);
-        areaView =  new AreaView(mapView,avatarView, vehicleViews, footerView, statusView, npcViews, controlView, itemViews);
+        areaView =  new AreaView(mapView,avatarView, petView, vehicleViews, footerView, statusView, npcViews, controlView, itemViews);
 
 
         this.add(areaView);

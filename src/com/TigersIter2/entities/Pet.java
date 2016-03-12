@@ -11,6 +11,8 @@ public class Pet extends Entity {
     private String name;
     private Avatar avatar; //needs a handle to avatar for location
     private Location location;
+    private Location pixelLocation;
+    private int direction;
 
     public Pet(String n, Avatar avatar){
         name = n;
@@ -18,17 +20,45 @@ public class Pet extends Entity {
         //sets the location of the Pet to be next to the avatar
         int avatarXLocation = avatar.getLocation().getX();
         int avatarYLocation = avatar.getLocation().getY();
-        this.location = new Location(avatarXLocation+100, avatarYLocation-100, 0);
+        this.location = new Location(avatarXLocation, avatarYLocation, 0);
+        this.pixelLocation = location;
     }
 
     @Override
     public void update(int xMovement, int yMovement, long elapsed) {
-        location.incrementX(Math.round(xMovement * elapsed * StaticVar.entitySpeed * avatar.getStats().getMovement()));   //Made it invariant of framerate
-        location.incrementY(Math.round(yMovement * elapsed * StaticVar.entitySpeed * avatar.getStats().getMovement()));
-
+        //checks to see if avatar is currently moving
+        if(avatar.isCurrentlyMoving()) {
+            //made the Pet the same speed as the avatar
+            location.incrementX(Math.round(xMovement * elapsed * StaticVar.entitySpeed * avatar.getStats().getMovement()));
+            location.incrementY(Math.round(yMovement * elapsed * StaticVar.entitySpeed * avatar.getStats().getMovement()));
+            changeDirection(xMovement, yMovement);
+        }
     }
 
     public int getDirection(){
-        return 0;   //until direction is implemented
+        return direction;
+    }
+
+    public Location getPixelLocation() { return pixelLocation; }
+
+    public void changeDirection(int x, int y) {
+        if(x == 0){
+            if(y > 0)
+                direction = 270;
+            else if(y < 0)
+                direction = 90;
+        }
+        else if(x > 0){
+            if(y > 0)
+                direction = 315;
+            else if(y < 0)
+                direction = 45;
+        }
+        else{
+            if(y > 0)
+                direction = 225;
+            else if(y < 0)
+                direction = 135;
+        }
     }
 }
