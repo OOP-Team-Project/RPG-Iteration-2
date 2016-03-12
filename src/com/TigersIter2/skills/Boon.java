@@ -24,7 +24,6 @@ public class Boon extends Skill {
      * base improvements while skill is actuve
      */
     private final int BASE_HEAL = 20;
-    private final int BASE_MANA = 10;
     private final int BASE_HARDINESS = 2;
     private final long LENGTH = 30000;
     private final int MANA_COST = 5;
@@ -33,7 +32,6 @@ public class Boon extends Skill {
      * level bonuses
      */
     private final int HEAL_LEVEL_MULTIPLIER = 15;
-    private final int MANA_LEVEL_MULTIPLIER = 10;
     private final int HARDINESS_LEVEL_MULTIPLIER = 1;
     private final int MANA_COST_LEVEL_MULTIPLIER = 1;
     private final long LENGTH_LEVEL_MULTIPLIER = 50000;
@@ -91,17 +89,23 @@ public class Boon extends Skill {
         else if(boonSelect == 2){
             derivedHealed = BASE_HEAL + (skillLevel - 1) * HEAL_LEVEL_MULTIPLIER;
         }
-        if(playerStats.getCurrentMana() >= manaCost)
+        if(playerStats.getCurrentMana() >= manaCost) {
             playerStats.decreaseCurrentMana(manaCost);
-        if ( skillLevel > 0 && Math.random() < probability) {
-            playerStats.increaseCurrentLife(derivedHealed);
-            derivedHealed = 0;
-            if (!active) {
-                //adds a statmodifier and starts a timer to remove it
-                playerStats.addStatModifier(sm);
-                timer.schedule(new TimedSkill(), LENGTH + skillLevel * LENGTH_LEVEL_MULTIPLIER);
+            if (skillLevel > 0 && Math.random() < probability) {
+                playerStats.increaseCurrentLife(derivedHealed);
+                derivedHealed = 0;
+                if (!active) {
+                    //adds a statmodifier and starts a timer to remove it
+                    playerStats.addStatModifier(sm);
+                    timer.schedule(new TimedSkill(), LENGTH + skillLevel * LENGTH_LEVEL_MULTIPLIER);
+                }
+                System.out.println("Booned your stats");
+                return true;
             }
-            return true;
+            else {
+                System.out.println("Failed to boon your stats");
+                return false;
+            }
         }
         else{
             System.out.println("Failed to boon your stats");

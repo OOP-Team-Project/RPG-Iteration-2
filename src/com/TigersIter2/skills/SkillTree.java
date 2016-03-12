@@ -5,9 +5,7 @@ import com.TigersIter2.entities.Sneak;
 import com.TigersIter2.entities.Summoner;
 import com.TigersIter2.stats.PlayerStats;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Magic_Buddha on 3/3/2016.
@@ -19,6 +17,7 @@ public class SkillTree {
      */
     private Map<String,Skill> skills;
     private PlayerStats playerStats;
+    private List<String> mainSkillList = new ArrayList<String>();
 
     /**
      * makes a skill tree depending on the entity type by first building
@@ -73,6 +72,9 @@ public class SkillTree {
         skills.put("FireBlast", new FireBlast(playerStats));
         skills.put("FireStorm", new FireStorm(playerStats));
         skills.put("Staff", new Staff(playerStats));
+        mainSkillList.add("Bane Spells");
+        mainSkillList.add("Boon Spells");
+        mainSkillList.add("Enchantment Spells");
     }
 
     /**
@@ -83,6 +85,8 @@ public class SkillTree {
         skills.put("DetectRemoveTrap", new DetectRemoveTrap());
         skills.put("Creep", new Creep(playerStats));
         skills.put("RangedWeapon", new RangedWeapon(playerStats));
+        mainSkillList.add("Pick-pocket");
+        mainSkillList.add("Creep");
     }
 
     /**
@@ -141,6 +145,10 @@ public class SkillTree {
     }
 
     public Skill getSkill(String skillName) { return skills.get(skillName); }
+
+    public List<String> getMainSkillList(){
+        return mainSkillList;
+    }
 
     public String debuggingString() {
         String result = "Skills Available:\n";

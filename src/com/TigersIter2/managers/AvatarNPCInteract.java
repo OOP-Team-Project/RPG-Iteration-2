@@ -5,6 +5,7 @@ import com.TigersIter2.items.TakeableItem;
 import com.TigersIter2.location.Location;
 import com.TigersIter2.location.LocationConverter;
 import com.TigersIter2.skills.Bane;
+import com.TigersIter2.skills.BindWounds;
 import com.TigersIter2.skills.Boon;
 import com.TigersIter2.skills.Enchantment;
 import com.TigersIter2.stats.NPCStatsModifier;
@@ -27,12 +28,13 @@ public class AvatarNPCInteract implements ActionListener{
     private List<String> questions;
     private List<String> originalOptions;
     private FooterView footerView;
-    private boolean talking, usingSkill, usingItem, pressContinue, trading;
+    private boolean talking, skillMain, skillSecondary, usingItem, pressContinue, trading;
     private Inventory playerSelectedInventory;
     private Inventory npcSelectedInventory;
     private boolean playerCanAttack = true;
     private Timer playerAttackTimer;
     private List<Timer> npcAttackTimers;
+    private int whichSkillSelect;
 
     public AvatarNPCInteract(Avatar a, FooterView fv){
         avatar = a;
@@ -41,7 +43,8 @@ public class AvatarNPCInteract implements ActionListener{
         npcOnTile = null;
         footerView = fv;
         talking = false;
-        usingSkill = false;
+        skillMain = false;
+        skillSecondary = false;
         usingItem = false;
         trading = false;
         pressContinue = false;
@@ -362,9 +365,7 @@ public class AvatarNPCInteract implements ActionListener{
                                 attackEnemy(npc);
                         } else {
                             // Melee attack
-                            //attackEnemy(npc);
-
-                            useBoon("BoonHardiness", npc);
+                            attackEnemy(npc);
                         }
                     }
                 }
@@ -372,41 +373,63 @@ public class AvatarNPCInteract implements ActionListener{
         }
     }
 
-    private void useBoon(String spellName, NPC npc){
+    private void useBoon(String spellName){
         ((Boon)avatar.getSkills().getSkill(spellName)).activate();
     }
 
-    private void useEnchantment(String spellName, NPC npc){
-        if(withinInfluenceRadius(avatar.getSkills().getSkill(spellName).getInfluenceRadiusType(), npc) > -1){
-            Enchantment spell = (Enchantment)avatar.getSkills().getSkill(spellName);
-            NPCStatsModifier nsm = spell.getStatModifier();
-            if(nsm.isEmpty())
-                npc.setWillAttack(true);
-            else
-                npc.getStats().addStatModifier(nsm);
+    private void useEnchantment(String spellName){
+        if(playerCanAttack) {
+            playerCanAttack = false;
+            //Check your position/direction/range against the NPC's in the list
+            Iterator<NPC> iter = npcList.iterator();
+            while (iter.hasNext()) {
+                NPC npc = iter.next();
+                if(npc.isAlive()) {
+                    if(withinInfluenceRadius(avatar.getSkills().getSkill(spellName).getInfluenceRadiusType(), npc) > -1){
+                    Enchantment spell = (Enchantment)avatar.getSkills().getSkill(spellName);
+                    NPCStatsModifier nsm = spell.getStatModifier();
+                    if(nsm.isEmpty())
+                        npc.setWillAttack(true);
+                    else
+                        npc.getStats().addStatModifier(nsm);
+                }
+
+                }
+            }
         }
     }
 
-    private void useBane(String spellName, NPC npc){
-        int radialRing;
-        if((radialRing = (withinInfluenceRadius(avatar.getSkills().getSkill(spellName).getInfluenceRadiusType(), npc))) > -1) {
-            int damage = avatar.getSkills().getSkill(spellName).getDamage() - npc.getStats().getDefensiveRating() + npc.getStats().getArmorRating();
-            damage = damage - (radialRing * (damage/(avatar.getInfluenceRadius()+1)));     //Accounts for lessening damage the farther from center you go
-            Random rand = new Random();
-            if (damage > 0) {
-                damage = rand.nextInt(damage);
-                npc.getStats().decreaseCurrentLife(damage);
-                System.out.println("Dealt " + damage + " damage");
-            } else {
-                System.out.println("MISS");
-            }
-            System.out.println(npc.getStats().getCurrentLife() + "/" + npc.getStats().getLife());
+    private void useBane(String spellName){
+        if(playerCanAttack) {
+            playerCanAttack = false;
+            //Check your position/direction/range against the NPC's in the list
+            Iterator<NPC> iter = npcList.iterator();
+            while (iter.hasNext()) {
+                NPC npc = iter.next();
+                if(npc.isAlive()) {
+                    int radialRing;
+                    if((radialRing = (withinInfluenceRadius(avatar.getSkills().getSkill(spellName).getInfluenceRadiusType(), npc))) > -1) {
+                        int damage = avatar.getSkills().getSkill(spellName).getDamage() - npc.getStats().getDefensiveRating() + npc.getStats().getArmorRating();
+                        damage = damage - (radialRing * (damage/(avatar.getInfluenceRadius()+1)));     //Accounts for lessening damage the farther from center you go
+                        Random rand = new Random();
+                        if (damage > 0) {
+                            damage = rand.nextInt(damage);
+                            npc.getStats().decreaseCurrentLife(damage);
+                            System.out.println("Dealt " + damage + " damage");
+                        } else {
+                            System.out.println("MISS");
+                        }
+                        System.out.println(npc.getStats().getCurrentLife() + "/" + npc.getStats().getLife());
 
-            if (npc.isAlive()) {
-                retaliate(npc);
-            } else {
-                killNPC(npc);
-                resetOptions();
+                        if (npc.isAlive()) {
+                            retaliate(npc);
+                        } else {
+                            killNPC(npc);
+                            resetOptions();
+                        }
+                    }
+
+                }
             }
         }
     }
@@ -516,8 +539,8 @@ public class AvatarNPCInteract implements ActionListener{
             if (avatar.getOnTileWithNPC()) {
                 if (talking) {
                     haveConversation(selected);
-                } else if (usingSkill) {
-
+                } else if (skillMain || skillSecondary) {
+                    chooseSkills(selected);
                 } else if (usingItem) {
 
                 } else if (selected == 1) {
@@ -535,7 +558,7 @@ public class AvatarNPCInteract implements ActionListener{
                 } else if (selected == 2) {
                     attack();
                 } else if (selected == 3) {
-                    //Use Skill
+                    drawSkillMenu();
                 } else if (selected == 4) {
                     //Use Item
                 } else if (selected == 100) {
@@ -714,6 +737,108 @@ public class AvatarNPCInteract implements ActionListener{
         }
     }
 
+    private void drawSkillMenu(){
+        footerView.setType(0);
+        List<String> skillList = new ArrayList<String>();
+        skillList.add("Bind wounds");
+        skillList.add("Observe");
+        for(String skill : avatar.getSkills().getMainSkillList())
+            skillList.add(skill);
+        footerView.setMenuOptions(skillList);
+        skillMain = true;
+    }
+
+    private void chooseSkills(int selected){
+        if(skillMain){
+            if(selected == 1){
+                ((BindWounds)avatar.getSkills().getSkill("BindWounds")).activate();
+                //resetOptions();
+            }
+            else if(selected == 2){
+                //observe()
+            }
+            else if(selected == 3){
+                if(avatar.getOccupation().toString().equals("Summoner")){
+                    footerView.setType(0);
+                    List<String> skillList = new ArrayList<String>();
+                    skillList.add("Fire Shot");
+                    skillList.add("Fire Blast");
+                    skillList.add("Fire Storm");
+                    footerView.setMenuOptions(skillList);
+                    skillSecondary = true;
+                    skillMain = false;
+                    whichSkillSelect = 0;
+                }
+                else if(avatar.getOccupation().toString().equals("Sneak")){
+                    //pickpocket()
+                }
+            }
+            else if(selected == 4){
+                if(avatar.getOccupation().toString().equals("Summoner")){
+                    footerView.setType(0);
+                    List<String> skillList = new ArrayList<String>();
+                    skillList.add("Boon Hardiness");
+                    skillList.add("Boon Health");
+                    skillList.add("Boon Intellect");
+                    footerView.setMenuOptions(skillList);
+                    skillSecondary = true;
+                    skillMain = false;
+                    whichSkillSelect = 1;
+                }
+                else if(avatar.getOccupation().toString().equals("Sneak")){
+                    //creep()
+                }
+            }
+            else if(selected == 5){
+                if(avatar.getOccupation().toString().equals("Summoner")){
+                    footerView.setType(0);
+                    List<String> skillList = new ArrayList<String>();
+                    skillList.add("Enchanting Shot");
+                    skillList.add("Enchanting Blast");
+                    skillList.add("Enchanting Storm");
+                    footerView.setMenuOptions(skillList);
+                    skillSecondary = true;
+                    skillMain = false;
+                    whichSkillSelect = 2;
+                }
+            }
+            else if (selected == 100) {
+                resetOptions();
+            }
+        }
+        else{
+            if(selected == 100){
+                skillSecondary = false;
+                skillMain = true;
+                drawSkillMenu();
+            }
+            if(whichSkillSelect == 0){
+                if(selected == 1)
+                    useBane("FireShot");
+                else if(selected == 2)
+                    useBane("FireBlast");
+                else if(selected == 3)
+                    useBane("FireStorm");
+            }
+            else if(whichSkillSelect == 1){
+                if(selected == 1)
+                    useBoon("BoonHardiness");
+                else if(selected == 2)
+                    useBoon("BoonHealth");
+                else if(selected == 3)
+                    useBoon("BoonIntellect");
+            }
+            else if(whichSkillSelect == 2){
+                if(selected == 1)
+                    useEnchantment("EnchantingShot");
+                else if(selected == 2)
+                    useEnchantment("EnchantingBlast");
+                else if(selected == 3)
+                    useEnchantment("EnchantingStorm");
+            }
+        }
+    }
+
     private void clearSelectedInventories(){
         npcSelectedInventory.clearInventory();
         playerSelectedInventory.clearInventory();
@@ -724,7 +849,7 @@ public class AvatarNPCInteract implements ActionListener{
         npcOnTile = null;
         footerView.setDisplay(false);
         talking = false;
-        usingSkill = false;
+        skillMain = false;
         usingItem = false;
         trading = false;
         pressContinue = false;

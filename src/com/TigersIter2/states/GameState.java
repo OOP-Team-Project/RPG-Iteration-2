@@ -115,7 +115,7 @@ public class GameState extends State {
         itemManager.addItem(interactive);
         itemManager.addItem(oneShot);
 
-        // for testing Teleport TODO: only works once??? value of destination gets changed automatically
+        // for testing Teleport
         aem = new AreaEffectManager(avatar);
         //Location dest = new Location(10 * StaticVar.terrainImageWidth +500,10 * StaticVar.terrainImageHeight+500, 0);
         //effect = new Teleport(dest);
@@ -183,6 +183,7 @@ public class GameState extends State {
                 controlView.toggle();
                 controller.setControlViewControls(controlView.getDisplay());
                 break;
+            case 10:
             case -1:
                 break;
             default:
