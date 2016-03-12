@@ -13,6 +13,7 @@ public class NPCStats extends Stats {
     public NPCStats() {
         super();
         mods = new ArrayList<>();
+        influenceRadius = 0;
     }
 
     @Override
@@ -35,6 +36,7 @@ public class NPCStats extends Stats {
         this.hardiness += sm.getHardiness();
         this.attack += sm.getAttack();
         this.agility += sm.getAgility();
+        this.attackTime += sm.getAttackTime();
     }
 
     public void removeStatModifier(NPCStatsModifier sm) {
@@ -43,6 +45,7 @@ public class NPCStats extends Stats {
             this.hardiness -= sm.getHardiness();
             this.attack -= sm.getAttack();
             this.agility -= sm.getAgility();
+            this.attackTime -= sm.getAttackTime();
         }
     }
 }

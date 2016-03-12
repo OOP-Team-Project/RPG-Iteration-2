@@ -17,6 +17,7 @@ public class RangedWeaponItem extends Weapon {
         this.sm = new StatsModifier();
         /* adds to the attack rating and decreases the movement */
         sm.setAttack(sm.getAttack()+damageModifier);
+        sm.setInfluenceRadius(range);
         weaponType = "RangedWeapon";
     }
 }

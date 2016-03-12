@@ -72,6 +72,8 @@ public class PlayerStats extends Stats {
         this.movement = o.getMovement();
         this.life = o.getLife();
         this.mana = o.getMana();
+        this.attackTime = o.getAttackTime();
+        this.influenceRadius = o.getInfluenceRadius();
 
         this.lightRadius = 10;
 
@@ -214,6 +216,8 @@ public class PlayerStats extends Stats {
         this.barter += sm.getBarter();
         this.lightRadius += sm.getLightRadius();
         this.livesLeft += sm.getLives();
+        this.attackTime += sm.getAttackTime();
+        this.influenceRadius += sm.getInfluenceRadius();
     }
 
     /**
@@ -233,6 +237,8 @@ public class PlayerStats extends Stats {
             this.mana -= sm.getMana();
             this.barter -= sm.getBarter();
             this.lightRadius -= sm.getLightRadius();
+            this.attackTime -= sm.getAttackTime();
+            this.influenceRadius -= sm.getInfluenceRadius();
         }
     }
 
@@ -339,6 +345,8 @@ public class PlayerStats extends Stats {
                             "\nArmorRating: " + getArmorRating() +
                             "\nLightRadius: " + getLightRadius() +
                             "\nAbilityPoints: " + getAbilityPoints() +
+                            "\nAttackTime: " + getAttackTime() +
+                            "\nInfluenceRadius: " + getInfluenceRadius() +
                             "\nStatusModifiers: " + mods.size();
         return results;
     }
@@ -354,6 +362,7 @@ public class PlayerStats extends Stats {
         this.movement += o.getMovementIncrement();
         this.life += o.getLifeIncrement();
         this.mana += o.getManaIncrement();
+        this.influenceRadius += this.level % 3;
 
         this.level++;
         this.abilityPoints++;
@@ -369,6 +378,7 @@ public class PlayerStats extends Stats {
         this.movement += o.getMovementIncrement();
         this.life += o.getLifeIncrement();
         this.mana += o.getManaIncrement();
+        this.influenceRadius += this.level % 3;
 
         this.level++;
         this.abilityPoints++;
