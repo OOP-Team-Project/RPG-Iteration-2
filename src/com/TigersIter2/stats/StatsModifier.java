@@ -18,6 +18,8 @@ public class StatsModifier {
     private int barter;
     private int lightRadius;
     private int lives;
+    private int attackTime;
+    private int influenceRadius;
 
     /**
      * The stats modifier class initializes stat boosts to 0
@@ -35,6 +37,8 @@ public class StatsModifier {
         barter = 0;
         lightRadius = 0;
         lives = 0;
+        attackTime = 0;
+        influenceRadius = 0;
     }
 
 
@@ -137,4 +141,19 @@ public class StatsModifier {
         lives = l;
     }
 
+    public int getAttackTime(){
+        return attackTime;
+    }
+
+    public void setAttackTime(int attackTime){
+        this.attackTime = attackTime;
+    }
+
+    public int getInfluenceRadius(){
+        return influenceRadius;
+    }
+
+    public void setInfluenceRadius(int influenceRadius){
+        this.influenceRadius = influenceRadius;
+    }
 }
