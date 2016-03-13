@@ -1,5 +1,7 @@
 package com.TigersIter2.entities;
 
+import com.TigersIter2.assets.StaticVar;
+
 /**
  * Created by Josh on 2/27/2016.
  */
@@ -13,7 +15,7 @@ public class Summoner extends Occupation {
         movement = 5;
         life = 40;
         mana = 75;
-        attackTime = 750;
+        attackTime = StaticVar.fps*3/2;
         influenceRadius = 2;
 
         strengthIncrement = 1;

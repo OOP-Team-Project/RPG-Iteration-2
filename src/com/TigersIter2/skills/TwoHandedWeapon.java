@@ -20,7 +20,7 @@ public class TwoHandedWeapon extends ActiveSkill {
     /**
      * level bonus
      */
-    private final int ATTACK_PER_LEVEL = 5;
+    private final int ATTACK_PER_LEVEL = 8;
 
     /**
      * derived skill stats

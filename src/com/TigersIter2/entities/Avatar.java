@@ -1,5 +1,6 @@
 package com.TigersIter2.entities;
 
+import com.TigersIter2.assets.FileReader;
 import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.items.TakeableItem;
 import com.TigersIter2.location.Location;
@@ -26,7 +27,7 @@ public class Avatar extends Entity{
     private int direction;
     private boolean canPassWater;
     private boolean canPassMountain;
-    private int money;
+    private int timeUntilAttack = 0;
 
     private boolean currentlyMoving = false;
     private boolean onTileWithNPC = false;
@@ -42,8 +43,8 @@ public class Avatar extends Entity{
         canPassWater = false;
         inventory = new Inventory();
         equipment = new Equipment();
-        money = 0;
         trading = false;
+        setOccupation();
     }
 
     //What is this supposed to do? -Sam
@@ -76,7 +77,7 @@ public class Avatar extends Entity{
     public Equipment getEquipment(){
         return equipment;
     }
-
+    
     public PlayerStats getStats(){
         return stats;
     }
@@ -148,9 +149,24 @@ public class Avatar extends Entity{
         return location;
     }
 
-    public void setOccupation(Occupation o){
-        occupation = o;
-        stats = new PlayerStats(o);
+    private void setOccupation(){
+
+        String[] map1String = FileReader.fileToString(StaticVar.avatarFile).split("\\s+"); //splits up file on any white space
+        int occ = FileReader.stringToInt(map1String[0]); //first number of file
+        System.out.println("first number of avatar file: " + occ);
+        switch(occ){
+            case 1: occupation = new Smasher();
+                break;
+            case 2: occupation = new Summoner();
+                break;
+            case 3: occupation = new Sneak();
+                break;
+            default: occupation = new Smasher();
+                System.out.println("Error loading occupation");
+                break;
+        }
+        //occupation = o;
+        stats = new PlayerStats(occupation);
         skills = new SkillTree(stats);
     }
 
@@ -195,18 +211,6 @@ public class Avatar extends Entity{
         this.pixelLocation = pixelLocation;
     }
 
-    public void setMoney(int m){
-        money = m;
-    }
-
-    public void addMoney(int m){
-        money += m;
-    }
-
-    public int getMoney(){
-        return money;
-    }
-
     public void setOnTileWithNPC(boolean b){
         onTileWithNPC = b;
     }
@@ -221,6 +225,19 @@ public class Avatar extends Entity{
 
     public boolean getTrading(){
         return trading;
+    }
+
+    public int getTimeUntilAttack(){
+        return timeUntilAttack;
+    }
+
+    public void decrementTimeUntilAttack(){
+        if(timeUntilAttack > 0)
+            --timeUntilAttack;
+    }
+
+    public void resetTimeUntilAttack(){
+        timeUntilAttack = stats.getAttackTime();
     }
 
     public void takeDamage(int attackStrength){

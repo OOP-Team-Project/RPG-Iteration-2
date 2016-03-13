@@ -4,6 +4,7 @@ import com.TigersIter2.areaEffects.*;
 import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.items.OneHandedWeaponItem;
 import com.TigersIter2.location.Location;
+import com.TigersIter2.location.LocationConverter;
 import com.TigersIter2.managers.AreaEffectManager;
 import com.TigersIter2.managers.StateManager;
 import com.TigersIter2.assets.sprites.*;
@@ -46,6 +47,7 @@ public class GameState extends State {
     private FooterView footerView;
     private StatusView statusView;
     private ControlView controlView;
+    private MessageView messageView;
 
 
     public GameState(StateManager stateManager, Controller controller){
@@ -54,8 +56,9 @@ public class GameState extends State {
 
     @Override
     public void init() {
-
+        controller.setBindings(); //added this to remove enter key functionality from previous menustates
         footerView = new FooterView();
+        messageView = new MessageView();
         controlView = new ControlView(controller);
         vehicleViews = new ArrayList<VehicleView>();
         npcViews = new ArrayList<NPCView>();
@@ -63,9 +66,12 @@ public class GameState extends State {
         areaEffectViews = new ArrayList<AreaEffectView>();
         map = new TerrainMap(StaticVar.map1);
         avatar = new Avatar();
-        avatar.setOccupation(new Sneak());
         TakeableItem potion = new Potion("Health Potion", 10);
+        TakeableItem potion2 = new Potion("Health Potion", 10);
+        TakeableItem potion3 = new Potion("Health Potion", 10);
         TakeableItem butterKnife = new RangedWeaponItem("Crossbow", 1, 1, 0);
+        TakeableItem axe = new SpikedGlove("Battle Axe");
+        TakeableItem breastplate = new Armor("Breastplate", 2, 4);
         ant = new AvatarNPCInteract(avatar, footerView);
         vehicleViews = new ArrayList<VehicleView>();
         itemManager = new ItemManager(avatar);
@@ -73,16 +79,22 @@ public class GameState extends State {
 
         itemManager.addItem(potion);
         itemManager.addItem(butterKnife);
+        itemManager.addItem(axe);
+        itemManager.addItem(breastplate);
         avatar.getInventory().addItem(potion);
+        avatar.getInventory().addItem(potion2);
+        avatar.getInventory().addItem(potion3);
         avatar.getInventory().addItem(butterKnife);
+        avatar.getInventory().addItem(axe);
+        avatar.getInventory().addItem(breastplate);
 
 
-        avatar.setAttackTime(1000);
+        //avatar.setAttackTime(1000);
         ant = new AvatarNPCInteract(avatar, footerView);
 
         //THIS IS ALL FOR TESTING. WILL NOT STAY HERE
-        ant.addVehicle(new Vehicle("Turtle", 5, true, true));
-        ant.addVehicle(new Vehicle("Turtle2", 2, false, true));
+        ant.addVehicle(new Vehicle("Turtle", 5, true, false));
+        ant.addVehicle(new Vehicle("Turtle2", 2, true, true));
         //ant.addMonster();
         List<String> list = new ArrayList<String>();
         list.add("My name is John Cena. I'm an internet sensation.");
@@ -90,7 +102,7 @@ public class GameState extends State {
         list.add("The Detroit Tigers?");
         list.add("So many things.");
         list.add("I suppose so.");
-        TakeableItem ohSword = new OneHandedWeaponItem("Sword",5);
+        TakeableItem ohSword = new Sword("Sword");
         itemManager.addItem(ohSword);
         ant.addVillager(list, true, true, false);
         ant.getNpcList().get(0).getInventory().addItem(ohSword);
@@ -115,12 +127,13 @@ public class GameState extends State {
         itemManager.addItem(interactive);
         itemManager.addItem(oneShot);
 
-        // for testing Teleport  BUG: if you teleport with turtle, you lose the turtle...
+        // for testing Teleport
         aem = new AreaEffectManager(avatar);
-        Location dest = new Location(10 * StaticVar.terrainImageWidth +500,10 * StaticVar.terrainImageHeight+500, 0);
-        effect = new Teleport(dest);
-        effect.setLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight-100,0));
-        effect = new Teleport(dest);
+        //Location dest = new Location(10 * StaticVar.terrainImageWidth +500,10 * StaticVar.terrainImageHeight+500, 0);
+        //effect = new Teleport(dest);
+        effect = new Trap();
+        effect.setLocation(new Location(10 * StaticVar.terrainImageWidth-200,10 * StaticVar.terrainImageHeight,0));
+        //effect.setPixelLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight+300,0));
         aem.addEffect(effect);
 
         //pull in all pictures for GameState
@@ -154,7 +167,9 @@ public class GameState extends State {
 
         mapView = new MapView(map, avatar);
         areaView =  new AreaView(mapView,avatarView, vehicleViews, footerView, statusView, npcViews, controlView, itemViews, areaEffectViews);
+        this.add(messageView);
         this.add(areaView);
+
 
         System.out.println("GameState initialized");
 
@@ -182,6 +197,9 @@ public class GameState extends State {
                 controlView.toggle();
                 controller.setControlViewControls(controlView.getDisplay());
                 break;
+            case 10:
+                ant.startSkillsNotFromInteraction();
+                break;
             case -1:
                 break;
             default:
@@ -191,12 +209,31 @@ public class GameState extends State {
         controller.resetOptionSelected();
     }
 
+    private boolean canPassTerrain(int xMov, int yMov, long elapsed){
+        Location nextLocation = new Location(0, 0, 0);
+        nextLocation.setX(avatar.getLocation().getX());
+        nextLocation.setY(avatar.getLocation().getY());
+        nextLocation.incrementX(Math.round(xMov * elapsed * StaticVar.entitySpeed*avatar.getStats().getMovement()));
+        nextLocation.incrementY(Math.round(yMov * elapsed * StaticVar.entitySpeed*avatar.getStats().getMovement()));
+        int terrainType = map.getTerrainType(LocationConverter.PixelLocationToHex(nextLocation));
+        if(terrainType == 1)
+            return true;
+        else if(terrainType == 2 && avatar.getCanPassWater())
+            return true;
+        else if(terrainType == 3 && avatar.getCanPassMountain())
+            return true;
+        else
+            return false;
+    }
+
     @Override
     public void update(long elapsed) {
         map.update();
+        int xMov = controller.getXMovement();
+        int yMov = controller.getyMovement();
         boolean avatarCanMove = itemManager.checkTile(elapsed, controller.getXMovement(), controller.getyMovement()); //returns false if item is an obstacle
-        if(avatarCanMove) {
-            avatar.update(controller.getXMovement(), controller.getyMovement(), elapsed);
+        if(avatarCanMove && canPassTerrain(xMov, yMov, elapsed)) {
+            avatar.update(xMov, yMov, elapsed);
         }
         View.update(controller.getCameraXMovement(), controller.getCameraYMovement(), elapsed);
         aem.checkTile();
@@ -207,8 +244,8 @@ public class GameState extends State {
             int input = controller.getTradeMenuInput();
             controlView.handleInput(input);
             //if(input == 5){
-                //controlView.toggle();
-                //controller.setStatusViewControls(controlView.getDisplay());
+            //controlView.toggle();
+            //controller.setStatusViewControls(controlView.getDisplay());
             //}
         }
         else if(avatar.getTrading()){
@@ -252,3 +289,4 @@ public class GameState extends State {
         return name;
     }
 }
+

@@ -1,6 +1,8 @@
 package com.TigersIter2.maps;
 
 import com.TigersIter2.assets.FileReader;
+import com.TigersIter2.assets.StaticVar;
+import com.TigersIter2.location.Location;
 import com.TigersIter2.maps.terrains.Grass;
 import com.TigersIter2.maps.terrains.Mountain;
 import com.TigersIter2.maps.terrains.TerrainType;
@@ -61,6 +63,15 @@ public class TerrainMap implements Map {
 
     public int[][] getMap() {
         return map;
+    }
+
+    public boolean checkPassable(Location location){
+        if (map[location.getX()][location.getY()] == StaticVar.grass) return true;
+        return false;
+    }
+
+    public int getTerrainType(Location location){
+        return map[location.getX()][location.getY()];
     }
 
     public int getMapWidth() {
