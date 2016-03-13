@@ -4,14 +4,13 @@ import com.TigersIter2.entities.*;
 import com.TigersIter2.items.TakeableItem;
 import com.TigersIter2.location.Location;
 import com.TigersIter2.location.LocationConverter;
-import com.TigersIter2.skills.Bane;
-import com.TigersIter2.skills.BindWounds;
-import com.TigersIter2.skills.Boon;
-import com.TigersIter2.skills.Enchantment;
+import com.TigersIter2.skills.*;
 import com.TigersIter2.stats.NPCStatsModifier;
 import com.TigersIter2.views.FooterView;
+import com.TigersIter2.views.MessageView;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -28,7 +27,7 @@ public class AvatarNPCInteract implements ActionListener{
     private List<String> questions;
     private List<String> originalOptions;
     private FooterView footerView;
-    private boolean talking, skillMain, skillSecondary, usingItem, pressContinue, trading;
+    private boolean talking, skillMain, skillSecondary, usingItem, pressContinue, trading, notFromInteraction;
     private Inventory playerSelectedInventory;
     private Inventory npcSelectedInventory;
     private boolean playerCanAttack = true;
@@ -48,6 +47,7 @@ public class AvatarNPCInteract implements ActionListener{
         usingItem = false;
         trading = false;
         pressContinue = false;
+        notFromInteraction = false;
         questions = new ArrayList<String>();
         originalOptions = new ArrayList<String>();
         playerSelectedInventory = new Inventory();
@@ -346,8 +346,20 @@ public class AvatarNPCInteract implements ActionListener{
             return -1;
     }
 
+    private int getObservationError(){
+        int observed = 0;
+        int error;
+        double accuracy = ((Observation)avatar.getSkills().getSkill("Observation")).getAccuracy();
+        Random rand = new Random();
+        error = rand.nextInt(10 - (int)(accuracy*10));
+        if(Math.random() < 0.5)
+            error = -error;
+        return error;
+    }
+
     public void attack(){
-        //NEED SOME SORT OF TIMING FOR THIS METHOD
+        int observed = 0;
+        int error = getObservationError();
         if(playerCanAttack) {
             playerCanAttack = false;
             //Check your position/direction/range against the NPC's in the list
@@ -358,18 +370,37 @@ public class AvatarNPCInteract implements ActionListener{
                     if (enemyInRange(npc)) {
                         String weaponType = avatar.getWeaponType();
                         if (weaponType.equals("none")) {
-                            System.out.println("Not holding a weapon, can't attack");
+                            if(avatar.getOccupation().toString().equals("Sneak") && ((Creep)avatar.getSkills().getSkill("Creep")).isActive()
+                                    && inRadialRange(npc) == 0) {
+                                npc.getStats().decreaseCurrentLife(15);
+                                System.out.println(npc.getStats().getCurrentLife() + "/" + npc.getStats().getLife());
+                                if (npc.isAlive()) {
+                                    retaliate(npc);
+                                } else {
+                                    killNPC(npc);
+                                    resetOptions();
+                                }
+                                MessageView.addMessage("Backstabbed!", npc.getPixelLocation().getX(), npc.getPixelLocation().getY()-20);
+                            }
+                            else
+                                System.out.println("Not holding a weapon, can't attack");
                         } else if (weaponType.equals("RangedWeapon")) {
                             // Ranged attack
-                            if (inLinearRange(npc))
-                                attackEnemy(npc);
+                            if (inLinearRange(npc)) {
+                                observed = attackEnemy(npc);
+                                observed += error;
+                                MessageView.addMessage("-"+Integer.toString(observed), npc.getPixelLocation().getX(), npc.getPixelLocation().getY());
+                            }
                         } else {
                             // Melee attack
-                            attackEnemy(npc);
+                            observed = attackEnemy(npc);
+                            observed += error;
+                            MessageView.addMessage("-"+Integer.toString(observed), npc.getPixelLocation().getX(), npc.getPixelLocation().getY());
                         }
                     }
                 }
             }
+            MessageView.drawMessage();
         }
     }
 
@@ -400,6 +431,7 @@ public class AvatarNPCInteract implements ActionListener{
     }
 
     private void useBane(String spellName){
+        int error = getObservationError();
         if(playerCanAttack) {
             playerCanAttack = false;
             //Check your position/direction/range against the NPC's in the list
@@ -414,6 +446,7 @@ public class AvatarNPCInteract implements ActionListener{
                         Random rand = new Random();
                         if (damage > 0) {
                             damage = rand.nextInt(damage);
+                            MessageView.addMessage("-"+Integer.toString(damage + error), npc.getPixelLocation().getX(), npc.getPixelLocation().getY());
                             npc.getStats().decreaseCurrentLife(damage);
                             System.out.println("Dealt " + damage + " damage");
                         } else {
@@ -431,10 +464,11 @@ public class AvatarNPCInteract implements ActionListener{
 
                 }
             }
+            MessageView.drawMessage();
         }
     }
 
-    private void attackEnemy(NPC npc){
+    private int attackEnemy(NPC npc){
         String weaponType = avatar.getWeaponType();
         Random rand = new Random();
         int damage = avatar.getSkills().getSkill(weaponType).getDamage() - npc.getStats().getDefensiveRating() + npc.getStats().getArmorRating();
@@ -453,6 +487,7 @@ public class AvatarNPCInteract implements ActionListener{
             killNPC(npc);
             resetOptions();
         }
+        return damage;
     }
 
     private void retaliate(NPC npc){
@@ -535,6 +570,8 @@ public class AvatarNPCInteract implements ActionListener{
                 resetOptions();
             }
         }
+        else if(notFromInteraction && (skillMain || skillSecondary))
+            chooseSkills(selected);
         else {
             if (avatar.getOnTileWithNPC()) {
                 if (talking) {
@@ -542,7 +579,7 @@ public class AvatarNPCInteract implements ActionListener{
                 } else if (skillMain || skillSecondary) {
                     chooseSkills(selected);
                 } else if (usingItem) {
-
+                    chooseItem(selected);
                 } else if (selected == 1) {
                     if (npcOnTile.willTalk()) {
                         haveConversation(0);
@@ -560,7 +597,7 @@ public class AvatarNPCInteract implements ActionListener{
                 } else if (selected == 3) {
                     drawSkillMenu();
                 } else if (selected == 4) {
-                    //Use Item
+                    useItem();
                 } else if (selected == 100) {
                     footerView.setType(0);
                     footerView.setMenuOptions(originalOptions);
@@ -599,6 +636,7 @@ public class AvatarNPCInteract implements ActionListener{
             if(npcOnTile.willTrade()) {
                 trading = true;
                 avatar.setTrading(trading);
+                footerView.setDiscount(avatar.getStats().getBarter());
                 footerView.setPlayerInventory(avatar.getInventory());
                 footerView.setNpcInventory(npcOnTile.getInventory());
                 //START TRADING
@@ -642,6 +680,7 @@ public class AvatarNPCInteract implements ActionListener{
         NPC v = new Villager(p, talk, trade, attack);
         //v.getInventory().addItem(new OneHandedWeaponItem("Sword",5));
         npcList.add(v);
+        v.getStats().setCurrentLife(30);
         v.getLocation().setX(avatar.getLocation().getX()-50);
         v.getLocation().setY(avatar.getLocation().getY());
     }
@@ -656,7 +695,9 @@ public class AvatarNPCInteract implements ActionListener{
                 if (LocationConverter.PixelLocationToHex(n.getLocation()).getX() == LocationConverter.PixelLocationToHex(avatar.getLocation()).getX() &&
                         LocationConverter.PixelLocationToHex(n.getLocation()).getY() == LocationConverter.PixelLocationToHex(avatar.getLocation()).getY()) {
                     if (!avatar.getOnTileWithNPC()) {
+                        resetOptions();
                         avatar.setOnTileWithNPC(true);
+                        notFromInteraction = false;
                         npcOnTile = n;
                         npcOnTile.setOnTileWithAvatar(true);
                         if (npcOnTile.willTalk() || npcOnTile.willTrade()) {
@@ -675,7 +716,8 @@ public class AvatarNPCInteract implements ActionListener{
 
                 if (n.willAttack()) {
                     //NPC attacks player
-                    retaliate(n);
+                    if(!(avatar.getOccupation().toString().equals("Sneak") && ((Creep)avatar.getSkills().getSkill("Creep")).isActive()))
+                        retaliate(n);
                 }
             }
         }
@@ -706,6 +748,7 @@ public class AvatarNPCInteract implements ActionListener{
             }
             else if(footerView.getWhoseSide() == 1){
                 if(footerView.getPlayerValue() >= footerView.getNpcValue()) {
+                    System.out.println(avatar.getStats().getBarter());
                     for (TakeableItem item : playerSelectedInventory.getItems()) {
                         npcOnTile.getInventory().addItem(item);
                         avatar.getInventory().getItems().remove(item);
@@ -737,6 +780,18 @@ public class AvatarNPCInteract implements ActionListener{
         }
     }
 
+    public void startSkillsNotFromInteraction(){
+        if(!notFromInteraction) {
+            footerView.setDisplay(true);
+            notFromInteraction = true;
+            drawSkillMenu();
+        }
+        else {
+            notFromInteraction = false;
+            resetOptions();
+        }
+    }
+
     private void drawSkillMenu(){
         footerView.setType(0);
         List<String> skillList = new ArrayList<String>();
@@ -751,11 +806,15 @@ public class AvatarNPCInteract implements ActionListener{
     private void chooseSkills(int selected){
         if(skillMain){
             if(selected == 1){
-                ((BindWounds)avatar.getSkills().getSkill("BindWounds")).activate();
-                //resetOptions();
+                if(((BindWounds)avatar.getSkills().getSkill("BindWounds")).activate())
+                    MessageView.addMessage("Wounds bound");
             }
             else if(selected == 2){
-                //observe()
+                if(avatar.getOnTileWithNPC()) {
+                    int current = npcOnTile.getStats().getCurrentLife() + getObservationError();
+                    int total = npcOnTile.getStats().getLife() + getObservationError();
+                    MessageView.addMessage(Integer.toString(current) + "/" + Integer.toString(total), npcOnTile.getPixelLocation().getX(), npcOnTile.getPixelLocation().getY());
+                }
             }
             else if(selected == 3){
                 if(avatar.getOccupation().toString().equals("Summoner")){
@@ -770,7 +829,11 @@ public class AvatarNPCInteract implements ActionListener{
                     whichSkillSelect = 0;
                 }
                 else if(avatar.getOccupation().toString().equals("Sneak")){
-                    //pickpocket()
+                    if(avatar.getOnTileWithNPC()){
+                        pickpocket();
+                    }
+                    else
+                        System.out.println("Nobody on tile to pickpocket");
                 }
             }
             else if(selected == 4){
@@ -786,7 +849,8 @@ public class AvatarNPCInteract implements ActionListener{
                     whichSkillSelect = 1;
                 }
                 else if(avatar.getOccupation().toString().equals("Sneak")){
-                    //creep()
+                    if(((Creep)avatar.getSkills().getSkill("Creep")).activate())
+                        MessageView.addMessage("Creeping...");
                 }
             }
             else if(selected == 5){
@@ -802,9 +866,10 @@ public class AvatarNPCInteract implements ActionListener{
                     whichSkillSelect = 2;
                 }
             }
-            else if (selected == 100) {
+            else if (selected == 100 && !notFromInteraction) {
                 resetOptions();
             }
+            MessageView.drawMessage();
         }
         else{
             if(selected == 100){
@@ -837,6 +902,72 @@ public class AvatarNPCInteract implements ActionListener{
                     useEnchantment("EnchantingStorm");
             }
         }
+    }
+
+    public void pickpocket(){
+        int inventorySize = npcOnTile.getInventory().getItems().size();
+        if(inventorySize > 0) {
+            double probability = ((PickPocket) avatar.getSkills().getSkill("PickPocket")).getProbability();
+            Random rand = new Random();
+            int itemSlot = rand.nextInt(inventorySize);
+            if (Math.random() < probability) {
+                TakeableItem item = npcOnTile.getInventory().removeItemAtIndex(itemSlot);
+                avatar.getInventory().addItem(item);
+                System.out.println("Stole " + item.toString());
+                MessageView.addMessage("Stole " + item.toString());
+            }
+            else {
+                System.out.println("Pickpocket unsuccessful");
+                MessageView.addMessage("Pickpocket failed");
+            }
+        }
+        else {
+            System.out.println("NPC has nothing to steal");
+            MessageView.addMessage("Nothing to steal");
+        }
+        MessageView.drawMessage();
+
+    }
+
+    private void useItem(){
+        List<String> usableItems = new ArrayList<String>();
+        for(TakeableItem item : avatar.getInventory().getItems()){
+            if(item.isUsable()){
+                usableItems.add(item.toString());
+            }
+        }
+        if(usableItems.size() > 0) {
+            footerView.setType(0);
+            footerView.setMenuOptions(usableItems);
+            usingItem = true;
+        }
+        else{
+            resetOptions();
+        }
+    }
+
+    private void chooseItem(int selected){
+        if(selected == 100) {
+            resetOptions();
+            return;
+        }
+        int count = 1;
+        Iterator<TakeableItem> iter = avatar.getInventory().getItems().iterator();
+        while(iter.hasNext()){
+            TakeableItem item = iter.next();
+            if(item.isUsable()){
+                if(selected == count){
+                    npcOnTile.getStats().increaseCurrentLife(item.getStatsModifier().getLife());        //only works for health potions
+                    MessageView.addMessage("Used " + item.toString());
+                    iter.remove();
+                    useItem();
+                    return;
+                }
+                else
+                    ++count;
+            }
+        }
+        MessageView.drawMessage();
     }
 
     private void clearSelectedInventories(){

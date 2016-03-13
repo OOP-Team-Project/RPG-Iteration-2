@@ -46,6 +46,7 @@ public class GameState extends State {
     private FooterView footerView;
     private StatusView statusView;
     private ControlView controlView;
+    private MessageView messageView;
 
 
     public GameState(StateManager stateManager, Controller controller){
@@ -55,8 +56,8 @@ public class GameState extends State {
     @Override
     public void init() {
         controller.setBindings(); //added this to remove enter key functionality from previous menustates
-
         footerView = new FooterView();
+        messageView = new MessageView();
         controlView = new ControlView(controller);
         vehicleViews = new ArrayList<VehicleView>();
         npcViews = new ArrayList<NPCView>();
@@ -64,8 +65,9 @@ public class GameState extends State {
         areaEffectViews = new ArrayList<AreaEffectView>();
         map = new TerrainMap(StaticVar.map1);
         avatar = new Avatar();
-        //avatar.setOccupation(new Sneak()); no longer needed, since loading in type of avatar
         TakeableItem potion = new Potion("Health Potion", 10);
+        TakeableItem potion2 = new Potion("Health Potion", 10);
+        TakeableItem potion3 = new Potion("Health Potion", 10);
         TakeableItem butterKnife = new RangedWeaponItem("Crossbow", 1, 1, 0);
         ant = new AvatarNPCInteract(avatar, footerView);
         vehicleViews = new ArrayList<VehicleView>();
@@ -75,6 +77,8 @@ public class GameState extends State {
         itemManager.addItem(potion);
         itemManager.addItem(butterKnife);
         avatar.getInventory().addItem(potion);
+        avatar.getInventory().addItem(potion2);
+        avatar.getInventory().addItem(potion3);
         avatar.getInventory().addItem(butterKnife);
 
 
@@ -156,7 +160,9 @@ public class GameState extends State {
 
         mapView = new MapView(map, avatar);
         areaView =  new AreaView(mapView,avatarView, vehicleViews, footerView, statusView, npcViews, controlView, itemViews, areaEffectViews);
+        this.add(messageView);
         this.add(areaView);
+
 
         System.out.println("GameState initialized");
 
@@ -185,6 +191,8 @@ public class GameState extends State {
                 controller.setControlViewControls(controlView.getDisplay());
                 break;
             case 10:
+                ant.startSkillsNotFromInteraction();
+                break;
             case -1:
                 break;
             default:
