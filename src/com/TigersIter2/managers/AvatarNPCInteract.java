@@ -18,7 +18,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-public class AvatarNPCInteract implements ActionListener{
+public class AvatarNPCInteract {
 
     private Avatar avatar;
     private NPC npcOnTile;
@@ -31,8 +31,6 @@ public class AvatarNPCInteract implements ActionListener{
     private Inventory playerSelectedInventory;
     private Inventory npcSelectedInventory;
     private boolean playerCanAttack = true;
-    private Timer playerAttackTimer;
-    private List<Timer> npcAttackTimers;
     private int whichSkillSelect;
 
     public AvatarNPCInteract(Avatar a, FooterView fv){
@@ -52,16 +50,7 @@ public class AvatarNPCInteract implements ActionListener{
         originalOptions = new ArrayList<String>();
         playerSelectedInventory = new Inventory();
         npcSelectedInventory = new Inventory();
-        playerAttackTimer = new Timer(avatar.getAttackTime(), this);
-        npcAttackTimers = new ArrayList<Timer>();
-        for(NPC n : npcList){
-            npcAttackTimers.add(new Timer(n.getAttackTime(), this));
-        }
 
-        playerAttackTimer.start();
-        for(Timer t : npcAttackTimers){
-            t.start();
-        }
         fillQuestions();
         fillOriginalOptions();
     }
@@ -79,19 +68,6 @@ public class AvatarNPCInteract implements ActionListener{
         originalOptions.add("Attack");
         originalOptions.add("Use Skill");
         originalOptions.add("Use Item");
-    }
-
-    public void actionPerformed(ActionEvent e) {
-        if(!playerCanAttack) {
-            playerCanAttack = true;
-        }
-
-        for(NPC n : npcList){
-            if(!n.getCanAttack()) {
-                n.setCanAttack(true);
-            }
-        }
-
     }
 
     private boolean enemyInRange(NPC n){
@@ -362,6 +338,7 @@ public class AvatarNPCInteract implements ActionListener{
         int error = getObservationError();
         if(playerCanAttack) {
             playerCanAttack = false;
+            avatar.resetTimeUntilAttack();
             //Check your position/direction/range against the NPC's in the list
             Iterator<NPC> iter = npcList.iterator();
             while (iter.hasNext()) {
@@ -498,6 +475,7 @@ public class AvatarNPCInteract implements ActionListener{
                 avatar.setTrading(trading);
                 npc.setWillAttack(true);
                 npc.setCanAttack(false);
+                npc.resetTimeUntilAttack();
                 Random rand = new Random();
                 int attackAttempts = npc.getStats().getOffensiveRating() / 2 + 1;
                 int randNumMax = avatar.getStats().getDefensiveRating() + avatar.getStats().getArmor() + 1;
@@ -519,8 +497,9 @@ public class AvatarNPCInteract implements ActionListener{
                     if (avatar.getStats().getCurrentLife() <= 0)
                         System.out.println("You died!!");
 
-                } else
-                    System.out.println("NPC missed!");
+                } else {
+                    //System.out.println("NPC missed!");
+                }
             }
         }
     }
@@ -667,13 +646,9 @@ public class AvatarNPCInteract implements ActionListener{
         m.getStats().setArmor(3);
         m.getStats().setStrength(13);
         m.getStats().setAttack(20);
-        m.setAttackTime(1000);
         //END TESTING
 
         npcList.add(m);
-        Timer t = new Timer(m.getAttackTime(), this);
-        npcAttackTimers.add(t);
-        t.start();
     }
 
     public void addVillager(List<String> p, boolean talk, boolean trade, boolean attack){
@@ -690,6 +665,10 @@ public class AvatarNPCInteract implements ActionListener{
     }
 
     public void checkTile(){
+        if(!playerCanAttack)
+            avatar.decrementTimeUntilAttack();
+        if(avatar.getTimeUntilAttack() == 0)
+            playerCanAttack = true;
         for(NPC n : npcList){
             if(n.isAlive()) {
                 if (LocationConverter.PixelLocationToHex(n.getLocation()).getX() == LocationConverter.PixelLocationToHex(avatar.getLocation()).getX() &&
@@ -719,6 +698,10 @@ public class AvatarNPCInteract implements ActionListener{
                     if(!(avatar.getOccupation().toString().equals("Sneak") && ((Creep)avatar.getSkills().getSkill("Creep")).isActive()))
                         retaliate(n);
                 }
+                if(!n.getCanAttack())
+                    n.decrementTimeUntilAttack();
+                if(n.getTimeUntilAttack() == 0)
+                    n.setCanAttack(true);
             }
         }
     }
