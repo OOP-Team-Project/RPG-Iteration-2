@@ -380,7 +380,6 @@ public class AvatarNPCInteract implements ActionListener{
                                     killNPC(npc);
                                     resetOptions();
                                 }
-                                observed += 10;   //BACKSTABBING
                                 MessageView.addMessage("Backstabbed!", npc.getPixelLocation().getX(), npc.getPixelLocation().getY()-20);
                             }
                             else
