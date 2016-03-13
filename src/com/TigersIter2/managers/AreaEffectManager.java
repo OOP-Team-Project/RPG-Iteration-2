@@ -46,7 +46,7 @@ public class AreaEffectManager {
                 if (LocationConverter.PixelLocationToHex(entityOnTile.getLocation()).getX() == LocationConverter.PixelLocationToHex(effect.getLocation()).getX() &&
                         LocationConverter.PixelLocationToHex(entityOnTile.getLocation()).getY() == LocationConverter.PixelLocationToHex(effect.getLocation()).getY()) {
                     if (effect instanceof Trap) {
-                        if (((Trap) effect).getRemoved() == true) {
+                        if (((Trap) effect).getRemoved()) {
                         }
                         else effect.affectEntity(entityOnTile);  // trap only effects avatar if it hasn't been removed
                     }

@@ -115,13 +115,15 @@ public class GameState extends State {
         itemManager.addItem(interactive);
         itemManager.addItem(oneShot);
 
-        // for testing Teleport TODO: only works once??? value of destination gets changed automatically
+        // for testing Teleport  BUG: if you teleport with turtle, you lose the turtle...
         aem = new AreaEffectManager(avatar);
         Location dest = new Location(10 * StaticVar.terrainImageWidth +500,10 * StaticVar.terrainImageHeight+500, 0);
-        //effect = new Teleport(dest);
         effect = new Teleport(dest);
+        effect.setLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight-100,0));
+        effect = new Teleport(dest);
+        // for testing Trap
+        effect = new Trap();
         effect.setLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight+300,0));
-        effect.setPixelLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight+300,0));
         aem.addEffect(effect);
 
         //pull in all pictures for GameState

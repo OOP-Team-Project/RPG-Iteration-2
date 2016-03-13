@@ -20,8 +20,9 @@ public class Teleport extends AreaEffect {
     public void affectEntity(Entity entity){
         // only an Avatar wil levelUp
         if (entity instanceof Avatar) {
-            ((Avatar)entity).setLocation(destination);
-            System.out.println(destination.toString()); // for testing
+            Avatar avatar = ((Avatar) entity);
+            avatar.getLocation().setX(destination.getX());
+            avatar.getLocation().setY(destination.getY());
             System.out.println("Avatar teleported!");
         }
     }
