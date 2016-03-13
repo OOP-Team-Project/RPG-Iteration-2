@@ -33,38 +33,22 @@ public class Avatar extends Entity{
 
     public Avatar(){
         //changed this to actually instantiate location. Not sure what Z is for atm. <-- Z is for hextile stuff in the future (Sam)
-        location = new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight,0);
-        System.out.println("Location: " + 10 * StaticVar.terrainImageWidth + ", " + 10 * StaticVar.terrainImageHeight);
-        pixelLocation = new Location(Math.round(StaticVar.xTilesFromEdge*StaticVar.terrainImageWidth*.75f - 80), Math.round(StaticVar.yTilesFromEdge*StaticVar.terrainImageHeight - Math.round(StaticVar.terrainImageHeight*1.2f)), 0);
-        System.out.println("PixelLocation: " + Math.round(StaticVar.xTilesFromEdge*StaticVar.terrainImageWidth*.75f - 80) + ", " + Math.round(StaticVar.yTilesFromEdge*StaticVar.terrainImageHeight - Math.round(StaticVar.terrainImageHeight*1.2f)));
-        direction = 270;
-        canPassMountain = false; //if anything this should be under skills (Sam)
-        canPassWater = false;
+        //location = new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight,0);
+        //System.out.println("Location: " + 10 * StaticVar.terrainImageWidth + ", " + 10 * StaticVar.terrainImageHeight);
+        //pixelLocation = new Location(Math.round(StaticVar.xTilesFromEdge*StaticVar.terrainImageWidth*.75f - 80), Math.round(StaticVar.yTilesFromEdge*StaticVar.terrainImageHeight - Math.round(StaticVar.terrainImageHeight*1.2f)), 0);
+        //System.out.println("PixelLocation: " + Math.round(StaticVar.xTilesFromEdge*StaticVar.terrainImageWidth*.75f - 80) + ", " + Math.round(StaticVar.yTilesFromEdge*StaticVar.terrainImageHeight - Math.round(StaticVar.terrainImageHeight*1.2f)));
+        //direction = 270;
+        //canPassMountain = false; //if anything this should be under skills (Sam)
+        //canPassWater = false;
+        loadAvatar();
         inventory = new Inventory();
         equipment = new Equipment();
         trading = false;
-        setOccupation();
+        //setOccupation();
 
     }
 
-    public void saveAvatar(){
-        StringBuilder saveString = new StringBuilder();
-        saveString.append("location:\n"+location.getX()+" "+location.getY()+"\n");
-        saveString.append("pixelLocation:\n"+pixelLocation.getX()+" "+pixelLocation.getY()+"\n");
-        saveString.append("direction:\n"+direction+"\n");
-        saveString.append("grass:\ntrue\n");
-        saveString.append("water:\n"+canPassWater +"\n");
-        System.out.println(saveString);
 
-        //needs to save location 1050,960
-        //needs to save pixelLocation 629,269
-        //direction 279
-        //can pass mountain, water false false
-        // inventory
-        //equipment
-        //money
-
-    }
 
     //What is this supposed to do? -Sam
     public void setLocation(Location l) {
@@ -168,6 +152,85 @@ public class Avatar extends Entity{
         return location;
     }
 
+    public void saveAvatar(){
+        StringBuilder saveString = new StringBuilder();
+        saveString.append("location:\n"+location.getX()+" "+location.getY()+"\n");
+        saveString.append("pixelLocation:\n"+pixelLocation.getX()+" "+pixelLocation.getY()+"\n");
+        saveString.append("direction:\n"+direction+"\n");
+        saveString.append("grass:\ntrue\n");
+        saveString.append("water:\n"+canPassWater +"\n");
+        System.out.println(saveString);
+
+        //needs to save location 1050,960
+        //needs to save pixelLocation 629,269
+        //direction 279
+        //can pass mountain, water false false
+        // inventory
+        //equipment
+        //money
+
+    }
+
+    private void loadAvatar(){
+        System.out.println("Avatar loading in....");
+        int tracker = 0;
+        String[] avatarString = FileReader.fileToString(StaticVar.avatarFile).split("\\s+"); //splits up file on any white space
+        int occ = 0;
+        if (avatarString[0].equals("Occupation:")) {
+            occ = FileReader.stringToInt(avatarString[1]); //first number of file, after occupation
+        }
+        System.out.println("first number of avatar file: " + occ);
+        switch(occ){
+            case 1: occupation = new Smasher();
+                break;
+            case 2: occupation = new Summoner();
+                break;
+            case 3: occupation = new Sneak();
+                break;
+            default: occupation = new Smasher();
+                System.out.println("Error loading occupation");
+                break;
+        }
+        //occupation = o;
+        stats = new PlayerStats(occupation);
+        skills = new SkillTree(stats);
+        //set avatar location
+        location = new Location(0,0,0);
+        if (avatarString[2].equals("location:")){
+            location.setX(FileReader.stringToInt(avatarString[3]));
+            location.setY(FileReader.stringToInt(avatarString[4]));
+        }
+        else System.out.println("Error loading location of avatar");
+        //set avatar pixelLocation
+        pixelLocation = new Location(0,0,0);
+        if (avatarString[5].equals("pixelLocation:")){
+            pixelLocation.setX(FileReader.stringToInt(avatarString[6]));
+            pixelLocation.setY(FileReader.stringToInt(avatarString[7]));
+        }
+        else System.out.println("Error loading pixelLocation of avatar");
+        //set avatar direction
+        if (avatarString[8].equals("direction:")){
+            direction = (FileReader.stringToInt(avatarString[9]));
+        }
+        else System.out.println("Error loading direction of avatar");
+        //canpassgrass is not a variable and is always true
+        //set avatar canpasswater
+        if (avatarString[12].equals("water:")){
+            if (avatarString[13].equals("true")) canPassWater = true;
+            else canPassWater = false;
+        }
+        else System.out.println("Error loading canPassWater of avatar");
+        if (avatarString[14].equals("mountain:")){
+            if (avatarString[15].equals("true")) canPassMountain = true;
+            else canPassMountain = false;
+        }
+        else System.out.println("Error loading canPassMountain of avatar");
+        //load inventory
+        //load equipment
+        //load money
+
+
+    }
     private void setOccupation(){
 
         String[] map1String = FileReader.fileToString(StaticVar.avatarFile).split("\\s+"); //splits up file on any white space

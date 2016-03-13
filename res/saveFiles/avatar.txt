@@ -1,6 +1,5 @@
-<<<<<<< HEAD
 Occupation:
-2
+3
 location:
 1050 960
 pixelLocation:
@@ -19,6 +18,3 @@ equipment:
 null
 money:
 0
-=======
-2
->>>>>>> fc3e65ff645861fa3a372185173c9fc14b370681
