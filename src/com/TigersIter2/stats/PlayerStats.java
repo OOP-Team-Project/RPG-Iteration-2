@@ -154,6 +154,7 @@ public class PlayerStats extends Stats {
                 levelUp();
                 timesLeveledUp--;
                 MessageView.addMessage("Leveled up!");
+                MessageView.drawMessage();
             }
         }
     }
