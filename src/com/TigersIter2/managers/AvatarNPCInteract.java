@@ -4,10 +4,7 @@ import com.TigersIter2.entities.*;
 import com.TigersIter2.items.TakeableItem;
 import com.TigersIter2.location.Location;
 import com.TigersIter2.location.LocationConverter;
-import com.TigersIter2.skills.Bane;
-import com.TigersIter2.skills.BindWounds;
-import com.TigersIter2.skills.Boon;
-import com.TigersIter2.skills.Enchantment;
+import com.TigersIter2.skills.*;
 import com.TigersIter2.stats.NPCStatsModifier;
 import com.TigersIter2.views.FooterView;
 
@@ -660,6 +657,7 @@ public class AvatarNPCInteract implements ActionListener{
                 if (LocationConverter.PixelLocationToHex(n.getLocation()).getX() == LocationConverter.PixelLocationToHex(avatar.getLocation()).getX() &&
                         LocationConverter.PixelLocationToHex(n.getLocation()).getY() == LocationConverter.PixelLocationToHex(avatar.getLocation()).getY()) {
                     if (!avatar.getOnTileWithNPC()) {
+                        resetOptions();
                         avatar.setOnTileWithNPC(true);
                         notFromInteraction = false;
                         npcOnTile = n;
@@ -787,7 +785,11 @@ public class AvatarNPCInteract implements ActionListener{
                     whichSkillSelect = 0;
                 }
                 else if(avatar.getOccupation().toString().equals("Sneak")){
-                    //pickpocket()
+                    if(avatar.getOnTileWithNPC()){
+                        pickpocket();
+                    }
+                    else
+                        System.out.println("Nobody on tile to pickpocket");
                 }
             }
             else if(selected == 4){
@@ -854,6 +856,25 @@ public class AvatarNPCInteract implements ActionListener{
                     useEnchantment("EnchantingStorm");
             }
         }
+    }
+
+    public void pickpocket(){
+        int inventorySize = npcOnTile.getInventory().getItems().size();
+        if(inventorySize > 0) {
+            double probability = ((PickPocket) avatar.getSkills().getSkill("PickPocket")).getProbability();
+            Random rand = new Random();
+            int itemSlot = rand.nextInt(inventorySize);
+            if (Math.random() < probability) {
+                TakeableItem item = npcOnTile.getInventory().removeItemAtIndex(itemSlot);
+                avatar.getInventory().addItem(item);
+                System.out.println("Stole " + item.toString());
+            }
+            else
+                System.out.println("Pickpocket unsuccessful");
+        }
+        else
+            System.out.println("NPC has nothing to steal");
+
     }
 
     private void clearSelectedInventories(){
