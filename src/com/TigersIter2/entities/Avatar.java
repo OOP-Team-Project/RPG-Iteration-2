@@ -4,12 +4,8 @@ import com.TigersIter2.assets.FileReader;
 import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.items.TakeableItem;
 import com.TigersIter2.location.Location;
-import com.TigersIter2.location.LocationConverter;
 import com.TigersIter2.skills.SkillTree;
 import com.TigersIter2.stats.PlayerStats;
-import com.TigersIter2.stats.Stats;
-import com.TigersIter2.stats.StatsModifier;
-import com.sun.org.apache.bcel.internal.generic.INEG;
 
 
 public class Avatar extends Entity{
