@@ -10,6 +10,10 @@ Backspace will always either exit or go back in a menu.
 
 'Z' will mount/unmount a vehicle (turtle).
 
+'X' will open status view.
+
+'C' will attack.
+
 'V' will open your skills to use.
 
 Enter will get you through the first two screens.
