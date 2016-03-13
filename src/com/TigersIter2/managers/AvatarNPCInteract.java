@@ -380,7 +380,15 @@ public class AvatarNPCInteract {
                                 observed += error;
                                 MessageView.addMessage("-"+Integer.toString(observed), npc.getPixelLocation().getX(), npc.getPixelLocation().getY());
                             }
-                        } else {
+                        }else if(weaponType.equals("Staff")){
+                            if(inRadialRange(npc, "none") == 0){
+                                // Melee attack
+                                observed = attackEnemy(npc);
+                                observed += error;
+                                MessageView.addMessage("-"+Integer.toString(observed), npc.getPixelLocation().getX(), npc.getPixelLocation().getY());
+                            }
+                        }
+                        else {
                             // Melee attack
                             observed = attackEnemy(npc);
                             observed += error;

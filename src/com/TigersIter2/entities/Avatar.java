@@ -4,12 +4,8 @@ import com.TigersIter2.assets.FileReader;
 import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.items.TakeableItem;
 import com.TigersIter2.location.Location;
-import com.TigersIter2.location.LocationConverter;
 import com.TigersIter2.skills.SkillTree;
 import com.TigersIter2.stats.PlayerStats;
-import com.TigersIter2.stats.Stats;
-import com.TigersIter2.stats.StatsModifier;
-import com.sun.org.apache.bcel.internal.generic.INEG;
 
 import java.util.HashSet;
 
@@ -36,6 +32,7 @@ public class Avatar extends Entity{
     private boolean currentlyMoving = false;
     private boolean onTileWithNPC = false;
     private boolean trading;
+    private boolean isTrapped = false;
 
 
     public Avatar(){
@@ -240,6 +237,14 @@ public class Avatar extends Entity{
 
     public boolean getTrading(){
         return trading;
+    }
+
+    public void setIsTrapped(boolean t){
+        isTrapped = t;
+    }
+
+    public boolean getIsTrapped(){
+        return isTrapped;
     }
 
     public int getTimeUntilAttack(){
