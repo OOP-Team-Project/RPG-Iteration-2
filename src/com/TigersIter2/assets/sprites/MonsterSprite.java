@@ -1,6 +1,7 @@
 package com.TigersIter2.assets.sprites;
 
 
+import com.TigersIter2.assets.SpriteLoader;
 import com.TigersIter2.assets.StaticVar;
 
 import java.awt.image.BufferedImage;

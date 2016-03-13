@@ -233,7 +233,7 @@ public class GameState extends State {
 
 
         if (controller.getKeyPressed() == KeyEvent.VK_SPACE) {
-            stateManager.setState(StateManager.INTRO);
+            stateManager.setState(StateManager.MAINMENU);
         }
     }
 

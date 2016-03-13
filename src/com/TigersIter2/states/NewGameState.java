@@ -35,17 +35,17 @@ public class NewGameState extends State {
     public void update(long elapsed) {
 
         counterBuffer++;
-        if (controller.getXMovement()==-1 && avatarSel > 1 && counterBuffer > 3) {
+        if (controller.getXMovement()==-1 && avatarSel > 1 && counterBuffer > 10) {
             avatarSel--;
             counterBuffer =0;
         }
-        else if (controller.getXMovement()==1 && avatarSel < 3 && counterBuffer > 3) {
+        else if (controller.getXMovement()==1 && avatarSel < 3 && counterBuffer > 10) {
             avatarSel++;
             counterBuffer =0;
         }
         else if (controller.getKeyPressed() == KeyEvent.VK_SPACE) stateManager.setState(StateManager.MAINMENU);
 
-        if (controller.getKeyPressed()==KeyEvent.VK_ENTER&&counterBuffer>3){
+        if (controller.getKeyPressed()==KeyEvent.VK_ENTER&&counterBuffer>5){
             FileWriter.stringToFile(StaticVar.avatarFile,FileWriter.intToString(avatarSel));
             stateManager.setState(StateManager.GAME);
         }

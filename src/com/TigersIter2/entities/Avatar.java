@@ -37,7 +37,9 @@ public class Avatar extends Entity{
     public Avatar(){
         //changed this to actually instantiate location. Not sure what Z is for atm. <-- Z is for hextile stuff in the future (Sam)
         location = new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight,0);
+        System.out.println("Location: " + 10 * StaticVar.terrainImageWidth + ", " + 10 * StaticVar.terrainImageHeight);
         pixelLocation = new Location(Math.round(StaticVar.xTilesFromEdge*StaticVar.terrainImageWidth*.75f - 80), Math.round(StaticVar.yTilesFromEdge*StaticVar.terrainImageHeight - Math.round(StaticVar.terrainImageHeight*1.2f)), 0);
+        System.out.println("PixelLocation: " + Math.round(StaticVar.xTilesFromEdge*StaticVar.terrainImageWidth*.75f - 80) + ", " + Math.round(StaticVar.yTilesFromEdge*StaticVar.terrainImageHeight - Math.round(StaticVar.terrainImageHeight*1.2f)));
         direction = 270;
         canPassMountain = false; //if anything this should be under skills (Sam)
         canPassWater = false;
@@ -46,6 +48,22 @@ public class Avatar extends Entity{
         money = 0;
         trading = false;
         setOccupation();
+    }
+
+    public void saveAvatar(){
+        String saveString = "location:\n"+location.getX()+" "+location.getY()+"\n";
+        saveString.concat("pixelLocation:\n"+pixelLocation.getX()+" "+pixelLocation.getY()+"\n");
+        saveString.concat("direction:\n"+direction+"\n");
+        saveString.concat("grass:\ntrue\n");
+        saveString.concat("water:\n"+canPassWater +"\n");
+        //needs to save location 1050,960
+        //needs to save pixelLocation 629,269
+        //direction 279
+        //can pass mountain, water false false
+        // inventory
+        //equipment
+        //money
+
     }
 
     //What is this supposed to do? -Sam

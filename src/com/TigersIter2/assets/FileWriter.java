@@ -21,7 +21,7 @@ public class FileWriter {
             return Integer.toString(val);
         }catch(NumberFormatException e){
             e.printStackTrace();
-            return "0";
+            return "-1";
         }
     }
 }
