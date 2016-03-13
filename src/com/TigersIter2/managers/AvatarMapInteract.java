@@ -30,10 +30,7 @@ public class AvatarMapInteract {
         //this.controller = controller;
     }
 
-    public void updateAvatarPos(long elapsed, int xMov, int yMov){
-
-        System.out.println("BEGIN");
-        System.out.println(avatar.getLocation().getX()+", "+avatar.getLocation().getY());
+    public boolean updateAvatarPos(long elapsed, int xMov, int yMov){
         //Location nextLocation = new Location(avatar.getLocation());
         Location nextLocation = new Location(0, 0, 0);
         nextLocation.setX(avatar.getLocation().getX());
@@ -48,10 +45,15 @@ public class AvatarMapInteract {
         nextLocation.incrementX(Math.round(xMov * elapsed * StaticVar.entitySpeed*avatar.getStats().getMovement()));
         nextLocation.incrementY(Math.round(yMov * elapsed * StaticVar.entitySpeed*avatar.getStats().getMovement()));
         //if next location is not on a different tile, update avatar position
-        if (map.checkPassable(LocationConverter.PixelLocationToHex(nextLocation))) avatar.update(xMov,yMov, elapsed);
-        System.out.println("END");
-        System.out.println(avatar.getLocation().getX()+", "+avatar.getLocation().getY());
-        System.out.println(nextLocation.getX() +", "+nextLocation.getY());
+        int terrainType = map.getTerrainType(LocationConverter.PixelLocationToHex(nextLocation));
+        if(terrainType == 1)
+            return true;
+        else if(terrainType == 2 && avatar.getCanPassWater())
+            return true;
+        else if(terrainType == 3 && avatar.getCanPassMountain())
+            return true;
+        else
+            return false;
     }
 
 }

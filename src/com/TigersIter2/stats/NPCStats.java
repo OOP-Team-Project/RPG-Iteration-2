@@ -37,6 +37,7 @@ public class NPCStats extends Stats {
         this.attack += sm.getAttack();
         this.agility += sm.getAgility();
         this.attackTime += sm.getAttackTime();
+        this.influenceRadius += sm.getInfluenceRadius();
     }
 
     public void removeStatModifier(NPCStatsModifier sm) {
@@ -46,6 +47,7 @@ public class NPCStats extends Stats {
             this.attack -= sm.getAttack();
             this.agility -= sm.getAgility();
             this.attackTime -= sm.getAttackTime();
+            this.influenceRadius -= sm.getInfluenceRadius();
         }
     }
 }

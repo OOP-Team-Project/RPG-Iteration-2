@@ -18,12 +18,12 @@ public class AreaEffectSprite {
         SpriteSheet teleportSheet = new SpriteSheet(SpriteLoader.loadImage("/textures/star.png"));
         SpriteSheet trapSheet = new SpriteSheet(SpriteLoader.loadImage("/textures/star.png"));
 
-        healDamage = healDamageSheet.cropSheet(0,0, StaticVar.itemImageWidth, StaticVar.itemImageHeight);
-        instantDeath = instantDeathSheet.cropSheet(0, 0, StaticVar.itemImageWidth, StaticVar.itemImageHeight);
-        levelUp = levelUpSheet.cropSheet(0, 0, StaticVar.itemImageWidth, StaticVar.itemImageHeight);
-        takeDamage = takeDamageSheet.cropSheet(0, 0, StaticVar.itemImageWidth, StaticVar.itemImageHeight);
-        teleport = teleportSheet.cropSheet(0, 0, StaticVar.itemImageWidth, StaticVar.itemImageHeight);
-        trap = trapSheet.cropSheet(0, 0, StaticVar.itemImageWidth, StaticVar.itemImageHeight);
+        healDamage = healDamageSheet.cropSheet(0,0, StaticVar.areaEffectImageWidth, StaticVar.areaEffectImageHeight);
+        instantDeath = instantDeathSheet.cropSheet(0, 0, StaticVar.areaEffectImageWidth, StaticVar.areaEffectImageHeight);
+        levelUp = levelUpSheet.cropSheet(0, 0, StaticVar.areaEffectImageWidth, StaticVar.areaEffectImageHeight);
+        takeDamage = takeDamageSheet.cropSheet(0, 0, StaticVar.areaEffectImageWidth, StaticVar.areaEffectImageHeight);
+        teleport = teleportSheet.cropSheet(0, 0, StaticVar.areaEffectImageWidth, StaticVar.areaEffectImageHeight);
+        trap = trapSheet.cropSheet(0, 0, StaticVar.areaEffectImageWidth, StaticVar.areaEffectImageHeight);
     }
 
 }
