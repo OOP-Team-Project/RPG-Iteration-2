@@ -3,6 +3,7 @@ package com.TigersIter2.skills;
 import com.TigersIter2.entities.Summoner;
 import com.TigersIter2.stats.PlayerStats;
 import com.TigersIter2.stats.StatsModifier;
+import com.TigersIter2.views.MessageView;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -100,15 +101,21 @@ public class Boon extends Skill {
                     timer.schedule(new TimedSkill(), LENGTH + skillLevel * LENGTH_LEVEL_MULTIPLIER);
                 }
                 System.out.println("Booned your stats");
+                MessageView.addMessage("Boon successful");
+                MessageView.drawMessage();
                 return true;
             }
             else {
                 System.out.println("Failed to boon your stats");
+                MessageView.addMessage("Boon failed");
+                MessageView.drawMessage();
                 return false;
             }
         }
         else{
             System.out.println("Failed to boon your stats");
+            MessageView.addMessage("Boon failed");
+            MessageView.drawMessage();
             return false;
         }
     }

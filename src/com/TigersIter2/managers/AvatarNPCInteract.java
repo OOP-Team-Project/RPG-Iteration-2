@@ -377,22 +377,34 @@ public class AvatarNPCInteract {
                             // Ranged attack
                             if (inLinearRange(npc, "range")) {
                                 observed = attackEnemy(npc);
-                                observed += error;
-                                MessageView.addMessage("-"+Integer.toString(observed), npc.getPixelLocation().getX(), npc.getPixelLocation().getY());
+                                if(observed == 0)
+                                    MessageView.addMessage("MISS", npc.getPixelLocation().getX(), npc.getPixelLocation().getY());
+                                else {
+                                    observed += error;
+                                    MessageView.addMessage("-" + Integer.toString(observed), npc.getPixelLocation().getX(), npc.getPixelLocation().getY());
+                                }
                             }
                         }else if(weaponType.equals("Staff")){
                             if(inRadialRange(npc, "none") == 0){
                                 // Melee attack
                                 observed = attackEnemy(npc);
-                                observed += error;
-                                MessageView.addMessage("-"+Integer.toString(observed), npc.getPixelLocation().getX(), npc.getPixelLocation().getY());
+                                if(observed == 0)
+                                    MessageView.addMessage("MISS", npc.getPixelLocation().getX(), npc.getPixelLocation().getY());
+                                else {
+                                    observed += error;
+                                    MessageView.addMessage("-" + Integer.toString(observed), npc.getPixelLocation().getX(), npc.getPixelLocation().getY());
+                                }
                             }
                         }
                         else {
                             // Melee attack
                             observed = attackEnemy(npc);
-                            observed += error;
-                            MessageView.addMessage("-"+Integer.toString(observed), npc.getPixelLocation().getX(), npc.getPixelLocation().getY());
+                            if(observed == 0)
+                                MessageView.addMessage("MISS", npc.getPixelLocation().getX(), npc.getPixelLocation().getY());
+                            else {
+                                observed += error;
+                                MessageView.addMessage("-" + Integer.toString(observed), npc.getPixelLocation().getX(), npc.getPixelLocation().getY());
+                            }
                         }
                     }
                 }
@@ -402,7 +414,7 @@ public class AvatarNPCInteract {
     }
 
     private void useBoon(String spellName){
-        ((Boon)avatar.getSkills().getSkill(spellName)).activate();
+        if(((Boon)avatar.getSkills().getSkill(spellName)).activate());
     }
 
     private void useEnchantment(String spellName){
@@ -488,7 +500,7 @@ public class AvatarNPCInteract {
     }
 
     private void retaliate(NPC npc){
-        if(npc.getCanAttack()) {
+        if(npc.getCanAttack() && !avatar.getStats().isDead()) {
             if(playerInRange(npc)) {
                 footerView.setDisplay(false);
                 footerView.setTradingView(false);
@@ -514,11 +526,16 @@ public class AvatarNPCInteract {
                     //END TESTING
 
                     avatar.getStats().decreaseCurrentLife(damage);
-                    if (avatar.getStats().getCurrentLife() <= 0)
+                    MessageView.addMessage("-" + damage);
+                    MessageView.drawMessage();
+                    if (avatar.getStats().getCurrentLife() <= 0) {
+                        if(avatar.getStats().getLivesLeft() > 0)
+                            avatar.getStats().decrementLivesLeft();
                         System.out.println("You died!!");
+                        MessageView.addMessage("You died!");
+                        MessageView.drawMessage();
+                    }
 
-                } else {
-                    //System.out.println("NPC missed!");
                 }
             }
         }
