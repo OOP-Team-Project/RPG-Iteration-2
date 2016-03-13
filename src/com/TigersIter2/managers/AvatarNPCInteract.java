@@ -600,6 +600,7 @@ public class AvatarNPCInteract implements ActionListener{
             if(npcOnTile.willTrade()) {
                 trading = true;
                 avatar.setTrading(trading);
+                footerView.setDiscount(avatar.getStats().getBarter());
                 footerView.setPlayerInventory(avatar.getInventory());
                 footerView.setNpcInventory(npcOnTile.getInventory());
                 //START TRADING
@@ -710,6 +711,7 @@ public class AvatarNPCInteract implements ActionListener{
             }
             else if(footerView.getWhoseSide() == 1){
                 if(footerView.getPlayerValue() >= footerView.getNpcValue()) {
+                    System.out.println(avatar.getStats().getBarter());
                     for (TakeableItem item : playerSelectedInventory.getItems()) {
                         npcOnTile.getInventory().addItem(item);
                         avatar.getInventory().getItems().remove(item);
