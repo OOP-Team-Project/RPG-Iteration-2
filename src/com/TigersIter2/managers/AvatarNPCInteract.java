@@ -543,7 +543,7 @@ public class AvatarNPCInteract implements ActionListener{
                 } else if (skillMain || skillSecondary) {
                     chooseSkills(selected);
                 } else if (usingItem) {
-
+                    chooseItem(selected);
                 } else if (selected == 1) {
                     if (npcOnTile.willTalk()) {
                         haveConversation(0);
@@ -561,7 +561,7 @@ public class AvatarNPCInteract implements ActionListener{
                 } else if (selected == 3) {
                     drawSkillMenu();
                 } else if (selected == 4) {
-                    //Use Item
+                    useItem();
                 } else if (selected == 100) {
                     footerView.setType(0);
                     footerView.setMenuOptions(originalOptions);
@@ -643,6 +643,7 @@ public class AvatarNPCInteract implements ActionListener{
         NPC v = new Villager(p, talk, trade, attack);
         //v.getInventory().addItem(new OneHandedWeaponItem("Sword",5));
         npcList.add(v);
+        v.getStats().setCurrentLife(30);
         v.getLocation().setX(avatar.getLocation().getX()-50);
         v.getLocation().setY(avatar.getLocation().getY());
     }
@@ -875,6 +876,45 @@ public class AvatarNPCInteract implements ActionListener{
         else
             System.out.println("NPC has nothing to steal");
 
+    }
+
+    private void useItem(){
+        List<String> usableItems = new ArrayList<String>();
+        for(TakeableItem item : avatar.getInventory().getItems()){
+            if(item.isUsable()){
+                usableItems.add(item.toString());
+            }
+        }
+        if(usableItems.size() > 0) {
+            footerView.setType(0);
+            footerView.setMenuOptions(usableItems);
+            usingItem = true;
+        }
+        else{
+            resetOptions();
+        }
+    }
+
+    private void chooseItem(int selected){
+        if(selected == 100) {
+            resetOptions();
+            return;
+        }
+        int count = 1;
+        Iterator<TakeableItem> iter = avatar.getInventory().getItems().iterator();
+        while(iter.hasNext()){
+            TakeableItem item = iter.next();
+            if(item.isUsable()){
+                if(selected == count){
+                    npcOnTile.getStats().increaseCurrentLife(item.getStatsModifier().getLife());        //only works for health potions
+                    iter.remove();
+                    useItem();
+                    return;
+                }
+                else
+                    ++count;
+            }
+        }
     }
 
     private void clearSelectedInventories(){

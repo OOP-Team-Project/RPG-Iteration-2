@@ -65,6 +65,8 @@ public class GameState extends State {
         map = new TerrainMap(StaticVar.map1);
         avatar = new Avatar();
         TakeableItem potion = new Potion("Health Potion", 10);
+        TakeableItem potion2 = new Potion("Man Potion", 10);
+        TakeableItem potion3 = new Potion("Death Potion", 10);
         TakeableItem butterKnife = new RangedWeaponItem("Crossbow", 1, 1, 0);
         ant = new AvatarNPCInteract(avatar, footerView);
         vehicleViews = new ArrayList<VehicleView>();
@@ -74,6 +76,8 @@ public class GameState extends State {
         itemManager.addItem(potion);
         itemManager.addItem(butterKnife);
         avatar.getInventory().addItem(potion);
+        avatar.getInventory().addItem(potion2);
+        avatar.getInventory().addItem(potion3);
         avatar.getInventory().addItem(butterKnife);
 
 

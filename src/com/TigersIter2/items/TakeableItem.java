@@ -9,6 +9,7 @@ import com.TigersIter2.stats.StatsModifier;
 public abstract class TakeableItem extends Item {
 
     protected boolean equippable = false;
+    protected boolean usable = false;
     private String name;
     protected String weaponType;
     private int priceValue = 10; //this is the value of the item which is used in bartering
@@ -39,4 +40,8 @@ public abstract class TakeableItem extends Item {
     public int getPrice() { return priceValue; }
 
     public StatsModifier getStatsModifier() { return sm; }
+
+    public boolean isUsable(){
+        return usable;
+    }
 }

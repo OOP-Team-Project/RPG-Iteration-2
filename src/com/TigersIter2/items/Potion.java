@@ -15,5 +15,6 @@ public class Potion extends TakeableItem {
         this.sm = new StatsModifier();
         sm.setLife(sm.getLife()+addHealth);
         itemType = 5;
+        usable = true;
     }
 }
