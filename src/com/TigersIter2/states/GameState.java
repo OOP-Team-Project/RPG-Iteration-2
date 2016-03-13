@@ -166,16 +166,13 @@ public class GameState extends State {
 
 
         mapView = new MapView(map, avatar, pet);
-        areaView =  new AreaView(mapView,avatarView, petView, vehicleViews, footerView, statusView, npcViews, controlView, itemViews);
+        areaView =  new AreaView(mapView, avatarView, petView, vehicleViews, footerView, statusView, npcViews, controlView, itemViews, areaEffectViews);
 
         for(AreaEffect aEffect : aem.getAreaEffects()){
             areaEffectViews.add(new AreaEffectView(aEffect, avatar, map));
         }
 
 
-
-        mapView = new MapView(map, avatar);
-        areaView =  new AreaView(mapView,avatarView, vehicleViews, footerView, statusView, npcViews, controlView, itemViews, areaEffectViews);
         this.add(areaView);
 
         System.out.println("GameState initialized");
