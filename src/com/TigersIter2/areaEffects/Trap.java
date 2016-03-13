@@ -4,6 +4,7 @@ import com.TigersIter2.entities.Avatar;
 import com.TigersIter2.entities.Entity;
 import com.TigersIter2.managers.AreaEffectManager;
 import com.TigersIter2.skills.DetectRemoveTrap;
+import com.TigersIter2.views.MessageView;
 
 /**
  * Created by MyMac on 3/11/16.
@@ -40,14 +41,16 @@ public class Trap extends AreaEffect{
                 // trap removed when avatar detects it
                 display = false;
                 removed = true;
-                System.out.println("Successfully removed trap!");
+                MessageView.addMessage("Removed trap!");
+                MessageView.drawMessage();
             }
             // What do we want to happen if you get caught in a trap?
             // Right now it holds the avatar for 5 seconds by putting the thread tow sleep
             else{
                 try {
                     display = true;
-                    System.out.println("Thread sleeping for 3 seconds");
+                    MessageView.addMessage("Trapped!");
+                    MessageView.drawMessage();
                     Thread.sleep(3000);
                 }catch(Exception e){
                     System.out.println(e);

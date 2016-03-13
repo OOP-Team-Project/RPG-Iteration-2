@@ -16,24 +16,46 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class MessageView extends View implements ActionListener{
+public class MessageView extends View {
 
     private static boolean display = false;
-    private static int time = 0;
-    private static String message = "";
+    private static boolean newMessage = false;
+    private static List<String> messageList = new ArrayList<String>();
+    private static List<String> oldMessageList = new ArrayList<String>();
+    private static List<Integer> xPos = new ArrayList<Integer>();
+    private static List<Integer> yPos = new ArrayList<Integer>();
+    private static Timer messageTimer = new Timer(800, new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            display = false;
+            xPos.clear();
+            yPos.clear();
+            messageList.clear();
+        }
+    });
 
     public MessageView(){
         setPreferredSize(new Dimension(StaticVar.gameWidth - 400, 200));
     }
 
-    public static void drawMessage(String msg, int duration){
-        time = duration;
-        message = msg;
-        display = true;
+    public static void addMessage(String msg){
+        messageList.add(msg);
+        xPos.add(-1);
+        yPos.add(-1);
     }
 
-    public void actionPerformed(ActionEvent e) {
-        display = false;
+    public static void addMessage(String msg, int x, int y){
+        messageList.add(msg);
+        xPos.add(x);
+        yPos.add(y);
+    }
+
+    public static void drawMessage(){
+        display = true;
+        newMessage = true;
+        oldMessageList.clear();
+        for(String s : messageList)
+            oldMessageList.add(s);
     }
 
 
@@ -44,21 +66,24 @@ public class MessageView extends View implements ActionListener{
                 RenderingHints.VALUE_ANTIALIAS_ON);
 
         if(display) {
-            if(time > 0) {
-                Timer messageTimer = new Timer(time, this);
-                messageTimer.start();
-                time = 0;
+            if(newMessage) {
+                messageTimer.restart();
+                newMessage = false;
             }
-            FontMetrics fm = g2d.getFontMetrics();
-            Rectangle2D r = fm.getStringBounds(message, g2d);
-            int x = (StaticVar.gameWidth - (int) r.getWidth()) / 3;
-            int y = 110;
-            g2d.setColor(Color.black);
-            g2d.setFont(new Font("TimesRoman", Font.BOLD, 40));
-            g2d.drawString(message, x-2, y+2);
-            g2d.setColor(Color.red);
-            g2d.setFont(new Font("TimesRoman", Font.BOLD, 40));
-            g2d.drawString(message, x, y);
+            for(int i = 0; i < oldMessageList.size(); ++i) {
+                if (xPos.get(i) == -1 && yPos.get(i) == -1) {
+                    FontMetrics fm = g2d.getFontMetrics();
+                    Rectangle2D r = fm.getStringBounds(oldMessageList.get(i), g2d);
+                    xPos.set(i,(StaticVar.gameWidth - (int) r.getWidth()) / 2);
+                    yPos.set(i,(StaticVar.gameHeight - (int) r.getHeight()) / 2 + fm.getAscent() - 100);
+                }
+                g2d.setColor(Color.black);
+                g2d.setFont(new Font("TimesRoman", Font.BOLD, 20));
+                g2d.drawString(oldMessageList.get(i), xPos.get(i) - 2, yPos.get(i) + 2);
+                g2d.setColor(Color.red);
+                g2d.setFont(new Font("TimesRoman", Font.BOLD, 20));
+                g2d.drawString(oldMessageList.get(i), xPos.get(i), yPos.get(i));
+            }
         }
 
 

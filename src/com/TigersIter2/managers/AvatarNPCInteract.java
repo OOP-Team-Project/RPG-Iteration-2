@@ -7,6 +7,7 @@ import com.TigersIter2.location.LocationConverter;
 import com.TigersIter2.skills.*;
 import com.TigersIter2.stats.NPCStatsModifier;
 import com.TigersIter2.views.FooterView;
+import com.TigersIter2.views.MessageView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -345,8 +346,20 @@ public class AvatarNPCInteract implements ActionListener{
             return -1;
     }
 
+    private int getObservationError(){
+        int observed = 0;
+        int error;
+        double accuracy = ((Observation)avatar.getSkills().getSkill("Observation")).getAccuracy();
+        Random rand = new Random();
+        error = rand.nextInt(10 - (int)(accuracy*10));
+        if(Math.random() < 0.5)
+            error = -error;
+        return error;
+    }
+
     public void attack(){
-        //NEED SOME SORT OF TIMING FOR THIS METHOD
+        int observed = 0;
+        int error = getObservationError();
         if(playerCanAttack) {
             playerCanAttack = false;
             //Check your position/direction/range against the NPC's in the list
@@ -360,15 +373,21 @@ public class AvatarNPCInteract implements ActionListener{
                             System.out.println("Not holding a weapon, can't attack");
                         } else if (weaponType.equals("RangedWeapon")) {
                             // Ranged attack
-                            if (inLinearRange(npc))
-                                attackEnemy(npc);
+                            if (inLinearRange(npc)) {
+                                observed = attackEnemy(npc);
+                                observed += error;
+                                MessageView.addMessage("-"+Integer.toString(observed), npc.getPixelLocation().getX(), npc.getPixelLocation().getY());
+                            }
                         } else {
                             // Melee attack
-                            attackEnemy(npc);
+                            observed = attackEnemy(npc);
+                            observed += error;
+                            MessageView.addMessage("-"+Integer.toString(observed), npc.getPixelLocation().getX(), npc.getPixelLocation().getY());
                         }
                     }
                 }
             }
+            MessageView.drawMessage();
         }
     }
 
@@ -399,6 +418,7 @@ public class AvatarNPCInteract implements ActionListener{
     }
 
     private void useBane(String spellName){
+        int error = getObservationError();
         if(playerCanAttack) {
             playerCanAttack = false;
             //Check your position/direction/range against the NPC's in the list
@@ -413,6 +433,7 @@ public class AvatarNPCInteract implements ActionListener{
                         Random rand = new Random();
                         if (damage > 0) {
                             damage = rand.nextInt(damage);
+                            MessageView.addMessage("-"+Integer.toString(damage + error), npc.getPixelLocation().getX(), npc.getPixelLocation().getY());
                             npc.getStats().decreaseCurrentLife(damage);
                             System.out.println("Dealt " + damage + " damage");
                         } else {
@@ -430,10 +451,11 @@ public class AvatarNPCInteract implements ActionListener{
 
                 }
             }
+            MessageView.drawMessage();
         }
     }
 
-    private void attackEnemy(NPC npc){
+    private int attackEnemy(NPC npc){
         String weaponType = avatar.getWeaponType();
         Random rand = new Random();
         int damage = avatar.getSkills().getSkill(weaponType).getDamage() - npc.getStats().getDefensiveRating() + npc.getStats().getArmorRating();
@@ -452,6 +474,7 @@ public class AvatarNPCInteract implements ActionListener{
             killNPC(npc);
             resetOptions();
         }
+        return damage;
     }
 
     private void retaliate(NPC npc){
@@ -773,7 +796,10 @@ public class AvatarNPCInteract implements ActionListener{
                 //resetOptions();
             }
             else if(selected == 2){
-                //observe()
+                int current = npcOnTile.getStats().getCurrentLife() + getObservationError();
+                int total = npcOnTile.getStats().getLife() + getObservationError();
+                MessageView.addMessage(Integer.toString(current)+"/"+Integer.toString(total), npcOnTile.getPixelLocation().getX(), npcOnTile.getPixelLocation().getY());
+                MessageView.drawMessage();
             }
             else if(selected == 3){
                 if(avatar.getOccupation().toString().equals("Summoner")){
