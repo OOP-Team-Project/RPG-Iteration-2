@@ -1,11 +1,13 @@
 package com.TigersIter2.managers;
 
+import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.entities.*;
 import com.TigersIter2.items.TakeableItem;
 import com.TigersIter2.location.Location;
 import com.TigersIter2.location.LocationConverter;
 import com.TigersIter2.skills.*;
 import com.TigersIter2.stats.NPCStatsModifier;
+import com.TigersIter2.views.AttackIndicatorView;
 import com.TigersIter2.views.FooterView;
 import com.TigersIter2.views.MessageView;
 
@@ -91,7 +93,7 @@ public class AvatarNPCInteract {
             return false;
     }
 
-    private boolean inLinearRange(NPC npc) {
+    private boolean inLinearRange(NPC npc, String attackType) {
         boolean ret = false;
         int dir = avatar.getDirection();
         int xDist = LocationConverter.PixelLocationToHex(npc.getLocation()).getX() - LocationConverter.PixelLocationToHex(avatar.getLocation()).getX();
@@ -143,10 +145,14 @@ public class AvatarNPCInteract {
                     ret = true;
             }
         }
+
+        if(ret)
+            AttackIndicatorView.addIndicator(attackType, npc.getPixelLocation().getX(), npc.getPixelLocation().getY());
+        AttackIndicatorView.drawIndicator();
         return ret;
     }
 
-    private boolean inAngularRange(NPC npc){
+    private boolean inAngularRange(NPC npc, String attackType){
         boolean ret = false;
         int dir = avatar.getDirection();
         int xDist = LocationConverter.PixelLocationToHex(npc.getLocation()).getX() - LocationConverter.PixelLocationToHex(avatar.getLocation()).getX();
@@ -277,10 +283,13 @@ public class AvatarNPCInteract {
             }
         }
 
+        if(ret)
+            AttackIndicatorView.addIndicator(attackType, npc.getPixelLocation().getX(), npc.getPixelLocation().getY());
+        AttackIndicatorView.drawIndicator();
         return ret;
     }
 
-    private int inRadialRange(NPC npc){
+    private int inRadialRange(NPC npc, String attackType){
         int ret = avatar.getStats().getInfluenceRadius()+1;
         int xDist = LocationConverter.PixelLocationToHex(npc.getLocation()).getX() - LocationConverter.PixelLocationToHex(avatar.getLocation()).getX();
         int yDist = LocationConverter.PixelLocationToHex(npc.getLocation()).getY() - LocationConverter.PixelLocationToHex(avatar.getLocation()).getY();
@@ -299,22 +308,25 @@ public class AvatarNPCInteract {
         xDist = Math.abs(xDist);
         yDist = Math.abs(yDist);
         if(xDist <= range && yDist <= range){
+            AttackIndicatorView.addIndicator(attackType, npc.getPixelLocation().getX(), npc.getPixelLocation().getY());
             if(xDist >= yDist)
                 ret = xDist;
             else
                 ret = yDist;
         }
+        AttackIndicatorView.drawIndicator();
+
         return ret;
     }
 
-    private int withinInfluenceRadius(String type, NPC npc){
+    private int withinInfluenceRadius(String type, NPC npc, String attackType){
         if(enemyInRange(npc)) {
-            if (type.equals("linear") && inLinearRange(npc))
+            if (type.equals("linear") && inLinearRange(npc, attackType))
                 return 0;
-            else if (type.equals("angular") && inAngularRange(npc))
+            else if (type.equals("angular") && inAngularRange(npc, attackType))
                 return 0;
             else if (type.equals("radial"))
-                return inRadialRange(npc);
+                return inRadialRange(npc, attackType);
             else
                 return -1;
         }
@@ -348,7 +360,7 @@ public class AvatarNPCInteract {
                         String weaponType = avatar.getWeaponType();
                         if (weaponType.equals("none")) {
                             if(avatar.getOccupation().toString().equals("Sneak") && ((Creep)avatar.getSkills().getSkill("Creep")).isActive()
-                                    && inRadialRange(npc) == 0) {
+                                    && inRadialRange(npc, "none") == 0) {
                                 npc.getStats().decreaseCurrentLife(15);
                                 System.out.println(npc.getStats().getCurrentLife() + "/" + npc.getStats().getLife());
                                 if (npc.isAlive()) {
@@ -363,7 +375,7 @@ public class AvatarNPCInteract {
                                 System.out.println("Not holding a weapon, can't attack");
                         } else if (weaponType.equals("RangedWeapon")) {
                             // Ranged attack
-                            if (inLinearRange(npc)) {
+                            if (inLinearRange(npc, "range")) {
                                 observed = attackEnemy(npc);
                                 observed += error;
                                 MessageView.addMessage("-"+Integer.toString(observed), npc.getPixelLocation().getX(), npc.getPixelLocation().getY());
@@ -393,7 +405,7 @@ public class AvatarNPCInteract {
             while (iter.hasNext()) {
                 NPC npc = iter.next();
                 if(npc.isAlive()) {
-                    if(withinInfluenceRadius(avatar.getSkills().getSkill(spellName).getInfluenceRadiusType(), npc) > -1){
+                    if(withinInfluenceRadius(avatar.getSkills().getSkill(spellName).getInfluenceRadiusType(), npc, "enchantment") > -1){
                     Enchantment spell = (Enchantment)avatar.getSkills().getSkill(spellName);
                     NPCStatsModifier nsm = spell.getStatModifier();
                     if(nsm.isEmpty())
@@ -417,7 +429,7 @@ public class AvatarNPCInteract {
                 NPC npc = iter.next();
                 if(npc.isAlive()) {
                     int radialRing;
-                    if((radialRing = (withinInfluenceRadius(avatar.getSkills().getSkill(spellName).getInfluenceRadiusType(), npc))) > -1) {
+                    if((radialRing = (withinInfluenceRadius(avatar.getSkills().getSkill(spellName).getInfluenceRadiusType(), npc, "bane"))) > -1) {
                         int damage = avatar.getSkills().getSkill(spellName).getDamage() - npc.getStats().getDefensiveRating() + npc.getStats().getArmorRating();
                         damage = damage - (radialRing * (damage/(avatar.getInfluenceRadius()+1)));     //Accounts for lessening damage the farther from center you go
                         Random rand = new Random();
@@ -646,6 +658,7 @@ public class AvatarNPCInteract {
         m.getStats().setArmor(3);
         m.getStats().setStrength(13);
         m.getStats().setAttack(20);
+        m.getStats().setInfluenceRadius(1);
         //END TESTING
 
         npcList.add(m);

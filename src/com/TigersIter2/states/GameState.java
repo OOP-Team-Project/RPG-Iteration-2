@@ -50,6 +50,7 @@ public class GameState extends State {
     private SkillManagementView smv;
 
     private MessageView messageView;
+    private AttackIndicatorView attackIndicatorView;
 
 
     public GameState(StateManager stateManager, Controller controller){
@@ -61,6 +62,7 @@ public class GameState extends State {
         controller.setBindings(); //added this to remove enter key functionality from previous menustates
         footerView = new FooterView();
         messageView = new MessageView();
+        attackIndicatorView = new AttackIndicatorView();
         controlView = new ControlView(controller);
         vehicleViews = new ArrayList<VehicleView>();
         npcViews = new ArrayList<NPCView>();
@@ -163,6 +165,7 @@ public class GameState extends State {
         ItemSprite.init();
         AreaEffectSprite.init();
         SkillsSprite.init();
+        AttackSprite.init();
 
         avatarView = new AvatarView(avatar);
         statusView = new StatusView(avatar);
@@ -183,6 +186,7 @@ public class GameState extends State {
         mapView = new MapView(map, avatar);
         areaView =  new AreaView(mapView,avatarView, vehicleViews, footerView, statusView, npcViews, controlView, itemViews, areaEffectViews);
         this.add(messageView);
+        this.add(attackIndicatorView);
         this.add(areaView);
 
 
