@@ -209,6 +209,7 @@ public class GameState extends State {
         controller.resetOptionSelected();
     }
 
+    // TODO: this shouldn't be in GameState. Should use checkPassable() from TerrainMap
     private boolean canPassTerrain(int xMov, int yMov, long elapsed){
         Location nextLocation = new Location(0, 0, 0);
         nextLocation.setX(avatar.getLocation().getX());

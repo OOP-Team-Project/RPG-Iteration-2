@@ -122,7 +122,7 @@ public abstract class NPC extends Entity{
         return location;
     }
 
-    private void changeDirection(int x, int y){
+    public void changeDirection(int x, int y){
         if(x == 0){
             if(y == 1)
                 direction = 270;
