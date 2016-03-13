@@ -413,6 +413,9 @@ public class PlayerStats extends Stats {
         this.abilityPoints--;
     }
 
+    //temporary fix due to change of skills one day before d day
+    public void incrementAbilityPoints() { this.abilityPoints++; }
+
     //***********************************************TESTING***************************************************//
     public static void main(String[] args) {
         Occupation o = new Smasher();

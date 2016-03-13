@@ -202,6 +202,9 @@ public class GameState extends State {
                 controller.setControlViewControls(controlView.getDisplay());
                 break;
             case 10:
+                smv.toggle();
+                controller.setSkillViewControls(smv.getDisplay());
+                break;
             case -1:
                 break;
             default:
@@ -246,6 +249,10 @@ public class GameState extends State {
                 statusView.toggle();
                 controller.setStatusViewControls(statusView.getDisplay());
             }
+        }
+        else if(smv.getDisplay()) {
+            int input = controller.getTradeMenuInput();
+            smv.handleInput(input);
         }
 
 

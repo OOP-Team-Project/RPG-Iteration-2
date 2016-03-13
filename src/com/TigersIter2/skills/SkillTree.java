@@ -123,7 +123,7 @@ public class SkillTree {
 //        abilityPoints += ap;
 //    }
 //
-//    public void incrementAbilityPoints() { abilityPoints++; }
+    public void incrementAbilityPoints() { playerStats.incrementAbilityPoints(); }
 
     /**
      * returns the available ap's
