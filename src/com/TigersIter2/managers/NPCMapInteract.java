@@ -29,8 +29,6 @@ public class NPCMapInteract {
 
     public void updateNPCPos(NPC npc, long elapsed, int xMov, int yMov){
 
-        System.out.println("BEGIN");
-        System.out.println(npc.getLocation().getX()+", "+npc.getLocation().getY());
         //Location nextLocation = new Location(avatar.getLocation());
         Location nextLocation = new Location(0, 0, 0);
         nextLocation.setX(npc.getLocation().getX());
@@ -40,7 +38,8 @@ public class NPCMapInteract {
         nextLocation.incrementY(Math.round(yMov * elapsed * StaticVar.entitySpeed*npc.getStats().getMovement()));
 
         // if next is passable, continue in same direction
-        if (map.checkPassable(LocationConverter.PixelLocationToHex(nextLocation))){
+        int terrain = map.getTerrainType(LocationConverter.PixelLocationToHex(nextLocation));
+        if (terrain == 1){
             convertDegreesToCoord(npc.getDirection());
             npc.update(xMov, yMov, elapsed);
         }
@@ -48,11 +47,9 @@ public class NPCMapInteract {
             // Changes xMov and yMov by random direction
             convertDegreesToCoord(randomDirection(npc));
             npc.changeDirection(xMov, yMov);
+            System.out.println("Moving in different direction");
         }
 
-        System.out.println("END");
-        System.out.println(npc.getLocation().getX()+", "+npc.getLocation().getY());
-        System.out.println(nextLocation.getX() +", "+nextLocation.getY());
     }
 
     public int getxMov(NPC npc){

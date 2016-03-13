@@ -251,10 +251,10 @@ public class GameState extends State {
             int npcXmov = npcMapInteract.getxMov(n);
             int npcYmov = npcMapInteract.getyMov(n);
             boolean npcCanMove = itemManager.checkTile(elapsed, npcXmov, npcYmov); //returns false if item is an obstacle
-
-            if (npcCanMove && npcMapInteract.canPassTerrain(n,map,npcMapInteract.getNextLocation(n, elapsed))){
+            if (npcCanMove){
                 //npcMapInteract.updateNPCPos(n, elapsed, npcXmov, npcYmov);
                 npcMapInteract.updateNPCPos(n, elapsed, npcXmov, npcYmov);
+                System.out.println(n.getLocation().toString());
             }
         }
 
