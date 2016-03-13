@@ -1,6 +1,7 @@
 package com.TigersIter2.managers;
 
 import com.TigersIter2.areaEffects.*;
+import com.TigersIter2.entities.Avatar;
 import com.TigersIter2.entities.Entity;
 import com.TigersIter2.location.Location;
 import com.TigersIter2.location.LocationConverter;
@@ -42,18 +43,22 @@ public class AreaEffectManager {
     public void checkTile(){
         Iterator<AreaEffect> iter = effects.iterator();
         while(iter.hasNext()){
-                AreaEffect effect = iter.next();
-                if (LocationConverter.PixelLocationToHex(entityOnTile.getLocation()).getX() == LocationConverter.PixelLocationToHex(effect.getLocation()).getX() &&
-                        LocationConverter.PixelLocationToHex(entityOnTile.getLocation()).getY() == LocationConverter.PixelLocationToHex(effect.getLocation()).getY()) {
-                    if (effect instanceof Trap) {
-                        if (((Trap) effect).getRemoved()) {
-                        }
-                        else effect.affectEntity(entityOnTile);  // trap only effects avatar if it hasn't been removed
+            AreaEffect effect = iter.next();
+            if (LocationConverter.PixelLocationToHex(entityOnTile.getLocation()).getX() == LocationConverter.PixelLocationToHex(effect.getLocation()).getX() &&
+                    LocationConverter.PixelLocationToHex(entityOnTile.getLocation()).getY() == LocationConverter.PixelLocationToHex(effect.getLocation()).getY()) {
+                if (effect instanceof Trap) {
+                    if (((Trap) effect).getRemoved()) {
                     }
-                    else{
-                        effect.affectEntity(entityOnTile);
-                    }
+                    else effect.affectEntity(entityOnTile);  // trap only effects avatar if it hasn't been removed
                 }
+                else{
+                    effect.affectEntity(entityOnTile);
+                }
+            }
+            else{
+                if(entityOnTile instanceof Avatar)
+                    ((Avatar)entityOnTile).setIsTrapped(false);
+            }
         }
     }
 

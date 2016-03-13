@@ -222,6 +222,7 @@ public class GameState extends State {
             case 10:
                 smv.toggle();
                 controller.setSkillViewControls(smv.getDisplay());
+                break;
             case 11:
                 ant.startSkillsNotFromInteraction();
                 break;
