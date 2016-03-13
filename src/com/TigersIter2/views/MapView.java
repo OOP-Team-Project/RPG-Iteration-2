@@ -123,7 +123,7 @@ public class MapView extends View {
                             //((TileView) getComponent((i * tileViews.get(0).size()) + j)).setCurrentYLocation(j);
                             pHandle.setPixelLocation(new Location(pHandle.getPixelLocation().getX(), Math.round(pHandle.getLocation().getY() - Math.round(StaticVar.terrainImageHeight*1.2f)), 0));
                         }
-                        else if((float) (aHandle.getLocation().getY())/StaticVar.terrainImageHeight > (tileViews.get(0).size() - StaticVar.yTilesFromEdge)) {
+                        else if((float) (pHandle.getLocation().getY())/StaticVar.terrainImageHeight > (tileViews.get(0).size() - StaticVar.yTilesFromEdge)) {
                             //((TileView) getComponent((i * tileViews.get(0).size()) + j)).setCurrentYLocation(j - tileViews.get(0).size() + StaticVar.yTilesFromEdge*2);
                             pHandle.setPixelLocation(new Location(pHandle.getPixelLocation().getX(), Math.round((pHandle.getLocation().getY() - ((tileViews.get(0).size() - StaticVar.yTilesFromEdge*2) * StaticVar.terrainImageHeight)) - Math.round(StaticVar.terrainImageHeight*1.2f)), 0));
                         }
@@ -191,8 +191,14 @@ public class MapView extends View {
 
                 //Miles Tests below:
                 Location aHexLocation = LocationConverter.PixelLocationToHex(aHandle.getLocation());
+                Location pHexLocation = LocationConverter.PixelLocationToHex(pHandle.getLocation());
 
-                if(aHexLocation.getX() == i && aHexLocation.getY() == j)
+                /*if(aHexLocation.getX() == i && aHexLocation.getY() == j)
+                    tileViews.get(i).get(j).shouldGlow(true);
+                else
+                    tileViews.get(i).get(j).shouldGlow(false);*/
+                //System.out.println(pHexLocation.toString());
+                if(pHexLocation.getX() == i && pHexLocation.getY() == j)
                     tileViews.get(i).get(j).shouldGlow(true);
                 else
                     tileViews.get(i).get(j).shouldGlow(false);

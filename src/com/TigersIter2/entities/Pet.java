@@ -4,6 +4,7 @@ package com.TigersIter2.entities;
 import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.location.Location;
 import com.TigersIter2.location.LocationConverter;
+import com.TigersIter2.maps.TerrainMap;
 
 /**
  * Created by Josh on 2/27/2016.
@@ -23,21 +24,17 @@ public class Pet extends Entity {
         //sets the location of the Pet to be next to the avatar
         int avatarXLocation = avatar.getLocation().getX();
         int avatarYLocation = avatar.getLocation().getY();
-        this.location = new Location(avatarXLocation+300, avatarYLocation-300, 0);
-        int avatarXPixelLoc = avatar.getPixelLocation().getX();
-        int avatarYPixelLoc = avatar.getPixelLocation().getY();
-        this.pixelLocation = new Location(avatarXPixelLoc+300, avatarYPixelLoc-300, 0);
+        this.location = new Location(avatarXLocation+50, avatarYLocation+130, 0);
+        this.pixelLocation = new Location(Math.round(StaticVar.xTilesFromEdge*StaticVar.terrainImageWidth*.75f - 80), Math.round(StaticVar.yTilesFromEdge*StaticVar.terrainImageHeight - Math.round(StaticVar.terrainImageHeight*1.2f)), 0);
+
     }
 
     @Override
     public void update(int xMovement, int yMovement, long elapsed) {
-        //checks to see if avatar is currently moving
-        if(avatar.isCurrentlyMoving()) {
-            //made the Pet the same speed as the avatar
-            location.incrementX(Math.round(xMovement * elapsed * StaticVar.entitySpeed * avatar.getStats().getMovement()));
-            location.incrementY(Math.round(yMovement * elapsed * StaticVar.entitySpeed * avatar.getStats().getMovement()));
-            changeDirection(xMovement, yMovement);
-        }
+        //made the Pet the same speed as the avatar
+        location.incrementX(Math.round(xMovement * elapsed * StaticVar.entitySpeed * avatar.getStats().getMovement()));
+        location.incrementY(Math.round(yMovement * elapsed * StaticVar.entitySpeed * avatar.getStats().getMovement()));
+
     }
 
     public int getDirection(){
@@ -70,5 +67,22 @@ public class Pet extends Entity {
             else if(y < 0)
                 direction = 135;
         }
+    }
+
+    public boolean canPassTerrain(int xMov, int yMov, long elapsed, TerrainMap map){
+        Location nextLocation = new Location(0, 0, 0);
+        nextLocation.setX(this.getLocation().getX());
+        nextLocation.setY(this.getLocation().getY());
+        nextLocation.incrementX(Math.round(xMov * elapsed * StaticVar.entitySpeed*avatar.getStats().getMovement()));
+        nextLocation.incrementY(Math.round(yMov * elapsed * StaticVar.entitySpeed*avatar.getStats().getMovement()));
+        int terrainType = map.getTerrainType(LocationConverter.PixelLocationToHex(nextLocation));
+        if(terrainType == 1)
+            return true;
+        else if(terrainType == 2 && avatar.getCanPassWater())
+            return true;
+        else if(terrainType == 3 && avatar.getCanPassMountain())
+            return true;
+        else
+            return false;
     }
 }

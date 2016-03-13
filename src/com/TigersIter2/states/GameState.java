@@ -84,7 +84,7 @@ public class GameState extends State {
 
 
         pet = new Pet("Crab", avatar);
-        petManager = new PetManager(pet, itemManager);
+        petManager = new PetManager(pet, itemManager, avatar, map);
 
 
 
@@ -123,7 +123,6 @@ public class GameState extends State {
         ohSword.setLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight - 200,0));
         ohSword.setPixelLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight - 200,0));
 
-        TakeableItem ohSword = new Sword("Sword");
         itemManager.addItem(ohSword);
         ant.addVillager(list, true, true, false);
        // ant.getNpcList().get(0).getInventory().addItem(ohSword);
@@ -260,8 +259,8 @@ public class GameState extends State {
         boolean avatarCanMove = itemManager.checkTile(elapsed, controller.getXMovement(), controller.getyMovement()); //returns false if item is an obstacle
         if(avatarCanMove && canPassTerrain(xMov, yMov, elapsed)) {
             avatar.update(xMov, yMov, elapsed);
-						pet.update(controller.getXMovement(), controller.getyMovement(), elapsed);
         }
+       petManager.updatePetPos(elapsed);
         //petManager.stealItem();
         View.update(controller.getCameraXMovement(), controller.getCameraYMovement(), elapsed);
         aem.checkTile();
