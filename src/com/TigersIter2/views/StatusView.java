@@ -4,6 +4,7 @@ import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.entities.Avatar;
 import com.TigersIter2.entities.Equipment;
 import com.TigersIter2.entities.Inventory;
+import com.TigersIter2.items.Potion;
 import com.TigersIter2.items.TakeableItem;
 import com.TigersIter2.stats.PlayerStats;
 
@@ -34,6 +35,7 @@ public class StatusView extends View implements ActionListener{
     private List<TakeableItem> playerSelectedItems;
     private List<TakeableItem> selectedEquipment;
     private boolean notEquippableMessage = false;
+    private boolean drankPotionMessage = false;
 
     public StatusView(Avatar a){
         setPreferredSize(new Dimension(StaticVar.gameWidth - 400, 200));
@@ -52,8 +54,10 @@ public class StatusView extends View implements ActionListener{
     }
 
     public void handleInput(int input){
-        if(input != -1)
+        if(input != -1) {
             notEquippableMessage = false;
+            drankPotionMessage = false;
+        }
 
         if(input == 0){
             decrementHighlighted();
@@ -82,7 +86,15 @@ public class StatusView extends View implements ActionListener{
                                 equipItem(item);
                             }
                             else{
-                                notEquippableMessage = true;
+                                if(item.isUsable()){
+                                    System.out.println("Is potion");
+                                    //avatar.getStats().addStatModifier(item.getStatsModifier());       In future when we have different potions
+                                    avatar.getStats().increaseCurrentLife(item.getStatsModifier().getLife());
+                                    playerInventory.getItems().remove(item);
+                                    drankPotionMessage = true;
+                                }
+                                else
+                                    notEquippableMessage = true;
                             }
                         }
                         else {
@@ -288,6 +300,12 @@ public class StatusView extends View implements ActionListener{
                 g2d.drawString("That item is not equippable!", VIEW_X_START + totalWidth / 3 + 70, VIEW_Y_START + totalHeight / 4);
             }
 
+            if(drankPotionMessage) {
+                g2d.setColor(Color.red);
+                g2d.setFont(new Font("TimesRoman", Font.BOLD, 50));
+                g2d.drawString("Drank potion!", VIEW_X_START + totalWidth / 3 + 70, VIEW_Y_START + totalHeight / 4);
+            }
+
 
 
             //Draw the inventory
@@ -325,16 +343,6 @@ public class StatusView extends View implements ActionListener{
                 height += 20;
                 ++playerIter;
             }
-
-            //Draw Skills
-            g2d.setColor(Color.black);
-            g2d.setFont(new Font("TimesRoman", Font.BOLD, 40));
-            g2d.drawString("Skills", VIEW_X_START+140+totalWidth/2, VIEW_Y_START+35+totalHeight/2);
-            playerIter = 0;
-            g2d.drawString("TODO", VIEW_X_START+140+totalWidth/2, VIEW_Y_START+35+totalHeight/2+150);
-            height = 200;
-            g2d.setFont(new Font("TimesRoman", Font.BOLD, 20));
-
         }
 
 
