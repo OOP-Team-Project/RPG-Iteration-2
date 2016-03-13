@@ -1,5 +1,6 @@
 package com.TigersIter2.items;
 
+import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.stats.StatsModifier;
 
 /**

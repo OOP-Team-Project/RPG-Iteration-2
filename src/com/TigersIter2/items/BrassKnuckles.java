@@ -7,6 +7,5 @@ public class BrassKnuckles extends BrawlingWeaponItem {
 
     public BrassKnuckles(String n){
         super(n);
-        sm.setAttackTime(500);
     }
 }

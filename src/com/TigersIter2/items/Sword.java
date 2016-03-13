@@ -7,6 +7,5 @@ public class Sword extends OneHandedWeaponItem {
 
     public Sword(String n){
         super(n);
-        sm.setAttackTime(1000);
     }
 }

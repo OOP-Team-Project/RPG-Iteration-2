@@ -1,5 +1,6 @@
 package com.TigersIter2.items;
 
+import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.stats.StatsModifier;
 
 /**
@@ -9,6 +10,5 @@ public class ThrowingKnife extends RangedWeaponItem {
 
     public ThrowingKnife(String n, int damage, int range, int angle){
         super(n, damage, range, angle);
-        sm.setAttackTime(500);
     }
 }

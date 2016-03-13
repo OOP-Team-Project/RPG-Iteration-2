@@ -7,6 +7,5 @@ public class Fist extends BrawlingWeaponItem {
 
     public Fist(String n){
         super(n);
-        sm.setAttackTime(500);
     }
 }

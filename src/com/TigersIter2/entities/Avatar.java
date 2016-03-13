@@ -27,7 +27,7 @@ public class Avatar extends Entity{
     private int direction;
     private boolean canPassWater;
     private boolean canPassMountain;
-    private int money;
+    private int timeUntilAttack = 0;
 
     private boolean currentlyMoving = false;
     private boolean onTileWithNPC = false;
@@ -43,7 +43,6 @@ public class Avatar extends Entity{
         canPassWater = false;
         inventory = new Inventory();
         equipment = new Equipment();
-        money = 0;
         trading = false;
         setOccupation();
     }
@@ -212,18 +211,6 @@ public class Avatar extends Entity{
         this.pixelLocation = pixelLocation;
     }
 
-    public void setMoney(int m){
-        money = m;
-    }
-
-    public void addMoney(int m){
-        money += m;
-    }
-
-    public int getMoney(){
-        return money;
-    }
-
     public void setOnTileWithNPC(boolean b){
         onTileWithNPC = b;
     }
@@ -238,6 +225,19 @@ public class Avatar extends Entity{
 
     public boolean getTrading(){
         return trading;
+    }
+
+    public int getTimeUntilAttack(){
+        return timeUntilAttack;
+    }
+
+    public void decrementTimeUntilAttack(){
+        if(timeUntilAttack > 0)
+            --timeUntilAttack;
+    }
+
+    public void resetTimeUntilAttack(){
+        timeUntilAttack = stats.getAttackTime();
     }
 
     public void takeDamage(int attackStrength){

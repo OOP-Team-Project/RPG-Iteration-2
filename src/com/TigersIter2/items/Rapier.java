@@ -7,6 +7,5 @@ public class Rapier extends OneHandedWeaponItem {
 
     public Rapier(String n){
         super(n);
-        sm.setAttackTime(1000);
     }
 }

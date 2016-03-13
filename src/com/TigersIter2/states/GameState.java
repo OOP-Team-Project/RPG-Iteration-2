@@ -4,6 +4,7 @@ import com.TigersIter2.areaEffects.*;
 import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.items.OneHandedWeaponItem;
 import com.TigersIter2.location.Location;
+import com.TigersIter2.location.LocationConverter;
 import com.TigersIter2.managers.AreaEffectManager;
 import com.TigersIter2.managers.StateManager;
 import com.TigersIter2.assets.sprites.*;
@@ -69,7 +70,7 @@ public class GameState extends State {
         TakeableItem potion2 = new Potion("Health Potion", 10);
         TakeableItem potion3 = new Potion("Health Potion", 10);
         TakeableItem butterKnife = new RangedWeaponItem("Crossbow", 1, 1, 0);
-        TakeableItem axe = new BattleAxe("Battle Axe", 2);
+        TakeableItem axe = new SpikedGlove("Battle Axe");
         TakeableItem breastplate = new Armor("Breastplate", 2, 4);
         ant = new AvatarNPCInteract(avatar, footerView);
         vehicleViews = new ArrayList<VehicleView>();
@@ -88,12 +89,12 @@ public class GameState extends State {
         avatar.getInventory().addItem(breastplate);
 
 
-        avatar.setAttackTime(1000);
+        //avatar.setAttackTime(1000);
         ant = new AvatarNPCInteract(avatar, footerView);
 
         //THIS IS ALL FOR TESTING. WILL NOT STAY HERE
-        ant.addVehicle(new Vehicle("Turtle", 5, true, true));
-        ant.addVehicle(new Vehicle("Turtle2", 2, false, true));
+        ant.addVehicle(new Vehicle("Turtle", 5, true, false));
+        ant.addVehicle(new Vehicle("Turtle2", 2, true, true));
         //ant.addMonster();
         List<String> list = new ArrayList<String>();
         list.add("My name is John Cena. I'm an internet sensation.");
@@ -208,12 +209,31 @@ public class GameState extends State {
         controller.resetOptionSelected();
     }
 
+    private boolean canPassTerrain(int xMov, int yMov, long elapsed){
+        Location nextLocation = new Location(0, 0, 0);
+        nextLocation.setX(avatar.getLocation().getX());
+        nextLocation.setY(avatar.getLocation().getY());
+        nextLocation.incrementX(Math.round(xMov * elapsed * StaticVar.entitySpeed*avatar.getStats().getMovement()));
+        nextLocation.incrementY(Math.round(yMov * elapsed * StaticVar.entitySpeed*avatar.getStats().getMovement()));
+        int terrainType = map.getTerrainType(LocationConverter.PixelLocationToHex(nextLocation));
+        if(terrainType == 1)
+            return true;
+        else if(terrainType == 2 && avatar.getCanPassWater())
+            return true;
+        else if(terrainType == 3 && avatar.getCanPassMountain())
+            return true;
+        else
+            return false;
+    }
+
     @Override
     public void update(long elapsed) {
         map.update();
+        int xMov = controller.getXMovement();
+        int yMov = controller.getyMovement();
         boolean avatarCanMove = itemManager.checkTile(elapsed, controller.getXMovement(), controller.getyMovement()); //returns false if item is an obstacle
-        if(avatarCanMove) {
-            avatar.update(controller.getXMovement(), controller.getyMovement(), elapsed);
+        if(avatarCanMove && canPassTerrain(xMov, yMov, elapsed)) {
+            avatar.update(xMov, yMov, elapsed);
         }
         View.update(controller.getCameraXMovement(), controller.getCameraYMovement(), elapsed);
         aem.checkTile();

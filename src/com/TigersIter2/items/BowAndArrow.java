@@ -9,6 +9,5 @@ public class BowAndArrow extends RangedWeaponItem {
 
     public BowAndArrow(String n, int damage, int range, int angle){
         super(n, damage, range, angle);
-        sm.setAttackTime(1000);
     }
 }

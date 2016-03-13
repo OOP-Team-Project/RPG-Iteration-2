@@ -7,6 +7,5 @@ public class Dagger extends OneHandedWeaponItem {
 
     public Dagger(String n){
         super(n);
-        sm.setAttackTime(1000);
     }
 }

@@ -7,6 +7,5 @@ public class BattleAxe extends TwoHandedWeaponItem {
 
     public BattleAxe(String n, int decMove){
         super(n, decMove);
-        sm.setAttackTime(1000);
     }
 }

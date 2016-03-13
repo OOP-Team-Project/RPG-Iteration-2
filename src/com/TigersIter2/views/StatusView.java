@@ -137,7 +137,7 @@ public class StatusView extends View implements ActionListener{
                     canEquipWeaponType = true;
             }
             else if(occupation.equals("Smasher")){
-                if(weaponType.equals("OneHandedWeapon") || weaponType.equals("TwoHandedWeapon"))
+                if(weaponType.equals("OneHandedWeapon") || weaponType.equals("TwoHandedWeapon") || weaponType.equals("Brawling"))
                     canEquipWeaponType = true;
             }
 
@@ -159,7 +159,9 @@ public class StatusView extends View implements ActionListener{
         }
         equipment.addItem(item);
         playerInventory.getItems().remove(item);
+        System.out.println(avatar.getStats().getAttackTime());
         avatar.getStats().addStatModifier(item.getStatsModifier());
+        System.out.println(avatar.getStats().getAttackTime());
     }
 
     public void toggle(){

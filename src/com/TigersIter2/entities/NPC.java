@@ -21,6 +21,7 @@ public abstract class NPC extends Entity{
     private int direction;
     private boolean canPassWater;
     private boolean canPassMountain;
+    private int timeUntilAttack = 0;
 
     private boolean currentlyMoving = false;
 
@@ -44,7 +45,7 @@ public abstract class NPC extends Entity{
         stats = new NPCStats();
         stats.setLife(100);
         stats.setCurrentLife(100);
-
+        stats.setAttackTime(StaticVar.fps);
     }
 
     //What is this supposed to do? -Sam
@@ -201,5 +202,18 @@ public abstract class NPC extends Entity{
 
     public void setWillAttack(boolean b){
         willAttack = b;
+    }
+
+    public int getTimeUntilAttack(){
+        return timeUntilAttack;
+    }
+
+    public void decrementTimeUntilAttack(){
+        if(timeUntilAttack > 0)
+            --timeUntilAttack;
+    }
+
+    public void resetTimeUntilAttack(){
+        timeUntilAttack = stats.getAttackTime();
     }
 }

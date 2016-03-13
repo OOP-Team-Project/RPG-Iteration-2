@@ -7,6 +7,5 @@ public class SpikedGlove extends BrawlingWeaponItem {
 
     public SpikedGlove(String n){
         super(n);
-        sm.setAttackTime(500);
     }
 }
