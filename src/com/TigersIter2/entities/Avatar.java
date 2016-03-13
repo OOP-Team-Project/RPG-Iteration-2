@@ -28,6 +28,7 @@ public class Avatar extends Entity{
     private boolean currentlyMoving = false;
     private boolean onTileWithNPC = false;
     private boolean trading;
+    private boolean isTrapped = false;
 
 
     public Avatar(){
@@ -221,6 +222,14 @@ public class Avatar extends Entity{
 
     public boolean getTrading(){
         return trading;
+    }
+
+    public void setIsTrapped(boolean t){
+        isTrapped = t;
+    }
+
+    public boolean getIsTrapped(){
+        return isTrapped;
     }
 
     public int getTimeUntilAttack(){
