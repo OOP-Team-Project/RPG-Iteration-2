@@ -14,6 +14,7 @@ import com.TigersIter2.main.Controller;
 import com.TigersIter2.managers.AvatarNPCInteract;
 import com.TigersIter2.managers.ItemManager;
 import com.TigersIter2.maps.TerrainMap;
+import com.TigersIter2.skills.SkillTree;
 import com.TigersIter2.views.*;
 
 import java.awt.*;
@@ -47,6 +48,9 @@ public class GameState extends State {
     private FooterView footerView;
     private StatusView statusView;
     private ControlView controlView;
+
+    private SkillManagementView smv;
+
     private MessageView messageView;
 
 
@@ -77,6 +81,16 @@ public class GameState extends State {
         itemManager = new ItemManager(avatar);
 
 
+        SkillTree st = new SkillTree(avatar.getPlayerStats());
+        smv = new SkillManagementView(st);
+
+
+       // avatar.getInventory().addItem(new Potion("Health Potion"));
+       // avatar.getInventory().addItem(new Potion("Strength Potion"));
+       // avatar.getInventory().addItem(new Weapon("Battle Axe"));
+
+
+
         itemManager.addItem(potion);
         itemManager.addItem(butterKnife);
         itemManager.addItem(axe);
@@ -89,7 +103,9 @@ public class GameState extends State {
         avatar.getInventory().addItem(breastplate);
 
 
+
         //avatar.setAttackTime(1000);
+
         ant = new AvatarNPCInteract(avatar, footerView);
 
         //THIS IS ALL FOR TESTING. WILL NOT STAY HERE
@@ -147,6 +163,7 @@ public class GameState extends State {
         MonsterSprite.init();
         ItemSprite.init();
         AreaEffectSprite.init();
+        SkillsSprite.init();
 
         avatarView = new AvatarView(avatar);
         statusView = new StatusView(avatar);
@@ -164,11 +181,13 @@ public class GameState extends State {
             areaEffectViews.add(new AreaEffectView(aEffect, avatar, map));
         }
 
-
         mapView = new MapView(map, avatar);
         areaView =  new AreaView(mapView,avatarView, vehicleViews, footerView, statusView, npcViews, controlView, itemViews, areaEffectViews);
         this.add(messageView);
         this.add(areaView);
+
+
+        areaView.add(smv, 0);
 
 
         System.out.println("GameState initialized");
@@ -198,6 +217,9 @@ public class GameState extends State {
                 controller.setControlViewControls(controlView.getDisplay());
                 break;
             case 10:
+                smv.toggle();
+                controller.setSkillViewControls(smv.getDisplay());
+            case 11:
                 ant.startSkillsNotFromInteraction();
                 break;
             case -1:
@@ -263,6 +285,10 @@ public class GameState extends State {
                 statusView.toggle();
                 controller.setStatusViewControls(statusView.getDisplay());
             }
+        }
+        else if(smv.getDisplay()) {
+            int input = controller.getTradeMenuInput();
+            smv.handleInput(input);
         }
 
 

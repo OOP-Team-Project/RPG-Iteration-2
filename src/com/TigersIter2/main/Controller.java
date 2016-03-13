@@ -182,6 +182,8 @@ public class Controller {
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_4, 0, true), "OPTION4_STOP");
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_5, 0, true), "OPTION5_STOP");
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, true), "CONTROLLER_MENU");
+        //rokas skillview. the button should probably be s, but it is taken atm
+        inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_T, 0, true), "SKILL_VIEW");
 
         //For those who don't have a numpad, temporary controls...
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_W, 0, false), "UP_GO");
@@ -232,9 +234,8 @@ public class Controller {
         aMap.put("STATUS_VIEW_STOP", STATUS_VIEW_STOP);
         aMap.put("ATTACK_STOP", ATTACK_STOP);
         aMap.put("CONTROLLER_MENU", CONTROLLER_MENU);
+        aMap.put("SKILL_VIEW", SKILL_VIEW);
         aMap.put("USE_SKILL_STOP", USE_SKILL_STOP);
-
-
 
         //For scrolling (Miles)
         aMap.put("UP_SCROLL_GO", UP_SCROLL_GO);
@@ -334,6 +335,26 @@ public class Controller {
             aMap.put("MENU_SELECT", MENU_SELECT);
             aMap.put("MENU_BACK", MENU_EXIT);
             aMap.put("CONTROLLER_MENU", CONTROLLER_MENU);
+        }
+        else{
+            component.getInputMap().clear();
+            setBindings();
+        }
+    }
+
+    public void setSkillViewControls(boolean statusView){
+        ActionMap aMap = component.getActionMap();
+        aMap.clear();
+        if(statusView){
+            aMap.put("UP_GO", MENU_UP);
+            aMap.put("DOWN_GO", MENU_DOWN);
+            aMap.put("UP_LEFT_GO", MENU_LEFT);
+            aMap.put("DOWN_LEFT_GO", MENU_LEFT);
+            aMap.put("UP_RIGHT_GO", MENU_RIGHT);
+            aMap.put("DOWN_RIGHT_GO", MENU_RIGHT);
+            aMap.put("MENU_SELECT", MENU_SELECT);
+            aMap.put("MENU_BACK", MENU_EXIT);
+            aMap.put("SKILL_VIEW", SKILL_VIEW);
         }
         else{
             component.getInputMap().clear();
@@ -776,11 +797,16 @@ public class Controller {
             optionSelected = 9;
         }
     };
-
-    Action USE_SKILL_STOP = new AbstractAction() {
+    Action SKILL_VIEW = new AbstractAction() {
         @Override
         public void actionPerformed(ActionEvent e) {
             optionSelected = 10;
+        }
+    };
+    Action USE_SKILL_STOP = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            optionSelected = 11;
         }
     };
 }
