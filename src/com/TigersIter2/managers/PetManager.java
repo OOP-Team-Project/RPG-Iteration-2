@@ -5,6 +5,7 @@ import java.util.*;
 import com.TigersIter2.entities.Pet;
 import com.TigersIter2.items.Item;
 import com.TigersIter2.items.TakeableItem;
+import com.TigersIter2.location.Location;
 import com.TigersIter2.location.LocationConverter;
 
 /**
@@ -25,13 +26,15 @@ public class PetManager {
         itemList = itemManager.getItemList();
         Iterator<Item> iter = itemList.iterator();
         int index = 0;
+        System.out.println("Pet's location: " + LocationConverter.PixelLocationToHex(pet.getLocation()).toString());
         while(iter.hasNext()) {
             Item item = iter.next();
+            System.out.println("Item's location: " + LocationConverter.PixelLocationToHex(item.getLocation()).toString());
             if (LocationConverter.PixelLocationToHex(item.getLocation()).getX() == LocationConverter.PixelLocationToHex(pet.getLocation()).getX() &&
                     LocationConverter.PixelLocationToHex(item.getLocation()).getY() == LocationConverter.PixelLocationToHex(pet.getLocation()).getY()) {
                 if (item instanceof TakeableItem) {
                     iter.remove();
-                    itemManager.removeItem(index);
+                    //itemManager.removeItem(index);
 
                     item.setDisplay(false);
                     System.out.println("Your pet stole an item :(");

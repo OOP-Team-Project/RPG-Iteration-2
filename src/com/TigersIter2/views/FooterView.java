@@ -27,6 +27,7 @@ public class FooterView extends View implements ActionListener{
     private int playerValue = 0;
     private int npcValue = 0;
     private boolean tooExpensive = false;
+    private int discount = 0;
 
     public FooterView(){
         setPreferredSize(new Dimension(StaticVar.gameWidth - 400, 200));
@@ -42,6 +43,10 @@ public class FooterView extends View implements ActionListener{
 
     public void setDisplay(boolean b){
         display = b;
+    }
+
+    public void setDiscount(int i){
+        discount = i/4;
     }
 
     public void setTooExpensive(boolean b){
@@ -130,11 +135,11 @@ public class FooterView extends View implements ActionListener{
         }
         else if(whoseSide == 2 && npcSelectedItems.contains(npcInventory.getItemAtIndex(highlighted))) {
             npcSelectedItems.remove(npcInventory.getItemAtIndex(highlighted));
-            npcValue -= npcInventory.getItemAtIndex(highlighted).getPrice();
+            npcValue -= npcInventory.getItemAtIndex(highlighted).getPrice() - discount;
         }
         else if(whoseSide == 2 && !npcSelectedItems.contains(npcInventory.getItemAtIndex(highlighted))) {
             npcSelectedItems.add(npcInventory.getItemAtIndex(highlighted));
-            npcValue += npcInventory.getItemAtIndex(highlighted).getPrice();
+            npcValue += npcInventory.getItemAtIndex(highlighted).getPrice() - discount;
         }
         return highlighted;
     }

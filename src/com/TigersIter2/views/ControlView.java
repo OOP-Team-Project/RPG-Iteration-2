@@ -198,6 +198,7 @@ public class ControlView extends View{
             g2d.drawString("Status View:",xVal, yVal+90);
             g2d.drawString("Menu Back:",xVal, yVal+120);
             g2d.drawString("Menu Select:",xVal, yVal+150);
+            g2d.drawString("Use Skills:",xVal, yVal+180);
             for(int i = 12; i < controller.getControlNames().size(); ++i){
                 yVal += 30;
                 g2d.setColor(Color.black);
