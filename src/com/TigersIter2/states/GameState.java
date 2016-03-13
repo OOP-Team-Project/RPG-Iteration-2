@@ -46,6 +46,7 @@ public class GameState extends State {
     private FooterView footerView;
     private StatusView statusView;
     private ControlView controlView;
+    private MessageView messageView;
 
 
     public GameState(StateManager stateManager, Controller controller){
@@ -55,8 +56,8 @@ public class GameState extends State {
     @Override
     public void init() {
         controller.setBindings(); //added this to remove enter key functionality from previous menustates
-
         footerView = new FooterView();
+        messageView = new MessageView();
         controlView = new ControlView(controller);
         vehicleViews = new ArrayList<VehicleView>();
         npcViews = new ArrayList<NPCView>();
@@ -159,7 +160,9 @@ public class GameState extends State {
 
         mapView = new MapView(map, avatar);
         areaView =  new AreaView(mapView,avatarView, vehicleViews, footerView, statusView, npcViews, controlView, itemViews, areaEffectViews);
+        this.add(messageView);
         this.add(areaView);
+
 
         System.out.println("GameState initialized");
 
