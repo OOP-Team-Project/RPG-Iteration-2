@@ -11,6 +11,12 @@ public class Location {
         z = zHex;
     }
 
+    public Location(Location location){
+        x = location.getX();
+        y = location.getY();
+        z = location.getZ();
+    }
+
     public int getX() {
         return x;
     }

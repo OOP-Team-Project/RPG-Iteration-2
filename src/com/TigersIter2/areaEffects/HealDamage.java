@@ -13,6 +13,10 @@ import com.TigersIter2.stats.StatsModifier;
 
 public class HealDamage extends AreaEffect{
 
+    public HealDamage(){
+        areaEffectType = 0;
+    }
+
     public void affectEntity(Entity entity){
         // the longer entity stands on tile, the higher the health goes until full
         entity.getStats().increaseCurrentLife(1);

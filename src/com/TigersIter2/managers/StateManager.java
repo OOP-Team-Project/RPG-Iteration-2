@@ -3,10 +3,7 @@ package com.TigersIter2.managers;
 import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.assets.sprites.IntroSprite;
 import com.TigersIter2.main.Controller;
-import com.TigersIter2.states.GameState;
-import com.TigersIter2.states.IntroState;
-import com.TigersIter2.states.MainMenuState;
-import com.TigersIter2.states.State;
+import com.TigersIter2.states.*;
 import com.sun.org.apache.xpath.internal.SourceTree;
 
 import javax.swing.*;
@@ -24,10 +21,11 @@ public class StateManager extends JPanel{
     //StateManager holds controller and passes it to different states
     private Controller controller;
 
-    private static final int NUMBER_OF_STATES = 2;
+    //private static final int NUMBER_OF_STATES = 2;
     public static final int INTRO = 0;
     public static final int MAINMENU = 1;
     public static final int GAME = 2;
+    public static final int NEWGAME = 3;
 
 
 //    private enum S {
@@ -68,6 +66,11 @@ public class StateManager extends JPanel{
         else if (nextState == GAME){
             System.out.println("Creating GAME state...");
             state = new GameState(this, controller);
+            state.init();
+        }
+        else if (nextState == NEWGAME){
+            System.out.println("Creating newGame state...");
+            state = new NewGameState(this, controller);
             state.init();
         }
 
