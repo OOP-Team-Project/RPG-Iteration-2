@@ -46,4 +46,26 @@ public class Location {
     public void incrementZ(int dz) { this.z += dz; }
 
     public String toString() { return "(" + x + ", " + y + ")"; }
+
+    public int getDistance(Location l) {
+        int xDistance = Math.abs(l.getX() - x);
+        int yDistance = Math.abs(l.getY() - y);
+        return Math.max(xDistance, yDistance);
+    }
+
+    public boolean equals(Object o) {
+        if (o instanceof Location) {
+            Location location = (Location) o;
+            return x == location.x && y == location.y;
+        }
+        return false;
+    }
+
+    public int hashCode() {
+        return x + y;
+    }
+
+    public int getDistance(int i, int j) {
+        return new Location(i,j,-i-j).getDistance(this);
+    }
 }

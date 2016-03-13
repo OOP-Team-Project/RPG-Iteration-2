@@ -11,6 +11,8 @@ import com.TigersIter2.stats.Stats;
 import com.TigersIter2.stats.StatsModifier;
 import com.sun.org.apache.bcel.internal.generic.INEG;
 
+import java.util.HashSet;
+
 
 public class Avatar extends Entity{
 
@@ -23,6 +25,8 @@ public class Avatar extends Entity{
     private Vehicle vehicle;
     private PlayerStats stats;
     private SkillTree skills;
+
+    private HashSet<Location> exploredTiles;
 
     private int direction;
     private boolean canPassWater;
@@ -43,6 +47,7 @@ public class Avatar extends Entity{
         canPassWater = false;
         inventory = new Inventory();
         equipment = new Equipment();
+        exploredTiles = new HashSet<>();
         trading = false;
         setOccupation();
     }
@@ -63,6 +68,16 @@ public class Avatar extends Entity{
             location.incrementY(Math.round(yMovement * elapsed * StaticVar.entitySpeed * stats.getMovement()));
             changeDirection(xMovement, yMovement);
             currentlyMoving = true;
+        }
+
+        int viewDistance = stats.getLightRadius()*2;
+        for (int i = 0; i < viewDistance; ++i) {
+            for (int j = 0; j < viewDistance; ++j) {
+                Location l = LocationConverter.PixelLocationToHex(location);
+                l.incrementX(i - viewDistance / 2);
+                l.incrementY(j - viewDistance / 2);
+                exploredTiles.add(l);
+            }
         }
 
         if(vehicle != null){
@@ -262,4 +277,14 @@ public class Avatar extends Entity{
     }
 
 
+    public boolean hasExploredTile(int i, int j) {
+        return exploredTiles.contains(new Location(i,j,-i-j));
+    }
+
+    public boolean canSeeHex(Location l) {
+        Location a = LocationConverter.PixelLocationToHex(getLocation());
+        int distance = a.getDistance(l);
+        int visionDistance = getStats().getLightRadius();
+        return distance <= visionDistance;
+    }
 }

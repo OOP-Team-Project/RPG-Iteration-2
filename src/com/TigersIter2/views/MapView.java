@@ -51,10 +51,6 @@ public class MapView extends View {
             }
         }
 
-
-
-
-
     }
 
 
@@ -155,11 +151,9 @@ public class MapView extends View {
                 //Miles Tests below:
                 Location aHexLocation = LocationConverter.PixelLocationToHex(aHandle.getLocation());
 
-                if(aHexLocation.getX() == i && aHexLocation.getY() == j)
-                    tileViews.get(i).get(j).shouldGlow(true);
-                else
-                    tileViews.get(i).get(j).shouldGlow(false);
-
+                tileViews.get(i).get(j).shouldGlow(aHexLocation.getX() == i && aHexLocation.getY() == j);
+                tileViews.get(i).get(j).setVisibility(aHexLocation.getDistance(i, j) <= aHandle.getStats().getLightRadius());
+                tileViews.get(i).get(j).setExplored(aHandle.hasExploredTile(i, j));
                 tileViews.get(i).get(j).paintComponent(g);
             }
         }

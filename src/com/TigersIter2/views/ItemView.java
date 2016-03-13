@@ -6,6 +6,7 @@ import com.TigersIter2.entities.Avatar;
 import com.TigersIter2.items.Interactive;
 import com.TigersIter2.items.Item;
 import com.TigersIter2.location.Location;
+import com.TigersIter2.location.LocationConverter;
 import com.TigersIter2.maps.TerrainMap;
 import java.awt.*;
 
@@ -110,7 +111,10 @@ public class ItemView extends View {
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                     RenderingHints.VALUE_ANTIALIAS_ON);
 
-            drawItem(g2d);
+            Location l = LocationConverter.PixelLocationToHex(iHandle.getLocation());
+            if (aHandle.canSeeHex(l)) {
+                drawItem(g2d);
+            }
 
             g2d.dispose();
         }
