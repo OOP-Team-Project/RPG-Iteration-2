@@ -5,14 +5,11 @@ import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.items.OneHandedWeaponItem;
 import com.TigersIter2.location.Location;
 import com.TigersIter2.location.LocationConverter;
-import com.TigersIter2.managers.AreaEffectManager;
-import com.TigersIter2.managers.StateManager;
+import com.TigersIter2.managers.*;
 import com.TigersIter2.assets.sprites.*;
 import com.TigersIter2.entities.*;
 import com.TigersIter2.items.*;
 import com.TigersIter2.main.Controller;
-import com.TigersIter2.managers.AvatarNPCInteract;
-import com.TigersIter2.managers.ItemManager;
 import com.TigersIter2.maps.TerrainMap;
 import com.TigersIter2.skills.SkillTree;
 import com.TigersIter2.views.*;
@@ -35,6 +32,7 @@ public class GameState extends State {
     private AvatarNPCInteract ant;
     private ItemManager itemManager;
     private AreaEffectManager aem;
+    private AvatarMapInteract avatarMapInteract;
     private AreaEffect effect;
 
     //Views
@@ -70,6 +68,7 @@ public class GameState extends State {
         areaEffectViews = new ArrayList<AreaEffectView>();
         map = new TerrainMap(StaticVar.map1);
         avatar = new Avatar();
+        avatarMapInteract = new AvatarMapInteract(avatar, map);
         TakeableItem potion = new Potion("Health Potion", 10);
         TakeableItem potion2 = new Potion("Health Potion", 10);
         TakeableItem potion3 = new Potion("Health Potion", 10);
@@ -231,30 +230,13 @@ public class GameState extends State {
         controller.resetOptionSelected();
     }
 
-    private boolean canPassTerrain(int xMov, int yMov, long elapsed){
-        Location nextLocation = new Location(0, 0, 0);
-        nextLocation.setX(avatar.getLocation().getX());
-        nextLocation.setY(avatar.getLocation().getY());
-        nextLocation.incrementX(Math.round(xMov * elapsed * StaticVar.entitySpeed*avatar.getStats().getMovement()));
-        nextLocation.incrementY(Math.round(yMov * elapsed * StaticVar.entitySpeed*avatar.getStats().getMovement()));
-        int terrainType = map.getTerrainType(LocationConverter.PixelLocationToHex(nextLocation));
-        if(terrainType == 1)
-            return true;
-        else if(terrainType == 2 && avatar.getCanPassWater())
-            return true;
-        else if(terrainType == 3 && avatar.getCanPassMountain())
-            return true;
-        else
-            return false;
-    }
-
     @Override
     public void update(long elapsed) {
         map.update();
         int xMov = controller.getXMovement();
         int yMov = controller.getyMovement();
         boolean avatarCanMove = itemManager.checkTile(elapsed, controller.getXMovement(), controller.getyMovement()); //returns false if item is an obstacle
-        if(avatarCanMove && canPassTerrain(xMov, yMov, elapsed)) {
+        if(avatarCanMove && avatarMapInteract.updateAvatarPos(elapsed, xMov, yMov)) {
             avatar.update(xMov, yMov, elapsed);
         }
         View.update(controller.getCameraXMovement(), controller.getCameraYMovement(), elapsed);
