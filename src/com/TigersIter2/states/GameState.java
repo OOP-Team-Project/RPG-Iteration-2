@@ -121,9 +121,6 @@ public class GameState extends State {
         effect = new Teleport(dest);
         effect.setLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight-100,0));
         effect = new Teleport(dest);
-        // for testing Trap
-        effect = new Trap();
-        effect.setLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight+300,0));
         aem.addEffect(effect);
 
         //pull in all pictures for GameState
