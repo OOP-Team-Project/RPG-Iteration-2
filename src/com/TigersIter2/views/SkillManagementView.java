@@ -148,8 +148,7 @@ public class SkillManagementView extends JComponent {
              g2d.setStroke(new BasicStroke(5));
 
              g2d.setColor(Color.BLACK);
-             g2d.setFont(new Font("TimesRoman", Font.BOLD, 18));
-             g2d.drawString("Size: " + getWidth() + "x" + getHeight(), 100, 100);
+             g2d.setFont(new Font("TimesRoman", Font.BOLD, 18));;
              g2d.drawString("Ability Points: " + skillTree.getAbilityPoints(), (getWidth() / 3) * 2 + 135, 175);
              if (occupation.equalsIgnoreCase("Smasher")) {
                  paintSmasherSkills(g2d,(getWidth() / 3) * 2, getHeight() - STATS_OFFSET);
