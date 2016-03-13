@@ -34,26 +34,29 @@ public class Trap extends AreaEffect{
             // Gets probability that the Avatar will detect and remove trap based on skill
             Avatar avatar = (Avatar)entity;
             double probability = 0.0;
-            if(avatar.getOccupation().toString().equals("Sneak"))
-                    probability = ((DetectRemoveTrap)avatar.getSkills().getSkill("DetectRemoveTrap")).getProbability();
-            if (Math.random() <= probability && !removed) {
-                //removed = true;
-                // trap removed when avatar detects it
-                display = false;
-                removed = true;
-                MessageView.addMessage("Removed trap!");
-                MessageView.drawMessage();
-            }
-            // What do we want to happen if you get caught in a trap?
-            // Right now it holds the avatar for 5 seconds by putting the thread tow sleep
-            else{
-                try {
-                    display = true;
-                    MessageView.addMessage("Trapped!");
+            if(!avatar.getIsTrapped()) {
+                if (avatar.getOccupation().toString().equals("Sneak"))
+                    probability = ((DetectRemoveTrap) avatar.getSkills().getSkill("DetectRemoveTrap")).getProbability();
+                if (Math.random() <= probability && !removed) {
+                    //removed = true;
+                    // trap removed when avatar detects it
+                    display = false;
+                    removed = true;
+                    MessageView.addMessage("Removed trap!");
                     MessageView.drawMessage();
-                    Thread.sleep(3000);
-                }catch(Exception e){
-                    System.out.println(e);
+                }
+                // What do we want to happen if you get caught in a trap?
+                // Right now it holds the avatar for 5 seconds by putting the thread tow sleep
+                else {
+                    try {
+                        display = true;
+                        avatar.setIsTrapped(true);
+                        Thread.sleep(3000);
+                        MessageView.addMessage("Trapped!");
+                        MessageView.drawMessage();
+                    } catch (Exception e) {
+                        System.out.println(e);
+                    }
                 }
             }
         }

@@ -46,6 +46,10 @@ public class StaticVar {
 
     public static final int areaEffectImageHeight = 100;
     public static final int areaEffectImageWidth = 100;
+    public static final int skillImageHeight = 150;
+    public static final int skillImageWidth = 150;
+    public static final int attackImageHeight = 100;
+    public static final int attackImageWidth = 100;
 
 
 

@@ -6,15 +6,13 @@ import com.TigersIter2.items.OneHandedWeaponItem;
 import com.TigersIter2.location.Location;
 import com.TigersIter2.managers.PetManager;
 import com.TigersIter2.location.LocationConverter;
-import com.TigersIter2.managers.AreaEffectManager;
-import com.TigersIter2.managers.StateManager;
+import com.TigersIter2.managers.*;
 import com.TigersIter2.assets.sprites.*;
 import com.TigersIter2.entities.*;
 import com.TigersIter2.items.*;
 import com.TigersIter2.main.Controller;
-import com.TigersIter2.managers.AvatarNPCInteract;
-import com.TigersIter2.managers.ItemManager;
 import com.TigersIter2.maps.TerrainMap;
+import com.TigersIter2.skills.SkillTree;
 import com.TigersIter2.views.*;
 
 import java.awt.*;
@@ -37,6 +35,7 @@ public class GameState extends State {
     private ItemManager itemManager;
     private PetManager petManager;
     private AreaEffectManager aem;
+    private AvatarMapInteract avatarMapInteract;
     private AreaEffect effect;
 
     //Views
@@ -51,7 +50,11 @@ public class GameState extends State {
     private FooterView footerView;
     private StatusView statusView;
     private ControlView controlView;
+
+    private SkillManagementView smv;
+
     private MessageView messageView;
+    private AttackIndicatorView attackIndicatorView;
 
 
     public GameState(StateManager stateManager, Controller controller){
@@ -63,6 +66,7 @@ public class GameState extends State {
         controller.setBindings(); //added this to remove enter key functionality from previous menustates
         footerView = new FooterView();
         messageView = new MessageView();
+        attackIndicatorView = new AttackIndicatorView();
         controlView = new ControlView(controller);
         vehicleViews = new ArrayList<VehicleView>();
         npcViews = new ArrayList<NPCView>();
@@ -70,6 +74,7 @@ public class GameState extends State {
         areaEffectViews = new ArrayList<AreaEffectView>();
         map = new TerrainMap(StaticVar.map1);
         avatar = new Avatar();
+        avatarMapInteract = new AvatarMapInteract(avatar, map);
         TakeableItem potion = new Potion("Health Potion", 10);
         TakeableItem potion2 = new Potion("Health Potion", 10);
         TakeableItem potion3 = new Potion("Health Potion", 10);
@@ -80,11 +85,16 @@ public class GameState extends State {
         vehicleViews = new ArrayList<VehicleView>();
         itemManager = new ItemManager(avatar);
 
-
-
-
         pet = new Pet("Crab", avatar);
         petManager = new PetManager(pet, itemManager, avatar, map);
+
+        SkillTree st = new SkillTree(avatar.getPlayerStats());
+        smv = new SkillManagementView(st);
+
+
+       // avatar.getInventory().addItem(new Potion("Health Potion"));
+       // avatar.getInventory().addItem(new Potion("Strength Potion"));
+       // avatar.getInventory().addItem(new Weapon("Battle Axe"));
 
 
 
@@ -101,10 +111,7 @@ public class GameState extends State {
         avatar.getInventory().addItem(breastplate);
 
 
-
-
         avatar.setAttackTime(1000);
-
 
         ant = new AvatarNPCInteract(avatar, footerView);
 
@@ -168,6 +175,8 @@ public class GameState extends State {
         ItemSprite.init();
         PetSprite.init();
         AreaEffectSprite.init();
+        SkillsSprite.init();
+        AttackSprite.init();
 
 
         avatarView = new AvatarView(avatar);
@@ -191,9 +200,15 @@ public class GameState extends State {
             areaEffectViews.add(new AreaEffectView(aEffect, avatar, map));
         }
 
+        mapView = new MapView(map, avatar);
+        areaView =  new AreaView(mapView,avatarView, vehicleViews, footerView, statusView, npcViews, controlView, itemViews, areaEffectViews);
 
         this.add(messageView);
+        this.add(attackIndicatorView);
         this.add(areaView);
+
+
+        areaView.add(smv, 0);
 
 
         System.out.println("GameState initialized");
@@ -223,6 +238,10 @@ public class GameState extends State {
                 controller.setControlViewControls(controlView.getDisplay());
                 break;
             case 10:
+                smv.toggle();
+                controller.setSkillViewControls(smv.getDisplay());
+                break;
+            case 11:
                 ant.startSkillsNotFromInteraction();
                 break;
             case -1:
@@ -234,30 +253,13 @@ public class GameState extends State {
         controller.resetOptionSelected();
     }
 
-    private boolean canPassTerrain(int xMov, int yMov, long elapsed){
-        Location nextLocation = new Location(0, 0, 0);
-        nextLocation.setX(avatar.getLocation().getX());
-        nextLocation.setY(avatar.getLocation().getY());
-        nextLocation.incrementX(Math.round(xMov * elapsed * StaticVar.entitySpeed*avatar.getStats().getMovement()));
-        nextLocation.incrementY(Math.round(yMov * elapsed * StaticVar.entitySpeed*avatar.getStats().getMovement()));
-        int terrainType = map.getTerrainType(LocationConverter.PixelLocationToHex(nextLocation));
-        if(terrainType == 1)
-            return true;
-        else if(terrainType == 2 && avatar.getCanPassWater())
-            return true;
-        else if(terrainType == 3 && avatar.getCanPassMountain())
-            return true;
-        else
-            return false;
-    }
-
     @Override
     public void update(long elapsed) {
         map.update();
         int xMov = controller.getXMovement();
         int yMov = controller.getyMovement();
         boolean avatarCanMove = itemManager.checkTile(elapsed, controller.getXMovement(), controller.getyMovement()); //returns false if item is an obstacle
-        if(avatarCanMove && canPassTerrain(xMov, yMov, elapsed)) {
+        if(avatarCanMove && avatarMapInteract.updateAvatarPos(elapsed, xMov, yMov)) {
             avatar.update(xMov, yMov, elapsed);
         }
        petManager.updatePetPos(elapsed);
@@ -290,6 +292,10 @@ public class GameState extends State {
                 statusView.toggle();
                 controller.setStatusViewControls(statusView.getDisplay());
             }
+        }
+        else if(smv.getDisplay()) {
+            int input = controller.getTradeMenuInput();
+            smv.handleInput(input);
         }
 
 

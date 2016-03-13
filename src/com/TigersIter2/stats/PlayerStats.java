@@ -2,6 +2,7 @@ package com.TigersIter2.stats;
 
 import com.TigersIter2.entities.Occupation;
 import com.TigersIter2.entities.Smasher;
+import com.TigersIter2.views.MessageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -152,6 +153,8 @@ public class PlayerStats extends Stats {
             while (timesLeveledUp > 0) {
                 levelUp();
                 timesLeveledUp--;
+                MessageView.addMessage("Leveled up!");
+                MessageView.drawMessage();
             }
         }
     }
@@ -412,6 +415,9 @@ public class PlayerStats extends Stats {
     public void decrementAbilityPoint() {
         this.abilityPoints--;
     }
+
+    //temporary fix due to change of skills one day before d day
+    public void incrementAbilityPoints() { this.abilityPoints++; }
 
     //***********************************************TESTING***************************************************//
     public static void main(String[] args) {

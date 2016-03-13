@@ -2,9 +2,6 @@ package com.TigersIter2.areaEffects;
 
 import com.TigersIter2.entities.Avatar;
 import com.TigersIter2.entities.Entity;
-import com.TigersIter2.stats.Stats;
-import com.TigersIter2.stats.StatsModifier;
-import com.sun.xml.internal.bind.v2.TODO;
 
 /**
  * Created by MyMac on 3/7/16.

@@ -59,26 +59,31 @@ public class PetManager {
 
     public void updatePetPos(long elapsed){
 
-
             Location nextLocation = new Location(0, 0, 0);
             nextLocation.setX(pet.getLocation().getX());
             nextLocation.setY(pet.getLocation().getY());
-       // System.out.println("xMov: " + xMov + " yMov: " + yMov);
             nextLocation.incrementX(Math.round(xMov * elapsed * StaticVar.entitySpeed*avatar.getStats().getMovement()));
             nextLocation.incrementY(Math.round(yMov * elapsed * StaticVar.entitySpeed*avatar.getStats().getMovement()));
-            System.out.println("nextLocation: " + (LocationConverter.PixelLocationToHex(nextLocation).toString()));
             // if next is passable, continue in same direction
             int terrain = map.getTerrainType(LocationConverter.PixelLocationToHex(nextLocation));
-            System.out.println(terrain);
+            int avatarX = avatar.getLocation().getX();
+            int avatarY = avatar.getLocation().getY();
+            double distance = Math.sqrt(Math.pow(avatarX-nextLocation.getX(), 2) + Math.pow(avatarY-nextLocation.getY(), 2));
+            System.out.println(distance);
             if(terrain == 1) {
-                System.out.println("Moving in the same direction");
                 convertDegreesToCoord(pet.getDirection());
-                pet.update(xMov, yMov, elapsed);
+                if(distance < 1000) {
+                    pet.update(xMov, yMov, elapsed);
+                }
             }
             else{
                 // Changes xMov and yMov by random direction
-                //System.out.println("Moving in different direction");
-                convertDegreesToCoord(randomDirection());
+                if(distance > 200) {
+                    convertDegreesToCoord(avatar.getDirection());
+                }
+                else {
+                    convertDegreesToCoord(randomDirection());
+                }
                 pet.changeDirection(xMov, yMov);
 
             }

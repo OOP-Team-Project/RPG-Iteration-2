@@ -1,10 +1,8 @@
 package com.TigersIter2.managers;
 
 import com.TigersIter2.assets.StaticVar;
-import com.TigersIter2.assets.sprites.IntroSprite;
 import com.TigersIter2.main.Controller;
 import com.TigersIter2.states.*;
-import com.sun.org.apache.xpath.internal.SourceTree;
 
 import javax.swing.*;
 import java.awt.*;
