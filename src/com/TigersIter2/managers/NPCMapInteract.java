@@ -100,17 +100,7 @@ public class NPCMapInteract {
         return directionArray[rnd];
     }
 
-    public boolean canPassTerrain(NPC n, TerrainMap map, Location nextLocation){
-        int terrainType = map.getTerrainType(LocationConverter.PixelLocationToHex(nextLocation));
-        if(terrainType == 1)
-            return true;
-        else if(terrainType == 2 && n.getCanPassWater())
-            return true;
-        else if(terrainType == 3 && n.getCanPassMountain())
-            return true;
-        else
-            return false;
-    }
+
 
     public Location getNextLocation(NPC npc, long elapsed){
         Location nextLocation = new Location(0, 0, 0);
