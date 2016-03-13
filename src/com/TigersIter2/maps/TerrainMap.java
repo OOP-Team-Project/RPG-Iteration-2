@@ -70,6 +70,10 @@ public class TerrainMap implements Map {
         return false;
     }
 
+    public int getTerrainType(Location location){
+        return map[location.getX()][location.getY()];
+    }
+
     public int getMapWidth() {
         return mapWidth;
     }

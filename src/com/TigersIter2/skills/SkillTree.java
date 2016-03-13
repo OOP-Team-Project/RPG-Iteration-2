@@ -17,7 +17,7 @@ public class SkillTree {
      */
     private Map<String,Skill> skills;
     private PlayerStats playerStats;
-    private List<String> mainSkillList = new ArrayList<String>();
+    private List<String> mainSkillList = new ArrayList<String>();       //Used for printing the skills in the Use Skill window
 
     /**
      * makes a skill tree depending on the entity type by first building
@@ -123,7 +123,7 @@ public class SkillTree {
 //        abilityPoints += ap;
 //    }
 //
-//    public void incrementAbilityPoints() { abilityPoints++; }
+    public void incrementAbilityPoints() { playerStats.incrementAbilityPoints(); }
 
     /**
      * returns the available ap's

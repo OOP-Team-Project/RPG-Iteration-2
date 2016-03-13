@@ -1,5 +1,7 @@
 package com.TigersIter2.entities;
 
+import com.TigersIter2.assets.StaticVar;
+
 /**
  * Created by Josh on 2/27/2016.
  */
@@ -13,7 +15,7 @@ public class Sneak extends Occupation {
         movement = 8;
         life = 50;
         mana = 50;
-        attackTime = 750;
+        attackTime = StaticVar.fps;
         influenceRadius = 2;
 
         strengthIncrement = 1;
