@@ -646,6 +646,7 @@ public class AvatarNPCInteract {
         m.getStats().setArmor(3);
         m.getStats().setStrength(13);
         m.getStats().setAttack(20);
+        m.getStats().setInfluenceRadius(1);
         //END TESTING
 
         npcList.add(m);

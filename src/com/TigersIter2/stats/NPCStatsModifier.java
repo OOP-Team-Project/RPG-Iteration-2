@@ -9,12 +9,14 @@ public class NPCStatsModifier {
     private int attack;
     private int agility;
     private int attackTime;
+    private int influenceRadius;
 
     public NPCStatsModifier() {
         this.hardiness = 0;
         this.attack = 0;
         this.agility = 0;
         this.attackTime = 0;
+        this.influenceRadius = 0;
     }
 
     public int getHardiness() {
@@ -47,6 +49,14 @@ public class NPCStatsModifier {
 
     public void setAttackTime(int attackTime){
         this.attackTime = attackTime;
+    }
+
+    public int getInfluenceRadius(){
+        return influenceRadius;
+    }
+
+    public void setInfluenceRadius(int i){
+        influenceRadius = i;
     }
 
     public boolean isEmpty(){
