@@ -68,6 +68,7 @@ public class Controller {
         controlCodes.add(KeyEvent.VK_X);
         controlCodes.add(KeyEvent.VK_BACK_SPACE);
         controlCodes.add(KeyEvent.VK_ENTER);
+        controlCodes.add(KeyEvent.VK_V);
     }
 
     public List<Integer> getControlCodes(){
@@ -171,6 +172,8 @@ public class Controller {
         inMap.put(KeyStroke.getKeyStroke(controlCodes.get(15), 0, true), "MENU_BACK");
         inMap.put(KeyStroke.getKeyStroke(controlCodes.get(16),0,false),"MENU_SELECT");
         inMap.put(KeyStroke.getKeyStroke(controlCodes.get(16),0,true),"MENU_SELECT_STOP");
+        inMap.put(KeyStroke.getKeyStroke(controlCodes.get(17), 0, true), "USE_SKILL_STOP");
+
         //Controls that can't be changed
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_1, 0, false), "OPTIONS_GO");
         inMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_1, 0, true), "OPTION1_STOP");
@@ -232,6 +235,7 @@ public class Controller {
         aMap.put("ATTACK_STOP", ATTACK_STOP);
         aMap.put("CONTROLLER_MENU", CONTROLLER_MENU);
         aMap.put("SKILL_VIEW", SKILL_VIEW);
+        aMap.put("USE_SKILL_STOP", USE_SKILL_STOP);
 
         //For scrolling (Miles)
         aMap.put("UP_SCROLL_GO", UP_SCROLL_GO);
@@ -797,6 +801,12 @@ public class Controller {
         @Override
         public void actionPerformed(ActionEvent e) {
             optionSelected = 10;
+        }
+    };
+    Action USE_SKILL_STOP = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            optionSelected = 11;
         }
     };
 }

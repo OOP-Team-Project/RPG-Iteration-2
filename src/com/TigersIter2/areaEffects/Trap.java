@@ -4,6 +4,7 @@ import com.TigersIter2.entities.Avatar;
 import com.TigersIter2.entities.Entity;
 import com.TigersIter2.managers.AreaEffectManager;
 import com.TigersIter2.skills.DetectRemoveTrap;
+import com.TigersIter2.views.MessageView;
 
 /**
  * Created by MyMac on 3/11/16.
@@ -19,12 +20,10 @@ import com.TigersIter2.skills.DetectRemoveTrap;
 
 public class Trap extends AreaEffect{
 
-    private DetectRemoveTrap drt;
     private Boolean removed;
     private AreaEffectManager aem;
 
     public Trap(){
-        drt = new DetectRemoveTrap();
         areaEffectType = 5;
         removed = false;
     }
@@ -33,19 +32,26 @@ public class Trap extends AreaEffect{
         // Only an Avatar can use this area effect
         if (entity instanceof Avatar){
             // Gets probability that the Avatar will detect and remove trap based on skill
-            if (Math.random() <= drt.getProbability()) {
-                removed = true;
+            Avatar avatar = (Avatar)entity;
+            double probability = 0.0;
+            if(avatar.getOccupation().toString().equals("Sneak"))
+                    probability = ((DetectRemoveTrap)avatar.getSkills().getSkill("DetectRemoveTrap")).getProbability();
+            if (Math.random() <= probability && !removed) {
+                //removed = true;
                 // trap removed when avatar detects it
                 display = false;
-                System.out.println("Successfully removed trap!");
+                removed = true;
+                MessageView.addMessage("Removed trap!");
+                MessageView.drawMessage();
             }
             // What do we want to happen if you get caught in a trap?
             // Right now it holds the avatar for 5 seconds by putting the thread tow sleep
             else{
                 try {
                     display = true;
-                    System.out.println("Thread sleeping for 5 seconds");
-                    Thread.sleep(5000);
+                    MessageView.addMessage("Trapped!");
+                    MessageView.drawMessage();
+                    Thread.sleep(3000);
                 }catch(Exception e){
                     System.out.println(e);
                 }
