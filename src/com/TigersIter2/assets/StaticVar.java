@@ -12,7 +12,7 @@ public class StaticVar {
     public static final int gameHeight = 720;//720;
     public static final int gameWidth = 1280;//1280;
 
-    public static final int fps = 30;
+    public static final int fps = 60;
 
 
     public static final int terrainImageHeight = 96;    //Was 64 before evil Miles Came
