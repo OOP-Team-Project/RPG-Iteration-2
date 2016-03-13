@@ -15,5 +15,6 @@ public class OneHandedWeaponItem extends Weapon {
         this.sm = new StatsModifier();
         sm.setAttack(sm.getAttack()+damageModifier);
         weaponType = "OneHandedWeapon";
+        itemType = 6;
     }
 }

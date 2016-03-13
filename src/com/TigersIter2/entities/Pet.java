@@ -3,6 +3,8 @@ package com.TigersIter2.entities;
 
 import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.location.Location;
+import com.TigersIter2.location.LocationConverter;
+
 /**
  * Created by Josh on 2/27/2016.
  * Edited by Breanna
@@ -17,13 +19,14 @@ public class Pet extends Entity {
     public Pet(String n, Avatar avatar){
         name = n;
         this.avatar = avatar;
+        direction = 270;
         //sets the location of the Pet to be next to the avatar
         int avatarXLocation = avatar.getLocation().getX();
         int avatarYLocation = avatar.getLocation().getY();
-        this.location = new Location(avatarXLocation, avatarYLocation, 0);
+        this.location = new Location(avatarXLocation+300, avatarYLocation-300, 0);
         int avatarXPixelLoc = avatar.getPixelLocation().getX();
         int avatarYPixelLoc = avatar.getPixelLocation().getY();
-        this.pixelLocation = new Location(avatarXPixelLoc+100, avatarYPixelLoc-100, 0);
+        this.pixelLocation = new Location(avatarXPixelLoc+300, avatarYPixelLoc-300, 0);
     }
 
     @Override
@@ -42,6 +45,11 @@ public class Pet extends Entity {
     }
 
     public Location getPixelLocation() { return pixelLocation; }
+
+    public void setPixelLocation(Location pixelLocation) { this.pixelLocation = pixelLocation; }
+
+    public Location getLocation() { return location; }
+
 
     public void changeDirection(int x, int y) {
         if(x == 0){

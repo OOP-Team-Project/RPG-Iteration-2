@@ -14,6 +14,7 @@ import java.awt.event.ActionListener;
 
 /**
  * Created by Breanna on 3/11/16.
+ * TODO: make this stay in place when scrolling view
  */
 public class PetView extends View implements ActionListener {
     Avatar aHandle;
@@ -46,6 +47,7 @@ public class PetView extends View implements ActionListener {
     public void actionPerformed(ActionEvent e) { currentAnimationFrame = (currentAnimationFrame + 1) % 2; }
 
     private void drawPet(Graphics2D g2d) {
+        //System.out.println("Pet's pixel location: " + pHandle.getPixelLocation().toString());
         if (pHandle.getDirection() == 45) {
             if(currentAnimationFrame == 0 || !aHandle.isCurrentlyMoving())
                 g2d.drawImage(PetSprite.petUpRight1, pHandle.getPixelLocation().getX(), pHandle.getPixelLocation().getY(), null);
@@ -85,7 +87,44 @@ public class PetView extends View implements ActionListener {
     }
 
     public void paintComponent(Graphics g){
+    /*  switch (View.currentMapMode) {
 
+            case SCROLL_MODE:
+                if((float) (View.cameraLocation.getX())/StaticVar.terrainImageWidth < ((float) StaticVar.xTilesFromEdge)) {
+                    //tileViews.get(i).get(j).setCurrentXLocation(i);
+                    pHandle.setPixelLocation(new Location(Math.round(pHandle.getLocation().getX()*.75f - 80), pHandle.getPixelLocation().getY(), 0));
+                    //((TileView) getComponent((i * tileViews.get(0).size()) + j)).setCurrentXLocation(i);
+                    //aHandle.setPixelLocation(new Location(Math.round(aHandle.getLocation().getX()*.75f - 80), aHandle.getPixelLocation().getY(), 0));
+
+                }
+                else if((float) (View.cameraLocation.getX())/StaticVar.terrainImageWidth > (mapXLength - StaticVar.xTilesFromEdge + 1)) {
+                    //tileViews.get(i).get(j).setCurrentXLocation(i - tileViews.size() + StaticVar.xTilesFromEdge*2 - 1);
+                    pHandle.setPixelLocation(new Location(Math.round((pHandle.getLocation().getX() - ((mapXLength - StaticVar.xTilesFromEdge*2 + 1) * StaticVar.terrainImageWidth))*.75f - 80), pHandle.getPixelLocation().getY(), 0));
+                    //((TileView) getComponent((i * tileViews.get(0).size()) + j)).setCurrentXLocation(i - tileViews.size() + StaticVar.xTilesFromEdge*2 - 1);
+                    //aHandle.setPixelLocation(new Location(Math.round((aHandle.getLocation().getX() - ((tileViews.size() - StaticVar.xTilesFromEdge*2 + 1) * StaticVar.terrainImageWidth))*.75f - 80), aHandle.getPixelLocation().getY(), 0));
+                }
+                else  {
+                    pHandle.setPixelLocation(new Location(Math.round((pHandle.getLocation().getX() - View.cameraLocation.getX() + StaticVar.xTilesFromEdge*StaticVar.terrainImageWidth)*.75f) - 80, pHandle.getPixelLocation().getY(), 0));
+
+                }
+
+                //Y Stuff Below
+                if((float) (View.cameraLocation.getY())/StaticVar.terrainImageHeight < (float) StaticVar.yTilesFromEdge) {
+                    pHandle.setPixelLocation(new Location(pHandle.getPixelLocation().getX(), Math.round(pHandle.getLocation().getY() - Math.round(StaticVar.terrainImageHeight*1.2f)), 0));
+                }
+                else if((float) (View.cameraLocation.getY())/StaticVar.terrainImageHeight > (mapYLength - StaticVar.yTilesFromEdge)) {
+                    //tileViews.get(i).get(j).setCurrentYLocation(j - tileViews.get(0).size() + StaticVar.yTilesFromEdge*2);
+                    pHandle.setPixelLocation(new Location(pHandle.getPixelLocation().getX(), Math.round((pHandle.getLocation().getY() - ((mapYLength - StaticVar.yTilesFromEdge*2) * StaticVar.terrainImageHeight)) - Math.round(StaticVar.terrainImageHeight*1.2f)), 0));
+                    //((TileView) getComponent((i * tileViews.get(0).size()) + j)).setCurrentYLocation(j - tileViews.get(0).size() + StaticVar.yTilesFromEdge*2);
+                    //aHandle.setPixelLocation(new Location(aHandle.getPixelLocation().getX(), Math.round((aHandle.getLocation().getY() - ((tileViews.get(0).size() - StaticVar.yTilesFromEdge*2) * StaticVar.terrainImageHeight)) - Math.round(StaticVar.terrainImageHeight*1.2f)), 0));
+                }
+                else {
+                    pHandle.setPixelLocation(new Location(pHandle.getPixelLocation().getX(), pHandle.getLocation().getY() - View.cameraLocation.getY() + Math.round(StaticVar.yTilesFromEdge*StaticVar.terrainImageHeight) - StaticVar.terrainImageHeight - 20, 0));
+                }
+
+            default:
+                break;
+        }*/
         //TEST CODE, BUT FOLLOW THIS FORMAT FOR OVERRIDING PAINTCOMPONENT
         Graphics2D g2d = (Graphics2D)g.create();
         //gotta use that AA

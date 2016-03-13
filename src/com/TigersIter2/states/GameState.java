@@ -3,6 +3,7 @@ package com.TigersIter2.states;
 import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.items.OneHandedWeaponItem;
 import com.TigersIter2.location.Location;
+import com.TigersIter2.managers.PetManager;
 import com.TigersIter2.managers.StateManager;
 import com.TigersIter2.assets.sprites.*;
 import com.TigersIter2.entities.*;
@@ -31,6 +32,7 @@ public class GameState extends State {
     private Vehicle vehicle;
     private AvatarNPCInteract ant;
     private ItemManager itemManager;
+    private PetManager petManager;
 
     //Views
     private AvatarView avatarView;
@@ -69,11 +71,13 @@ public class GameState extends State {
         itemManager = new ItemManager(avatar);
 
 
+
         pet = new Pet("Crab", avatar);
+        petManager = new PetManager(pet, itemManager);
 
 
-        itemManager.addItem(potion);
-        itemManager.addItem(butterKnife);
+       // itemManager.addItem(potion);
+       // itemManager.addItem(butterKnife);
         avatar.getInventory().addItem(potion);
         avatar.getInventory().addItem(butterKnife);
 
@@ -92,10 +96,12 @@ public class GameState extends State {
         list.add("The Detroit Tigers?");
         list.add("So many things.");
         list.add("I suppose so.");
-        TakeableItem ohSword = new OneHandedWeaponItem("Sword",5);
+        Item ohSword = new Weapon();
+        ohSword.setLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight - 200,0));
+        ohSword.setPixelLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight - 200,0));
         itemManager.addItem(ohSword);
         ant.addVillager(list, true, true, false);
-        ant.getNpcList().get(0).getInventory().addItem(ohSword);
+       // ant.getNpcList().get(0).getInventory().addItem(ohSword);
         ant.addMonster();
 
         //testing for item interactions
@@ -112,10 +118,10 @@ public class GameState extends State {
         oneShot.setLocation(new Location(10 * StaticVar.terrainImageWidth + 200,10 * StaticVar.terrainImageHeight,0));
         oneShot.setPixelLocation(new Location(10 * StaticVar.terrainImageWidth + 200,10 * StaticVar.terrainImageHeight,0));
 
-        itemManager.addItem(obstacle);
-        itemManager.addItem(item);
-        itemManager.addItem(interactive);
-        itemManager.addItem(oneShot);
+       // itemManager.addItem(obstacle);
+      //  itemManager.addItem(item);
+       // itemManager.addItem(interactive);
+       // itemManager.addItem(oneShot);
 
 
 
@@ -144,7 +150,7 @@ public class GameState extends State {
             itemViews.add(new ItemView(i, avatar, map));
         }
 
-        mapView = new MapView(map, avatar);
+        mapView = new MapView(map, avatar, pet);
         areaView =  new AreaView(mapView,avatarView, petView, vehicleViews, footerView, statusView, npcViews, controlView, itemViews);
 
 
@@ -192,6 +198,7 @@ public class GameState extends State {
             avatar.update(controller.getXMovement(), controller.getyMovement(), elapsed);
             pet.update(controller.getXMovement(), controller.getyMovement(), elapsed);
         }
+        //petManager.stealItem();
         View.update(controller.getCameraXMovement(), controller.getCameraYMovement(), elapsed);
         ant.checkTile();
         handleControllerInput();
