@@ -5,15 +5,13 @@ import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.items.OneHandedWeaponItem;
 import com.TigersIter2.location.Location;
 import com.TigersIter2.location.LocationConverter;
-import com.TigersIter2.managers.AreaEffectManager;
-import com.TigersIter2.managers.StateManager;
+import com.TigersIter2.managers.*;
 import com.TigersIter2.assets.sprites.*;
 import com.TigersIter2.entities.*;
 import com.TigersIter2.items.*;
 import com.TigersIter2.main.Controller;
-import com.TigersIter2.managers.AvatarNPCInteract;
-import com.TigersIter2.managers.ItemManager;
 import com.TigersIter2.maps.TerrainMap;
+import com.TigersIter2.skills.SkillTree;
 import com.TigersIter2.views.*;
 
 import java.awt.*;
@@ -34,6 +32,8 @@ public class GameState extends State {
     private AvatarNPCInteract ant;
     private ItemManager itemManager;
     private AreaEffectManager aem;
+    private AvatarMapInteract avatarMapInteract;
+    private NPCMapInteract npcMapInteract;
     private AreaEffect effect;
 
     //Views
@@ -47,6 +47,9 @@ public class GameState extends State {
     private FooterView footerView;
     private StatusView statusView;
     private ControlView controlView;
+
+    private SkillManagementView smv;
+
     private MessageView messageView;
 
 
@@ -66,6 +69,10 @@ public class GameState extends State {
         areaEffectViews = new ArrayList<AreaEffectView>();
         map = new TerrainMap(StaticVar.map1);
         avatar = new Avatar();
+        avatarMapInteract = new AvatarMapInteract(avatar, map);
+//        for (NPC n : ant.getNpcList()){
+//            npcMapInteract = new NPCMapInteract(n, map);
+//        }
         TakeableItem potion = new Potion("Health Potion", 10);
         TakeableItem potion2 = new Potion("Health Potion", 10);
         TakeableItem potion3 = new Potion("Health Potion", 10);
@@ -75,6 +82,16 @@ public class GameState extends State {
         ant = new AvatarNPCInteract(avatar, footerView);
         vehicleViews = new ArrayList<VehicleView>();
         itemManager = new ItemManager(avatar);
+
+
+        SkillTree st = new SkillTree(avatar.getPlayerStats());
+        smv = new SkillManagementView(st);
+
+
+       // avatar.getInventory().addItem(new Potion("Health Potion"));
+       // avatar.getInventory().addItem(new Potion("Strength Potion"));
+       // avatar.getInventory().addItem(new Weapon("Battle Axe"));
+
 
 
         itemManager.addItem(potion);
@@ -89,7 +106,9 @@ public class GameState extends State {
         avatar.getInventory().addItem(breastplate);
 
 
+
         //avatar.setAttackTime(1000);
+
         ant = new AvatarNPCInteract(avatar, footerView);
 
         //THIS IS ALL FOR TESTING. WILL NOT STAY HERE
@@ -147,6 +166,7 @@ public class GameState extends State {
         MonsterSprite.init();
         ItemSprite.init();
         AreaEffectSprite.init();
+        SkillsSprite.init();
 
         avatarView = new AvatarView(avatar);
         statusView = new StatusView(avatar);
@@ -164,15 +184,14 @@ public class GameState extends State {
             areaEffectViews.add(new AreaEffectView(aEffect, avatar, map));
         }
 
-
         mapView = new MapView(map, avatar);
         areaView =  new AreaView(mapView,avatarView, vehicleViews, footerView, statusView, npcViews, controlView, itemViews, areaEffectViews);
         this.add(messageView);
         this.add(areaView);
 
+        areaView.add(smv, 0);
 
         System.out.println("GameState initialized");
-
 
     }
 
@@ -198,6 +217,9 @@ public class GameState extends State {
                 controller.setControlViewControls(controlView.getDisplay());
                 break;
             case 10:
+                smv.toggle();
+                controller.setSkillViewControls(smv.getDisplay());
+            case 11:
                 ant.startSkillsNotFromInteraction();
                 break;
             case -1:
@@ -209,37 +231,28 @@ public class GameState extends State {
         controller.resetOptionSelected();
     }
 
-    // TODO: this shouldn't be in GameState. Should use checkPassable() from TerrainMap
-    private boolean canPassTerrain(int xMov, int yMov, long elapsed){
-        Location nextLocation = new Location(0, 0, 0);
-        nextLocation.setX(avatar.getLocation().getX());
-        nextLocation.setY(avatar.getLocation().getY());
-        nextLocation.incrementX(Math.round(xMov * elapsed * StaticVar.entitySpeed*avatar.getStats().getMovement()));
-        nextLocation.incrementY(Math.round(yMov * elapsed * StaticVar.entitySpeed*avatar.getStats().getMovement()));
-        int terrainType = map.getTerrainType(LocationConverter.PixelLocationToHex(nextLocation));
-        if(terrainType == 1)
-            return true;
-        else if(terrainType == 2 && avatar.getCanPassWater())
-            return true;
-        else if(terrainType == 3 && avatar.getCanPassMountain())
-            return true;
-        else
-            return false;
-    }
-
     @Override
     public void update(long elapsed) {
         map.update();
         int xMov = controller.getXMovement();
         int yMov = controller.getyMovement();
         boolean avatarCanMove = itemManager.checkTile(elapsed, controller.getXMovement(), controller.getyMovement()); //returns false if item is an obstacle
-        if(avatarCanMove && canPassTerrain(xMov, yMov, elapsed)) {
+        if(avatarCanMove && avatarMapInteract.updateAvatarPos(elapsed, xMov, yMov)) {
             avatar.update(xMov, yMov, elapsed);
         }
+//        // For NPC movements
+//        int npcXmov = npcMapInteract.getxMov();
+//        int npcYmov = npcMapInteract.getyMov();
+//        boolean npcCanMove = itemManager.checkTile(elapsed, npcXmov, npcYmov); //returns false if item is an obstacle
+//        if(npcCanMove && ) {
+//            avatar.update(xMov, yMov, elapsed);
+//        }
+
         View.update(controller.getCameraXMovement(), controller.getCameraYMovement(), elapsed);
         aem.checkTile();
         ant.checkTile();
         handleControllerInput();
+
 
         if(controlView.getDisplay()) {
             int input = controller.getTradeMenuInput();
@@ -264,6 +277,10 @@ public class GameState extends State {
                 statusView.toggle();
                 controller.setStatusViewControls(statusView.getDisplay());
             }
+        }
+        else if(smv.getDisplay()) {
+            int input = controller.getTradeMenuInput();
+            smv.handleInput(input);
         }
 
 

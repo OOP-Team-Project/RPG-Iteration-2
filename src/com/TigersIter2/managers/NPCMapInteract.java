@@ -23,12 +23,14 @@ public class NPCMapInteract {
         this.npc = npc;
         this.map = map;
         direction = npc.getDirection();
-        xMov = 0;
-        yMov = 0;
+        // this initiates xMov and yMov
+        convertDegreesToCoord(direction);
     }
 
-    public void updateNPCPos(long elapsed){
+    public void updateNPCPos(long elapsed, int xMov, int yMov){
 
+        this.xMov = xMov;
+        this.yMov = yMov;
 
         System.out.println("BEGIN");
         System.out.println(npc.getLocation().getX()+", "+npc.getLocation().getY());
@@ -48,7 +50,7 @@ public class NPCMapInteract {
         else{
             // Changes xMov and yMov by random direction
             convertDegreesToCoord(randomDirection());
-            npc.changeDirection(xMov, yMov);
+            npc.changeDirection(this.xMov, this.yMov);
         }
 
         System.out.println("END");
@@ -56,12 +58,17 @@ public class NPCMapInteract {
         System.out.println(nextLocation.getX() +", "+nextLocation.getY());
     }
 
+    public int getxMov(){
+        return xMov;
+    }
+
+    public int getyMov(){
+        return yMov;
+    }
+
     public void convertDegreesToCoord(int direction){
 
         switch(direction){
-            case 0: xMov = 1;
-                yMov = 0;
-                break;
             case 45: xMov = 1;
                 yMov = -1;
                 break;
@@ -70,9 +77,6 @@ public class NPCMapInteract {
                 break;
             case 135: xMov = -1;
                 yMov = -1;
-                break;
-            case 180: xMov = -1;
-                yMov = 0;
                 break;
             case 225: xMov = -1;
                 yMov = 1;
@@ -87,7 +91,7 @@ public class NPCMapInteract {
     }
 
     public int randomDirection(){
-        int[] directionArray = new int[]{0, 45, 90, 135, 180, 225, 270, 315};
+        int[] directionArray = new int[]{45, 90, 135, 225, 270, 315};
         int rnd = new Random().nextInt(directionArray.length);
         // cannot have same direction as previous bc that direction will be impassable
         while(npc.getDirection() == rnd){
