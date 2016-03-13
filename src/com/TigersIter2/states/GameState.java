@@ -1,8 +1,10 @@
 package com.TigersIter2.states;
 
+import com.TigersIter2.areaEffects.*;
 import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.items.OneHandedWeaponItem;
 import com.TigersIter2.location.Location;
+import com.TigersIter2.managers.AreaEffectManager;
 import com.TigersIter2.managers.StateManager;
 import com.TigersIter2.assets.sprites.*;
 import com.TigersIter2.entities.*;
@@ -31,6 +33,8 @@ public class GameState extends State {
     private Vehicle vehicle;
     private AvatarNPCInteract ant;
     private ItemManager itemManager;
+    private AreaEffectManager aem;
+    private AreaEffect effect;
 
     //Views
     private AvatarView avatarView;
@@ -39,6 +43,7 @@ public class GameState extends State {
     private List<VehicleView> vehicleViews;
     private List<NPCView> npcViews;
     private List<ItemView> itemViews;
+    private List<AreaEffectView> areaEffectViews;
     private FooterView footerView;
     private StatusView statusView;
     private ControlView controlView;
@@ -59,11 +64,12 @@ public class GameState extends State {
         vehicleViews = new ArrayList<VehicleView>();
         npcViews = new ArrayList<NPCView>();
         itemViews = new ArrayList<ItemView>();
+        areaEffectViews = new ArrayList<AreaEffectView>();
         map = new TerrainMap(StaticVar.map1);
         avatar = new Avatar();
-        avatar.setOccupation(new Smasher());
+        avatar.setOccupation(new Summoner());
         TakeableItem potion = new Potion("Health Potion", 10);
-        TakeableItem butterKnife = new OneHandedWeaponItem("Butter Knife", 1);
+        TakeableItem butterKnife = new RangedWeaponItem("Crossbow", 1, 1, 0);
         ant = new AvatarNPCInteract(avatar, footerView);
         vehicleViews = new ArrayList<VehicleView>();
         itemManager = new ItemManager(avatar);
@@ -78,10 +84,12 @@ public class GameState extends State {
        // avatar.getInventory().addItem(new Weapon("Battle Axe"));
 
 
+
         itemManager.addItem(potion);
         itemManager.addItem(butterKnife);
         avatar.getInventory().addItem(potion);
         avatar.getInventory().addItem(butterKnife);
+
 
 
         avatar.setAttackTime(1000);
@@ -122,7 +130,14 @@ public class GameState extends State {
         itemManager.addItem(interactive);
         itemManager.addItem(oneShot);
 
-
+        // for testing Teleport
+        aem = new AreaEffectManager(avatar);
+        //Location dest = new Location(10 * StaticVar.terrainImageWidth +500,10 * StaticVar.terrainImageHeight+500, 0);
+        //effect = new Teleport(dest);
+        effect = new Trap();
+        effect.setLocation(new Location(10 * StaticVar.terrainImageWidth-200,10 * StaticVar.terrainImageHeight,0));
+        //effect.setPixelLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight+300,0));
+        aem.addEffect(effect);
 
         //pull in all pictures for GameState
 
@@ -134,6 +149,8 @@ public class GameState extends State {
         VillagerSprite.init();
         MonsterSprite.init();
         ItemSprite.init();
+        AreaEffectSprite.init();
+        SkillsSprite.init();
 
         avatarView = new AvatarView(avatar);
         statusView = new StatusView(avatar);
@@ -147,15 +164,18 @@ public class GameState extends State {
             itemViews.add(new ItemView(i, avatar, map));
         }
 
+        for(AreaEffect aEffect : aem.getAreaEffects()){
+            areaEffectViews.add(new AreaEffectView(aEffect, avatar, map));
+        }
+
         mapView = new MapView(map, avatar);
-        areaView =  new AreaView(mapView,avatarView, vehicleViews, footerView, statusView, npcViews, controlView, itemViews);
+        areaView =  new AreaView(mapView,avatarView, vehicleViews, footerView, statusView, npcViews, controlView, itemViews, areaEffectViews);
+        this.add(areaView);
 
         areaView.add(smv, 0);
 
-
-        this.add(areaView);
-
         System.out.println("GameState initialized");
+
 
     }
 
@@ -180,6 +200,7 @@ public class GameState extends State {
                 controlView.toggle();
                 controller.setControlViewControls(controlView.getDisplay());
                 break;
+            case 10:
             case -1:
                 break;
             default:
@@ -197,6 +218,7 @@ public class GameState extends State {
             avatar.update(controller.getXMovement(), controller.getyMovement(), elapsed);
         }
         View.update(controller.getCameraXMovement(), controller.getCameraYMovement(), elapsed);
+        aem.checkTile();
         ant.checkTile();
         handleControllerInput();
 

@@ -1,6 +1,7 @@
 package com.TigersIter2.views;
 
 import com.TigersIter2.assets.StaticVar;
+import com.TigersIter2.assets.sprites.SkillsSprite;
 import com.TigersIter2.skills.SkillTree;
 
 import javax.swing.*;
@@ -12,7 +13,6 @@ import java.util.Collections;
  */
 public class SkillManagementView extends JComponent {
 
-    private final int BOTTOM_OFFSET_BUG = 39;
     private final int STATS_OFFSET = 50;
     private final int SKILL_IMAGE_WIDTH = 150;
     private final int SKILL_IMAGE_HEIGHT = 150;
@@ -26,11 +26,7 @@ public class SkillManagementView extends JComponent {
         setLayout(new FlowLayout());
         info = "Size: " + getWidth() + "x" + getHeight();
 
-//        JTextArea textArea = new JTextArea("TEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\nTEST\n");
-//        textArea.setLocation(150,150);
-//        textArea.setLineWrap(true);
-//
-//        this.add(textArea);
+
     }
 
     @Override
@@ -41,16 +37,15 @@ public class SkillManagementView extends JComponent {
                 RenderingHints.VALUE_ANTIALIAS_ON);
 
         g2d.setColor(Color.GRAY);
-        g2d.fillRect(0,STATS_OFFSET,this.getWidth(),this.getHeight()-STATS_OFFSET-BOTTOM_OFFSET_BUG);
+        g2d.fillRect(0,STATS_OFFSET,this.getWidth(),this.getHeight()-STATS_OFFSET);
 
         g2d.setColor(Color.BLACK);
         g2d.setFont(new Font("TimesRoman", Font.BOLD, 18));
         g2d.drawString("Size: " + getWidth() + "x" + getHeight(), 100, 100);
-        paintSkills(g2d,(getWidth()/3) * 2, getHeight()-STATS_OFFSET-BOTTOM_OFFSET_BUG);
+        paintSkills(g2d,(getWidth()/3) * 2, getHeight()-STATS_OFFSET);
         g2d.setStroke(new BasicStroke(5));
         g2d.drawLine((getWidth()/3) * 2, 50,(getWidth()/3) * 2, getHeight() );
         g2d.dispose();
-        System.out.println(this.getComponentCount());
     }
 
     private void paintSkills(Graphics2D g2d, int width, int height) {
@@ -58,9 +53,16 @@ public class SkillManagementView extends JComponent {
         int topMargin = (height - 2 * SKILL_IMAGE_HEIGHT) / 3;
         int sideMarginForThreeSkills = (width - 3 * SKILL_IMAGE_HEIGHT - 2 * marginBetweenSkills) / 2;
 
+
         paintSkillBox(g2d, sideMarginForThreeSkills, topMargin + STATS_OFFSET);
         paintSkillBox(g2d, sideMarginForThreeSkills + marginBetweenSkills + SKILL_IMAGE_WIDTH, topMargin + STATS_OFFSET);
         paintSkillBox(g2d, sideMarginForThreeSkills + marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH * 2, topMargin + STATS_OFFSET);
+
+        g2d.drawImage(SkillsSprite.bindWoundsSelected, sideMarginForThreeSkills, topMargin + STATS_OFFSET, null);
+        g2d.drawImage(SkillsSprite.bargainSelected, sideMarginForThreeSkills + marginBetweenSkills + SKILL_IMAGE_WIDTH,
+                        topMargin + STATS_OFFSET, null);
+        g2d.drawImage(SkillsSprite.observationSelected, sideMarginForThreeSkills + marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH * 2,
+                        topMargin + STATS_OFFSET, null);
 
         paintSkillBox(g2d, marginBetweenSkills, topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET);
         paintSkillBox(g2d, marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH, topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET);
