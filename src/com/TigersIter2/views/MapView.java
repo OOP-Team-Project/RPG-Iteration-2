@@ -5,6 +5,10 @@ import com.TigersIter2.entities.Avatar;
 import com.TigersIter2.location.Location;
 import com.TigersIter2.location.LocationConverter;
 import com.TigersIter2.maps.TerrainMap;
+import com.TigersIter2.maps.terrains.Grass;
+import com.TigersIter2.maps.terrains.Mountain;
+import com.TigersIter2.maps.terrains.TerrainType;
+import com.TigersIter2.maps.terrains.Water;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,6 +23,7 @@ public class MapView extends View {
 
     TerrainMap mHandle;
     Avatar aHandle;
+    int[][] map; //SAM
     ArrayList<ArrayList<TileView>> tileViews = new ArrayList<ArrayList<TileView>>();
 
 
@@ -28,10 +33,13 @@ public class MapView extends View {
         setPreferredSize(new Dimension(StaticVar.gameWidth, StaticVar.gameHeight));
     }
 
-    public MapView(TerrainMap map, Avatar a) {
+    public MapView(TerrainMap TerrainMap, Avatar a) {
         setPreferredSize(new Dimension(StaticVar.gameWidth, StaticVar.gameHeight));
-        mHandle = map;
+        mHandle = TerrainMap;
         aHandle = a;
+        map = mHandle.getMap();
+
+        //TerrainType terrainArray[] = {new Grass(), new Grass(), new Water(), new Mountain()};
 
         //TODO: Fix this it's so ugly gaaaaaaaaaa I'm out of controoooool(Miles)
 
@@ -42,6 +50,11 @@ public class MapView extends View {
                 //this.add(new TileView(i, j, mHandle.getTerrainTypes().get(i).get(j), i));
             }
         }
+
+
+
+
+
     }
 
 

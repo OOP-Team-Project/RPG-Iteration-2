@@ -58,6 +58,7 @@ public class GameState extends State {
 
     @Override
     public void init() {
+        controller.setBindings(); //added this to remove enter key functionality from previous menustates
 
         footerView = new FooterView();
         controlView = new ControlView(controller);
@@ -67,7 +68,7 @@ public class GameState extends State {
         areaEffectViews = new ArrayList<AreaEffectView>();
         map = new TerrainMap(StaticVar.map1);
         avatar = new Avatar();
-        avatar.setOccupation(new Summoner());
+        //avatar.setOccupation(new Sneak()); no longer needed, since loading in type of avatar
         TakeableItem potion = new Potion("Health Potion", 10);
         TakeableItem butterKnife = new RangedWeaponItem("Crossbow", 1, 1, 0);
         ant = new AvatarNPCInteract(avatar, footerView);
@@ -226,8 +227,8 @@ public class GameState extends State {
             int input = controller.getTradeMenuInput();
             controlView.handleInput(input);
             //if(input == 5){
-                //controlView.toggle();
-                //controller.setStatusViewControls(controlView.getDisplay());
+            //controlView.toggle();
+            //controller.setStatusViewControls(controlView.getDisplay());
             //}
         }
         else if(avatar.getTrading()){
@@ -271,3 +272,4 @@ public class GameState extends State {
         return name;
     }
 }
+
