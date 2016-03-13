@@ -140,6 +140,7 @@ public class GameState extends State {
         MonsterSprite.init();
         ItemSprite.init();
         AreaEffectSprite.init();
+        SkillsSprite.init();
 
         avatarView = new AvatarView(avatar);
         statusView = new StatusView(avatar);
