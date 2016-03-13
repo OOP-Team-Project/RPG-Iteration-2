@@ -47,14 +47,18 @@ public class Avatar extends Entity{
         equipment = new Equipment();
         trading = false;
         setOccupation();
+
     }
 
     public void saveAvatar(){
-        String saveString = "location:\n"+location.getX()+" "+location.getY()+"\n";
-        saveString.concat("pixelLocation:\n"+pixelLocation.getX()+" "+pixelLocation.getY()+"\n");
-        saveString.concat("direction:\n"+direction+"\n");
-        saveString.concat("grass:\ntrue\n");
-        saveString.concat("water:\n"+canPassWater +"\n");
+        StringBuilder saveString = new StringBuilder();
+        saveString.append("location:\n"+location.getX()+" "+location.getY()+"\n");
+        saveString.append("pixelLocation:\n"+pixelLocation.getX()+" "+pixelLocation.getY()+"\n");
+        saveString.append("direction:\n"+direction+"\n");
+        saveString.append("grass:\ntrue\n");
+        saveString.append("water:\n"+canPassWater +"\n");
+        System.out.println(saveString);
+
         //needs to save location 1050,960
         //needs to save pixelLocation 629,269
         //direction 279
@@ -170,7 +174,10 @@ public class Avatar extends Entity{
     private void setOccupation(){
 
         String[] map1String = FileReader.fileToString(StaticVar.avatarFile).split("\\s+"); //splits up file on any white space
-        int occ = FileReader.stringToInt(map1String[0]); //first number of file
+        int occ = 0;
+        if (map1String[0].equals("Occupation:")) {
+            occ = FileReader.stringToInt(map1String[1]); //first number of file, after occupation
+        }
         System.out.println("first number of avatar file: " + occ);
         switch(occ){
             case 1: occupation = new Smasher();

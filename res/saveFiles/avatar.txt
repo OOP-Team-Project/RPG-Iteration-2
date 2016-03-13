@@ -1,1 +1,20 @@
+Occupation:
 2
+location:
+1050 960
+pixelLocation:
+629 269
+direction:
+270
+grass:
+true
+water:
+false
+mountain:
+false
+inventory:
+null
+equipment:
+null
+money:
+0

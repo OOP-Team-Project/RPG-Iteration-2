@@ -1,5 +1,6 @@
 package com.TigersIter2.states;
 
+import com.TigersIter2.assets.FileReader;
 import com.TigersIter2.assets.FileWriter;
 import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.assets.sprites.MainMenuSprite;
@@ -46,7 +47,9 @@ public class NewGameState extends State {
         else if (controller.getKeyPressed() == KeyEvent.VK_SPACE) stateManager.setState(StateManager.MAINMENU);
 
         if (controller.getKeyPressed()==KeyEvent.VK_ENTER&&counterBuffer>5){
-            FileWriter.stringToFile(StaticVar.avatarFile,FileWriter.intToString(avatarSel));
+            FileWriter.stringToFile(StaticVar.avatarFile,("Occupation:\n" + avatarSel));
+            String additionalAvatarinfo = FileReader.fileToString(StaticVar.avatarNewFile);
+            FileWriter.stringToAppendFile(StaticVar.avatarFile,additionalAvatarinfo);
             stateManager.setState(StateManager.GAME);
         }
     }
