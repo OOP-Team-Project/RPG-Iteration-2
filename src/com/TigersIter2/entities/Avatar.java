@@ -4,6 +4,7 @@ import com.TigersIter2.assets.FileReader;
 import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.items.TakeableItem;
 import com.TigersIter2.location.Location;
+import com.TigersIter2.location.LocationConverter;
 import com.TigersIter2.skills.SkillTree;
 import com.TigersIter2.stats.PlayerStats;
 
@@ -67,7 +68,7 @@ public class Avatar extends Entity{
             currentlyMoving = true;
         }
 
-        int viewDistance = stats.getLightRadius()*2;
+        int viewDistance = stats.getLightRadius()*2 + 1;
         for (int i = 0; i < viewDistance; ++i) {
             for (int j = 0; j < viewDistance; ++j) {
                 Location l = LocationConverter.PixelLocationToHex(location);
