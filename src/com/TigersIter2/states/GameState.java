@@ -69,6 +69,8 @@ public class GameState extends State {
         TakeableItem potion2 = new Potion("Health Potion", 10);
         TakeableItem potion3 = new Potion("Health Potion", 10);
         TakeableItem butterKnife = new RangedWeaponItem("Crossbow", 1, 1, 0);
+        TakeableItem axe = new BattleAxe("Battle Axe", 2);
+        TakeableItem breastplate = new Armor("Breastplate", 2, 4);
         ant = new AvatarNPCInteract(avatar, footerView);
         vehicleViews = new ArrayList<VehicleView>();
         itemManager = new ItemManager(avatar);
@@ -76,10 +78,14 @@ public class GameState extends State {
 
         itemManager.addItem(potion);
         itemManager.addItem(butterKnife);
+        itemManager.addItem(axe);
+        itemManager.addItem(breastplate);
         avatar.getInventory().addItem(potion);
         avatar.getInventory().addItem(potion2);
         avatar.getInventory().addItem(potion3);
         avatar.getInventory().addItem(butterKnife);
+        avatar.getInventory().addItem(axe);
+        avatar.getInventory().addItem(breastplate);
 
 
         avatar.setAttackTime(1000);
@@ -95,7 +101,7 @@ public class GameState extends State {
         list.add("The Detroit Tigers?");
         list.add("So many things.");
         list.add("I suppose so.");
-        TakeableItem ohSword = new OneHandedWeaponItem("Sword",5);
+        TakeableItem ohSword = new Sword("Sword");
         itemManager.addItem(ohSword);
         ant.addVillager(list, true, true, false);
         ant.getNpcList().get(0).getInventory().addItem(ohSword);

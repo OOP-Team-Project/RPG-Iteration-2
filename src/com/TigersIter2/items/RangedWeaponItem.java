@@ -8,6 +8,7 @@ import com.TigersIter2.stats.StatsModifier;
 public class RangedWeaponItem extends Weapon {
     private int range = 0;
     private int angle = 0;
+
     public RangedWeaponItem(String n, int damage, int range, int angle){
         this.damageModifier = damage;
         this.range = range;

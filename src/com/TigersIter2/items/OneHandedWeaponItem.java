@@ -8,8 +8,8 @@ import com.TigersIter2.stats.StatsModifier;
 public class OneHandedWeaponItem extends Weapon {
 
     //constructor to create OneHandedWeaponItem
-    public OneHandedWeaponItem(String n, int damage){
-        this.damageModifier = damage;
+    public OneHandedWeaponItem(String n){
+        this.damageModifier = 3;
         setName(n);
         setEquippable(true);
         this.sm = new StatsModifier();

@@ -23,7 +23,7 @@ public class Brawling extends ActiveSkill {
     /**
      * base improvements while skill is actuve
      */
-    private final int ATTACK_PER_LEVEL = 8;
+    private final int ATTACK_PER_LEVEL = 3;
 
     /**
      * derived stats of the skill

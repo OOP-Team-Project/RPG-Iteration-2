@@ -10,8 +10,8 @@ public class TwoHandedWeaponItem extends Weapon{
     private int decreaseMovement = 0;
 
     //constructor to create TwoHandedWeaponItem
-    public TwoHandedWeaponItem(String n, int damage, int decreaseMovement){
-        this.damageModifier = damage;
+    public TwoHandedWeaponItem(String n, int decreaseMovement){
+        this.damageModifier = 5;
         this.decreaseMovement = decreaseMovement;
         setName(n);
         setEquippable(true);
