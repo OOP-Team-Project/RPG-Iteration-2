@@ -13,24 +13,21 @@ import java.util.Random;
  */
 public class NPCMapInteract {
 
-    private NPC npc;
+    //private NPC npc;
     private TerrainMap map;
     private int direction;
     private int xMov;
     private int yMov;
 
     public NPCMapInteract(NPC npc, TerrainMap map){
-        this.npc = npc;
+        //this.npc = npc;
         this.map = map;
         direction = npc.getDirection();
         // this initiates xMov and yMov
         convertDegreesToCoord(direction);
     }
 
-    public void updateNPCPos(long elapsed, int xMov, int yMov){
-
-        this.xMov = xMov;
-        this.yMov = yMov;
+    public void updateNPCPos(NPC npc, long elapsed, int xMov, int yMov){
 
         System.out.println("BEGIN");
         System.out.println(npc.getLocation().getX()+", "+npc.getLocation().getY());
@@ -49,8 +46,8 @@ public class NPCMapInteract {
         }
         else{
             // Changes xMov and yMov by random direction
-            convertDegreesToCoord(randomDirection());
-            npc.changeDirection(this.xMov, this.yMov);
+            convertDegreesToCoord(randomDirection(npc));
+            npc.changeDirection(xMov, yMov);
         }
 
         System.out.println("END");
@@ -58,11 +55,17 @@ public class NPCMapInteract {
         System.out.println(nextLocation.getX() +", "+nextLocation.getY());
     }
 
-    public int getxMov(){
+    public int getxMov(NPC npc){
+        direction = npc.getDirection();
+        // this initiates xMov and yMov
+        convertDegreesToCoord(direction);
         return xMov;
     }
 
-    public int getyMov(){
+    public int getyMov(NPC npc){
+        direction = npc.getDirection();
+        // this initiates xMov and yMov
+        convertDegreesToCoord(direction);
         return yMov;
     }
 
@@ -90,14 +93,36 @@ public class NPCMapInteract {
         }
     }
 
-    public int randomDirection(){
+    public int randomDirection(NPC npc){
         int[] directionArray = new int[]{45, 90, 135, 225, 270, 315};
         int rnd = new Random().nextInt(directionArray.length);
         // cannot have same direction as previous bc that direction will be impassable
         while(npc.getDirection() == rnd){
             rnd = new Random().nextInt(directionArray.length);
         }
-        return rnd;
+        return directionArray[rnd];
     }
 
+    public boolean canPassTerrain(NPC n, TerrainMap map, Location nextLocation){
+        int terrainType = map.getTerrainType(LocationConverter.PixelLocationToHex(nextLocation));
+        if(terrainType == 1)
+            return true;
+        else if(terrainType == 2 && n.getCanPassWater())
+            return true;
+        else if(terrainType == 3 && n.getCanPassMountain())
+            return true;
+        else
+            return false;
+    }
+
+    public Location getNextLocation(NPC npc, long elapsed){
+        Location nextLocation = new Location(0, 0, 0);
+        nextLocation.setX(npc.getLocation().getX());
+        nextLocation.setY(npc.getLocation().getY());
+
+        nextLocation.incrementX(Math.round(xMov * elapsed * StaticVar.entitySpeed*npc.getStats().getMovement()));
+        nextLocation.incrementY(Math.round(yMov * elapsed * StaticVar.entitySpeed*npc.getStats().getMovement()));
+
+        return nextLocation;
+    }
 }

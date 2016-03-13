@@ -70,9 +70,7 @@ public class GameState extends State {
         map = new TerrainMap(StaticVar.map1);
         avatar = new Avatar();
         avatarMapInteract = new AvatarMapInteract(avatar, map);
-//        for (NPC n : ant.getNpcList()){
-//            npcMapInteract = new NPCMapInteract(n, map);
-//        }
+
         TakeableItem potion = new Potion("Health Potion", 10);
         TakeableItem potion2 = new Potion("Health Potion", 10);
         TakeableItem potion3 = new Potion("Health Potion", 10);
@@ -126,6 +124,9 @@ public class GameState extends State {
         ant.addVillager(list, true, true, false);
         ant.getNpcList().get(0).getInventory().addItem(ohSword);
         ant.addMonster();
+        for (NPC n : ant.getNpcList()){
+            npcMapInteract = new NPCMapInteract(n, map);
+        }
 
         //testing for item interactions
         Item item = new Key("Key", 1);
@@ -240,13 +241,17 @@ public class GameState extends State {
         if(avatarCanMove && avatarMapInteract.updateAvatarPos(elapsed, xMov, yMov)) {
             avatar.update(xMov, yMov, elapsed);
         }
-//        // For NPC movements
-//        int npcXmov = npcMapInteract.getxMov();
-//        int npcYmov = npcMapInteract.getyMov();
-//        boolean npcCanMove = itemManager.checkTile(elapsed, npcXmov, npcYmov); //returns false if item is an obstacle
-//        if(npcCanMove && ) {
-//            avatar.update(xMov, yMov, elapsed);
-//        }
+        // For NPC movements
+        for(NPC n : ant.getNpcList()) {
+            int npcXmov = npcMapInteract.getxMov(n);
+            int npcYmov = npcMapInteract.getyMov(n);
+            boolean npcCanMove = itemManager.checkTile(elapsed, npcXmov, npcYmov); //returns false if item is an obstacle
+
+            if (npcCanMove && npcMapInteract.canPassTerrain(n,map,npcMapInteract.getNextLocation(n, elapsed))){
+                //npcMapInteract.updateNPCPos(n, elapsed, npcXmov, npcYmov);
+                npcMapInteract.updateNPCPos(n, elapsed, npcXmov, npcYmov);
+            }
+        }
 
         View.update(controller.getCameraXMovement(), controller.getCameraYMovement(), elapsed);
         aem.checkTile();
