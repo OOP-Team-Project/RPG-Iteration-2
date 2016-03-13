@@ -193,7 +193,7 @@ public class GameState extends State {
         }
 
 
-        mapView = new MapView(map, avatar, pet);
+        mapView = new MapView(map, avatar);
         areaView =  new AreaView(mapView, avatarView, petView, vehicleViews, footerView, statusView, npcViews, controlView, itemViews, areaEffectViews);
 
         for(AreaEffect aEffect : aem.getAreaEffects()){
@@ -201,7 +201,7 @@ public class GameState extends State {
         }
 
         mapView = new MapView(map, avatar);
-        areaView =  new AreaView(mapView,avatarView, vehicleViews, footerView, statusView, npcViews, controlView, itemViews, areaEffectViews);
+        areaView =  new AreaView(mapView, avatarView, petView, vehicleViews, footerView, statusView, npcViews, controlView, itemViews, areaEffectViews);
 
         this.add(messageView);
         this.add(attackIndicatorView);

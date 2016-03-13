@@ -2,7 +2,6 @@ package com.TigersIter2.views;
 
 import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.entities.Avatar;
-import com.TigersIter2.entities.Pet;
 import com.TigersIter2.location.Location;
 import com.TigersIter2.location.LocationConverter;
 import com.TigersIter2.maps.TerrainMap;
@@ -24,7 +23,6 @@ public class MapView extends View {
 
     TerrainMap mHandle;
     Avatar aHandle;
-    Pet pHandle;
     int[][] map; //SAM
     ArrayList<ArrayList<TileView>> tileViews = new ArrayList<ArrayList<TileView>>();
 
@@ -36,11 +34,10 @@ public class MapView extends View {
     }
 
 
-    public MapView(TerrainMap TerrainMap, Avatar a, Pet p) {
+    public MapView(TerrainMap TerrainMap, Avatar a) {
         setPreferredSize(new Dimension(StaticVar.gameWidth, StaticVar.gameHeight));
         mHandle = TerrainMap;
         aHandle = a;
-        pHandle = p;
         map = mHandle.getMap();
 
         //TerrainType terrainArray[] = {new Grass(), new Grass(), new Water(), new Mountain()};
@@ -158,14 +155,8 @@ public class MapView extends View {
 
                 //Miles Tests below:
                 Location aHexLocation = LocationConverter.PixelLocationToHex(aHandle.getLocation());
-                Location pHexLocation = LocationConverter.PixelLocationToHex(pHandle.getLocation());
 
-                /*if(aHexLocation.getX() == i && aHexLocation.getY() == j)
-                    tileViews.get(i).get(j).shouldGlow(true);
-                else
-                    tileViews.get(i).get(j).shouldGlow(false);*/
-                //System.out.println(pHexLocation.toString());
-                if(pHexLocation.getX() == i && pHexLocation.getY() == j)
+                if(aHexLocation.getX() == i && aHexLocation.getY() == j)
                     tileViews.get(i).get(j).shouldGlow(true);
                 else
                     tileViews.get(i).get(j).shouldGlow(false);
