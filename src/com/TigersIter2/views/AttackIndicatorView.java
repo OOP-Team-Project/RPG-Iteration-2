@@ -85,6 +85,9 @@ public class AttackIndicatorView extends View {
                 else if(oldTypeList.get(i).equals("enchantment")) {
                     g2d.drawImage(AttackSprite.enchantment, xPos.get(i), yPos.get(i), null);
                 }
+                else if(oldTypeList.get(i).equals("range")) {
+                    g2d.drawImage(AttackSprite.range, xPos.get(i), yPos.get(i), null);
+                }
             }
         }
 
