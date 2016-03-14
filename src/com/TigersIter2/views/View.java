@@ -3,7 +3,6 @@ package com.TigersIter2.views;
 import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.entities.Avatar;
 import com.TigersIter2.location.Location;
-import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
 
 import javax.swing.*;
 
