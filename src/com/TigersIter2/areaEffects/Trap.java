@@ -6,6 +6,9 @@ import com.TigersIter2.managers.AreaEffectManager;
 import com.TigersIter2.skills.DetectRemoveTrap;
 import com.TigersIter2.views.MessageView;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  * Created by MyMac on 3/11/16.
  */
@@ -22,11 +25,14 @@ public class Trap extends AreaEffect{
 
     private Boolean removed;
     private AreaEffectManager aem;
+    private Timer timer;
+    private boolean active = false;
 
     public Trap(){
         areaEffectType = 5;
         removed = false;
         display = true;
+        timer = new Timer();
     }
 
     public void affectEntity(Entity entity){
@@ -48,19 +54,27 @@ public class Trap extends AreaEffect{
                 }
                 // What do we want to happen if you get caught in a trap?
                 // Right now it holds the avatar for 5 seconds by putting the thread tow sleep
-                else {
-                    try {
+                else if(!active){
+
                         display = true;
                         avatar.setIsTrapped(true);
-                        Thread.sleep(3000);
-                        MessageView.addMessage("Trapped!");
-                        MessageView.drawMessage();
-                    } catch (Exception e) {
-                        System.out.println(e);
-                    }
+                        //Thread.sleep(3000);
+                        timer.schedule(new TimedTrap(avatar), 3000);
+                    active = true;
+                        //MessageView.addMessage("Trapped!");
+                        //MessageView.drawMessage();
+
                 }
             }
         }
+    }
+
+    public boolean isActive(){
+        return active;
+    }
+
+    public void setActive(boolean b){
+        active = b;
     }
 
     public Boolean getRemoved(){
@@ -69,5 +83,26 @@ public class Trap extends AreaEffect{
 
     public String getEffectName(){
         return "Trap";
+    }
+
+    private void trapEnded(Avatar a) {
+        //playerStats.removeStatModifier(sm);
+        //active = false;
+        a.setIsTrapped(false);
+        System.out.println("Trap ended");
+    }
+
+
+    private class TimedTrap extends TimerTask {
+
+        private Avatar avatar;
+        public TimedTrap(Avatar a){
+            avatar = a;
+        }
+
+        @Override
+        public void run() {
+            trapEnded(avatar);
+        }
     }
 }
