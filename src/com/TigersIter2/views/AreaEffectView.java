@@ -81,7 +81,7 @@ public class AreaEffectView extends View {
             //gotta use that AA
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                     RenderingHints.VALUE_ANTIALIAS_ON);
-            Location location = LocationConverter.PixelLocationToHex(pixelLocation);
+            Location location = LocationConverter.PixelLocationToHex(aEffectHandle.getLocation());
             if (aHandle.canSeeHex(location)) {
                 drawItem(g2d);
             }
