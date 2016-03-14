@@ -8,13 +8,13 @@ public class LocationConverter {
     //static methods to covert from HexTileLocation to x,y Location
     public static Location PixelLocationToHex(Location pix) {
         if (pix.getX() / StaticVar.terrainImageWidth % 2 == 0)
-            return (new Location(pix.getX() / StaticVar.terrainImageWidth, pix.getY() / StaticVar.terrainImageHeight, 0));
+            return (new Location(pix.getX() / StaticVar.terrainImageWidth, pix.getY() / StaticVar.terrainImageHeight));
         else
-            return (new Location(pix.getX() / StaticVar.terrainImageWidth, (pix.getY() + StaticVar.terrainImageHeight / 2) / StaticVar.terrainImageHeight - 1, 0));
+            return (new Location(pix.getX() / StaticVar.terrainImageWidth, (pix.getY() + StaticVar.terrainImageHeight / 2) / StaticVar.terrainImageHeight - 1));
 
     }
 
     public static Location HexLocationToPixel(Location hex) {
-        return (new Location(hex.getX() * StaticVar.terrainImageWidth, hex.getY() * StaticVar.terrainImageHeight, 0));
+        return (new Location(hex.getX() * StaticVar.terrainImageWidth, hex.getY() * StaticVar.terrainImageHeight));
     }
 }

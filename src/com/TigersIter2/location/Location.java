@@ -3,18 +3,16 @@ package com.TigersIter2.location;
 //simple location class, has three dimensions for hex tile system
 public class Location {
 
-    private int x,y,z;
+    private int x,y;
 
-    public Location(int xHex, int yHex, int zHex){
+    public Location(int xHex, int yHex){
         x = xHex;
         y = yHex;
-        z = zHex;
     }
 
     public Location(Location location){
         x = location.getX();
         y = location.getY();
-        z = location.getZ();
     }
 
     public int getX() {
@@ -34,16 +32,6 @@ public class Location {
     public void setY(int y) {
         this.y = y;
     }
-
-    public int getZ() {
-        return z;
-    }
-
-    public void setZ(int z) {
-        this.z = z;
-    }
-
-    public void incrementZ(int dz) { this.z += dz; }
 
     public String toString() { return "(" + x + ", " + y + ")"; }
 
@@ -75,6 +63,6 @@ public class Location {
     }
 
     public int getDistance(int i, int j) {
-        return new Location(i,j,-i-j).getDistance(this);
+        return new Location(i,j).getDistance(this);
     }
 }

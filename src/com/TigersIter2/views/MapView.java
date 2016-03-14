@@ -5,12 +5,7 @@ import com.TigersIter2.entities.Avatar;
 import com.TigersIter2.location.Location;
 import com.TigersIter2.location.LocationConverter;
 import com.TigersIter2.maps.TerrainMap;
-import com.TigersIter2.maps.terrains.Grass;
-import com.TigersIter2.maps.terrains.Mountain;
-import com.TigersIter2.maps.terrains.TerrainType;
-import com.TigersIter2.maps.terrains.Water;
 
-import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -89,7 +84,7 @@ public class MapView extends View {
                 Location aHexLocation = LocationConverter.PixelLocationToHex(aHandle.getLocation());
 
                 tileViews.get(i).get(j).shouldGlow(aHexLocation.getX() == i && aHexLocation.getY() == j);
-                tileViews.get(i).get(j).setVisibility(aHandle.canSeeHex(new Location(i, j, -i-j)));
+                tileViews.get(i).get(j).setVisibility(aHandle.canSeeHex(new Location(i, j)));
                 tileViews.get(i).get(j).setExplored(aHandle.hasExploredTile(i, j));
                 tileViews.get(i).get(j).paintComponent(g);
             }

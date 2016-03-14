@@ -27,7 +27,7 @@ public class ItemView extends View {
         mapXLength = map.getMapWidth();
         mapYLength = map.getMapHeight();
 
-        pixelLocation = new Location(0,0,0);
+        pixelLocation = new Location(0,0);
 
         setPreferredSize(new Dimension(StaticVar.gameWidth, StaticVar.gameHeight));
     }
@@ -64,19 +64,19 @@ public class ItemView extends View {
         if(iHandle.getDisplay()) {
 
             if ((float) (View.cameraLocation.getX()) / StaticVar.terrainImageWidth < ((float) StaticVar.xTilesFromEdge)) {
-                setPixelLocation(new Location(Math.round(iHandle.getLocation().getX() * .75f - 80), pixelLocation.getY(), 0));
+                setPixelLocation(new Location(Math.round(iHandle.getLocation().getX() * .75f - 80), pixelLocation.getY()));
             } else if ((float) (View.cameraLocation.getX()) / StaticVar.terrainImageWidth > (mapXLength - StaticVar.xTilesFromEdge + 1)) {
-                setPixelLocation(new Location(Math.round((iHandle.getLocation().getX() - ((mapXLength - StaticVar.xTilesFromEdge * 2 + 1) * StaticVar.terrainImageWidth)) * .75f - 80), pixelLocation.getY(), 0));
+                setPixelLocation(new Location(Math.round((iHandle.getLocation().getX() - ((mapXLength - StaticVar.xTilesFromEdge * 2 + 1) * StaticVar.terrainImageWidth)) * .75f - 80), pixelLocation.getY()));
             } else {
-                setPixelLocation(new Location(Math.round((iHandle.getLocation().getX() - View.cameraLocation.getX() + StaticVar.xTilesFromEdge * StaticVar.terrainImageWidth) * .75f) - 80, pixelLocation.getY(), 0));
+                setPixelLocation(new Location(Math.round((iHandle.getLocation().getX() - View.cameraLocation.getX() + StaticVar.xTilesFromEdge * StaticVar.terrainImageWidth) * .75f) - 80, pixelLocation.getY()));
             }
             //Y Stuff Below
             if ((float) (View.cameraLocation.getY()) / StaticVar.terrainImageHeight < (float) StaticVar.yTilesFromEdge) {
-                setPixelLocation(new Location(pixelLocation.getX(), Math.round(iHandle.getLocation().getY() - Math.round(StaticVar.terrainImageHeight * 1.2f)), 0));
+                setPixelLocation(new Location(pixelLocation.getX(), Math.round(iHandle.getLocation().getY() - Math.round(StaticVar.terrainImageHeight * 1.2f))));
             } else if ((float) (View.cameraLocation.getY()) / StaticVar.terrainImageHeight > (mapYLength - StaticVar.yTilesFromEdge)) {
-                setPixelLocation(new Location(pixelLocation.getX(), Math.round((iHandle.getLocation().getY() - ((mapYLength - StaticVar.yTilesFromEdge * 2) * StaticVar.terrainImageHeight)) - Math.round(StaticVar.terrainImageHeight * 1.2f)), 0));
+                setPixelLocation(new Location(pixelLocation.getX(), Math.round((iHandle.getLocation().getY() - ((mapYLength - StaticVar.yTilesFromEdge * 2) * StaticVar.terrainImageHeight)) - Math.round(StaticVar.terrainImageHeight * 1.2f))));
             } else {
-                setPixelLocation(new Location(pixelLocation.getX(), iHandle.getLocation().getY() - View.cameraLocation.getY() + Math.round(StaticVar.yTilesFromEdge * StaticVar.terrainImageHeight) - StaticVar.terrainImageHeight - 20, 0));
+                setPixelLocation(new Location(pixelLocation.getX(), iHandle.getLocation().getY() - View.cameraLocation.getY() + Math.round(StaticVar.yTilesFromEdge * StaticVar.terrainImageHeight) - StaticVar.terrainImageHeight - 20));
             }
 
             Graphics2D g2d = (Graphics2D) g.create();

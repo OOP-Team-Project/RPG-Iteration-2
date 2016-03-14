@@ -22,7 +22,7 @@ public class Pet extends Entity {
         //sets the location of the Pet to be next to the avatar
         int avatarXLocation = avatar.getLocation().getX();
         int avatarYLocation = avatar.getLocation().getY();
-        this.location = new Location(avatarXLocation+50, avatarYLocation+130, 0);
+        this.location = new Location(avatarXLocation+50, avatarYLocation+130);
 
     }
 

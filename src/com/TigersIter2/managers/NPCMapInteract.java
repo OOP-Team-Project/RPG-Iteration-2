@@ -144,7 +144,7 @@ public class NPCMapInteract {
     }
 
     public Location getNextLocation(long elapsed){
-        Location nextLocation = new Location(0, 0, 0);
+        Location nextLocation = new Location(0, 0);
         nextLocation.setX(npc.getLocation().getX());
         nextLocation.setY(npc.getLocation().getY());
 

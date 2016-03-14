@@ -130,7 +130,7 @@ public class Avatar extends Entity{
         int xLoc = location.getX();
         int yLoc = location.getY()+100;
 
-        item.setLocation(new Location(xLoc, yLoc, 0));
+        item.setLocation(new Location(xLoc, yLoc));
         item.setDisplay(true);
     }
 
@@ -224,7 +224,7 @@ public class Avatar extends Entity{
         stats = new PlayerStats(occupation);
         skills = new SkillTree(stats);
         //set avatar location
-        location = new Location(0,0,0);
+        location = new Location(0,0);
         if (avatarString[2].equals("location:")){
             location.setX(FileReader.stringToInt(avatarString[3]));
             location.setY(FileReader.stringToInt(avatarString[4]));
@@ -420,7 +420,7 @@ public class Avatar extends Entity{
 
 
     public boolean hasExploredTile(int i, int j) {
-        return exploredTiles.contains(new Location(i,j,-i-j));
+        return exploredTiles.contains(new Location(i,j));
     }
 
     public boolean canSeeHex(Location l) {

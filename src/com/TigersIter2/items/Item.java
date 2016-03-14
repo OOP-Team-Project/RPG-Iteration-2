@@ -12,7 +12,7 @@ public class Item {
     private boolean display = false;
 
     public Item() {
-        location = new Location(0,0,0);
+        location = new Location(0,0);
     }
 
     public void setLocation(Location l){

@@ -16,7 +16,7 @@ public class View extends JComponent {
         SCROLL_MODE
     }
 
-    public static Location cameraLocation = new Location(0, 0, 0);
+    public static Location cameraLocation = new Location(0, 0);
     public static EntityFollowingCamera eCam;
     public static Camera scrollCam = new Camera();
     public static int mapXLength, mapYLength;

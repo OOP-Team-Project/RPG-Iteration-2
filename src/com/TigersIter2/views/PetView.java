@@ -86,24 +86,24 @@ public class PetView extends View implements ActionListener {
 
     public void paintComponent(Graphics g){
         if((float) (View.cameraLocation.getX())/StaticVar.terrainImageWidth < ((float) StaticVar.xTilesFromEdge)) {
-            setPixelLocation(new Location(Math.round(pHandle.getLocation().getX()*.75f - 80), pixelLocation.getY(), 0));
+            setPixelLocation(new Location(Math.round(pHandle.getLocation().getX()*.75f - 80), pixelLocation.getY()));
         }
         else if((float) (View.cameraLocation.getX())/StaticVar.terrainImageWidth > (mapXLength - StaticVar.xTilesFromEdge + 1)) {
-            setPixelLocation(new Location(Math.round((pHandle.getLocation().getX() - ((mapXLength - StaticVar.xTilesFromEdge*2 + 1) * StaticVar.terrainImageWidth))*.75f - 80), pixelLocation.getY(), 0));
+            setPixelLocation(new Location(Math.round((pHandle.getLocation().getX() - ((mapXLength - StaticVar.xTilesFromEdge*2 + 1) * StaticVar.terrainImageWidth))*.75f - 80), pixelLocation.getY()));
         }
         else  {
-            setPixelLocation(new Location(Math.round((pHandle.getLocation().getX() - View.cameraLocation.getX() + StaticVar.xTilesFromEdge*StaticVar.terrainImageWidth)*.75f) - 80, pixelLocation.getY(), 0));
+            setPixelLocation(new Location(Math.round((pHandle.getLocation().getX() - View.cameraLocation.getX() + StaticVar.xTilesFromEdge*StaticVar.terrainImageWidth)*.75f) - 80, pixelLocation.getY()));
         }
 
         //Y Stuff Below
         if((float) (View.cameraLocation.getY())/StaticVar.terrainImageHeight < (float) StaticVar.yTilesFromEdge) {
-            setPixelLocation(new Location(pixelLocation.getX(), Math.round(pHandle.getLocation().getY() - Math.round(StaticVar.terrainImageHeight*1.2f)), 0));
+            setPixelLocation(new Location(pixelLocation.getX(), Math.round(pHandle.getLocation().getY() - Math.round(StaticVar.terrainImageHeight*1.2f))));
         }
         else if((float) (View.cameraLocation.getY())/StaticVar.terrainImageHeight > (mapYLength - StaticVar.yTilesFromEdge)) {
-            setPixelLocation(new Location(pixelLocation.getX(), Math.round((pHandle.getLocation().getY() - ((mapYLength - StaticVar.yTilesFromEdge*2) * StaticVar.terrainImageHeight)) - Math.round(StaticVar.terrainImageHeight*1.2f)), 0));
+            setPixelLocation(new Location(pixelLocation.getX(), Math.round((pHandle.getLocation().getY() - ((mapYLength - StaticVar.yTilesFromEdge*2) * StaticVar.terrainImageHeight)) - Math.round(StaticVar.terrainImageHeight*1.2f))));
         }
         else {
-            setPixelLocation(new Location(pixelLocation.getX(), pHandle.getLocation().getY() - View.cameraLocation.getY() + Math.round(StaticVar.yTilesFromEdge*StaticVar.terrainImageHeight) - StaticVar.terrainImageHeight - 20, 0));
+            setPixelLocation(new Location(pixelLocation.getX(), pHandle.getLocation().getY() - View.cameraLocation.getY() + Math.round(StaticVar.yTilesFromEdge*StaticVar.terrainImageHeight) - StaticVar.terrainImageHeight - 20));
         }
         //TEST CODE, BUT FOLLOW THIS FORMAT FOR OVERRIDING PAINTCOMPONENT
         Graphics2D g2d = (Graphics2D)g.create();

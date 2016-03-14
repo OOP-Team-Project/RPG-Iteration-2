@@ -47,7 +47,7 @@ public class ItemManager {
      *an obstacle*/
     public boolean checkTile(long elapsed, int xMov, int yMov) {
         Iterator<Item> iter = itemList.iterator();
-        Location nextLocation = new Location(0, 0, 0);
+        Location nextLocation = new Location(0, 0);
         nextLocation.setX(avatar.getLocation().getX());
         nextLocation.setY(avatar.getLocation().getY());
         nextLocation.incrementX(Math.round(xMov * elapsed * StaticVar.entitySpeed*avatar.getStats().getMovement()));
