@@ -113,8 +113,8 @@ public class GameState extends State {
         ant = new AvatarNPCInteract(avatar, footerView);
 
         //THIS IS ALL FOR TESTING. WILL NOT STAY HERE
-        ant.addVehicle(new Vehicle("Turtle", 5, true, false));
-        ant.addVehicle(new Vehicle("Turtle2", 2, true, true));
+        ant.addVehicle(new Vehicle("waterTurtle", 5, true, false));
+        ant.addVehicle(new Vehicle("mountainTurtle", 2, false, true));
         //ant.addMonster();
         List<String> list = new ArrayList<String>();
         list.add("My name is John Cena. I'm an internet sensation.");
@@ -162,6 +162,7 @@ public class GameState extends State {
         SmasherSprite.init();
         SneakSprite.init();
         VehicleSprite.init();
+        VehicleSprite2.init();
         VillagerSprite.init();
         MonsterSprite.init();
         ItemSprite.init();
