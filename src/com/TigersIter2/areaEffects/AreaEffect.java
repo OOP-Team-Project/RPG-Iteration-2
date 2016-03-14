@@ -31,9 +31,7 @@ public abstract class AreaEffect {
     }
 
     public void setLocation(Location l){
-        int x = ((location.getX()+50)/100)*100;
-        int y = ((location.getY()+50)/100)*100;
-        location = new Location(x, y, 0);
+        location = l;
     }
 
     public Location getLocation() {

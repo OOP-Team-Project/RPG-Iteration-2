@@ -59,12 +59,9 @@ public class SkillManagementView extends JComponent {
     public void handleInput(int input){
         if(input == 2){
             decrementHighlighted();
-            System.out.println("CH: " + highlighted);
         }
         else if(input == 3){
             incrementHighlighted();
-            System.out.println("CH: " + highlighted);
-
         }
         else if(input == 4 && skillTree.getAbilityPoints() > 0) {
             String occupation = skillTree.toString();
@@ -148,9 +145,9 @@ public class SkillManagementView extends JComponent {
              g2d.setStroke(new BasicStroke(5));
 
              g2d.setColor(Color.BLACK);
-             g2d.setFont(new Font("TimesRoman", Font.BOLD, 20));;
+             g2d.setFont(new Font("TimesRoman", Font.BOLD, 20));
              g2d.drawString("Ability Points: " + skillTree.getAbilityPoints(), (getWidth() / 3) * 2 + 135, 175);
-             g2d.setFont(new Font("TimesRoman", Font.BOLD, 16));;
+             g2d.setFont(new Font("TimesRoman", Font.BOLD, 16));
              paintGeneralSkills(g2d,(getWidth() / 3) * 2, getHeight() - STATS_OFFSET);
              if (occupation.equalsIgnoreCase("Smasher")) {
                  paintSmasherSkills(g2d,(getWidth() / 3) * 2, getHeight() - STATS_OFFSET);

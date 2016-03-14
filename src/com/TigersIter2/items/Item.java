@@ -11,10 +11,16 @@ public class Item {
     protected int itemType;       //to differentiate between keys, potions, obstacles, weapons, armor, interactive, and oneShot
     private boolean display = false;
 
-    public void setLocation(Location location){
-        int x = ((location.getX()+50)/100)*100;
-        int y = ((location.getY()+50)/100)*100;
-        this.location = new Location(x, y, 0);
+    public Item() {
+        location = new Location(0,0,0);
+    }
+
+    public void setLocation(Location l){
+       /*int x = ((location.getX()+50)/100)*100;
+       int y = ((location.getY()+50)/100)*100;
+       this.location = new Location(x, y, 0);*/ //What was this stuff? Not sure, so commented it out. Sorry! (Miles)
+        location.setX(l.getX());
+        location.setY(l.getY());
     }
 
     public Location getLocation() { return location; }
