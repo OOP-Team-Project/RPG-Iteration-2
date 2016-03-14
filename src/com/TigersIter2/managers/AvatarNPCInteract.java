@@ -552,7 +552,7 @@ public class AvatarNPCInteract {
                     //END TESTING
 
                     avatar.getStats().decreaseCurrentLife(damage);
-                    MessageView.addMessage("-" + damage);
+                    MessageView.addMessage("-" + damage, avatar.getLocation().getX(), avatar.getLocation().getY());
                     MessageView.drawMessage();
                     if (avatar.getStats().getCurrentLife() <= 0) {
                         if(avatar.getStats().getLivesLeft() > 0)
