@@ -36,11 +36,11 @@ public class NewGameState extends State {
     public void update(long elapsed) {
 
         counterBuffer++;
-        if (controller.getXMovement()==-1 && avatarSel > 1 && counterBuffer > 10) {
+        if (controller.getXMovement()==-26 && avatarSel > 1 && counterBuffer > 10) {
             avatarSel--;
             counterBuffer =0;
         }
-        else if (controller.getXMovement()==1 && avatarSel < 3 && counterBuffer > 10) {
+        else if (controller.getXMovement()==26 && avatarSel < 3 && counterBuffer > 10) {
             avatarSel++;
             counterBuffer =0;
         }
