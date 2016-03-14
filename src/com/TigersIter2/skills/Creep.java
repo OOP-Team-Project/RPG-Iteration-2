@@ -1,10 +1,8 @@
 package com.TigersIter2.skills;
 
-import com.TigersIter2.entities.NPC;
 import com.TigersIter2.stats.PlayerStats;
 import com.TigersIter2.stats.StatsModifier;
 
-import java.util.Observable;
 import java.util.Timer;
 import java.util.TimerTask;
 

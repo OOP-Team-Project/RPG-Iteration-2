@@ -10,7 +10,6 @@ import com.TigersIter2.skills.SkillTree;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.Collections;
 
 /**
  * Created by Magic_Buddha on 3/8/2016.

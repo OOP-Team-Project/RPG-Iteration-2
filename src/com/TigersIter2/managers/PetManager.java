@@ -1,16 +1,17 @@
 package com.TigersIter2.managers;
 
-import java.util.*;
-
-import com.TigersIter2.entities.Pet;
+import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.entities.Avatar;
 import com.TigersIter2.entities.NPC;
+import com.TigersIter2.entities.Pet;
 import com.TigersIter2.items.Item;
-import com.TigersIter2.assets.StaticVar;
-import com.TigersIter2.location.Location;
 import com.TigersIter2.items.TakeableItem;
+import com.TigersIter2.location.Location;
 import com.TigersIter2.location.LocationConverter;
 import com.TigersIter2.maps.TerrainMap;
+
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by Breanna on 3/12/16.

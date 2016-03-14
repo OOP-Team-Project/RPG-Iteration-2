@@ -183,10 +183,7 @@ public abstract class NPC extends Entity{
     }
 
     public boolean isAlive(){
-        if(stats.getCurrentLife() <= 0)
-            return false;
-        else
-            return true;
+        return stats.getCurrentLife() > 0;
     }
 
     public boolean isVillager(){

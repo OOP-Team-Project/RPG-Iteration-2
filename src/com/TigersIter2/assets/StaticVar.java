@@ -1,7 +1,5 @@
 package com.TigersIter2.assets;
 
-import java.awt.*;
-
 //class for any variable that is used throughout all the classes(SL)
 public class StaticVar {
 
@@ -82,7 +80,7 @@ public class StaticVar {
 
 
 
-    public static enum mapMode {
+    public enum mapMode {
         PLAYER_FOLLOW_MODE
     }
 

@@ -1,7 +1,6 @@
 package com.TigersIter2.skills;
 
 import com.TigersIter2.stats.PlayerStats;
-import com.TigersIter2.stats.Stats;
 
 /**
  * Created by Magic_Buddha on 3/5/2016.

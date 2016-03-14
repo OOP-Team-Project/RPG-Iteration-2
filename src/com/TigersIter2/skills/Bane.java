@@ -1,6 +1,5 @@
 package com.TigersIter2.skills;
 
-import com.TigersIter2.entities.NPC;
 import com.TigersIter2.stats.PlayerStats;
 
 /**

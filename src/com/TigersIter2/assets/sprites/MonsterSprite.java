@@ -23,9 +23,9 @@ public class MonsterSprite {
         monsterUpLeft2 = monsterSheet.cropSheet(StaticVar.monsterImageWidth*5, 0, StaticVar.monsterImageWidth, StaticVar.monsterImageHeight);
         monsterUpRight1 = monsterSheet.cropSheet(StaticVar.monsterImageWidth*6, 0, StaticVar.monsterImageWidth, StaticVar.monsterImageHeight);
         monsterUpRight2 = monsterSheet.cropSheet(StaticVar.monsterImageWidth*7, 0, StaticVar.monsterImageWidth, StaticVar.monsterImageHeight);
-        monsterDownLeft1 = monsterSheet.cropSheet(StaticVar.monsterImageWidth*8, 0, StaticVar.monsterImageWidth, StaticVar.monsterImageHeight);;
-        monsterDownLeft2 = monsterSheet.cropSheet(StaticVar.monsterImageWidth*9, 0, StaticVar.monsterImageWidth, StaticVar.monsterImageHeight);;
-        monsterDownRight1 = monsterSheet.cropSheet(StaticVar.monsterImageWidth*10, 0, StaticVar.monsterImageWidth, StaticVar.monsterImageHeight);;
-        monsterDownRight2 = monsterSheet.cropSheet(StaticVar.monsterImageWidth*11, 0, StaticVar.monsterImageWidth, StaticVar.monsterImageHeight);;
+        monsterDownLeft1 = monsterSheet.cropSheet(StaticVar.monsterImageWidth*8, 0, StaticVar.monsterImageWidth, StaticVar.monsterImageHeight);
+        monsterDownLeft2 = monsterSheet.cropSheet(StaticVar.monsterImageWidth*9, 0, StaticVar.monsterImageWidth, StaticVar.monsterImageHeight);
+        monsterDownRight1 = monsterSheet.cropSheet(StaticVar.monsterImageWidth*10, 0, StaticVar.monsterImageWidth, StaticVar.monsterImageHeight);
+        monsterDownRight2 = monsterSheet.cropSheet(StaticVar.monsterImageWidth*11, 0, StaticVar.monsterImageWidth, StaticVar.monsterImageHeight);
     }
 }

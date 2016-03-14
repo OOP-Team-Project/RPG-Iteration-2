@@ -11,7 +11,7 @@ import javax.swing.*;
  */
 public class View extends JComponent {
 
-    public static enum mapMode {
+    public enum mapMode {
         PLAYER_FOLLOW_MODE,
         SCROLL_MODE
     }

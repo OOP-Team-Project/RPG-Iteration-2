@@ -7,6 +7,7 @@ import com.TigersIter2.entities.Avatar;
 import com.TigersIter2.location.Location;
 import com.TigersIter2.location.LocationConverter;
 import com.TigersIter2.maps.TerrainMap;
+
 import java.awt.*;
 
 public class AreaEffectView extends View {

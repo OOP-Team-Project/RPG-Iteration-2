@@ -60,9 +60,6 @@ public class NPCStatsModifier {
     }
 
     public boolean isEmpty(){
-        if(hardiness == 0 && attack == 0 && agility == 0 && attackTime == 0)
-            return true;
-        else
-            return false;
+        return hardiness == 0 && attack == 0 && agility == 0 && attackTime == 0;
     }
 }

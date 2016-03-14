@@ -3,7 +3,6 @@ package com.TigersIter2.views;
 import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.maps.terrains.TerrainType;
 
-import javax.swing.*;
 import java.awt.*;
 
 /**

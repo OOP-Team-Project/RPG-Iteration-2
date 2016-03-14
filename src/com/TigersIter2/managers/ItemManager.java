@@ -1,16 +1,18 @@
 package com.TigersIter2.managers;
 
-import java.util.*;
-
 import com.TigersIter2.assets.FileReader;
 import com.TigersIter2.assets.FileWriter;
 import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.entities.Avatar;
+import com.TigersIter2.entities.Inventory;
 import com.TigersIter2.items.*;
 import com.TigersIter2.location.Location;
 import com.TigersIter2.location.LocationConverter;
 import com.TigersIter2.stats.PlayerStats;
-import com.TigersIter2.entities.Inventory;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by Breanna on 3/7/16.

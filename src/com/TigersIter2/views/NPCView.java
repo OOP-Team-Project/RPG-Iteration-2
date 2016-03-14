@@ -9,7 +9,6 @@ import com.TigersIter2.location.Location;
 import com.TigersIter2.location.LocationConverter;
 import com.TigersIter2.maps.TerrainMap;
 
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;

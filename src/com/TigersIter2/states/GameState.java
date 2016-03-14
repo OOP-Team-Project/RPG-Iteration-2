@@ -2,14 +2,13 @@ package com.TigersIter2.states;
 
 import com.TigersIter2.areaEffects.*;
 import com.TigersIter2.assets.StaticVar;
-import com.TigersIter2.location.Location;
-import com.TigersIter2.managers.PetManager;
-import com.TigersIter2.location.LocationConverter;
-import com.TigersIter2.managers.*;
 import com.TigersIter2.assets.sprites.*;
 import com.TigersIter2.entities.*;
 import com.TigersIter2.items.*;
+import com.TigersIter2.location.Location;
+import com.TigersIter2.location.LocationConverter;
 import com.TigersIter2.main.Controller;
+import com.TigersIter2.managers.*;
 import com.TigersIter2.maps.TerrainMap;
 import com.TigersIter2.skills.SkillTree;
 import com.TigersIter2.views.*;

@@ -3,7 +3,6 @@ package com.TigersIter2.areaEffects;
 import com.TigersIter2.entities.Avatar;
 import com.TigersIter2.entities.Entity;
 import com.TigersIter2.location.Location;
-import com.TigersIter2.managers.AreaEffectManager;
 
 /**
  * Created by MyMac on 3/11/16.

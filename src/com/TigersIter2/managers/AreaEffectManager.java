@@ -1,12 +1,11 @@
 package com.TigersIter2.managers;
 
-import com.TigersIter2.areaEffects.*;
+import com.TigersIter2.areaEffects.AreaEffect;
+import com.TigersIter2.areaEffects.Trap;
 import com.TigersIter2.entities.Avatar;
 import com.TigersIter2.entities.Entity;
-import com.TigersIter2.location.Location;
 import com.TigersIter2.location.LocationConverter;
 
-import java.awt.geom.Area;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;

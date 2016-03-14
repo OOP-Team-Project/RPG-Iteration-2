@@ -4,7 +4,6 @@ import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.entities.Inventory;
 import com.TigersIter2.items.TakeableItem;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -64,12 +63,7 @@ public class FooterView extends View implements ActionListener{
     }
 
     public void setTradingView(boolean isTrading){
-        if(isTrading) {
-            trading = true;
-        }
-        else{
-            trading = false;
-        }
+        trading = isTrading;
     }
 
     public void incrementHighlighted(){

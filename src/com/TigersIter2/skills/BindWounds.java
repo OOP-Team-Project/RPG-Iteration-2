@@ -2,8 +2,6 @@ package com.TigersIter2.skills;
 
 import com.TigersIter2.stats.Stats;
 
-import java.util.Observable;
-
 /**
  * Created by Magic_Buddha on 3/3/2016.
  */

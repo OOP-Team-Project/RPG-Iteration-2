@@ -1,6 +1,5 @@
 package com.TigersIter2.managers;
 
-import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.entities.*;
 import com.TigersIter2.items.TakeableItem;
 import com.TigersIter2.location.Location;
@@ -11,10 +10,6 @@ import com.TigersIter2.views.AttackIndicatorView;
 import com.TigersIter2.views.FooterView;
 import com.TigersIter2.views.MessageView;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -77,20 +72,14 @@ public class AvatarNPCInteract {
         int xDist = Math.abs(LocationConverter.PixelLocationToHex(n.getLocation()).getX() - LocationConverter.PixelLocationToHex(avatar.getLocation()).getX());
         int yDist = Math.abs(LocationConverter.PixelLocationToHex(n.getLocation()).getY() - LocationConverter.PixelLocationToHex(avatar.getLocation()).getY());
 
-        if(xDist <= avatar.getInfluenceRadius() && yDist <= avatar.getInfluenceRadius())
-            return true;
-        else
-            return false;
+        return xDist <= avatar.getInfluenceRadius() && yDist <= avatar.getInfluenceRadius();
     }
 
     private boolean playerInRange(NPC n){
         //somehow determine if npc is in range based off of direction and attack range and such
         int xDist = Math.abs(LocationConverter.PixelLocationToHex(n.getLocation()).getX() - LocationConverter.PixelLocationToHex(avatar.getLocation()).getX());
         int yDist = Math.abs(LocationConverter.PixelLocationToHex(n.getLocation()).getY() - LocationConverter.PixelLocationToHex(avatar.getLocation()).getY());
-        if(xDist <= n.getInfluenceRadius() && yDist <= n.getInfluenceRadius())
-            return true;
-        else
-            return false;
+        return xDist <= n.getInfluenceRadius() && yDist <= n.getInfluenceRadius();
     }
 
     private boolean inLinearRange(NPC npc, String attackType) {
@@ -189,10 +178,7 @@ public class AvatarNPCInteract {
                     ret = true;
             }
             else if(Math.abs(xDist/yDist) <= 1 && xTile % 2 == 0 && yDist <= range && xDist < range){
-                if(Math.abs(yDist) == Math.abs(xDist) && Math.abs(yDist) > 1)
-                    ret = false;
-                else
-                    ret = true;
+                ret = !(Math.abs(yDist) == Math.abs(xDist) && Math.abs(yDist) > 1);
             }
         }
 
@@ -231,10 +217,7 @@ public class AvatarNPCInteract {
                     ret = true;
             }
             else if(Math.abs(xDist/yDist) <= 1 && xTile % 2 == 1 && yDist <= range && xDist < range){
-                if(Math.abs(yDist) == Math.abs(xDist) && Math.abs(yDist) > 1)
-                    ret = false;
-                else
-                    ret = true;
+                ret = !(Math.abs(yDist) == Math.abs(xDist) && Math.abs(yDist) > 1);
             }
         }
 

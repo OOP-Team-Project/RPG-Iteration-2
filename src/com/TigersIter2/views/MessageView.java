@@ -1,11 +1,6 @@
 package com.TigersIter2.views;
 
 import com.TigersIter2.assets.StaticVar;
-import com.TigersIter2.entities.Avatar;
-import com.TigersIter2.entities.Equipment;
-import com.TigersIter2.entities.Inventory;
-import com.TigersIter2.items.TakeableItem;
-import com.TigersIter2.stats.PlayerStats;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class MessageView extends View {

@@ -1,13 +1,8 @@
 package com.TigersIter2.main;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.GridLayout;
-import java.awt.image.BufferedImage;
-import java.awt.image.BufferStrategy;
-
 import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.managers.StateManager;
+
 import javax.swing.*;
 
 

@@ -66,8 +66,7 @@ public class TerrainMap implements Map {
     }
 
     public boolean checkPassable(Location location){
-        if (map[location.getX()][location.getY()] == StaticVar.grass) return true;
-        return false;
+        return map[location.getX()][location.getY()] == StaticVar.grass;
     }
 
     public int getTerrainType(Location location){

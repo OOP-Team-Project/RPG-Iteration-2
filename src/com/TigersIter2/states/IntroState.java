@@ -1,9 +1,9 @@
 package com.TigersIter2.states;
 
-import com.TigersIter2.assets.sprites.*;
-import com.TigersIter2.managers.StateManager;
 import com.TigersIter2.assets.StaticVar;
+import com.TigersIter2.assets.sprites.*;
 import com.TigersIter2.main.Controller;
+import com.TigersIter2.managers.StateManager;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;

@@ -49,10 +49,7 @@ public class AvatarMapInteract {
             return true;
         else if(terrainType == 2 && avatar.getCanPassWater())
             return true;
-        else if(terrainType == 3 && avatar.getCanPassMountain())
-            return true;
-        else
-            return false;
+        else return terrainType == 3 && avatar.getCanPassMountain();
     }
 
 }

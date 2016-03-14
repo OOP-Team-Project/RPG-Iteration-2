@@ -1,7 +1,5 @@
 package com.TigersIter2.skills;
 
-import com.TigersIter2.managers.AvatarNPCInteract;
-
 /**
  * Created by Magic_Buddha on 3/4/2016.
  */

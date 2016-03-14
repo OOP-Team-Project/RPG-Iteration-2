@@ -4,11 +4,9 @@ import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.entities.Avatar;
 import com.TigersIter2.entities.Equipment;
 import com.TigersIter2.entities.Inventory;
-import com.TigersIter2.items.Potion;
 import com.TigersIter2.items.TakeableItem;
 import com.TigersIter2.stats.PlayerStats;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

@@ -1,16 +1,5 @@
 package com.TigersIter2.views;
 
-import com.TigersIter2.assets.StaticVar;
-import com.TigersIter2.entities.Avatar;
-import com.TigersIter2.entities.Vehicle;
-import com.TigersIter2.location.Location;
-import com.TigersIter2.location.LocationConverter;
-import com.TigersIter2.maps.TerrainMap;
-
-import javax.swing.*;
-import java.awt.*;
-import java.util.ArrayList;
-
 /**
  * Created by Miles on 3/6/16.
  */

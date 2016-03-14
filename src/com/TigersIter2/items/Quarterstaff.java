@@ -1,7 +1,5 @@
 package com.TigersIter2.items;
 
-import com.TigersIter2.stats.StatsModifier;
-
 /**
  * Created by Josh on 3/13/2016.
  */
