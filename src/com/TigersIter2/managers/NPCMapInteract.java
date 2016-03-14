@@ -31,6 +31,8 @@ public class NPCMapInteract {
         System.out.println(npc.getIsAttacking());
         if(!npc.getIsAttacking() && npc.isAlive()) {
             npc.setCurrentlyMoving(true);
+
+
             // if next is passable, continue in same direction
             int terrain = map.getTerrainType(LocationConverter.PixelLocationToHex(getNextLocation(elapsed)));
             if (terrain == 2 || terrain == 3) {
@@ -106,23 +108,23 @@ public class NPCMapInteract {
     public void convertDegreesToCoord(int direction){
 
         switch(direction){
-            case 45: xMov = 1;
-                yMov = -1;
+            case 45: xMov = 26;
+                yMov = -16;
                 break;
             case 90: xMov = 0;
-                yMov = -1;
+                yMov = -26;
                 break;
-            case 135: xMov = -1;
-                yMov = -1;
+            case 135: xMov = -26;
+                yMov = -16;
                 break;
-            case 225: xMov = -1;
-                yMov = 1;
+            case 225: xMov = -26;
+                yMov = 16;
                 break;
             case 270: xMov = 0;
-                yMov = 1;
+                yMov = 26;
                 break;
-            case 315: xMov = 1;
-                yMov = 1;
+            case 315: xMov = 26;
+                yMov = 16;
                 break;
         }
     }
@@ -146,6 +148,9 @@ public class NPCMapInteract {
         Location nextLocation = new Location(0, 0, 0);
         nextLocation.setX(npc.getLocation().getX());
         nextLocation.setY(npc.getLocation().getY());
+
+
+
 
         nextLocation.incrementX(Math.round(xMov * elapsed * StaticVar.entitySpeed*npc.getStats().getMovement()));
         nextLocation.incrementY(Math.round(yMov * elapsed * StaticVar.entitySpeed*npc.getStats().getMovement()));
