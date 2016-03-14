@@ -98,27 +98,26 @@ public class GameState extends State {
 
 
         itemManager = new ItemManager(avatar);
-
-        itemManager.addItem(potion);
-
-        itemManager.addItem(axe);
-        itemManager.addItem(breastplate);
-        itemManager.addItem(butterKnife);
-        itemManager.addItem(ohSword);
+//        avatar.getInventory().addItem(potion);
+//        itemManager.addItem(potion);
+//        itemManager.addItem(axe);
+//        itemManager.addItem(breastplate);
+//        itemManager.addItem(butterKnife);
+//        itemManager.addItem(ohSword);
+//        itemManager.addItem(obstacle);
+//        itemManager.addItem(item);
+//        itemManager.addItem(interactive);
+//        itemManager.addItem(oneShot);
         itemManager.addItem(obstacle);
         itemManager.addItem(item);
         itemManager.addItem(interactive);
         itemManager.addItem(oneShot);
-        //itemManager.addItem(obstacle);
-        //itemManager.addItem(item);
-        //itemManager.addItem(interactive);
-        //itemManager.addItem(oneShot);
-        avatar.getInventory().addItem(potion);
-        avatar.getInventory().addItem(potion2);
-        avatar.getInventory().addItem(potion3);
-        avatar.getInventory().addItem(butterKnife);
-        avatar.getInventory().addItem(axe);
-        avatar.getInventory().addItem(breastplate);
+//        avatar.getInventory().addItem(potion);
+//        avatar.getInventory().addItem(potion2);
+//        avatar.getInventory().addItem(potion3);
+//        avatar.getInventory().addItem(butterKnife);
+//        avatar.getInventory().addItem(axe);
+//        avatar.getInventory().addItem(breastplate);
 
         //testing for item interactions
 
