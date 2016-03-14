@@ -5,6 +5,7 @@ import com.TigersIter2.assets.sprites.PetSprite;
 import com.TigersIter2.entities.Avatar;
 import com.TigersIter2.entities.Pet;
 import com.TigersIter2.location.Location;
+import com.TigersIter2.location.LocationConverter;
 import com.TigersIter2.maps.TerrainMap;
 
 import javax.swing.*;
@@ -112,6 +113,8 @@ public class PetView extends View implements ActionListener {
                 RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setColor(Color.RED);
 
+        Location l = LocationConverter.PixelLocationToHex(pHandle.getLocation());
+        if(aHandle.canSeeHex(l))
         drawPet(g2d);
 
         g2d.dispose();

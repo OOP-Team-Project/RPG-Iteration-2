@@ -20,7 +20,7 @@ public class Pet extends Entity {
         this.avatar = avatar;
         direction = 270;
         //sets the location of the Pet to be next to the avatar
-        int avatarXLocation = avatar.getLocation().getX();
+        int avatarXLocation = avatar.getLocation().getX() - 200;
         int avatarYLocation = avatar.getLocation().getY();
         this.location = new Location(avatarXLocation+50, avatarYLocation+130);
 
