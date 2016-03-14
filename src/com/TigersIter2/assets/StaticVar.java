@@ -8,11 +8,12 @@ public class StaticVar {
     //maps and respective names
     public static String map1 = "res/saveFiles/terrainMap.txt";
     public static String avatarFile = "res/saveFiles/avatar.txt";
+    public static String avatarNewFile = "res/newGame/avatar.txt";
 
     public static final int gameHeight = 720;//720;
     public static final int gameWidth = 1280;//1280;
 
-    public static final int fps = 30;
+    public static final int fps = 60;
 
 
     public static final int terrainImageHeight = 96;    //Was 64 before evil Miles Came
@@ -62,6 +63,12 @@ public class StaticVar {
     public static final int smasher = 1;
     public static final int summoner = 2;
     public static final int sneak = 3;
+
+    //item loading stuff
+    public static final int armorItemType = 0;
+    public static final int keyItemType = 2;
+    public static final int potionItemType = 5;
+    public static final int weaponItemType = 6;
 
 
     public static enum mapMode {

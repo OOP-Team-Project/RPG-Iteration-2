@@ -74,37 +74,52 @@ public class GameState extends State {
         View.setAvatar(avatar);
         avatarMapInteract = new AvatarMapInteract(avatar, map);
 
-        TakeableItem potion = new Potion("Health Potion", 10);
-        TakeableItem potion2 = new Potion("Health Potion", 10);
-        TakeableItem potion3 = new Potion("Health Potion", 10);
-        TakeableItem butterKnife = new RangedWeaponItem("Crossbow", 1, 1, 0);
-        TakeableItem axe = new SpikedGlove("Battle Axe");
-        TakeableItem breastplate = new Armor("Breastplate", 2, 4);
         ant = new AvatarNPCInteract(avatar, footerView);
         vehicleViews = new ArrayList<VehicleView>();
-        itemManager = new ItemManager(avatar);
-
-
         SkillTree st = new SkillTree(avatar.getPlayerStats());
         smv = new SkillManagementView(st);
 
 
-       // avatar.getInventory().addItem(new Potion("Health Potion"));
-       // avatar.getInventory().addItem(new Potion("Strength Potion"));
-       // avatar.getInventory().addItem(new Weapon("Battle Axe"));
+        TakeableItem potion = new Potion("Health Potion0", 10);
+        TakeableItem potion2 = new Potion("Health Potion1", 10);
+        TakeableItem potion3 = new Potion("Health Potion2", 10);
+        TakeableItem butterKnife = new RangedWeaponItem("Crossbow", 1, 1, 0);
+        TakeableItem axe = new SpikedGlove("Battle Axe");
+        TakeableItem breastplate = new Armor("Breastplate", 2, 4);
+        TakeableItem ohSword = new Sword("Sword");
+        Item item = new Key("Key", 1);
+        item.setLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight + 200,0));
+        Item obstacle = new Obstacle();
+        obstacle.setLocation(new Location(10 * StaticVar.terrainImageWidth + 400,10 * StaticVar.terrainImageHeight,0));
+        Item interactive = new Interactive(1);
+        interactive.setLocation(new Location(10 * StaticVar.terrainImageWidth + 200,10 * StaticVar.terrainImageHeight + 200,0));
+        Item oneShot = new OneShot();
+        oneShot.setLocation(new Location(10 * StaticVar.terrainImageWidth + 200,10 * StaticVar.terrainImageHeight,0));
 
 
+        itemManager = new ItemManager(avatar);
+//        avatar.getInventory().addItem(potion);
+//        itemManager.addItem(potion);
+//        itemManager.addItem(axe);
+//        itemManager.addItem(breastplate);
+//        itemManager.addItem(butterKnife);
+//        itemManager.addItem(ohSword);
+//        itemManager.addItem(obstacle);
+//        itemManager.addItem(item);
+//        itemManager.addItem(interactive);
+//        itemManager.addItem(oneShot);
+        itemManager.addItem(obstacle);
+        itemManager.addItem(item);
+        itemManager.addItem(interactive);
+        itemManager.addItem(oneShot);
+//        avatar.getInventory().addItem(potion);
+//        avatar.getInventory().addItem(potion2);
+//        avatar.getInventory().addItem(potion3);
+//        avatar.getInventory().addItem(butterKnife);
+//        avatar.getInventory().addItem(axe);
+//        avatar.getInventory().addItem(breastplate);
 
-        itemManager.addItem(potion);
-        itemManager.addItem(butterKnife);
-        itemManager.addItem(axe);
-        itemManager.addItem(breastplate);
-        avatar.getInventory().addItem(potion);
-        avatar.getInventory().addItem(potion2);
-        avatar.getInventory().addItem(potion3);
-        avatar.getInventory().addItem(butterKnife);
-        avatar.getInventory().addItem(axe);
-        avatar.getInventory().addItem(breastplate);
+        //testing for item interactions
 
 
 
@@ -122,8 +137,7 @@ public class GameState extends State {
         list.add("The Detroit Tigers?");
         list.add("So many things.");
         list.add("I suppose so.");
-        TakeableItem ohSword = new Sword("Sword");
-        itemManager.addItem(ohSword);
+
         ant.addVillager(list, true, true, false);
         ant.getNpcList().get(0).getInventory().addItem(ohSword);
         ant.addMonster();
@@ -131,20 +145,8 @@ public class GameState extends State {
             npcMapInteract.add(new NPCMapInteract(n, map));
         }
 
-        //testing for item interactions
-        Item item = new Key("Key", 1);
-        item.setLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight + 200,0));
-        Item obstacle = new Obstacle();
-        obstacle.setLocation(new Location(10 * StaticVar.terrainImageWidth + 400,10 * StaticVar.terrainImageHeight,0));
-        Item interactive = new Interactive(1);
-        interactive.setLocation(new Location(10 * StaticVar.terrainImageWidth + 200,10 * StaticVar.terrainImageHeight + 200,0));
-        Item oneShot = new OneShot();
-        oneShot.setLocation(new Location(10 * StaticVar.terrainImageWidth + 200,10 * StaticVar.terrainImageHeight,0));
 
-        itemManager.addItem(obstacle);
-        itemManager.addItem(item);
-        itemManager.addItem(interactive);
-        itemManager.addItem(oneShot);
+
 
         // for testing Teleport
         aem = new AreaEffectManager(avatar);
@@ -290,7 +292,7 @@ public class GameState extends State {
 
 
         if (controller.getKeyPressed() == KeyEvent.VK_SPACE) {
-            stateManager.setState(StateManager.INTRO);
+            stateManager.setState(StateManager.MAINMENU);
         }
     }
 

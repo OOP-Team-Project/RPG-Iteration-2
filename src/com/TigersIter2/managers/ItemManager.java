@@ -26,6 +26,7 @@ public class ItemManager {
         avatarInventory = avatar.getInventory();
         playerStats = avatar.getPlayerStats();
         itemList = new ArrayList<Item>();
+        //avatar.getInventory().getItems();
     }
 
     public void addItem(Item item) {
