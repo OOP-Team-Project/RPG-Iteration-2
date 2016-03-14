@@ -25,7 +25,6 @@ public class Pet extends Entity {
         int avatarXLocation = avatar.getLocation().getX();
         int avatarYLocation = avatar.getLocation().getY();
         this.location = new Location(avatarXLocation+50, avatarYLocation+130, 0);
-        this.pixelLocation = new Location(Math.round(StaticVar.xTilesFromEdge*StaticVar.terrainImageWidth*.75f - 80), Math.round(StaticVar.yTilesFromEdge*StaticVar.terrainImageHeight - Math.round(StaticVar.terrainImageHeight*1.2f)), 0);
 
     }
 
@@ -45,10 +44,6 @@ public class Pet extends Entity {
     public void setDirection(int direction) {
         this.direction = direction;
     }
-
-    public Location getPixelLocation() { return pixelLocation; }
-
-    public void setPixelLocation(Location pixelLocation) { this.pixelLocation = pixelLocation; }
 
     public Location getLocation() { return location; }
 

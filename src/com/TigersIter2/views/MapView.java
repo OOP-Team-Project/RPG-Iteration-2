@@ -89,7 +89,7 @@ public class MapView extends View {
                 Location aHexLocation = LocationConverter.PixelLocationToHex(aHandle.getLocation());
 
                 tileViews.get(i).get(j).shouldGlow(aHexLocation.getX() == i && aHexLocation.getY() == j);
-                tileViews.get(i).get(j).setVisibility(aHexLocation.getDistance(i, j) <= aHandle.getStats().getLightRadius());
+                tileViews.get(i).get(j).setVisibility(aHandle.canSeeHex(new Location(i, j, -i-j)));
                 tileViews.get(i).get(j).setExplored(aHandle.hasExploredTile(i, j));
                 tileViews.get(i).get(j).paintComponent(g);
             }

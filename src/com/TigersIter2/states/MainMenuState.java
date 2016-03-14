@@ -42,7 +42,7 @@ public class MainMenuState extends State {
         if (controller.getKeyPressed()== KeyEvent.VK_LEFT) newLoad = newGame;
         else if (controller.getKeyPressed() == KeyEvent.VK_RIGHT) newLoad = loadGame;
 
-        if (controller.getKeyPressed()==KeyEvent.VK_ENTER && counterBuffer>=3){
+        if (controller.getKeyPressed()==KeyEvent.VK_ENTER && counterBuffer>=10){
             if (newLoad == newGame) stateManager.setState(StateManager.NEWGAME);
             else stateManager.setState(StateManager.GAME);
         }

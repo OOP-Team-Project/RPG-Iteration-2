@@ -39,7 +39,6 @@ public class PetView extends View implements ActionListener {
         setPreferredSize(new Dimension(StaticVar.gameWidth, StaticVar.gameHeight));
         animationTimer = new Timer(animationDelay, this);
         animationTimer.start();
-
         pixelLocation = pHandle.getLocation();
 
     }
@@ -50,113 +49,71 @@ public class PetView extends View implements ActionListener {
         //System.out.println("Pet's pixel location: " + pHandle.getPixelLocation().toString());
         if (pHandle.getDirection() == 45) {
             if(currentAnimationFrame == 0 || !aHandle.isCurrentlyMoving())
-                g2d.drawImage(PetSprite.petUpRight1, pHandle.getPixelLocation().getX(), pHandle.getPixelLocation().getY(), null);
+                g2d.drawImage(PetSprite.petUpRight1, pixelLocation.getX(), pixelLocation.getY(), null);
             else
-                g2d.drawImage(PetSprite.petUpRight2, pHandle.getPixelLocation().getX(), pHandle.getPixelLocation().getY(), null);
+                g2d.drawImage(PetSprite.petUpRight2, pixelLocation.getX(), pixelLocation.getY(), null);
         }
         else if (pHandle.getDirection() == 90) {
             if(currentAnimationFrame == 0 || !aHandle.isCurrentlyMoving())
-                g2d.drawImage(PetSprite.petUp1, pHandle.getPixelLocation().getX(), pHandle.getPixelLocation().getY(), null);
+                g2d.drawImage(PetSprite.petUp1, pixelLocation.getX(), pixelLocation.getY(), null);
             else
-                g2d.drawImage(PetSprite.petUp2, pHandle.getPixelLocation().getX(), pHandle.getPixelLocation().getY(), null);
+                g2d.drawImage(PetSprite.petUp2, pixelLocation.getX(), pixelLocation.getY(), null);
         }
         else if (pHandle.getDirection() == 135) {
             if(currentAnimationFrame == 0 || !aHandle.isCurrentlyMoving())
-                g2d.drawImage(PetSprite.petUpLeft1, pHandle.getPixelLocation().getX(), pHandle.getPixelLocation().getY(), null);
+                g2d.drawImage(PetSprite.petUpLeft1, pixelLocation.getX(), pixelLocation.getY(), null);
             else
-                g2d.drawImage(PetSprite.petUpLeft2, pHandle.getPixelLocation().getX(), pHandle.getPixelLocation().getY(), null);
+                g2d.drawImage(PetSprite.petUpLeft2, pixelLocation.getX(), pixelLocation.getY(), null);
         }
         else if (pHandle.getDirection() == 225) {
             if(currentAnimationFrame == 0 || !aHandle.isCurrentlyMoving())
-                g2d.drawImage(PetSprite.petDownLeft1, pHandle.getPixelLocation().getX(), pHandle.getPixelLocation().getY(), null);
+                g2d.drawImage(PetSprite.petDownLeft1, pixelLocation.getX(), pixelLocation.getY(), null);
             else
-                g2d.drawImage(PetSprite.petDownLeft2, pHandle.getPixelLocation().getX(), pHandle.getPixelLocation().getY(), null);
+                g2d.drawImage(PetSprite.petDownLeft2, pixelLocation.getX(), pixelLocation.getY(), null);
         }
         else if (pHandle.getDirection() == 270) {
             if(currentAnimationFrame == 0 || !aHandle.isCurrentlyMoving())
-                g2d.drawImage(PetSprite.petDown1, pHandle.getPixelLocation().getX(), pHandle.getPixelLocation().getY(), null);
+                g2d.drawImage(PetSprite.petDown1, pixelLocation.getX(), pixelLocation.getY(), null);
             else
-                g2d.drawImage(PetSprite.petDown2, pHandle.getPixelLocation().getX(), pHandle.getPixelLocation().getY(), null);
+                g2d.drawImage(PetSprite.petDown2, pixelLocation.getX(), pixelLocation.getY(), null);
         }
         else if (pHandle.getDirection() == 315) {
             if(currentAnimationFrame == 0 || !aHandle.isCurrentlyMoving())
-                g2d.drawImage(PetSprite.petDownRight1, pHandle.getPixelLocation().getX(), pHandle.getPixelLocation().getY(), null);
+                g2d.drawImage(PetSprite.petDownRight1, pixelLocation.getX(), pixelLocation.getY(), null);
             else
-                g2d.drawImage(PetSprite.petDownRight2, pHandle.getPixelLocation().getX(), pHandle.getPixelLocation().getY(), null);
+                g2d.drawImage(PetSprite.petDownRight2, pixelLocation.getX(), pixelLocation.getY(), null);
         }
     }
 
     public void paintComponent(Graphics g){
-      switch (View.currentMapMode) {
-          case PLAYER_FOLLOW_MODE:
+        if((float) (View.cameraLocation.getX())/StaticVar.terrainImageWidth < ((float) StaticVar.xTilesFromEdge)) {
+            //tileViews.get(i).get(j).setCurrentXLocation(i);
+            setPixelLocation(new Location(Math.round(pHandle.getLocation().getX()*.75f - 80), pixelLocation.getY(), 0));
+            //((TileView) getComponent((i * tileViews.get(0).size()) + j)).setCurrentXLocation(i);
+            //aHandle.setPixelLocation(new Location(Math.round(aHandle.getLocation().getX()*.75f - 80), aHandle.getpixelLocation.getY(), 0));
+        }
+        else if((float) (View.cameraLocation.getX())/StaticVar.terrainImageWidth > (mapXLength - StaticVar.xTilesFromEdge + 1)) {
+            //tileViews.get(i).get(j).setCurrentXLocation(i - tileViews.size() + StaticVar.xTilesFromEdge*2 - 1);
+            setPixelLocation(new Location(Math.round((pHandle.getLocation().getX() - ((mapXLength - StaticVar.xTilesFromEdge*2 + 1) * StaticVar.terrainImageWidth))*.75f - 80), pixelLocation.getY(), 0));
+            //((TileView) getComponent((i * tileViews.get(0).size()) + j)).setCurrentXLocation(i - tileViews.size() + StaticVar.xTilesFromEdge*2 - 1);
+            //aHandle.setPixelLocation(new Location(Math.round((aHandle.getLocation().getX() - ((tileViews.size() - StaticVar.xTilesFromEdge*2 + 1) * StaticVar.terrainImageWidth))*.75f - 80), aHandle.getpixelLocation.getY(), 0));
+        }
+        else  {
+            setPixelLocation(new Location(Math.round((pHandle.getLocation().getX() - View.cameraLocation.getX() + StaticVar.xTilesFromEdge*StaticVar.terrainImageWidth)*.75f) - 80, pixelLocation.getY(), 0));
+        }
 
-              if((float) (aHandle.getLocation().getX())/StaticVar.terrainImageWidth < ((float) StaticVar.xTilesFromEdge)) {
-                  //tileViews.get(i).get(j).setCurrentXLocation(i);
-                  pHandle.setPixelLocation(new Location(Math.round(pHandle.getLocation().getX()*.75f - 80), pHandle.getPixelLocation().getY(), 0));
-                  //((TileView) getComponent((i * tileViews.get(0).size()) + j)).setCurrentXLocation(i);
-                  //aHandle.setPixelLocation(new Location(Math.round(aHandle.getLocation().getX()*.75f - 80), aHandle.getPixelLocation().getY(), 0));
-
-              }
-              else if((float) (aHandle.getLocation().getX())/StaticVar.terrainImageWidth > (mapXLength - StaticVar.xTilesFromEdge + 1)) {
-                  //tileViews.get(i).get(j).setCurrentXLocation(i - tileViews.size() + StaticVar.xTilesFromEdge*2 - 1);
-                  pHandle.setPixelLocation(new Location(Math.round((pHandle.getLocation().getX() - ((mapXLength - StaticVar.xTilesFromEdge*2 + 1) * StaticVar.terrainImageWidth))*.75f - 80), pHandle.getPixelLocation().getY(), 0));
-                  //((TileView) getComponent((i * tileViews.get(0).size()) + j)).setCurrentXLocation(i - tileViews.size() + StaticVar.xTilesFromEdge*2 - 1);
-                  //aHandle.setPixelLocation(new Location(Math.round((aHandle.getLocation().getX() - ((tileViews.size() - StaticVar.xTilesFromEdge*2 + 1) * StaticVar.terrainImageWidth))*.75f - 80), aHandle.getPixelLocation().getY(), 0));
-              }
-              else  {
-                  pHandle.setPixelLocation(new Location(Math.round((pHandle.getLocation().getX() - aHandle.getLocation().getX() + StaticVar.xTilesFromEdge*StaticVar.terrainImageWidth)*.75f) - 80, pHandle.getPixelLocation().getY(), 0));
-
-              }
-
-              //Y Stuff Below
-              if((float) (aHandle.getLocation().getY())/StaticVar.terrainImageHeight < (float) StaticVar.yTilesFromEdge) {
-                  pHandle.setPixelLocation(new Location(pHandle.getPixelLocation().getX(), Math.round(pHandle.getLocation().getY() - Math.round(StaticVar.terrainImageHeight*1.2f)), 0));
-              }
-              else if((float) (aHandle.getLocation().getY())/StaticVar.terrainImageHeight > (mapYLength - StaticVar.yTilesFromEdge)) {
-                  //tileViews.get(i).get(j).setCurrentYLocation(j - tileViews.get(0).size() + StaticVar.yTilesFromEdge*2);
-                  pHandle.setPixelLocation(new Location(pHandle.getPixelLocation().getX(), Math.round((pHandle.getLocation().getY() - ((mapYLength - StaticVar.yTilesFromEdge*2) * StaticVar.terrainImageHeight)) - Math.round(StaticVar.terrainImageHeight*1.2f)), 0));
-                  //((TileView) getComponent((i * tileViews.get(0).size()) + j)).setCurrentYLocation(j - tileViews.get(0).size() + StaticVar.yTilesFromEdge*2);
-                  //aHandle.setPixelLocation(new Location(aHandle.getPixelLocation().getX(), Math.round((aHandle.getLocation().getY() - ((tileViews.get(0).size() - StaticVar.yTilesFromEdge*2) * StaticVar.terrainImageHeight)) - Math.round(StaticVar.terrainImageHeight*1.2f)), 0));
-              }
-              else {
-                  pHandle.setPixelLocation(new Location(pHandle.getPixelLocation().getX(), pHandle.getLocation().getY() - aHandle.getLocation().getY() + Math.round(StaticVar.yTilesFromEdge*StaticVar.terrainImageHeight) - StaticVar.terrainImageHeight - 20, 0));
-              }
-              break;
-            case SCROLL_MODE:
-                if((float) (View.cameraLocation.getX())/StaticVar.terrainImageWidth < ((float) StaticVar.xTilesFromEdge)) {
-                    //tileViews.get(i).get(j).setCurrentXLocation(i);
-                    pHandle.setPixelLocation(new Location(Math.round(pHandle.getLocation().getX()*.75f - 80), pHandle.getPixelLocation().getY(), 0));
-                    //((TileView) getComponent((i * tileViews.get(0).size()) + j)).setCurrentXLocation(i);
-                    //aHandle.setPixelLocation(new Location(Math.round(aHandle.getLocation().getX()*.75f - 80), aHandle.getPixelLocation().getY(), 0));
-
-                }
-                else if((float) (View.cameraLocation.getX())/StaticVar.terrainImageWidth > (mapXLength - StaticVar.xTilesFromEdge + 1)) {
-                    //tileViews.get(i).get(j).setCurrentXLocation(i - tileViews.size() + StaticVar.xTilesFromEdge*2 - 1);
-                    pHandle.setPixelLocation(new Location(Math.round((pHandle.getLocation().getX() - ((mapXLength - StaticVar.xTilesFromEdge*2 + 1) * StaticVar.terrainImageWidth))*.75f - 80), pHandle.getPixelLocation().getY(), 0));
-                    //((TileView) getComponent((i * tileViews.get(0).size()) + j)).setCurrentXLocation(i - tileViews.size() + StaticVar.xTilesFromEdge*2 - 1);
-                    //aHandle.setPixelLocation(new Location(Math.round((aHandle.getLocation().getX() - ((tileViews.size() - StaticVar.xTilesFromEdge*2 + 1) * StaticVar.terrainImageWidth))*.75f - 80), aHandle.getPixelLocation().getY(), 0));
-                }
-                else  {
-                    pHandle.setPixelLocation(new Location(Math.round((pHandle.getLocation().getX() - View.cameraLocation.getX() + StaticVar.xTilesFromEdge*StaticVar.terrainImageWidth)*.75f) - 80, pHandle.getPixelLocation().getY(), 0));
-
-                }
-
-                //Y Stuff Below
-                if((float) (View.cameraLocation.getY())/StaticVar.terrainImageHeight < (float) StaticVar.yTilesFromEdge) {
-                    pHandle.setPixelLocation(new Location(pHandle.getPixelLocation().getX(), Math.round(pHandle.getLocation().getY() - Math.round(StaticVar.terrainImageHeight*1.2f)), 0));
-                }
-                else if((float) (View.cameraLocation.getY())/StaticVar.terrainImageHeight > (mapYLength - StaticVar.yTilesFromEdge)) {
-                    //tileViews.get(i).get(j).setCurrentYLocation(j - tileViews.get(0).size() + StaticVar.yTilesFromEdge*2);
-                    pHandle.setPixelLocation(new Location(pHandle.getPixelLocation().getX(), Math.round((pHandle.getLocation().getY() - ((mapYLength - StaticVar.yTilesFromEdge*2) * StaticVar.terrainImageHeight)) - Math.round(StaticVar.terrainImageHeight*1.2f)), 0));
-                    //((TileView) getComponent((i * tileViews.get(0).size()) + j)).setCurrentYLocation(j - tileViews.get(0).size() + StaticVar.yTilesFromEdge*2);
-                    //aHandle.setPixelLocation(new Location(aHandle.getPixelLocation().getX(), Math.round((aHandle.getLocation().getY() - ((tileViews.get(0).size() - StaticVar.yTilesFromEdge*2) * StaticVar.terrainImageHeight)) - Math.round(StaticVar.terrainImageHeight*1.2f)), 0));
-                }
-                else {
-                    pHandle.setPixelLocation(new Location(pHandle.getPixelLocation().getX(), pHandle.getLocation().getY() - View.cameraLocation.getY() + Math.round(StaticVar.yTilesFromEdge*StaticVar.terrainImageHeight) - StaticVar.terrainImageHeight - 20, 0));
-                }
-
-            default:
-                break;
+        //Y Stuff Below
+        if((float) (View.cameraLocation.getY())/StaticVar.terrainImageHeight < (float) StaticVar.yTilesFromEdge) {
+            setPixelLocation(new Location(pixelLocation.getX(), Math.round(pHandle.getLocation().getY() - Math.round(StaticVar.terrainImageHeight*1.2f)), 0));
+        }
+        else if((float) (View.cameraLocation.getY())/StaticVar.terrainImageHeight > (mapYLength - StaticVar.yTilesFromEdge)) {
+            //tileViews.get(i).get(j).setCurrentYLocation(j - tileViews.get(0).size() + StaticVar.yTilesFromEdge*2);
+            setPixelLocation(new Location(pixelLocation.getX(), Math.round((pHandle.getLocation().getY() - ((mapYLength - StaticVar.yTilesFromEdge*2) * StaticVar.terrainImageHeight)) - Math.round(StaticVar.terrainImageHeight*1.2f)), 0));
+            //((TileView) getComponent((i * tileViews.get(0).size()) + j)).setCurrentYLocation(j - tileViews.get(0).size() + StaticVar.yTilesFromEdge*2);
+            //aHandle.setPixelLocation(new Location(aHandle.getpixelLocation.getX(), Math.round((aHandle.getLocation().getY() - ((tileViews.get(0).size() - StaticVar.yTilesFromEdge*2) * StaticVar.terrainImageHeight)) - Math.round(StaticVar.terrainImageHeight*1.2f)), 0));
+        }
+        else {
+            setPixelLocation(new Location(pixelLocation.getX(), pHandle.getLocation().getY() - View.cameraLocation.getY() + Math.round(StaticVar.yTilesFromEdge*StaticVar.terrainImageHeight) - StaticVar.terrainImageHeight - 20, 0));
         }
         //TEST CODE, BUT FOLLOW THIS FORMAT FOR OVERRIDING PAINTCOMPONENT
         Graphics2D g2d = (Graphics2D)g.create();
@@ -169,5 +126,9 @@ public class PetView extends View implements ActionListener {
 
         g2d.dispose();
 
+    }
+
+    public void setPixelLocation(Location pixelLocation) {
+        this.pixelLocation = pixelLocation;
     }
 }
