@@ -61,7 +61,7 @@ public class PetManager {
             NPC npc = iter.next();
             if (LocationConverter.PixelLocationToHex(npc.getLocation()).getX() == LocationConverter.PixelLocationToHex(pet.getLocation()).getX() &&
                     LocationConverter.PixelLocationToHex(npc.getLocation()).getY() == LocationConverter.PixelLocationToHex(pet.getLocation()).getY()) {
-                    npc.setWillAttack(true);
+                npc.setWillAttack(true);
             }
         }
     }
