@@ -76,7 +76,7 @@ public class PlayerStats extends Stats {
         this.attackTime = o.getAttackTime();
         this.influenceRadius = o.getInfluenceRadius();
 
-        this.lightRadius = 10;
+        this.lightRadius = 3;
 
         this.barter = 0;
         this.livesLeft = 2;

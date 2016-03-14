@@ -13,7 +13,6 @@ import java.util.List;
 public abstract class NPC extends Entity{
 
     private Location location;  //This is the location used by MODELS to determine where the avatar is
-    private Location pixelLocation; //This is the location used by VIEWS to determine where the avatar is (Miles)
     private Inventory inventory;
     private Equipment equipment;
     private NPCStats stats;
@@ -32,11 +31,11 @@ public abstract class NPC extends Entity{
     protected boolean isVillager;
     private boolean canAttack = true;
     private boolean onTileWithAvatar = false;
+    private boolean isAttacking = false;
 
 
     public NPC(){
         location = new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight,0);
-        pixelLocation = new Location(Math.round(StaticVar.xTilesFromEdge*StaticVar.terrainImageWidth*.75f - 80), Math.round(StaticVar.yTilesFromEdge*StaticVar.terrainImageHeight - Math.round(StaticVar.terrainImageHeight*1.2f)), 0);
         direction = 270;
         canPassMountain = false; //if anything this should be under skills (Sam)
         canPassWater = false;
@@ -64,8 +63,8 @@ public abstract class NPC extends Entity{
             currentlyMoving = false;
         }
         else{
-            location.incrementX(xMovement * 5);
-            location.incrementY(yMovement * 5);
+            location.incrementX(xMovement);
+            location.incrementY(yMovement);
             changeDirection(xMovement, yMovement);
             currentlyMoving = true;
         }
@@ -85,7 +84,6 @@ public abstract class NPC extends Entity{
             int xLoc = location.getX();
             int yLoc = location.getY()+100;
             item.setLocation(new Location(xLoc, yLoc, 0));
-            item.setPixelLocation(pixelLocation);
             item.setDisplay(true);
             iter.remove();
         }
@@ -96,7 +94,6 @@ public abstract class NPC extends Entity{
             int xLoc = location.getX();
             int yLoc = location.getY()+100;
             item.setLocation(new Location(xLoc, yLoc, 0));
-            item.setPixelLocation(pixelLocation);
             item.setDisplay(true);
             iter.remove();
         }
@@ -122,7 +119,7 @@ public abstract class NPC extends Entity{
         return location;
     }
 
-    private void changeDirection(int x, int y){
+    public void changeDirection(int x, int y){
         if(x == 0){
             if(y == 1)
                 direction = 270;
@@ -147,12 +144,16 @@ public abstract class NPC extends Entity{
         return currentlyMoving;
     }
 
-    public Location getPixelLocation() {
-        return pixelLocation;
+    public void setCurrentlyMoving(boolean b){
+        currentlyMoving = b;
     }
 
-    public void setPixelLocation(Location pixelLocation) {
-        this.pixelLocation = pixelLocation;
+    public boolean getIsAttacking(){
+        return isAttacking;
+    }
+
+    public void setIsAttacking(boolean b){
+        isAttacking = b;
     }
 
     public boolean willTalk(){

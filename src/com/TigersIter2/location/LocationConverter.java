@@ -18,7 +18,6 @@ public class LocationConverter {
         return (new Location(hex.getX()*StaticVar.terrainImageWidth, hex.getY()*StaticVar.terrainImageHeight, 0));
     }
 
-
     static HexLocation cube2hex(CubeLocation cubeLocation){
         int q = cubeLocation.getX();
         int r = cubeLocation.getZ();

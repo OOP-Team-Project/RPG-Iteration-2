@@ -4,14 +4,16 @@ import com.TigersIter2.assets.FileReader;
 import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.items.TakeableItem;
 import com.TigersIter2.location.Location;
+import com.TigersIter2.location.LocationConverter;
 import com.TigersIter2.skills.SkillTree;
 import com.TigersIter2.stats.PlayerStats;
+
+import java.util.HashSet;
 
 
 public class Avatar extends Entity{
 
     private Location location;  //This is the location used by MODELS to determine where the avatar is
-    private Location pixelLocation; //This is the location used by VIEWS to determine where the avatar is (Miles)
     private Inventory inventory;
     private Equipment equipment;
     private Occupation occupation;
@@ -19,6 +21,8 @@ public class Avatar extends Entity{
     private Vehicle vehicle;
     private PlayerStats stats;
     private SkillTree skills;
+
+    private HashSet<Location> exploredTiles;
 
     private int direction;
     private boolean canPassWater;
@@ -34,14 +38,15 @@ public class Avatar extends Entity{
     public Avatar(){
         //changed this to actually instantiate location. Not sure what Z is for atm. <-- Z is for hextile stuff in the future (Sam)
         location = new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight,0);
-        pixelLocation = new Location(Math.round(StaticVar.xTilesFromEdge*StaticVar.terrainImageWidth*.75f - 80), Math.round(StaticVar.yTilesFromEdge*StaticVar.terrainImageHeight - Math.round(StaticVar.terrainImageHeight*1.2f)), 0);
         direction = 270;
         canPassMountain = false; //if anything this should be under skills (Sam)
         canPassWater = false;
         inventory = new Inventory();
         equipment = new Equipment();
+        exploredTiles = new HashSet<>();
         trading = false;
         setOccupation();
+
     }
 
     //What is this supposed to do? -Sam
@@ -60,6 +65,16 @@ public class Avatar extends Entity{
             location.incrementY(Math.round(yMovement * elapsed * StaticVar.entitySpeed * stats.getMovement()));
             changeDirection(xMovement, yMovement);
             currentlyMoving = true;
+        }
+
+        int viewDistance = stats.getLightRadius()*2 + 1;
+        for (int i = 0; i < viewDistance; ++i) {
+            for (int j = 0; j < viewDistance; ++j) {
+                Location l = LocationConverter.PixelLocationToHex(location);
+                l.incrementX(i - viewDistance / 2);
+                l.incrementY(j - viewDistance / 2);
+                exploredTiles.add(l);
+            }
         }
 
         if(vehicle != null){
@@ -99,7 +114,6 @@ public class Avatar extends Entity{
         int yLoc = location.getY()+100;
 
         item.setLocation(new Location(xLoc, yLoc, 0));
-        item.setPixelLocation(pixelLocation);
         item.setDisplay(true);
     }
 
@@ -200,14 +214,6 @@ public class Avatar extends Entity{
         return currentlyMoving;
     }
 
-    public Location getPixelLocation() {
-        return pixelLocation;
-    }
-
-    public void setPixelLocation(Location pixelLocation) {
-        this.pixelLocation = pixelLocation;
-    }
-
     public void setOnTileWithNPC(boolean b){
         onTileWithNPC = b;
     }
@@ -267,4 +273,14 @@ public class Avatar extends Entity{
     }
 
 
+    public boolean hasExploredTile(int i, int j) {
+        return exploredTiles.contains(new Location(i,j,-i-j));
+    }
+
+    public boolean canSeeHex(Location l) {
+        Location a = LocationConverter.PixelLocationToHex(getLocation());
+        int distance = a.getDistance(l);
+        int visionDistance = getStats().getLightRadius();
+        return distance <= visionDistance;
+    }
 }

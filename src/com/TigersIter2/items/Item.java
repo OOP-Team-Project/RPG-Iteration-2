@@ -8,7 +8,6 @@ import com.TigersIter2.location.Location;
  */
 public class Item {
     private Location location;
-    private Location pixelLocation;
     protected int itemType;       //to differentiate between keys, potions, obstacles, weapons, armor, interactive, and oneShot
     private boolean display = false;
 
@@ -19,14 +18,6 @@ public class Item {
     }
 
     public Location getLocation() { return location; }
-
-    public void setPixelLocation(Location location){
-        pixelLocation = location;
-    }
-
-    public Location getPixelLocation(){
-        return pixelLocation;
-    }
 
     public int getItemType(){
         return itemType;

@@ -36,6 +36,7 @@ public class GameState extends State {
     private PetManager petManager;
     private AreaEffectManager aem;
     private AvatarMapInteract avatarMapInteract;
+    private List<NPCMapInteract> npcMapInteract;
     private AreaEffect effect;
 
     //Views
@@ -56,7 +57,6 @@ public class GameState extends State {
     private MessageView messageView;
     private AttackIndicatorView attackIndicatorView;
 
-
     public GameState(StateManager stateManager, Controller controller){
         super(stateManager, controller);
     }
@@ -72,9 +72,12 @@ public class GameState extends State {
         npcViews = new ArrayList<NPCView>();
         itemViews = new ArrayList<ItemView>();
         areaEffectViews = new ArrayList<AreaEffectView>();
+        npcMapInteract = new ArrayList<NPCMapInteract>();
         map = new TerrainMap(StaticVar.map1);
         avatar = new Avatar();
+        View.setAvatar(avatar);
         avatarMapInteract = new AvatarMapInteract(avatar, map);
+
         TakeableItem potion = new Potion("Health Potion", 10);
         TakeableItem potion2 = new Potion("Health Potion", 10);
         TakeableItem potion3 = new Potion("Health Potion", 10);
@@ -116,8 +119,8 @@ public class GameState extends State {
         ant = new AvatarNPCInteract(avatar, footerView);
 
         //THIS IS ALL FOR TESTING. WILL NOT STAY HERE
-        ant.addVehicle(new Vehicle("Turtle", 5, true, false));
-        ant.addVehicle(new Vehicle("Turtle2", 2, true, true));
+        ant.addVehicle(new Vehicle("waterTurtle", 5, true, false));
+        ant.addVehicle(new Vehicle("mountainTurtle", 2, false, true));
         //ant.addMonster();
         List<String> list = new ArrayList<String>();
         list.add("My name is John Cena. I'm an internet sensation.");
@@ -128,26 +131,24 @@ public class GameState extends State {
 
         Item ohSword = new Weapon();
         ohSword.setLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight - 200,0));
-        ohSword.setPixelLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight - 200,0));
 
         itemManager.addItem(ohSword);
         ant.addVillager(list, true, true, false);
        // ant.getNpcList().get(0).getInventory().addItem(ohSword);
         ant.addMonster();
+        for (NPC n : ant.getNpcList()){
+            npcMapInteract.add(new NPCMapInteract(n, map));
+        }
 
         //testing for item interactions
         Item item = new Key("Key", 1);
         item.setLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight + 200,0));
-        item.setPixelLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight + 200,0));
         Item obstacle = new Obstacle();
         obstacle.setLocation(new Location(10 * StaticVar.terrainImageWidth + 400,10 * StaticVar.terrainImageHeight,0));
-        obstacle.setPixelLocation(new Location(10 * StaticVar.terrainImageWidth + 400,10 * StaticVar.terrainImageHeight,0));
         Item interactive = new Interactive(1);
         interactive.setLocation(new Location(10 * StaticVar.terrainImageWidth + 200,10 * StaticVar.terrainImageHeight + 200,0));
-        interactive.setPixelLocation(new Location(10 * StaticVar.terrainImageWidth + 200,10 * StaticVar.terrainImageHeight + 200,0));
         Item oneShot = new OneShot();
         oneShot.setLocation(new Location(10 * StaticVar.terrainImageWidth + 200,10 * StaticVar.terrainImageHeight,0));
-        oneShot.setPixelLocation(new Location(10 * StaticVar.terrainImageWidth + 200,10 * StaticVar.terrainImageHeight,0));
 
        // itemManager.addItem(obstacle);
       //  itemManager.addItem(item);
@@ -170,6 +171,7 @@ public class GameState extends State {
         SmasherSprite.init();
         SneakSprite.init();
         VehicleSprite.init();
+        VehicleSprite2.init();
         VillagerSprite.init();
         MonsterSprite.init();
         ItemSprite.init();
@@ -178,8 +180,7 @@ public class GameState extends State {
         SkillsSprite.init();
         AttackSprite.init();
 
-
-        avatarView = new AvatarView(avatar);
+        avatarView = new AvatarView(avatar, map);
         petView = new PetView(pet, avatar, map);
         statusView = new StatusView(avatar);
         for(Vehicle vv : ant.getVehicleList()) {
@@ -207,12 +208,9 @@ public class GameState extends State {
         this.add(attackIndicatorView);
         this.add(areaView);
 
-
         areaView.add(smv, 0);
 
-
         System.out.println("GameState initialized");
-
 
     }
 
@@ -258,17 +256,24 @@ public class GameState extends State {
         map.update();
         int xMov = controller.getXMovement();
         int yMov = controller.getyMovement();
+
         boolean avatarCanMove = itemManager.checkTile(elapsed, controller.getXMovement(), controller.getyMovement()); //returns false if item is an obstacle
         if(avatarCanMove && avatarMapInteract.updateAvatarPos(elapsed, xMov, yMov)) {
             avatar.update(xMov, yMov, elapsed);
 
         }
         petManager.updatePetPos(xMov, yMov, elapsed);
-        //petManager.stealItem();
+        for(NPCMapInteract npcInteract : npcMapInteract) {
+            NPC n = npcInteract.getNpc();
+            if (n instanceof Monster) {
+                npcInteract.updateNPCPos(elapsed);
+            }
+        }
         View.update(controller.getCameraXMovement(), controller.getCameraYMovement(), elapsed);
         aem.checkTile();
         ant.checkTile();
         handleControllerInput();
+
 
         if(controlView.getDisplay()) {
             int input = controller.getTradeMenuInput();
@@ -309,7 +314,7 @@ public class GameState extends State {
     public void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D)g.create();
         //setting background to gray somehow eliminates tile tearing caused by non-perfect hexagons(hexagons can't really by represented perfectly with pixels)
-        g2d.setColor(Color.RED);
+        g2d.setColor(new Color(100, 90, 90));
         g2d.fillRect(0,0, this.getWidth(), this.getHeight());//getHeight
         g2d.dispose();
     }
