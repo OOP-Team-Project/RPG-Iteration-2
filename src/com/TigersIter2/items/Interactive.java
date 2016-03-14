@@ -1,5 +1,7 @@
 package com.TigersIter2.items;
 
+import com.TigersIter2.assets.StaticVar;
+
 /**
  * Created by Josh on 2/27/2016.
  */
@@ -9,7 +11,7 @@ public class Interactive extends Item {
 
     public Interactive(int itemCode) {
         this.itemCode = itemCode;
-        itemType = 1;
+        itemType = StaticVar.interactiveItemType;
     }
 
     public boolean getInteractedWith() { return interactedWith; }

@@ -88,30 +88,6 @@ public class GameState extends State {
         petManager = new PetManager(pet, itemManager, avatar, map);
 
 
-
-        TakeableItem potion = new Potion("Health Potion0", 10);
-        TakeableItem potion2 = new Potion("Health Potion1", 10);
-        TakeableItem potion3 = new Potion("Health Potion2", 10);
-        TakeableItem butterKnife = new RangedWeaponItem("Crossbow", 1, 1, 0);
-        TakeableItem axe = new SpikedGlove("Battle Axe");
-        TakeableItem breastplate = new Armor("Breastplate", 2, 4);
-
-
-        itemManager.addItem(potion);
-        itemManager.addItem(potion2);
-        itemManager.addItem(potion3);
-        itemManager.addItem(butterKnife);
-        itemManager.addItem(axe);
-        itemManager.addItem(breastplate);
-
-        avatar.getInventory().addItem(potion);
-        avatar.getInventory().addItem(potion2);
-        avatar.getInventory().addItem(potion3);
-        avatar.getInventory().addItem(butterKnife);
-        avatar.getInventory().addItem(axe);
-        avatar.getInventory().addItem(breastplate);
-
-
         SkillTree st = new SkillTree(avatar.getPlayerStats());
 
         smv = new SkillManagementView(st);
@@ -532,6 +508,7 @@ public class GameState extends State {
 
 
         if (controller.getKeyPressed() == KeyEvent.VK_SPACE) {
+            avatar.saveAvatar();
             stateManager.setState(StateManager.MAINMENU);
         }
     }
