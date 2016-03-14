@@ -14,6 +14,8 @@ mountain:
 false
 inventory:
 5 Health_Potion 10
+0 Armor_Test 5 4
+2 Key_test 2
 null
 equipment:
 null
