@@ -415,11 +415,13 @@ public class AvatarNPCInteract {
 
     private void useBoon(String spellName){
         if(((Boon)avatar.getSkills().getSkill(spellName)).activate());
+        avatar.resetTimeUntilAttack();
     }
 
     private void useEnchantment(String spellName){
         if(playerCanAttack) {
             playerCanAttack = false;
+            avatar.resetTimeUntilAttack();
             //Check your position/direction/range against the NPC's in the list
             Iterator<NPC> iter = npcList.iterator();
             while (iter.hasNext()) {
@@ -443,6 +445,7 @@ public class AvatarNPCInteract {
         int error = getObservationError();
         if(playerCanAttack) {
             playerCanAttack = false;
+            avatar.resetTimeUntilAttack();
             //Check your position/direction/range against the NPC's in the list
             Iterator<NPC> iter = npcList.iterator();
             while (iter.hasNext()) {
@@ -525,7 +528,7 @@ public class AvatarNPCInteract {
             npc.setIsAttacking(false);
         if(npc.getCanAttack() && !avatar.getStats().isDead()) {
             if(playerInRange(npc)) {
-                footerView.setDisplay(false);
+                //footerView.setDisplay(false);
                 footerView.setTradingView(false);
                 avatar.setTrading(trading);
                 npc.setWillAttack(true);

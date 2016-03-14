@@ -2,6 +2,9 @@ package com.TigersIter2.entities;
 
 import com.TigersIter2.assets.FileReader;
 import com.TigersIter2.assets.StaticVar;
+import com.TigersIter2.items.Armor;
+import com.TigersIter2.items.Key;
+import com.TigersIter2.items.Potion;
 import com.TigersIter2.items.TakeableItem;
 import com.TigersIter2.location.Location;
 import com.TigersIter2.location.LocationConverter;
@@ -37,17 +40,31 @@ public class Avatar extends Entity{
 
     public Avatar() {
         //changed this to actually instantiate location. Not sure what Z is for atm. <-- Z is for hextile stuff in the future (Sam)
-        location = new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight,0);
-        direction = 270;
-        canPassMountain = false; //if anything this should be under skills (Sam)
-        canPassWater = false;
-        inventory = new Inventory();
+//<<<<<<< HEAD
+//        //location = new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight,0);
+//        //System.out.println("Location: " + 10 * StaticVar.terrainImageWidth + ", " + 10 * StaticVar.terrainImageHeight);
+//        //pixelLocation = new Location(Math.round(StaticVar.xTilesFromEdge*StaticVar.terrainImageWidth*.75f - 80), Math.round(StaticVar.yTilesFromEdge*StaticVar.terrainImageHeight - Math.round(StaticVar.terrainImageHeight*1.2f)), 0);
+//        //System.out.println("PixelLocation: " + Math.round(StaticVar.xTilesFromEdge*StaticVar.terrainImageWidth*.75f - 80) + ", " + Math.round(StaticVar.yTilesFromEdge*StaticVar.terrainImageHeight - Math.round(StaticVar.terrainImageHeight*1.2f)));
+//        //direction = 270;
+//        //canPassMountain = false; //if anything this should be under skills (Sam)
+//        //canPassWater = false;
+//        loadAvatar();
+//        //inventory = new Inventory();
+//=======
+        //location = new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight,0);
+        //direction = 270;
+        //canPassMountain = false; //if anything this should be under skills (Sam)
+        //canPassWater = false;
+        //inventory = new Inventory();
+        loadAvatar();
         equipment = new Equipment();
         exploredTiles = new HashSet<>();
         trading = false;
-        setOccupation();
+        //setOccupation();
 
     }
+
+
 
     //What is this supposed to do? -Sam
     public void setLocation(Location l) {
@@ -160,17 +177,44 @@ public class Avatar extends Entity{
         return location;
     }
 
-    private void setOccupation(){
+    public void saveAvatar(){
+        StringBuilder saveString = new StringBuilder();
+        saveString.append("location:\n"+location.getX()+" "+location.getY()+"\n");
+        //saveString.append("pixelLocation:\n"+pixelLocation.getX()+" "+pixelLocation.getY()+"\n");
+        saveString.append("direction:\n"+direction+"\n");
+        saveString.append("grass:\ntrue\n");
+        saveString.append("water:\n"+canPassWater +"\n");
+        System.out.println(saveString);
 
-        String[] map1String = FileReader.fileToString(StaticVar.avatarFile).split("\\s+"); //splits up file on any white space
-        int occ = FileReader.stringToInt(map1String[0]); //first number of file
+        //needs to save location 1050,960
+        //needs to save pixelLocation 629,269
+        //direction 279
+        //can pass mountain, water false false
+        // inventory
+        //equipment
+        //money
+
+    }
+
+    private void loadAvatar(){
+        System.out.println("Avatar loading in....");
+        int tracker = 0;
+        String[] avatarString = FileReader.fileToString(StaticVar.avatarFile).split("\\s+"); //splits up file on any white space
+        int occ = 0;
+        if (avatarString[0].equals("Occupation:")) {
+            occ = FileReader.stringToInt(avatarString[1]); //first number of file, after occupation
+            System.out.println("Occupation set");
+        }
         System.out.println("first number of avatar file: " + occ);
         switch(occ){
             case 1: occupation = new Smasher();
+                System.out.println("Smasher Set");
                 break;
             case 2: occupation = new Summoner();
+                System.out.println("Summoner Set");
                 break;
             case 3: occupation = new Sneak();
+                System.out.println("Sneak Set");
                 break;
             default: occupation = new Smasher();
                 System.out.println("Error loading occupation");
@@ -179,7 +223,109 @@ public class Avatar extends Entity{
         //occupation = o;
         stats = new PlayerStats(occupation);
         skills = new SkillTree(stats);
+        //set avatar location
+        location = new Location(0,0,0);
+        if (avatarString[2].equals("location:")){
+            location.setX(FileReader.stringToInt(avatarString[3]));
+            location.setY(FileReader.stringToInt(avatarString[4]));
+            System.out.println("location Set");
+        }
+        else System.out.println("Error loading location of avatar");
+        //set avatar pixelLocation
+//        pixelLocation = new Location(0,0,0);
+//        if (avatarString[5].equals("pixelLocation:")){
+//            pixelLocation.setX(FileReader.stringToInt(avatarString[6]));
+//            pixelLocation.setY(FileReader.stringToInt(avatarString[7]));
+//        }
+        //else System.out.println("Error loading pixelLocation of avatar");
+        //set avatar direction
+        if (avatarString[8].equals("direction:")){
+            direction = (FileReader.stringToInt(avatarString[9]));
+            System.out.println("direction Set");
+        }
+        else System.out.println("Error loading direction of avatar");
+        //canpassgrass is not a variable and is always true
+        //set avatar canpasswater
+        if (avatarString[12].equals("water:")){
+            if (avatarString[13].equals("true")) {
+                canPassWater = true;
+                System.out.println("canPassWater Set");
+            }
+            else canPassWater = false;
+        }
+        else System.out.println("Error loading canPassWater of avatar");
+        if (avatarString[14].equals("mountain:")){
+            if (avatarString[15].equals("true")) {
+                canPassMountain = true;
+                System.out.println("canPassMountain Set");
+            }
+            else canPassMountain = false;
+        }
+        else System.out.println("Error loading canPassMountain of avatar");
+        //load inventory
+        inventory = new Inventory();
+        if (avatarString[16].equals("inventory:")){
+            System.out.println("Inventory loading in...");
+            tracker = 16;
+            tracker++; //tracker now at 17
+            while(!avatarString[tracker].equals("null")){
+
+                System.out.println("Tracker: " + tracker + ", String: " + avatarString[tracker]);
+                System.out.println("Tracker: " + tracker+1 + ", String: " + avatarString[tracker+1]);
+                System.out.println("Tracker: " + tracker+2 + ", String: " + avatarString[tracker+2]);
+                switch (FileReader.stringToInt(avatarString[tracker])){
+                    case StaticVar.armorItemType:
+                        getInventory().addItem(new Armor(avatarString[tracker+1],FileReader.stringToInt(avatarString[tracker+2]),FileReader.stringToInt(avatarString[tracker+3])));
+                        tracker+=3;
+                        System.out.println("ArmorType loading in...");
+                        break;
+                    case StaticVar.weaponItemType:
+
+                        System.out.println("WeaponType loading in...");
+
+                        break;
+                    case StaticVar.keyItemType:
+                        getInventory().addItem(new Key(avatarString[tracker+1],FileReader.stringToInt(avatarString[tracker+2])));
+                        tracker+=2;
+                        System.out.println("keyItemType loading in...");
+                        break;
+                    case StaticVar.potionItemType:
+                        getInventory().addItem(new Potion(avatarString[tracker+1],FileReader.stringToInt(avatarString[tracker+2])));
+                        tracker+=2;
+                        System.out.println("potionItemType loading in...");
+                        break;
+
+                }
+                tracker++;
+                //getInventory().addItem();
+            }
+        }
+        //load equipment
+        //load money
     }
+//    private void setOccupation(){
+//
+//        String[] map1String = FileReader.fileToString(StaticVar.avatarFile).split("\\s+"); //splits up file on any white space
+//        int occ = 0;
+//        if (map1String[0].equals("Occupation:")) {
+//            occ = FileReader.stringToInt(map1String[1]); //first number of file, after occupation
+//        }
+//        System.out.println("first number of avatar file: " + occ);
+//        switch(occ){
+//            case 1: occupation = new Smasher();
+//                break;
+//            case 2: occupation = new Summoner();
+//                break;
+//            case 3: occupation = new Sneak();
+//                break;
+//            default: occupation = new Smasher();
+//                System.out.println("Error loading occupation");
+//                break;
+//        }
+//        //occupation = o;
+//        stats = new PlayerStats(occupation);
+//        skills = new SkillTree(stats);
+//    }
 
     public Occupation getOccupation(){
         return occupation;

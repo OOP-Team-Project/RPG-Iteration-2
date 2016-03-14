@@ -1,4 +1,4 @@
-package com.TigersIter2.assets.sprites;
+package com.TigersIter2.assets;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
