@@ -110,36 +110,66 @@ public class GameState extends State {
 
         ant = new AvatarNPCInteract(avatar, footerView);
 
-        //THIS IS ALL FOR TESTING. WILL NOT STAY HERE
-        ant.addVehicle(new Vehicle("Turtle", 5, true, false));
-        ant.addVehicle(new Vehicle("Turtle2", 2, true, true));
-        //ant.addMonster();
-        List<String> list = new ArrayList<String>();
-        list.add("My name is John Cena. I'm an internet sensation.");
-        list.add("What does anyone do anywhere?");
-        list.add("The Detroit Tigers?");
-        list.add("So many things.");
-        list.add("I suppose so.");
-        TakeableItem ohSword = new Sword("Sword");
-        itemManager.addItem(ohSword);
-        ant.addVillager(list, true, true, false);
-        ant.getNpcList().get(0).getInventory().addItem(ohSword);
-        ant.addMonster();
+//        //THIS IS ALL FOR TESTING. WILL NOT STAY HERE
+//        ant.addVehicle(new Vehicle("Turtle", 5, true, false));
+//        ant.addVehicle(new Vehicle("Turtle2", 2, true, true));
+//        //ant.addMonster();
+//        List<String> list = new ArrayList<String>();
+//        list.add("My name is John Cena. I'm an internet sensation.");
+//        list.add("What does anyone do anywhere?");
+//        list.add("The Detroit Tigers?");
+//        list.add("So many things.");
+//        list.add("I suppose so.");
+//        TakeableItem ohSword = new Sword("Sword");
+//        itemManager.addItem(ohSword);
+//        ant.addVillager(list, true, true, false);
+//        ant.getNpcList().get(0).getInventory().addItem(ohSword);
+//        ant.addMonster();
+//
+//        //testing for item interactions
+//        Item item = new Key("Key", 1);
+//        item.setLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight + 200,0));
+//        Item obstacle = new Obstacle();
+//        obstacle.setLocation(new Location(10 * StaticVar.terrainImageWidth + 400,10 * StaticVar.terrainImageHeight,0));
+//        Item interactive = new Interactive(1);
+//        interactive.setLocation(new Location(10 * StaticVar.terrainImageWidth + 200,10 * StaticVar.terrainImageHeight + 200,0));
+//        Item oneShot = new OneShot();
+//        oneShot.setLocation(new Location(10 * StaticVar.terrainImageWidth + 200,10 * StaticVar.terrainImageHeight,0));
+//
+//        itemManager.addItem(obstacle);
+//        itemManager.addItem(item);
+//        itemManager.addItem(interactive);
+//        itemManager.addItem(oneShot);
 
-        //testing for item interactions
+        /**
+         * Rokas's map. First initializing monsters/villages/vehicles
+          */
+
+        Vehicle v1 = new Vehicle("Turtle", 5, true, false);
+        Location l1 = LocationConverter.HexLocationToPixel(new Location(2,1,0));
+        l1.incrementX(+45);
+        l1.incrementY(+35);
+        v1.setLocation(l1);
+        ant.addVehicle(v1);
+        /**
+         * Now initializing items
+         */
         Item item = new Key("Key", 1);
         item.setLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight + 200,0));
         Item obstacle = new Obstacle();
-        obstacle.setLocation(new Location(10 * StaticVar.terrainImageWidth + 400,10 * StaticVar.terrainImageHeight,0));
+        Location l2 = LocationConverter.HexLocationToPixel(new Location(3,5,0));
+        l2.incrementX(-45);
+//        obstacle.setLocation(l2);
         Item interactive = new Interactive(1);
-        interactive.setLocation(new Location(10 * StaticVar.terrainImageWidth + 200,10 * StaticVar.terrainImageHeight + 200,0));
+        interactive.setLocation(l2);
         Item oneShot = new OneShot();
         oneShot.setLocation(new Location(10 * StaticVar.terrainImageWidth + 200,10 * StaticVar.terrainImageHeight,0));
 
-        itemManager.addItem(obstacle);
+//        itemManager.addItem(obstacle);
         itemManager.addItem(item);
         itemManager.addItem(interactive);
         itemManager.addItem(oneShot);
+
 
         // for testing Teleport
         aem = new AreaEffectManager(avatar);
@@ -149,8 +179,8 @@ public class GameState extends State {
         effect.setLocation(new Location(10 * StaticVar.terrainImageWidth-200,10 * StaticVar.terrainImageHeight,0));
         //effect.setPixelLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight+300,0));
         aem.addEffect(effect);
-
-        //pull in all pictures for GameState
+//
+//        //pull in all pictures for GameState
 
         //Technically only one of these will need to be initialized
         WizardSprite.init();
