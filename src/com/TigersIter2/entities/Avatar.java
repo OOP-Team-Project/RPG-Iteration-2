@@ -38,7 +38,7 @@ public class Avatar extends Entity{
     private boolean isTrapped = false;
 
 
-    public Avatar(){
+    public Avatar() {
         //changed this to actually instantiate location. Not sure what Z is for atm. <-- Z is for hextile stuff in the future (Sam)
 //<<<<<<< HEAD
 //        //location = new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight,0);
@@ -90,7 +90,7 @@ public class Avatar extends Entity{
                 Location l = LocationConverter.PixelLocationToHex(location);
                 l.incrementX(i - viewDistance / 2);
                 l.incrementY(j - viewDistance / 2);
-                exploredTiles.add(l);
+                if (canSeeHex(l)) exploredTiles.add(l);
             }
         }
 
