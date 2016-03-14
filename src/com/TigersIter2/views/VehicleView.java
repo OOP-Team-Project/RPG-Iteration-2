@@ -51,7 +51,7 @@ public class VehicleView extends View implements ActionListener{
     }
 
     private void drawVehicle(Graphics2D g2d){
-        if (vHandle.getCanPassWater()) {        // For the water turtle
+        if (vHandle.getCanPassWater() && !vHandle.getCanPassMountain()) {        // For the water turtle
             if (vHandle.getDirection() == 45) {
                 if (currentAnimationFrame == 0 || !vHandle.isCurrentlyMoving())
                     g2d.drawImage(VehicleSprite.vehicleUpRight1, pixelLocation.getX(), pixelLocation.getY(), null);
