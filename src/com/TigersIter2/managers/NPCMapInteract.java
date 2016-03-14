@@ -28,7 +28,6 @@ public class NPCMapInteract {
     }
 
     public void updateNPCPos(long elapsed){
-        //System.out.println(npc.getIsAttacking());
         if(!npc.getIsAttacking() && npc.isAlive()) {
             npc.setCurrentlyMoving(true);
 
