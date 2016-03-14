@@ -70,6 +70,7 @@ public class GameState extends State {
         areaEffectViews = new ArrayList<AreaEffectView>();
         map = new TerrainMap(StaticVar.map1);
         avatar = new Avatar();
+        View.setAvatar(avatar);
         avatarMapInteract = new AvatarMapInteract(avatar, map);
         TakeableItem potion = new Potion("Health Potion", 10);
         TakeableItem potion2 = new Potion("Health Potion", 10);
@@ -79,7 +80,7 @@ public class GameState extends State {
         TakeableItem breastplate = new Armor("Breastplate", 2, 4);
         ant = new AvatarNPCInteract(avatar, footerView);
         vehicleViews = new ArrayList<VehicleView>();
-        itemManager = new ItemManager(avatar);
+
 
 
         SkillTree st = new SkillTree(avatar.getPlayerStats());
@@ -91,7 +92,7 @@ public class GameState extends State {
        // avatar.getInventory().addItem(new Weapon("Battle Axe"));
 
 
-
+        itemManager = new ItemManager(avatar);
         itemManager.addItem(potion);
         itemManager.addItem(butterKnife);
         itemManager.addItem(axe);
@@ -102,8 +103,26 @@ public class GameState extends State {
         avatar.getInventory().addItem(butterKnife);
         avatar.getInventory().addItem(axe);
         avatar.getInventory().addItem(breastplate);
+        TakeableItem ohSword = new Sword("Sword");
+        //testing for item interactions
+        Item item = new Key("Key", 1);
+        item.setLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight + 200,0));
+        Item obstacle = new Obstacle();
+        obstacle.setLocation(new Location(10 * StaticVar.terrainImageWidth + 400,10 * StaticVar.terrainImageHeight,0));
+        Item interactive = new Interactive(1);
+        interactive.setLocation(new Location(10 * StaticVar.terrainImageWidth + 200,10 * StaticVar.terrainImageHeight + 200,0));
+        Item oneShot = new OneShot();
+        oneShot.setLocation(new Location(10 * StaticVar.terrainImageWidth + 200,10 * StaticVar.terrainImageHeight,0));
 
-
+        itemManager.addItem(ohSword);
+        itemManager.addItem(obstacle);
+        itemManager.addItem(item);
+        itemManager.addItem(interactive);
+        itemManager.addItem(oneShot);
+        itemManager.addItem(obstacle);
+        itemManager.addItem(item);
+        itemManager.addItem(interactive);
+        itemManager.addItem(oneShot);
 
         //avatar.setAttackTime(1000);
 
@@ -119,30 +138,13 @@ public class GameState extends State {
         list.add("The Detroit Tigers?");
         list.add("So many things.");
         list.add("I suppose so.");
-        TakeableItem ohSword = new Sword("Sword");
-        itemManager.addItem(ohSword);
+
         ant.addVillager(list, true, true, false);
         ant.getNpcList().get(0).getInventory().addItem(ohSword);
         ant.addMonster();
 
-        //testing for item interactions
-        Item item = new Key("Key", 1);
-        item.setLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight + 200,0));
-        item.setPixelLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight + 200,0));
-        Item obstacle = new Obstacle();
-        obstacle.setLocation(new Location(10 * StaticVar.terrainImageWidth + 400,10 * StaticVar.terrainImageHeight,0));
-        obstacle.setPixelLocation(new Location(10 * StaticVar.terrainImageWidth + 400,10 * StaticVar.terrainImageHeight,0));
-        Item interactive = new Interactive(1);
-        interactive.setLocation(new Location(10 * StaticVar.terrainImageWidth + 200,10 * StaticVar.terrainImageHeight + 200,0));
-        interactive.setPixelLocation(new Location(10 * StaticVar.terrainImageWidth + 200,10 * StaticVar.terrainImageHeight + 200,0));
-        Item oneShot = new OneShot();
-        oneShot.setLocation(new Location(10 * StaticVar.terrainImageWidth + 200,10 * StaticVar.terrainImageHeight,0));
-        oneShot.setPixelLocation(new Location(10 * StaticVar.terrainImageWidth + 200,10 * StaticVar.terrainImageHeight,0));
 
-        itemManager.addItem(obstacle);
-        itemManager.addItem(item);
-        itemManager.addItem(interactive);
-        itemManager.addItem(oneShot);
+
 
         // for testing Teleport
         aem = new AreaEffectManager(avatar);
@@ -167,7 +169,7 @@ public class GameState extends State {
         SkillsSprite.init();
         AttackSprite.init();
 
-        avatarView = new AvatarView(avatar);
+        avatarView = new AvatarView(avatar, map);
         statusView = new StatusView(avatar);
         for(Vehicle vv : ant.getVehicleList()) {
             vehicleViews.add(new VehicleView(vv, avatar, map));
@@ -288,7 +290,7 @@ public class GameState extends State {
     public void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D)g.create();
         //setting background to gray somehow eliminates tile tearing caused by non-perfect hexagons(hexagons can't really by represented perfectly with pixels)
-        g2d.setColor(Color.RED);
+        g2d.setColor(new Color(100, 90, 90));
         g2d.fillRect(0,0, this.getWidth(), this.getHeight());//getHeight
         g2d.dispose();
     }

@@ -14,7 +14,7 @@ public class LocationConverter {
 
     }
 
-    public static Location HexLocationToPixel(Location hex){
-        return (new Location(hex.getX()*StaticVar.terrainImageWidth, hex.getY()*StaticVar.terrainImageHeight, 0));
+    public static Location HexLocationToPixel(Location hex) {
+        return (new Location(hex.getX() * StaticVar.terrainImageWidth, hex.getY() * StaticVar.terrainImageHeight, 0));
     }
 }

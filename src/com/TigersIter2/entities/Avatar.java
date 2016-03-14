@@ -7,14 +7,16 @@ import com.TigersIter2.items.Key;
 import com.TigersIter2.items.Potion;
 import com.TigersIter2.items.TakeableItem;
 import com.TigersIter2.location.Location;
+import com.TigersIter2.location.LocationConverter;
 import com.TigersIter2.skills.SkillTree;
 import com.TigersIter2.stats.PlayerStats;
+
+import java.util.HashSet;
 
 
 public class Avatar extends Entity{
 
     private Location location;  //This is the location used by MODELS to determine where the avatar is
-    private Location pixelLocation; //This is the location used by VIEWS to determine where the avatar is (Miles)
     private Inventory inventory;
     private Equipment equipment;
     private Occupation occupation;
@@ -22,6 +24,8 @@ public class Avatar extends Entity{
     private Vehicle vehicle;
     private PlayerStats stats;
     private SkillTree skills;
+
+    private HashSet<Location> exploredTiles;
 
     private int direction;
     private boolean canPassWater;
@@ -36,18 +40,26 @@ public class Avatar extends Entity{
 
     public Avatar(){
         //changed this to actually instantiate location. Not sure what Z is for atm. <-- Z is for hextile stuff in the future (Sam)
-        //location = new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight,0);
-        //System.out.println("Location: " + 10 * StaticVar.terrainImageWidth + ", " + 10 * StaticVar.terrainImageHeight);
-        //pixelLocation = new Location(Math.round(StaticVar.xTilesFromEdge*StaticVar.terrainImageWidth*.75f - 80), Math.round(StaticVar.yTilesFromEdge*StaticVar.terrainImageHeight - Math.round(StaticVar.terrainImageHeight*1.2f)), 0);
-        //System.out.println("PixelLocation: " + Math.round(StaticVar.xTilesFromEdge*StaticVar.terrainImageWidth*.75f - 80) + ", " + Math.round(StaticVar.yTilesFromEdge*StaticVar.terrainImageHeight - Math.round(StaticVar.terrainImageHeight*1.2f)));
-        //direction = 270;
-        //canPassMountain = false; //if anything this should be under skills (Sam)
-        //canPassWater = false;
-        loadAvatar();
-        //inventory = new Inventory();
+//<<<<<<< HEAD
+//        //location = new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight,0);
+//        //System.out.println("Location: " + 10 * StaticVar.terrainImageWidth + ", " + 10 * StaticVar.terrainImageHeight);
+//        //pixelLocation = new Location(Math.round(StaticVar.xTilesFromEdge*StaticVar.terrainImageWidth*.75f - 80), Math.round(StaticVar.yTilesFromEdge*StaticVar.terrainImageHeight - Math.round(StaticVar.terrainImageHeight*1.2f)), 0);
+//        //System.out.println("PixelLocation: " + Math.round(StaticVar.xTilesFromEdge*StaticVar.terrainImageWidth*.75f - 80) + ", " + Math.round(StaticVar.yTilesFromEdge*StaticVar.terrainImageHeight - Math.round(StaticVar.terrainImageHeight*1.2f)));
+//        //direction = 270;
+//        //canPassMountain = false; //if anything this should be under skills (Sam)
+//        //canPassWater = false;
+//        loadAvatar();
+//        //inventory = new Inventory();
+//=======
+        location = new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight,0);
+        direction = 270;
+        canPassMountain = false; //if anything this should be under skills (Sam)
+        canPassWater = false;
+        inventory = new Inventory();
         equipment = new Equipment();
+        exploredTiles = new HashSet<>();
         trading = false;
-        //setOccupation();
+        setOccupation();
 
     }
 
@@ -69,6 +81,16 @@ public class Avatar extends Entity{
             location.incrementY(Math.round(yMovement * elapsed * StaticVar.entitySpeed * stats.getMovement()));
             changeDirection(xMovement, yMovement);
             currentlyMoving = true;
+        }
+
+        int viewDistance = stats.getLightRadius()*2 + 1;
+        for (int i = 0; i < viewDistance; ++i) {
+            for (int j = 0; j < viewDistance; ++j) {
+                Location l = LocationConverter.PixelLocationToHex(location);
+                l.incrementX(i - viewDistance / 2);
+                l.incrementY(j - viewDistance / 2);
+                exploredTiles.add(l);
+            }
         }
 
         if(vehicle != null){
@@ -108,7 +130,6 @@ public class Avatar extends Entity{
         int yLoc = location.getY()+100;
 
         item.setLocation(new Location(xLoc, yLoc, 0));
-        item.setPixelLocation(pixelLocation);
         item.setDisplay(true);
     }
 
@@ -158,7 +179,7 @@ public class Avatar extends Entity{
     public void saveAvatar(){
         StringBuilder saveString = new StringBuilder();
         saveString.append("location:\n"+location.getX()+" "+location.getY()+"\n");
-        saveString.append("pixelLocation:\n"+pixelLocation.getX()+" "+pixelLocation.getY()+"\n");
+        //saveString.append("pixelLocation:\n"+pixelLocation.getX()+" "+pixelLocation.getY()+"\n");
         saveString.append("direction:\n"+direction+"\n");
         saveString.append("grass:\ntrue\n");
         saveString.append("water:\n"+canPassWater +"\n");
@@ -205,12 +226,12 @@ public class Avatar extends Entity{
         }
         else System.out.println("Error loading location of avatar");
         //set avatar pixelLocation
-        pixelLocation = new Location(0,0,0);
-        if (avatarString[5].equals("pixelLocation:")){
-            pixelLocation.setX(FileReader.stringToInt(avatarString[6]));
-            pixelLocation.setY(FileReader.stringToInt(avatarString[7]));
-        }
-        else System.out.println("Error loading pixelLocation of avatar");
+//        pixelLocation = new Location(0,0,0);
+//        if (avatarString[5].equals("pixelLocation:")){
+//            pixelLocation.setX(FileReader.stringToInt(avatarString[6]));
+//            pixelLocation.setY(FileReader.stringToInt(avatarString[7]));
+//        }
+        //else System.out.println("Error loading pixelLocation of avatar");
         //set avatar direction
         if (avatarString[8].equals("direction:")){
             direction = (FileReader.stringToInt(avatarString[9]));
@@ -259,29 +280,29 @@ public class Avatar extends Entity{
         //load equipment
         //load money
     }
-//    private void setOccupation(){
-//
-//        String[] map1String = FileReader.fileToString(StaticVar.avatarFile).split("\\s+"); //splits up file on any white space
-//        int occ = 0;
-//        if (map1String[0].equals("Occupation:")) {
-//            occ = FileReader.stringToInt(map1String[1]); //first number of file, after occupation
-//        }
-//        System.out.println("first number of avatar file: " + occ);
-//        switch(occ){
-//            case 1: occupation = new Smasher();
-//                break;
-//            case 2: occupation = new Summoner();
-//                break;
-//            case 3: occupation = new Sneak();
-//                break;
-//            default: occupation = new Smasher();
-//                System.out.println("Error loading occupation");
-//                break;
-//        }
-//        //occupation = o;
-//        stats = new PlayerStats(occupation);
-//        skills = new SkillTree(stats);
-//    }
+    private void setOccupation(){
+
+        String[] map1String = FileReader.fileToString(StaticVar.avatarFile).split("\\s+"); //splits up file on any white space
+        int occ = 0;
+        if (map1String[0].equals("Occupation:")) {
+            occ = FileReader.stringToInt(map1String[1]); //first number of file, after occupation
+        }
+        System.out.println("first number of avatar file: " + occ);
+        switch(occ){
+            case 1: occupation = new Smasher();
+                break;
+            case 2: occupation = new Summoner();
+                break;
+            case 3: occupation = new Sneak();
+                break;
+            default: occupation = new Smasher();
+                System.out.println("Error loading occupation");
+                break;
+        }
+        //occupation = o;
+        stats = new PlayerStats(occupation);
+        skills = new SkillTree(stats);
+    }
 
     public Occupation getOccupation(){
         return occupation;
@@ -314,14 +335,6 @@ public class Avatar extends Entity{
 
     public boolean isCurrentlyMoving() {
         return currentlyMoving;
-    }
-
-    public Location getPixelLocation() {
-        return pixelLocation;
-    }
-
-    public void setPixelLocation(Location pixelLocation) {
-        this.pixelLocation = pixelLocation;
     }
 
     public void setOnTileWithNPC(boolean b){
@@ -383,4 +396,14 @@ public class Avatar extends Entity{
     }
 
 
+    public boolean hasExploredTile(int i, int j) {
+        return exploredTiles.contains(new Location(i,j,-i-j));
+    }
+
+    public boolean canSeeHex(Location l) {
+        Location a = LocationConverter.PixelLocationToHex(getLocation());
+        int distance = a.getDistance(l);
+        int visionDistance = getStats().getLightRadius();
+        return distance <= visionDistance;
+    }
 }

@@ -26,7 +26,6 @@ public class SkillManagementView extends JComponent {
     private int maxHighlighted;
 
     private SkillTree skillTree;
-    private String[] skillNames;
     private String occupation;
 
     public SkillManagementView(SkillTree sk) {
@@ -43,8 +42,9 @@ public class SkillManagementView extends JComponent {
 
         } else if ( occupation.equalsIgnoreCase("sneak") ) {
             maxHighlighted = 7;
-
         }
+
+
     }
 
     public void toggle(){
@@ -148,8 +148,10 @@ public class SkillManagementView extends JComponent {
              g2d.setStroke(new BasicStroke(5));
 
              g2d.setColor(Color.BLACK);
-             g2d.setFont(new Font("TimesRoman", Font.BOLD, 18));;
+             g2d.setFont(new Font("TimesRoman", Font.BOLD, 20));;
              g2d.drawString("Ability Points: " + skillTree.getAbilityPoints(), (getWidth() / 3) * 2 + 135, 175);
+             g2d.setFont(new Font("TimesRoman", Font.BOLD, 16));;
+             paintGeneralSkills(g2d,(getWidth() / 3) * 2, getHeight() - STATS_OFFSET);
              if (occupation.equalsIgnoreCase("Smasher")) {
                  paintSmasherSkills(g2d,(getWidth() / 3) * 2, getHeight() - STATS_OFFSET);
                  Image img = SmasherSprite.smasherDown1.getScaledInstance(400,400,BufferedImage.TYPE_INT_ARGB);
@@ -167,94 +169,94 @@ public class SkillManagementView extends JComponent {
          }
     }
 
-    private void paintSmasherSkills(Graphics2D g2d, int width, int height) {
+    private void paintGeneralSkills(Graphics2D g2d, int width, int height) {
         int marginBetweenSkills = (width - 4 * SKILL_IMAGE_WIDTH) / 5;
         int topMargin = (height - 2 * SKILL_IMAGE_HEIGHT) / 3;
         int sideMarginForThreeSkills = (width - 3 * SKILL_IMAGE_HEIGHT - 2 * marginBetweenSkills) / 2;
         if (highlighted == 0) {
             g2d.drawImage(SkillsSprite.bindWoundsSelected, sideMarginForThreeSkills, topMargin + STATS_OFFSET, null);
+            g2d.drawString("Bind Wounds" , sideMarginForThreeSkills + 23, topMargin + 41);
             g2d.drawString("Current level: " + skillTree.getSkill("BindWounds").getSkillLevel(),
-                    sideMarginForThreeSkills + 7, topMargin + 41);
+                    sideMarginForThreeSkills + 17, topMargin + STATS_OFFSET + SKILL_IMAGE_HEIGHT + 21);
+
             g2d.drawImage(SkillsSprite.bargain, sideMarginForThreeSkills + marginBetweenSkills + SKILL_IMAGE_WIDTH,
                     topMargin + STATS_OFFSET, null);
             g2d.drawImage(SkillsSprite.observation, sideMarginForThreeSkills + marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH * 2,
                     topMargin + STATS_OFFSET, null);
-
-            g2d.drawImage(SkillsSprite.oneHandedWeapon,sideMarginForThreeSkills, topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
-            g2d.drawImage(SkillsSprite.twoHandedWeapon, sideMarginForThreeSkills + marginBetweenSkills + SKILL_IMAGE_WIDTH,
-                    topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
-            g2d.drawImage(SkillsSprite.brawling, sideMarginForThreeSkills + marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH * 2,
-                    topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
         } else if (highlighted == 1) {
             g2d.drawImage(SkillsSprite.bindWounds, sideMarginForThreeSkills, topMargin + STATS_OFFSET, null);
+
             g2d.drawImage(SkillsSprite.bargainSelected, sideMarginForThreeSkills + marginBetweenSkills + SKILL_IMAGE_WIDTH,
                     topMargin + STATS_OFFSET, null);
+            g2d.drawString("Bargain", sideMarginForThreeSkills + marginBetweenSkills + SKILL_IMAGE_WIDTH + 40, topMargin + 41);
             g2d.drawString("Current level: " + skillTree.getSkill("Bargain").getSkillLevel(),
-                    sideMarginForThreeSkills + marginBetweenSkills + SKILL_IMAGE_WIDTH + 7, topMargin + 41);
+                    sideMarginForThreeSkills + marginBetweenSkills + SKILL_IMAGE_WIDTH + 17, topMargin + STATS_OFFSET + SKILL_IMAGE_HEIGHT + 21);
+
             g2d.drawImage(SkillsSprite.observation, sideMarginForThreeSkills + marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH * 2,
                     topMargin + STATS_OFFSET, null);
-
-            g2d.drawImage(SkillsSprite.oneHandedWeapon,sideMarginForThreeSkills, topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
-            g2d.drawImage(SkillsSprite.twoHandedWeapon, sideMarginForThreeSkills + marginBetweenSkills + SKILL_IMAGE_WIDTH,
-                    topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
-            g2d.drawImage(SkillsSprite.brawling, sideMarginForThreeSkills + marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH * 2,
-                    topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
         } else if (highlighted == 2) {
             g2d.drawImage(SkillsSprite.bindWounds, sideMarginForThreeSkills, topMargin + STATS_OFFSET, null);
             g2d.drawImage(SkillsSprite.bargain, sideMarginForThreeSkills + marginBetweenSkills + SKILL_IMAGE_WIDTH,
                     topMargin + STATS_OFFSET, null);
+
             g2d.drawImage(SkillsSprite.observationSelected, sideMarginForThreeSkills + marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH * 2,
                     topMargin + STATS_OFFSET, null);
+            g2d.drawString("Observation", sideMarginForThreeSkills + marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH * 2 + 27, topMargin + 41);
             g2d.drawString("Current level: " + skillTree.getSkill("Observation").getSkillLevel(),
-                    sideMarginForThreeSkills + marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH * 2 + 7, topMargin + 41);
+                    sideMarginForThreeSkills + marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH * 2 + 17, topMargin + STATS_OFFSET + SKILL_IMAGE_HEIGHT + 21);
 
-            g2d.drawImage(SkillsSprite.oneHandedWeapon,sideMarginForThreeSkills, topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
-            g2d.drawImage(SkillsSprite.twoHandedWeapon, sideMarginForThreeSkills + marginBetweenSkills + SKILL_IMAGE_WIDTH,
-                    topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
-            g2d.drawImage(SkillsSprite.brawling, sideMarginForThreeSkills + marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH * 2,
-                    topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
-        } else if (highlighted == 3) {
+        } else {
             g2d.drawImage(SkillsSprite.bindWounds, sideMarginForThreeSkills, topMargin + STATS_OFFSET, null);
             g2d.drawImage(SkillsSprite.bargain, sideMarginForThreeSkills + marginBetweenSkills + SKILL_IMAGE_WIDTH,
                     topMargin + STATS_OFFSET, null);
+
             g2d.drawImage(SkillsSprite.observation, sideMarginForThreeSkills + marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH * 2,
                     topMargin + STATS_OFFSET, null);
+        }
+    }
 
+    private void paintSmasherSkills(Graphics2D g2d, int width, int height) {
+        int marginBetweenSkills = (width - 4 * SKILL_IMAGE_WIDTH) / 5;
+        int topMargin = (height - 2 * SKILL_IMAGE_HEIGHT) / 3;
+        int sideMarginForThreeSkills = (width - 3 * SKILL_IMAGE_HEIGHT - 2 * marginBetweenSkills) / 2;
+
+        if (highlighted == 3) {
             g2d.drawImage(SkillsSprite.oneHandedWeaponSelected,sideMarginForThreeSkills, topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
+            g2d.drawString("One Handed Weapon", sideMarginForThreeSkills - 5, topMargin * 2 + SKILL_IMAGE_HEIGHT + 41);
             g2d.drawString("Current level: " + skillTree.getSkill("OneHandedWeapon").getSkillLevel(),
-                    sideMarginForThreeSkills + 7, topMargin * 2 + SKILL_IMAGE_HEIGHT + 41);
+                    sideMarginForThreeSkills + 17, topMargin * 2 + SKILL_IMAGE_HEIGHT * 2 + 70);
+
             g2d.drawImage(SkillsSprite.twoHandedWeapon, sideMarginForThreeSkills + marginBetweenSkills + SKILL_IMAGE_WIDTH,
                     topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
             g2d.drawImage(SkillsSprite.brawling, sideMarginForThreeSkills + marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH * 2,
                     topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
         } else if (highlighted == 4) {
-            g2d.drawImage(SkillsSprite.bindWounds, sideMarginForThreeSkills, topMargin + STATS_OFFSET, null);
-            g2d.drawImage(SkillsSprite.bargain, sideMarginForThreeSkills + marginBetweenSkills + SKILL_IMAGE_WIDTH,
-                    topMargin + STATS_OFFSET, null);
-            g2d.drawImage(SkillsSprite.observation, sideMarginForThreeSkills + marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH * 2,
-                    topMargin + STATS_OFFSET, null);
-
             g2d.drawImage(SkillsSprite.oneHandedWeapon,sideMarginForThreeSkills, topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
+
             g2d.drawImage(SkillsSprite.twoHandedWeaponSelected, sideMarginForThreeSkills + marginBetweenSkills + SKILL_IMAGE_WIDTH,
                     topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
+            g2d.drawString("Two Handed Weapon", sideMarginForThreeSkills + marginBetweenSkills + SKILL_IMAGE_WIDTH + -7, topMargin * 2 + SKILL_IMAGE_HEIGHT + 41);
             g2d.drawString("Current level: " + skillTree.getSkill("TwoHandedWeapon").getSkillLevel(),
-                    sideMarginForThreeSkills + marginBetweenSkills + SKILL_IMAGE_WIDTH + 7, topMargin * 2 + SKILL_IMAGE_HEIGHT + 41);
+                    sideMarginForThreeSkills + marginBetweenSkills + SKILL_IMAGE_WIDTH + 17, topMargin * 2 + SKILL_IMAGE_HEIGHT * 2 + 70);
+
             g2d.drawImage(SkillsSprite.brawling, sideMarginForThreeSkills + marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH * 2,
                     topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
-        } else {
-            g2d.drawImage(SkillsSprite.bindWounds, sideMarginForThreeSkills, topMargin + STATS_OFFSET, null);
-            g2d.drawImage(SkillsSprite.bargain, sideMarginForThreeSkills + marginBetweenSkills + SKILL_IMAGE_WIDTH,
-                    topMargin + STATS_OFFSET, null);
-            g2d.drawImage(SkillsSprite.observation, sideMarginForThreeSkills + marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH * 2,
-                    topMargin + STATS_OFFSET, null);
-
+        } else if (highlighted == 5){
             g2d.drawImage(SkillsSprite.oneHandedWeapon,sideMarginForThreeSkills, topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
             g2d.drawImage(SkillsSprite.twoHandedWeapon, sideMarginForThreeSkills + marginBetweenSkills + SKILL_IMAGE_WIDTH,
                     topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
+
             g2d.drawImage(SkillsSprite.brawlingSelected, sideMarginForThreeSkills + marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH * 2,
                     topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
+            g2d.drawString("Brawling", sideMarginForThreeSkills + marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH * 2 + 40, topMargin * 2 + SKILL_IMAGE_HEIGHT + 41);
             g2d.drawString("Current level: " + skillTree.getSkill("Brawling").getSkillLevel(),
-                    sideMarginForThreeSkills + marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH * 2 + 7, topMargin * 2 + SKILL_IMAGE_HEIGHT + 41);
+                    sideMarginForThreeSkills + marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH * 2 + 17, topMargin * 2 + SKILL_IMAGE_HEIGHT * 2 + 70);
+        } else {
+            g2d.drawImage(SkillsSprite.oneHandedWeapon,sideMarginForThreeSkills, topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
+            g2d.drawImage(SkillsSprite.twoHandedWeapon, sideMarginForThreeSkills + marginBetweenSkills + SKILL_IMAGE_WIDTH,
+                    topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
+            g2d.drawImage(SkillsSprite.brawling, sideMarginForThreeSkills + marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH * 2,
+                    topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
         }
 
     }
@@ -264,64 +266,12 @@ public class SkillManagementView extends JComponent {
         int topMargin = (height - 2 * SKILL_IMAGE_HEIGHT) / 3;
         int sideMarginForThreeSkills = (width - 3 * SKILL_IMAGE_HEIGHT - 2 * marginBetweenSkills) / 2;
 
-        if (highlighted == 0) {
-            g2d.drawImage(SkillsSprite.bindWoundsSelected, sideMarginForThreeSkills, topMargin + STATS_OFFSET, null);
-            g2d.drawString("Current level: " + skillTree.getSkill("BindWounds").getSkillLevel(),
-                    sideMarginForThreeSkills + 7, topMargin + 41);
-            g2d.drawImage(SkillsSprite.bargain, sideMarginForThreeSkills + marginBetweenSkills + SKILL_IMAGE_WIDTH,
-                    topMargin + STATS_OFFSET, null);
-            g2d.drawImage(SkillsSprite.observation, sideMarginForThreeSkills + marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH * 2,
-                    topMargin + STATS_OFFSET, null);
-
-            g2d.drawImage(SkillsSprite.enchantment, marginBetweenSkills, topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
-            g2d.drawImage(SkillsSprite.boon, marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH,
-                    topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
-            g2d.drawImage(SkillsSprite.bane, marginBetweenSkills * 3 + SKILL_IMAGE_WIDTH * 2,
-                    topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
-            g2d.drawImage(SkillsSprite.staff, marginBetweenSkills * 4 + SKILL_IMAGE_WIDTH * 3,
-                    topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
-        } else if (highlighted == 1) {
-            g2d.drawImage(SkillsSprite.bindWounds, sideMarginForThreeSkills, topMargin + STATS_OFFSET, null);
-            g2d.drawImage(SkillsSprite.bargainSelected, sideMarginForThreeSkills + marginBetweenSkills + SKILL_IMAGE_WIDTH,
-                    topMargin + STATS_OFFSET, null);
-            g2d.drawString("Current level: " + skillTree.getSkill("Bargain").getSkillLevel(),
-                    sideMarginForThreeSkills + marginBetweenSkills + SKILL_IMAGE_WIDTH + 7, topMargin + 41);
-            g2d.drawImage(SkillsSprite.observation, sideMarginForThreeSkills + marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH * 2,
-                    topMargin + STATS_OFFSET, null);
-
-            g2d.drawImage(SkillsSprite.enchantment, marginBetweenSkills, topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
-            g2d.drawImage(SkillsSprite.boon, marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH,
-                    topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
-            g2d.drawImage(SkillsSprite.bane, marginBetweenSkills * 3 + SKILL_IMAGE_WIDTH * 2,
-                    topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
-            g2d.drawImage(SkillsSprite.staff, marginBetweenSkills * 4 + SKILL_IMAGE_WIDTH * 3,
-                    topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
-        } else if (highlighted == 2) {
-            g2d.drawImage(SkillsSprite.bindWounds, sideMarginForThreeSkills, topMargin + STATS_OFFSET, null);
-            g2d.drawImage(SkillsSprite.bargain, sideMarginForThreeSkills + marginBetweenSkills + SKILL_IMAGE_WIDTH,
-                    topMargin + STATS_OFFSET, null);
-            g2d.drawImage(SkillsSprite.observationSelected, sideMarginForThreeSkills + marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH * 2,
-                    topMargin + STATS_OFFSET, null);
-            g2d.drawString("Current level: " + skillTree.getSkill("Observation").getSkillLevel(),
-                    sideMarginForThreeSkills + marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH * 2 + 7, topMargin + 41);
-
-            g2d.drawImage(SkillsSprite.enchantment, marginBetweenSkills, topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
-            g2d.drawImage(SkillsSprite.boon, marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH,
-                    topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
-            g2d.drawImage(SkillsSprite.bane, marginBetweenSkills * 3 + SKILL_IMAGE_WIDTH * 2,
-                    topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
-            g2d.drawImage(SkillsSprite.staff, marginBetweenSkills * 4 + SKILL_IMAGE_WIDTH * 3,
-                    topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
-        } else if (highlighted == 3) {
-            g2d.drawImage(SkillsSprite.bindWounds, sideMarginForThreeSkills, topMargin + STATS_OFFSET, null);
-            g2d.drawImage(SkillsSprite.bargain, sideMarginForThreeSkills + marginBetweenSkills + SKILL_IMAGE_WIDTH,
-                    topMargin + STATS_OFFSET, null);
-            g2d.drawImage(SkillsSprite.observation, sideMarginForThreeSkills + marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH * 2,
-                    topMargin + STATS_OFFSET, null);
-
+        if (highlighted == 3) {
             g2d.drawImage(SkillsSprite.enchantmentSelected, marginBetweenSkills, topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
+            g2d.drawString("Enchantment", marginBetweenSkills + 20, topMargin * 2 + SKILL_IMAGE_HEIGHT + 41);
             g2d.drawString("Current level: " + skillTree.getSkill("EnchantingBlast").getSkillLevel(),
-                    marginBetweenSkills + 7, topMargin * 2 + SKILL_IMAGE_HEIGHT + 41);
+                    marginBetweenSkills + 17, topMargin * 2 + SKILL_IMAGE_HEIGHT * 2 + 70);
+
             g2d.drawImage(SkillsSprite.boon, marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH,
                     topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
             g2d.drawImage(SkillsSprite.bane, marginBetweenSkills * 3 + SKILL_IMAGE_WIDTH * 2,
@@ -329,43 +279,34 @@ public class SkillManagementView extends JComponent {
             g2d.drawImage(SkillsSprite.staff, marginBetweenSkills * 4 + SKILL_IMAGE_WIDTH * 3,
                     topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
         } else if (highlighted == 4) {
-            g2d.drawImage(SkillsSprite.bindWounds, sideMarginForThreeSkills, topMargin + STATS_OFFSET, null);
-            g2d.drawImage(SkillsSprite.bargain, sideMarginForThreeSkills + marginBetweenSkills + SKILL_IMAGE_WIDTH,
-                    topMargin + STATS_OFFSET, null);
-            g2d.drawImage(SkillsSprite.observation, sideMarginForThreeSkills + marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH * 2,
-                    topMargin + STATS_OFFSET, null);
 
             g2d.drawImage(SkillsSprite.enchantment, marginBetweenSkills, topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
+
             g2d.drawImage(SkillsSprite.boonSelected, marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH,
                     topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
+            g2d.drawString("Boon", marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH + 53,  topMargin * 2 + SKILL_IMAGE_HEIGHT + 41);
             g2d.drawString("Current level: " + skillTree.getSkill("BoonHardiness").getSkillLevel(),
-                    marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH + 7,  topMargin * 2 + SKILL_IMAGE_HEIGHT + 41);
+                    marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH + 17,  topMargin * 2 + SKILL_IMAGE_HEIGHT * 2 + 70);
+
             g2d.drawImage(SkillsSprite.bane, marginBetweenSkills * 3 + SKILL_IMAGE_WIDTH * 2,
                     topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
             g2d.drawImage(SkillsSprite.staff, marginBetweenSkills * 4 + SKILL_IMAGE_WIDTH * 3,
                     topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
         } else if (highlighted == 5) {
-            g2d.drawImage(SkillsSprite.bindWounds, sideMarginForThreeSkills, topMargin + STATS_OFFSET, null);
-            g2d.drawImage(SkillsSprite.bargain, sideMarginForThreeSkills + marginBetweenSkills + SKILL_IMAGE_WIDTH,
-                    topMargin + STATS_OFFSET, null);
-            g2d.drawImage(SkillsSprite.observation, sideMarginForThreeSkills + marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH * 2,
-                    topMargin + STATS_OFFSET, null);
 
             g2d.drawImage(SkillsSprite.enchantment, marginBetweenSkills, topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
             g2d.drawImage(SkillsSprite.boon, marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH,
                     topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
+
             g2d.drawImage(SkillsSprite.baneSelected, marginBetweenSkills * 3 + SKILL_IMAGE_WIDTH * 2,
                     topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
-            g2d.drawString("Current level: " + skillTree.getSkill("BoonHardiness").getSkillLevel(),
-                    marginBetweenSkills * 3 + SKILL_IMAGE_WIDTH * 2 + 7,  topMargin * 2 + SKILL_IMAGE_HEIGHT + 41);
+            g2d.drawString("Bane", marginBetweenSkills * 3 + SKILL_IMAGE_WIDTH * 2 + 53,  topMargin * 2 + SKILL_IMAGE_HEIGHT + 41);
+            g2d.drawString("Current level: " + skillTree.getSkill("FireBlast").getSkillLevel(),
+                    marginBetweenSkills * 3 + SKILL_IMAGE_WIDTH * 2 + 17,  topMargin * 2 + SKILL_IMAGE_HEIGHT * 2 + 70);
+
             g2d.drawImage(SkillsSprite.staff, marginBetweenSkills * 4 + SKILL_IMAGE_WIDTH * 3,
                     topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
         } else if (highlighted == 6) {
-            g2d.drawImage(SkillsSprite.bindWounds, sideMarginForThreeSkills, topMargin + STATS_OFFSET, null);
-            g2d.drawImage(SkillsSprite.bargain, sideMarginForThreeSkills + marginBetweenSkills + SKILL_IMAGE_WIDTH,
-                    topMargin + STATS_OFFSET, null);
-            g2d.drawImage(SkillsSprite.observation, sideMarginForThreeSkills + marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH * 2,
-                    topMargin + STATS_OFFSET, null);
 
             g2d.drawImage(SkillsSprite.enchantment, marginBetweenSkills, topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
             g2d.drawImage(SkillsSprite.boon, marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH,
@@ -374,8 +315,17 @@ public class SkillManagementView extends JComponent {
                     topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
             g2d.drawImage(SkillsSprite.staffSelected, marginBetweenSkills * 4 + SKILL_IMAGE_WIDTH * 3,
                     topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
+            g2d.drawString("Staff", marginBetweenSkills * 4 + SKILL_IMAGE_WIDTH * 3 + 52,  topMargin * 2 + SKILL_IMAGE_HEIGHT + 41);
             g2d.drawString("Current level: " + skillTree.getSkill("Staff").getSkillLevel(),
-                    marginBetweenSkills * 4 + SKILL_IMAGE_WIDTH * 3 + 7,  topMargin * 2 + SKILL_IMAGE_HEIGHT + 41);
+                    marginBetweenSkills * 4 + SKILL_IMAGE_WIDTH * 3 + 17,  topMargin * 2 + SKILL_IMAGE_HEIGHT * 2 + 70);
+        } else {
+            g2d.drawImage(SkillsSprite.enchantment, marginBetweenSkills, topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
+            g2d.drawImage(SkillsSprite.boon, marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH,
+                    topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
+            g2d.drawImage(SkillsSprite.bane, marginBetweenSkills * 3 + SKILL_IMAGE_WIDTH * 2,
+                    topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
+            g2d.drawImage(SkillsSprite.staff, marginBetweenSkills * 4 + SKILL_IMAGE_WIDTH * 3,
+                    topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
         }
     }
 
@@ -384,64 +334,13 @@ public class SkillManagementView extends JComponent {
         int topMargin = (height - 2 * SKILL_IMAGE_HEIGHT) / 3;
         int sideMarginForThreeSkills = (width - 3 * SKILL_IMAGE_HEIGHT - 2 * marginBetweenSkills) / 2;
 
-        if (highlighted == 0) {
-            g2d.drawImage(SkillsSprite.bindWoundsSelected, sideMarginForThreeSkills, topMargin + STATS_OFFSET, null);
-            g2d.drawString("Current level: " + skillTree.getSkill("BindWounds").getSkillLevel(),
-                    sideMarginForThreeSkills + 7, topMargin + 41);
-            g2d.drawImage(SkillsSprite.bargain, sideMarginForThreeSkills + marginBetweenSkills + SKILL_IMAGE_WIDTH,
-                    topMargin + STATS_OFFSET, null);
-            g2d.drawImage(SkillsSprite.observation, sideMarginForThreeSkills + marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH * 2,
-                    topMargin + STATS_OFFSET, null);
-
-            g2d.drawImage(SkillsSprite.pickPocket, marginBetweenSkills, topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
-            g2d.drawImage(SkillsSprite.detectAndRemoveTrap, marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH,
-                    topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
-            g2d.drawImage(SkillsSprite.creep, marginBetweenSkills * 3 + SKILL_IMAGE_WIDTH * 2,
-                    topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
-            g2d.drawImage(SkillsSprite.rangedWeapon, marginBetweenSkills * 4 + SKILL_IMAGE_WIDTH * 3,
-                    topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
-        } else if (highlighted == 1) {
-            g2d.drawImage(SkillsSprite.bindWounds, sideMarginForThreeSkills, topMargin + STATS_OFFSET, null);
-            g2d.drawImage(SkillsSprite.bargainSelected, sideMarginForThreeSkills + marginBetweenSkills + SKILL_IMAGE_WIDTH,
-                    topMargin + STATS_OFFSET, null);
-            g2d.drawString("Current level: " + skillTree.getSkill("Bargain").getSkillLevel(),
-                    sideMarginForThreeSkills + marginBetweenSkills + SKILL_IMAGE_WIDTH + 7, topMargin + 41);
-            g2d.drawImage(SkillsSprite.observation, sideMarginForThreeSkills + marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH * 2,
-                    topMargin + STATS_OFFSET, null);
-
-            g2d.drawImage(SkillsSprite.pickPocket, marginBetweenSkills, topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
-            g2d.drawImage(SkillsSprite.detectAndRemoveTrap, marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH,
-                    topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
-            g2d.drawImage(SkillsSprite.creep, marginBetweenSkills * 3 + SKILL_IMAGE_WIDTH * 2,
-                    topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
-            g2d.drawImage(SkillsSprite.rangedWeapon, marginBetweenSkills * 4 + SKILL_IMAGE_WIDTH * 3,
-                    topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
-        } else if (highlighted == 2) {
-            g2d.drawImage(SkillsSprite.bindWounds, sideMarginForThreeSkills, topMargin + STATS_OFFSET, null);
-            g2d.drawImage(SkillsSprite.bargain, sideMarginForThreeSkills + marginBetweenSkills + SKILL_IMAGE_WIDTH,
-                    topMargin + STATS_OFFSET, null);
-            g2d.drawImage(SkillsSprite.observationSelected, sideMarginForThreeSkills + marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH * 2,
-                    topMargin + STATS_OFFSET, null);
-            g2d.drawString("Current level: " + skillTree.getSkill("Observation").getSkillLevel(),
-                    sideMarginForThreeSkills + marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH * 2 + 7, topMargin + 41);
-
-            g2d.drawImage(SkillsSprite.pickPocket, marginBetweenSkills, topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
-            g2d.drawImage(SkillsSprite.detectAndRemoveTrap, marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH,
-                    topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
-            g2d.drawImage(SkillsSprite.creep, marginBetweenSkills * 3 + SKILL_IMAGE_WIDTH * 2,
-                    topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
-            g2d.drawImage(SkillsSprite.rangedWeapon, marginBetweenSkills * 4 + SKILL_IMAGE_WIDTH * 3,
-                    topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
-        } else if (highlighted == 3) {
-            g2d.drawImage(SkillsSprite.bindWounds, sideMarginForThreeSkills, topMargin + STATS_OFFSET, null);
-            g2d.drawImage(SkillsSprite.bargain, sideMarginForThreeSkills + marginBetweenSkills + SKILL_IMAGE_WIDTH,
-                    topMargin + STATS_OFFSET, null);
-            g2d.drawImage(SkillsSprite.observation, sideMarginForThreeSkills + marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH * 2,
-                    topMargin + STATS_OFFSET, null);
+        if (highlighted == 3) {
 
             g2d.drawImage(SkillsSprite.pickPocketSelected, marginBetweenSkills, topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
+            g2d.drawString("Pick Pocket", marginBetweenSkills + 25, topMargin * 2 + SKILL_IMAGE_HEIGHT + 41);
             g2d.drawString("Current level: " + skillTree.getSkill("PickPocket").getSkillLevel(),
-                    marginBetweenSkills + 7, topMargin * 2 + SKILL_IMAGE_HEIGHT + 41);
+                    marginBetweenSkills + 17, topMargin * 2 + SKILL_IMAGE_HEIGHT * 2 + 70);
+
             g2d.drawImage(SkillsSprite.detectAndRemoveTrap, marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH,
                     topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
             g2d.drawImage(SkillsSprite.creep, marginBetweenSkills * 3 + SKILL_IMAGE_WIDTH * 2,
@@ -449,53 +348,54 @@ public class SkillManagementView extends JComponent {
             g2d.drawImage(SkillsSprite.rangedWeapon, marginBetweenSkills * 4 + SKILL_IMAGE_WIDTH * 3,
                     topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
         } else if (highlighted == 4) {
-            g2d.drawImage(SkillsSprite.bindWounds, sideMarginForThreeSkills, topMargin + STATS_OFFSET, null);
-            g2d.drawImage(SkillsSprite.bargain, sideMarginForThreeSkills + marginBetweenSkills + SKILL_IMAGE_WIDTH,
-                    topMargin + STATS_OFFSET, null);
-            g2d.drawImage(SkillsSprite.observation, sideMarginForThreeSkills + marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH * 2,
-                    topMargin + STATS_OFFSET, null);
 
             g2d.drawImage(SkillsSprite.pickPocket, marginBetweenSkills, topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
             g2d.drawImage(SkillsSprite.detectAndRemoveTrapSelected, marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH,
                     topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
+            g2d.drawString("Detect & Remove", marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH + 10,  topMargin * 2 + SKILL_IMAGE_HEIGHT + 41);
             g2d.drawString("Current level: " + skillTree.getSkill("DetectRemoveTrap").getSkillLevel(),
-                    marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH + 7,  topMargin * 2 + SKILL_IMAGE_HEIGHT + 41);
+                    marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH + 17,  topMargin * 2 + SKILL_IMAGE_HEIGHT * 2 + 70);
+
             g2d.drawImage(SkillsSprite.creep, marginBetweenSkills * 3 + SKILL_IMAGE_WIDTH * 2,
                     topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
             g2d.drawImage(SkillsSprite.rangedWeapon, marginBetweenSkills * 4 + SKILL_IMAGE_WIDTH * 3,
                     topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
         } else if (highlighted == 5) {
-            g2d.drawImage(SkillsSprite.bindWounds, sideMarginForThreeSkills, topMargin + STATS_OFFSET, null);
-            g2d.drawImage(SkillsSprite.bargain, sideMarginForThreeSkills + marginBetweenSkills + SKILL_IMAGE_WIDTH,
-                    topMargin + STATS_OFFSET, null);
-            g2d.drawImage(SkillsSprite.observation, sideMarginForThreeSkills + marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH * 2,
-                    topMargin + STATS_OFFSET, null);
 
             g2d.drawImage(SkillsSprite.pickPocket, marginBetweenSkills, topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
             g2d.drawImage(SkillsSprite.detectAndRemoveTrap, marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH,
                     topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
+
             g2d.drawImage(SkillsSprite.creepSelected, marginBetweenSkills * 3 + SKILL_IMAGE_WIDTH * 2,
                     topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
+            g2d.drawString("Creep", marginBetweenSkills * 3 + SKILL_IMAGE_WIDTH * 2 + 53,  topMargin * 2 + SKILL_IMAGE_HEIGHT + 41);
             g2d.drawString("Current level: " + skillTree.getSkill("Creep").getSkillLevel(),
-                    marginBetweenSkills * 3 + SKILL_IMAGE_WIDTH * 2 + 7,  topMargin * 2 + SKILL_IMAGE_HEIGHT + 41);
+                    marginBetweenSkills * 3 + SKILL_IMAGE_WIDTH * 2 + 17,  topMargin * 2 + SKILL_IMAGE_HEIGHT * 2 + 70);
+
             g2d.drawImage(SkillsSprite.rangedWeapon, marginBetweenSkills * 4 + SKILL_IMAGE_WIDTH * 3,
                     topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
         } else if (highlighted == 6) {
-            g2d.drawImage(SkillsSprite.bindWounds, sideMarginForThreeSkills, topMargin + STATS_OFFSET, null);
-            g2d.drawImage(SkillsSprite.bargain, sideMarginForThreeSkills + marginBetweenSkills + SKILL_IMAGE_WIDTH,
-                    topMargin + STATS_OFFSET, null);
-            g2d.drawImage(SkillsSprite.observation, sideMarginForThreeSkills + marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH * 2,
-                    topMargin + STATS_OFFSET, null);
 
             g2d.drawImage(SkillsSprite.pickPocket, marginBetweenSkills, topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
             g2d.drawImage(SkillsSprite.detectAndRemoveTrap, marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH,
                     topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
             g2d.drawImage(SkillsSprite.creep, marginBetweenSkills * 3 + SKILL_IMAGE_WIDTH * 2,
                     topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
+
             g2d.drawImage(SkillsSprite.rangedWeaponSelected, marginBetweenSkills * 4 + SKILL_IMAGE_WIDTH * 3,
                     topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
+            g2d.drawString("Ranged Weapon", marginBetweenSkills * 4 + SKILL_IMAGE_WIDTH * 3 + 10,  topMargin * 2 + SKILL_IMAGE_HEIGHT + 41);
             g2d.drawString("Current level: " + skillTree.getSkill("RangedWeapon").getSkillLevel(),
-                    marginBetweenSkills * 4 + SKILL_IMAGE_WIDTH * 3 + 7,  topMargin * 2 + SKILL_IMAGE_HEIGHT + 41);
+                    marginBetweenSkills * 4 + SKILL_IMAGE_WIDTH * 3 + 17,  topMargin * 2 + SKILL_IMAGE_HEIGHT * 2 + 70);
+        }
+        else {
+            g2d.drawImage(SkillsSprite.pickPocket, marginBetweenSkills, topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
+            g2d.drawImage(SkillsSprite.detectAndRemoveTrap, marginBetweenSkills * 2 + SKILL_IMAGE_WIDTH,
+                    topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
+            g2d.drawImage(SkillsSprite.creep, marginBetweenSkills * 3 + SKILL_IMAGE_WIDTH * 2,
+                    topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
+            g2d.drawImage(SkillsSprite.rangedWeapon, marginBetweenSkills * 4 + SKILL_IMAGE_WIDTH * 3,
+                    topMargin * 2 + SKILL_IMAGE_HEIGHT + STATS_OFFSET, null);
         }
     }
 }
