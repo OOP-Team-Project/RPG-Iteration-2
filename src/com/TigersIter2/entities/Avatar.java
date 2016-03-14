@@ -11,7 +11,6 @@ import com.TigersIter2.stats.PlayerStats;
 public class Avatar extends Entity{
 
     private Location location;  //This is the location used by MODELS to determine where the avatar is
-    private Location pixelLocation; //This is the location used by VIEWS to determine where the avatar is (Miles)
     private Inventory inventory;
     private Equipment equipment;
     private Occupation occupation;
@@ -34,7 +33,6 @@ public class Avatar extends Entity{
     public Avatar(){
         //changed this to actually instantiate location. Not sure what Z is for atm. <-- Z is for hextile stuff in the future (Sam)
         location = new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight,0);
-        pixelLocation = new Location(Math.round(StaticVar.xTilesFromEdge*StaticVar.terrainImageWidth*.75f - 80), Math.round(StaticVar.yTilesFromEdge*StaticVar.terrainImageHeight - Math.round(StaticVar.terrainImageHeight*1.2f)), 0);
         direction = 270;
         canPassMountain = false; //if anything this should be under skills (Sam)
         canPassWater = false;
@@ -42,6 +40,7 @@ public class Avatar extends Entity{
         equipment = new Equipment();
         trading = false;
         setOccupation();
+
     }
 
     //What is this supposed to do? -Sam
@@ -99,7 +98,6 @@ public class Avatar extends Entity{
         int yLoc = location.getY()+100;
 
         item.setLocation(new Location(xLoc, yLoc, 0));
-        item.setPixelLocation(pixelLocation);
         item.setDisplay(true);
     }
 
@@ -198,14 +196,6 @@ public class Avatar extends Entity{
 
     public boolean isCurrentlyMoving() {
         return currentlyMoving;
-    }
-
-    public Location getPixelLocation() {
-        return pixelLocation;
-    }
-
-    public void setPixelLocation(Location pixelLocation) {
-        this.pixelLocation = pixelLocation;
     }
 
     public void setOnTileWithNPC(boolean b){
