@@ -68,7 +68,7 @@ public class GameState extends State {
         npcViews = new ArrayList<NPCView>();
         itemViews = new ArrayList<ItemView>();
         areaEffectViews = new ArrayList<AreaEffectView>();
-        map = new TerrainMap(StaticVar.map1);
+        map = new TerrainMap(StaticVar.map2);
         avatar = new Avatar();
         View.setAvatar(avatar);
         avatarMapInteract = new AvatarMapInteract(avatar, map);

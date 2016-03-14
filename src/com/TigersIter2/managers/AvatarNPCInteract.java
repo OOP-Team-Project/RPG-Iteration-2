@@ -689,6 +689,18 @@ public class AvatarNPCInteract {
         npcList.add(m);
     }
 
+    public void addMonster(Location loc) {
+        NPC monster = new Monster();
+        monster.setLocation(loc);
+        monster.getStats().setHardiness(20);
+        monster.getStats().setArmor(3);
+        monster.getStats().setStrength(13);
+        monster.getStats().setAttack(20);
+        monster.getStats().setInfluenceRadius(1);
+
+        npcList.add(monster);
+    }
+
     public void addVillager(List<String> p, boolean talk, boolean trade, boolean attack){
         NPC v = new Villager(p, talk, trade, attack);
         //v.getInventory().addItem(new OneHandedWeaponItem("Sword",5));
@@ -697,6 +709,16 @@ public class AvatarNPCInteract {
         v.getLocation().setX(avatar.getLocation().getX()-50);
         v.getLocation().setY(avatar.getLocation().getY());
     }
+
+    public void addVillager(List<String> p, boolean talk, boolean trade, boolean attack, Location loc){
+        NPC v = new Villager(p, talk, trade, attack);
+        v.setLocation(loc);
+        //v.getInventory().addItem(new OneHandedWeaponItem("Sword",5));
+        npcList.add(v);
+        v.getStats().setCurrentLife(30);
+    }
+
+
 
     public List<NPC> getNpcList(){
         return npcList;
