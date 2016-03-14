@@ -1,21 +1,10 @@
 Occupation:
 3
 location:
-1050 960
-pixelLocation:
-629 269
+868 527
 direction:
-270
-grass:
-true
+135
 water:
 false
-mountain:
+water:
 false
-inventory:
-5 Health_Potion 10
-null
-equipment:
-null
-money:
-0

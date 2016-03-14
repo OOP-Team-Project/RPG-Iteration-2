@@ -83,7 +83,7 @@ public class GameState extends State {
         TakeableItem potion = new Potion("Health Potion0", 10);
         TakeableItem potion2 = new Potion("Health Potion1", 10);
         TakeableItem potion3 = new Potion("Health Potion2", 10);
-        TakeableItem butterKnife = new RangedWeaponItem("Crossbow", 1, 1, 0);
+        TakeableItem butterKnife = new RangedWeaponItem("Crossbow3", 1, 1, 0);
         TakeableItem axe = new SpikedGlove("Battle Axe");
         TakeableItem breastplate = new Armor("Breastplate", 2, 4);
         TakeableItem ohSword = new Sword("Sword");
@@ -98,20 +98,23 @@ public class GameState extends State {
 
 
         itemManager = new ItemManager(avatar);
-//        avatar.getInventory().addItem(potion);
-//        itemManager.addItem(potion);
-//        itemManager.addItem(axe);
+            itemManager.addItem(potion);
+            avatar.getInventory().addItem(potion);
+
+            itemManager.addItem(axe);
+            avatar.getInventory().addItem(axe);
 //        itemManager.addItem(breastplate);
-//        itemManager.addItem(butterKnife);
+            itemManager.addItem(butterKnife);
+            avatar.getEquipment().addItem(butterKnife);
 //        itemManager.addItem(ohSword);
 //        itemManager.addItem(obstacle);
 //        itemManager.addItem(item);
 //        itemManager.addItem(interactive);
 //        itemManager.addItem(oneShot);
-        itemManager.addItem(obstacle);
-        itemManager.addItem(item);
-        itemManager.addItem(interactive);
-        itemManager.addItem(oneShot);
+//        itemManager.addItem(obstacle);
+//        itemManager.addItem(item);
+//        itemManager.addItem(interactive);
+//        itemManager.addItem(oneShot);
 //        avatar.getInventory().addItem(potion);
 //        avatar.getInventory().addItem(potion2);
 //        avatar.getInventory().addItem(potion3);
@@ -292,6 +295,7 @@ public class GameState extends State {
 
 
         if (controller.getKeyPressed() == KeyEvent.VK_SPACE) {
+            avatar.saveAvatar();
             stateManager.setState(StateManager.MAINMENU);
         }
     }

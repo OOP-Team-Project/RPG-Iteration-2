@@ -2,6 +2,7 @@ package com.TigersIter2.managers;
 
 import java.util.*;
 
+import com.TigersIter2.assets.FileReader;
 import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.entities.Avatar;
 import com.TigersIter2.items.*;
@@ -27,6 +28,45 @@ public class ItemManager {
         playerStats = avatar.getPlayerStats();
         itemList = new ArrayList<Item>();
         //avatar.getInventory().getItems();
+    }
+
+    private void loadItems(){
+//        if (avatarString[16].equals("inventory:")) {
+//            System.out.println("Inventory loading in...");
+//            tracker = 16;
+//            tracker++; //tracker now at 17
+//            while (!avatarString[tracker].equals("null")) {
+//
+//                System.out.println("Tracker: " + tracker + ", String: " + avatarString[tracker]);
+//                System.out.println("Tracker: " + tracker + 1 + ", String: " + avatarString[tracker + 1]);
+//                System.out.println("Tracker: " + tracker + 2 + ", String: " + avatarString[tracker + 2]);
+//                switch (FileReader.stringToInt(avatarString[tracker])) {
+//                    case StaticVar.armorItemType:
+//                        getInventory().addItem(new Armor(avatarString[tracker + 1], FileReader.stringToInt(avatarString[tracker + 2]), FileReader.stringToInt(avatarString[tracker + 3])));
+//                        tracker += 3;
+//                        System.out.println("ArmorType loading in...");
+//                        break;
+//                    case StaticVar.weaponItemType:
+//
+//                        System.out.println("WeaponType loading in...");
+//
+//                        break;
+//                    case StaticVar.keyItemType:
+//                        getInventory().addItem(new Key(avatarString[tracker + 1], FileReader.stringToInt(avatarString[tracker + 2])));
+//                        tracker += 2;
+//                        System.out.println("keyItemType loading in...");
+//                        break;
+//                    case StaticVar.potionItemType:
+//                        getInventory().addItem(new Potion(avatarString[tracker + 1], FileReader.stringToInt(avatarString[tracker + 2])));
+//                        tracker += 2;
+//                        System.out.println("potionItemType loading in...");
+//                        break;
+//
+//                }
+//                tracker++;
+//                //getInventory().addItem();
+//            }
+//        }
     }
 
     public void addItem(Item item) {
