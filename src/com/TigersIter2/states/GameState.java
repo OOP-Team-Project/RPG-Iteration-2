@@ -33,6 +33,7 @@ public class GameState extends State {
     private ItemManager itemManager;
     private AreaEffectManager aem;
     private AvatarMapInteract avatarMapInteract;
+    private List<NPCMapInteract> npcMapInteract;
     private AreaEffect effect;
 
     //Views
@@ -52,7 +53,6 @@ public class GameState extends State {
     private MessageView messageView;
     private AttackIndicatorView attackIndicatorView;
 
-
     public GameState(StateManager stateManager, Controller controller){
         super(stateManager, controller);
     }
@@ -68,10 +68,12 @@ public class GameState extends State {
         npcViews = new ArrayList<NPCView>();
         itemViews = new ArrayList<ItemView>();
         areaEffectViews = new ArrayList<AreaEffectView>();
+        npcMapInteract = new ArrayList<NPCMapInteract>();
         map = new TerrainMap(StaticVar.map1);
         avatar = new Avatar();
         View.setAvatar(avatar);
         avatarMapInteract = new AvatarMapInteract(avatar, map);
+
         ant = new AvatarNPCInteract(avatar, footerView);
         vehicleViews = new ArrayList<VehicleView>();
         SkillTree st = new SkillTree(avatar.getPlayerStats());
@@ -127,8 +129,8 @@ public class GameState extends State {
         ant = new AvatarNPCInteract(avatar, footerView);
 
         //THIS IS ALL FOR TESTING. WILL NOT STAY HERE
-        ant.addVehicle(new Vehicle("Turtle", 5, true, false));
-        ant.addVehicle(new Vehicle("Turtle2", 2, true, true));
+        ant.addVehicle(new Vehicle("waterTurtle", 5, true, false));
+        ant.addVehicle(new Vehicle("mountainTurtle", 2, false, true));
         //ant.addMonster();
         List<String> list = new ArrayList<String>();
         list.add("My name is John Cena. I'm an internet sensation.");
@@ -140,6 +142,9 @@ public class GameState extends State {
         ant.addVillager(list, true, true, false);
         ant.getNpcList().get(0).getInventory().addItem(ohSword);
         ant.addMonster();
+        for (NPC n : ant.getNpcList()){
+            npcMapInteract.add(new NPCMapInteract(n, map));
+        }
 
 
 
@@ -160,6 +165,7 @@ public class GameState extends State {
         SmasherSprite.init();
         SneakSprite.init();
         VehicleSprite.init();
+        VehicleSprite2.init();
         VillagerSprite.init();
         MonsterSprite.init();
         ItemSprite.init();
@@ -189,12 +195,9 @@ public class GameState extends State {
         this.add(attackIndicatorView);
         this.add(areaView);
 
-
         areaView.add(smv, 0);
 
-
         System.out.println("GameState initialized");
-
 
     }
 
@@ -240,14 +243,24 @@ public class GameState extends State {
         map.update();
         int xMov = controller.getXMovement();
         int yMov = controller.getyMovement();
+
         boolean avatarCanMove = itemManager.checkTile(elapsed, controller.getXMovement(), controller.getyMovement()); //returns false if item is an obstacle
         if(avatarCanMove && avatarMapInteract.updateAvatarPos(elapsed, xMov, yMov)) {
             avatar.update(xMov, yMov, elapsed);
         }
+        // For NPC movements
+        for(NPCMapInteract npcInteract : npcMapInteract) {
+            NPC n = npcInteract.getNpc();
+            if (n instanceof Monster) {
+                npcInteract.updateNPCPos(elapsed);
+            }
+        }
+
         View.update(controller.getCameraXMovement(), controller.getCameraYMovement(), elapsed);
         aem.checkTile();
         ant.checkTile();
         handleControllerInput();
+
 
         if(controlView.getDisplay()) {
             int input = controller.getTradeMenuInput();

@@ -23,7 +23,6 @@ public class Teleport extends AreaEffect {
             Avatar avatar = ((Avatar) entity);
             avatar.getLocation().setX(destination.getX());
             avatar.getLocation().setY(destination.getY());
-            System.out.println(destination.toString()); // for testing
             System.out.println("Avatar teleported!");
         }
     }

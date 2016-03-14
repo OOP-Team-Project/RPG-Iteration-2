@@ -31,6 +31,7 @@ public class AvatarMapInteract {
     }
 
     public boolean updateAvatarPos(long elapsed, int xMov, int yMov){
+
         //Location nextLocation = new Location(avatar.getLocation());
         Location nextLocation = new Location(0, 0, 0);
         nextLocation.setX(avatar.getLocation().getX());

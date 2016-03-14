@@ -499,7 +499,30 @@ public class AvatarNPCInteract {
         return damage;
     }
 
+    private void setDirectionTowardsPlayer(NPC npc){
+        int x = LocationConverter.PixelLocationToHex(avatar.getLocation()).getX() - LocationConverter.PixelLocationToHex(npc.getLocation()).getX();
+        int y = LocationConverter.PixelLocationToHex(avatar.getLocation()).getY() - LocationConverter.PixelLocationToHex(npc.getLocation()).getY();
+        if(LocationConverter.PixelLocationToHex(npc.getLocation()).getY() % 2 == 1) {
+            if (y == 0)
+                npc.changeDirection(x, 1);
+            else
+                npc.changeDirection(x, y);
+        }
+        else{
+            if (y == 0)
+                npc.changeDirection(x, -1);
+            else
+                npc.changeDirection(x, y);
+        }
+    }
+
     private void retaliate(NPC npc){
+        if(playerInRange(npc)) {
+            npc.setIsAttacking(true);
+            setDirectionTowardsPlayer(npc);
+        }
+        else
+            npc.setIsAttacking(false);
         if(npc.getCanAttack() && !avatar.getStats().isDead()) {
             if(playerInRange(npc)) {
                 footerView.setDisplay(false);

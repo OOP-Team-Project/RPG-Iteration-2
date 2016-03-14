@@ -31,6 +31,7 @@ public abstract class NPC extends Entity{
     protected boolean isVillager;
     private boolean canAttack = true;
     private boolean onTileWithAvatar = false;
+    private boolean isAttacking = false;
 
 
     public NPC(){
@@ -62,8 +63,8 @@ public abstract class NPC extends Entity{
             currentlyMoving = false;
         }
         else{
-            location.incrementX(xMovement * 5);
-            location.incrementY(yMovement * 5);
+            location.incrementX(xMovement);
+            location.incrementY(yMovement);
             changeDirection(xMovement, yMovement);
             currentlyMoving = true;
         }
@@ -118,7 +119,7 @@ public abstract class NPC extends Entity{
         return location;
     }
 
-    private void changeDirection(int x, int y){
+    public void changeDirection(int x, int y){
         if(x == 0){
             if(y == 1)
                 direction = 270;
@@ -141,6 +142,18 @@ public abstract class NPC extends Entity{
 
     public boolean isCurrentlyMoving() {
         return currentlyMoving;
+    }
+
+    public void setCurrentlyMoving(boolean b){
+        currentlyMoving = b;
+    }
+
+    public boolean getIsAttacking(){
+        return isAttacking;
+    }
+
+    public void setIsAttacking(boolean b){
+        isAttacking = b;
     }
 
     public boolean willTalk(){

@@ -14,9 +14,9 @@ public class AreaEffectSprite {
         SpriteSheet healDamageSheet = new SpriteSheet(SpriteLoader.loadImage("/textures/cross.png"));
         SpriteSheet instantDeathSheet = new SpriteSheet(SpriteLoader.loadImage("/textures/skull.png"));
         SpriteSheet levelUpSheet = new SpriteSheet(SpriteLoader.loadImage("/textures/star.png"));
-        SpriteSheet takeDamageSheet = new SpriteSheet(SpriteLoader.loadImage("/textures/star.png"));
-        SpriteSheet teleportSheet = new SpriteSheet(SpriteLoader.loadImage("/textures/star.png"));
-        SpriteSheet trapSheet = new SpriteSheet(SpriteLoader.loadImage("/textures/star.png"));
+        SpriteSheet takeDamageSheet = new SpriteSheet(SpriteLoader.loadImage("/textures/takeDamage.png"));
+        SpriteSheet teleportSheet = new SpriteSheet(SpriteLoader.loadImage("/textures/teleport.png"));
+        SpriteSheet trapSheet = new SpriteSheet(SpriteLoader.loadImage("/textures/trap.png"));
 
         healDamage = healDamageSheet.cropSheet(0,0, StaticVar.areaEffectImageWidth, StaticVar.areaEffectImageHeight);
         instantDeath = instantDeathSheet.cropSheet(0, 0, StaticVar.areaEffectImageWidth, StaticVar.areaEffectImageHeight);
