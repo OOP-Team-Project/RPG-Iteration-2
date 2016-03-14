@@ -199,7 +199,7 @@ public class GameState extends State {
         Location monsterLocation4 = LocationConverter.HexLocationToPixel(new Location(18,16));
         monsterLocation4.incrementX(50);
         monsterLocation4.incrementY(50);
-        ant.addMonster(monsterLocation2);
+        ant.addMonster(monsterLocation4);
 
         //m5
         Location monsterLocation5 = LocationConverter.HexLocationToPixel(new Location(14,4));
