@@ -5,8 +5,6 @@ import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.items.TakeableItem;
 import com.TigersIter2.location.Location;
 import com.TigersIter2.location.LocationConverter;
-import com.TigersIter2.maps.TerrainMap;
-import com.TigersIter2.maps.terrains.Mountain;
 import com.TigersIter2.skills.SkillTree;
 import com.TigersIter2.stats.PlayerStats;
 
