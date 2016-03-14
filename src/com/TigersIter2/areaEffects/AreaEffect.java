@@ -1,13 +1,8 @@
 package com.TigersIter2.areaEffects;
 
 import com.TigersIter2.assets.StaticVar;
-import com.TigersIter2.entities.Avatar;
 import com.TigersIter2.entities.Entity;
-import com.TigersIter2.entities.NPC;
 import com.TigersIter2.location.Location;
-import com.TigersIter2.stats.PlayerStats;
-import com.TigersIter2.stats.Stats;
-import com.TigersIter2.stats.StatsModifier;
 
 /**
  * Created by Nicole on 3/7/16.
@@ -27,7 +22,7 @@ public abstract class AreaEffect {
         int y = 10 * StaticVar.terrainImageHeight-50;
         x = ((x+50)/100)*100;
         y = ((y+50)/100)*100;
-        location = new Location(x, y, 0);
+        location = new Location(x, y);
     }
 
     public void setLocation(Location l){

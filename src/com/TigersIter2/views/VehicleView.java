@@ -13,7 +13,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 
 /**
  * Created by slichtenheld on 2/25/2016.
@@ -124,31 +123,31 @@ public class VehicleView extends View implements ActionListener{
 
         if((float) (View.cameraLocation.getX())/StaticVar.terrainImageWidth < ((float) StaticVar.xTilesFromEdge)) {
             //tileViews.get(i).get(j).setCurrentXLocation(i);
-            setPixelLocation(new Location(Math.round(vHandle.getLocation().getX()*.75f - 80), pixelLocation.getY(), 0));
+            setPixelLocation(new Location(Math.round(vHandle.getLocation().getX()*.75f - 80), pixelLocation.getY()));
             //((TileView) getComponent((i * tileViews.get(0).size()) + j)).setCurrentXLocation(i);
             //aHandle.setPixelLocation(new Location(Math.round(aHandle.getLocation().getX()*.75f - 80), aHandle.getPixelLocation().getY(), 0));
         }
         else if((float) (View.cameraLocation.getX())/StaticVar.terrainImageWidth > (mapXLength - StaticVar.xTilesFromEdge + 1)) {
             //tileViews.get(i).get(j).setCurrentXLocation(i - tileViews.size() + StaticVar.xTilesFromEdge*2 - 1);
-            setPixelLocation(new Location(Math.round((vHandle.getLocation().getX() - ((mapXLength - StaticVar.xTilesFromEdge*2 + 1) * StaticVar.terrainImageWidth))*.75f - 80), pixelLocation.getY(), 0));
+            setPixelLocation(new Location(Math.round((vHandle.getLocation().getX() - ((mapXLength - StaticVar.xTilesFromEdge*2 + 1) * StaticVar.terrainImageWidth))*.75f - 80), pixelLocation.getY()));
             //((TileView) getComponent((i * tileViews.get(0).size()) + j)).setCurrentXLocation(i - tileViews.size() + StaticVar.xTilesFromEdge*2 - 1);
             //aHandle.setPixelLocation(new Location(Math.round((aHandle.getLocation().getX() - ((tileViews.size() - StaticVar.xTilesFromEdge*2 + 1) * StaticVar.terrainImageWidth))*.75f - 80), aHandle.getPixelLocation().getY(), 0));
         }
         else  {
-            setPixelLocation(new Location(Math.round((vHandle.getLocation().getX() - View.cameraLocation.getX() + StaticVar.xTilesFromEdge*StaticVar.terrainImageWidth)*.75f) - 80, pixelLocation.getY(), 0));
+            setPixelLocation(new Location(Math.round((vHandle.getLocation().getX() - View.cameraLocation.getX() + StaticVar.xTilesFromEdge*StaticVar.terrainImageWidth)*.75f) - 80, pixelLocation.getY()));
         }
         //Y Stuff Below
         if((float) (View.cameraLocation.getY())/StaticVar.terrainImageHeight < (float) StaticVar.yTilesFromEdge) {
-            setPixelLocation(new Location(pixelLocation.getX(), Math.round(vHandle.getLocation().getY() - Math.round(StaticVar.terrainImageHeight*1.2f)), 0));
+            setPixelLocation(new Location(pixelLocation.getX(), Math.round(vHandle.getLocation().getY() - Math.round(StaticVar.terrainImageHeight*1.2f))));
         }
         else if((float) (View.cameraLocation.getY())/StaticVar.terrainImageHeight > (mapYLength - StaticVar.yTilesFromEdge)) {
             //tileViews.get(i).get(j).setCurrentYLocation(j - tileViews.get(0).size() + StaticVar.yTilesFromEdge*2);
-            setPixelLocation(new Location(pixelLocation.getX(), Math.round((vHandle.getLocation().getY() - ((mapYLength - StaticVar.yTilesFromEdge*2) * StaticVar.terrainImageHeight)) - Math.round(StaticVar.terrainImageHeight*1.2f)), 0));
+            setPixelLocation(new Location(pixelLocation.getX(), Math.round((vHandle.getLocation().getY() - ((mapYLength - StaticVar.yTilesFromEdge*2) * StaticVar.terrainImageHeight)) - Math.round(StaticVar.terrainImageHeight*1.2f))));
             //((TileView) getComponent((i * tileViews.get(0).size()) + j)).setCurrentYLocation(j - tileViews.get(0).size() + StaticVar.yTilesFromEdge*2);
             //aHandle.setPixelLocation(new Location(aHandle.getPixelLocation().getX(), Math.round((aHandle.getLocation().getY() - ((tileViews.get(0).size() - StaticVar.yTilesFromEdge*2) * StaticVar.terrainImageHeight)) - Math.round(StaticVar.terrainImageHeight*1.2f)), 0));
         }
         else {
-            setPixelLocation(new Location(pixelLocation.getX(), vHandle.getLocation().getY() - View.cameraLocation.getY() + Math.round(StaticVar.yTilesFromEdge*StaticVar.terrainImageHeight) - StaticVar.terrainImageHeight - 20, 0));
+            setPixelLocation(new Location(pixelLocation.getX(), vHandle.getLocation().getY() - View.cameraLocation.getY() + Math.round(StaticVar.yTilesFromEdge*StaticVar.terrainImageHeight) - StaticVar.terrainImageHeight - 20));
         }
 
 

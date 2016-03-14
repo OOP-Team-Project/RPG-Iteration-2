@@ -4,9 +4,7 @@ import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.entities.Avatar;
 import com.TigersIter2.location.Location;
 import com.TigersIter2.location.LocationConverter;
-import com.TigersIter2.main.Controller;
 import com.TigersIter2.maps.TerrainMap;
-import com.TigersIter2.maps.terrains.TerrainType;
 
 /**
  * Created by slichtenheld on 3/7/2016.
@@ -33,7 +31,7 @@ public class AvatarMapInteract {
     public boolean updateAvatarPos(long elapsed, int xMov, int yMov){
 
         //Location nextLocation = new Location(avatar.getLocation());
-        Location nextLocation = new Location(0, 0, 0);
+        Location nextLocation = new Location(0, 0);
         nextLocation.setX(avatar.getLocation().getX());
         nextLocation.setY(avatar.getLocation().getY());
 

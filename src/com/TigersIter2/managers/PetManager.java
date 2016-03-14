@@ -61,7 +61,7 @@ public class PetManager {
             NPC npc = iter.next();
             if (LocationConverter.PixelLocationToHex(npc.getLocation()).getX() == LocationConverter.PixelLocationToHex(pet.getLocation()).getX() &&
                     LocationConverter.PixelLocationToHex(npc.getLocation()).getY() == LocationConverter.PixelLocationToHex(pet.getLocation()).getY()) {
-                    npc.setWillAttack(true);
+                npc.setWillAttack(true);
             }
         }
     }
@@ -69,7 +69,7 @@ public class PetManager {
 
     public void updatePetPos(int contX, int contY, long elapsed){
 
-        Location nextLocation = new Location(0, 0, 0);
+        Location nextLocation = new Location(0, 0);
         nextLocation.setX(pet.getLocation().getX());
         nextLocation.setY(pet.getLocation().getY());
         nextLocation.incrementX(Math.round(contX * elapsed * StaticVar.entitySpeed*avatar.getStats().getMovement()));
@@ -79,7 +79,7 @@ public class PetManager {
 
         int avatarX = avatar.getLocation().getX();
         int avatarY = avatar.getLocation().getY();
-        Location nextAvatarLocation = new Location(avatarX, avatarY, 0);
+        Location nextAvatarLocation = new Location(avatarX, avatarY);
         if(map.getTerrainType(LocationConverter.PixelLocationToHex(nextAvatarLocation)) != 1)
             return;
 

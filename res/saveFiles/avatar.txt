@@ -1,5 +1,5 @@
 Occupation:
-2
+1
 location:
 1050 960
 direction:
