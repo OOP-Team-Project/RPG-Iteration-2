@@ -28,7 +28,7 @@ public class NPCMapInteract {
     }
 
     public void updateNPCPos(long elapsed){
-        System.out.println(npc.getIsAttacking());
+        //System.out.println(npc.getIsAttacking());
         if(!npc.getIsAttacking() && npc.isAlive()) {
             npc.setCurrentlyMoving(true);
 
@@ -79,7 +79,7 @@ public class NPCMapInteract {
                     newDir = (newDir + 45) % 360;
 
                 convertDegreesToCoord(newDir);
-                npc.update(xMov, yMov, elapsed);
+                //npc.update(xMov, yMov, elapsed);
             } else if (terrain == 1) {
                 npc.update(xMov, yMov, elapsed);
             }
@@ -109,22 +109,22 @@ public class NPCMapInteract {
 
         switch(direction){
             case 45: xMov = 26;
-                yMov = -16;
+                yMov = -15;
                 break;
             case 90: xMov = 0;
                 yMov = -26;
                 break;
             case 135: xMov = -26;
-                yMov = -16;
+                yMov = -15;
                 break;
             case 225: xMov = -26;
-                yMov = 16;
+                yMov = 15;
                 break;
             case 270: xMov = 0;
                 yMov = 26;
                 break;
             case 315: xMov = 26;
-                yMov = 16;
+                yMov = 15;
                 break;
         }
     }
@@ -148,8 +148,6 @@ public class NPCMapInteract {
         Location nextLocation = new Location(0, 0, 0);
         nextLocation.setX(npc.getLocation().getX());
         nextLocation.setY(npc.getLocation().getY());
-
-
 
 
         nextLocation.incrementX(Math.round(xMov * elapsed * StaticVar.entitySpeed*npc.getStats().getMovement()));
