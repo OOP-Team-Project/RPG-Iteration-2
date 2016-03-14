@@ -5,6 +5,8 @@ import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.items.TakeableItem;
 import com.TigersIter2.location.Location;
 import com.TigersIter2.location.LocationConverter;
+import com.TigersIter2.maps.TerrainMap;
+import com.TigersIter2.maps.terrains.Mountain;
 import com.TigersIter2.skills.SkillTree;
 import com.TigersIter2.stats.PlayerStats;
 
@@ -35,7 +37,7 @@ public class Avatar extends Entity{
     private boolean isTrapped = false;
 
 
-    public Avatar(){
+    public Avatar() {
         //changed this to actually instantiate location. Not sure what Z is for atm. <-- Z is for hextile stuff in the future (Sam)
         location = new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight,0);
         direction = 270;
@@ -73,7 +75,7 @@ public class Avatar extends Entity{
                 Location l = LocationConverter.PixelLocationToHex(location);
                 l.incrementX(i - viewDistance / 2);
                 l.incrementY(j - viewDistance / 2);
-                exploredTiles.add(l);
+                if (canSeeHex(l)) exploredTiles.add(l);
             }
         }
 
