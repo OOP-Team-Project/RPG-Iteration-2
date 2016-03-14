@@ -14,7 +14,6 @@ import java.awt.event.ActionListener;
 
 /**
  * Created by Breanna on 3/11/16.
- * TODO: make this stay in place when scrolling view
  */
 public class PetView extends View implements ActionListener {
     Avatar aHandle;
@@ -87,16 +86,10 @@ public class PetView extends View implements ActionListener {
 
     public void paintComponent(Graphics g){
         if((float) (View.cameraLocation.getX())/StaticVar.terrainImageWidth < ((float) StaticVar.xTilesFromEdge)) {
-            //tileViews.get(i).get(j).setCurrentXLocation(i);
             setPixelLocation(new Location(Math.round(pHandle.getLocation().getX()*.75f - 80), pixelLocation.getY(), 0));
-            //((TileView) getComponent((i * tileViews.get(0).size()) + j)).setCurrentXLocation(i);
-            //aHandle.setPixelLocation(new Location(Math.round(aHandle.getLocation().getX()*.75f - 80), aHandle.getpixelLocation.getY(), 0));
         }
         else if((float) (View.cameraLocation.getX())/StaticVar.terrainImageWidth > (mapXLength - StaticVar.xTilesFromEdge + 1)) {
-            //tileViews.get(i).get(j).setCurrentXLocation(i - tileViews.size() + StaticVar.xTilesFromEdge*2 - 1);
             setPixelLocation(new Location(Math.round((pHandle.getLocation().getX() - ((mapXLength - StaticVar.xTilesFromEdge*2 + 1) * StaticVar.terrainImageWidth))*.75f - 80), pixelLocation.getY(), 0));
-            //((TileView) getComponent((i * tileViews.get(0).size()) + j)).setCurrentXLocation(i - tileViews.size() + StaticVar.xTilesFromEdge*2 - 1);
-            //aHandle.setPixelLocation(new Location(Math.round((aHandle.getLocation().getX() - ((tileViews.size() - StaticVar.xTilesFromEdge*2 + 1) * StaticVar.terrainImageWidth))*.75f - 80), aHandle.getpixelLocation.getY(), 0));
         }
         else  {
             setPixelLocation(new Location(Math.round((pHandle.getLocation().getX() - View.cameraLocation.getX() + StaticVar.xTilesFromEdge*StaticVar.terrainImageWidth)*.75f) - 80, pixelLocation.getY(), 0));
@@ -107,10 +100,7 @@ public class PetView extends View implements ActionListener {
             setPixelLocation(new Location(pixelLocation.getX(), Math.round(pHandle.getLocation().getY() - Math.round(StaticVar.terrainImageHeight*1.2f)), 0));
         }
         else if((float) (View.cameraLocation.getY())/StaticVar.terrainImageHeight > (mapYLength - StaticVar.yTilesFromEdge)) {
-            //tileViews.get(i).get(j).setCurrentYLocation(j - tileViews.get(0).size() + StaticVar.yTilesFromEdge*2);
             setPixelLocation(new Location(pixelLocation.getX(), Math.round((pHandle.getLocation().getY() - ((mapYLength - StaticVar.yTilesFromEdge*2) * StaticVar.terrainImageHeight)) - Math.round(StaticVar.terrainImageHeight*1.2f)), 0));
-            //((TileView) getComponent((i * tileViews.get(0).size()) + j)).setCurrentYLocation(j - tileViews.get(0).size() + StaticVar.yTilesFromEdge*2);
-            //aHandle.setPixelLocation(new Location(aHandle.getpixelLocation.getX(), Math.round((aHandle.getLocation().getY() - ((tileViews.get(0).size() - StaticVar.yTilesFromEdge*2) * StaticVar.terrainImageHeight)) - Math.round(StaticVar.terrainImageHeight*1.2f)), 0));
         }
         else {
             setPixelLocation(new Location(pixelLocation.getX(), pHandle.getLocation().getY() - View.cameraLocation.getY() + Math.round(StaticVar.yTilesFromEdge*StaticVar.terrainImageHeight) - StaticVar.terrainImageHeight - 20, 0));
