@@ -174,6 +174,7 @@ public abstract class NPC extends Entity{
 
     public boolean willAttack(){ return willAttack;}
 
+    //TODO: null pointer here
     public String getResponse(int i){
         return responses.get(i);
     }

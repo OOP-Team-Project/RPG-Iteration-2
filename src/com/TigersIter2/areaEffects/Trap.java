@@ -26,6 +26,7 @@ public class Trap extends AreaEffect{
     public Trap(){
         areaEffectType = 5;
         removed = false;
+        display = true;
     }
 
     public void affectEntity(Entity entity){
