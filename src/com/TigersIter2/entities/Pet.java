@@ -34,11 +34,16 @@ public class Pet extends Entity {
         //made the Pet the same speed as the avatar
         location.incrementX(Math.round(xMovement * elapsed * StaticVar.entitySpeed * avatar.getStats().getMovement()));
         location.incrementY(Math.round(yMovement * elapsed * StaticVar.entitySpeed * avatar.getStats().getMovement()));
+        changeDirection(xMovement, yMovement);
 
     }
 
     public int getDirection(){
         return direction;
+    }
+
+    public void setDirection(int direction) {
+        this.direction = direction;
     }
 
     public Location getPixelLocation() { return pixelLocation; }
@@ -69,20 +74,4 @@ public class Pet extends Entity {
         }
     }
 
-    public boolean canPassTerrain(int xMov, int yMov, long elapsed, TerrainMap map){
-        Location nextLocation = new Location(0, 0, 0);
-        nextLocation.setX(this.getLocation().getX());
-        nextLocation.setY(this.getLocation().getY());
-        nextLocation.incrementX(Math.round(xMov * elapsed * StaticVar.entitySpeed*avatar.getStats().getMovement()));
-        nextLocation.incrementY(Math.round(yMov * elapsed * StaticVar.entitySpeed*avatar.getStats().getMovement()));
-        int terrainType = map.getTerrainType(LocationConverter.PixelLocationToHex(nextLocation));
-        if(terrainType == 1)
-            return true;
-        else if(terrainType == 2 && avatar.getCanPassWater())
-            return true;
-        else if(terrainType == 3 && avatar.getCanPassMountain())
-            return true;
-        else
-            return false;
-    }
 }

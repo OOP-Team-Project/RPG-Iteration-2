@@ -261,8 +261,9 @@ public class GameState extends State {
         boolean avatarCanMove = itemManager.checkTile(elapsed, controller.getXMovement(), controller.getyMovement()); //returns false if item is an obstacle
         if(avatarCanMove && avatarMapInteract.updateAvatarPos(elapsed, xMov, yMov)) {
             avatar.update(xMov, yMov, elapsed);
+
         }
-       petManager.updatePetPos(elapsed);
+        petManager.updatePetPos(xMov, yMov, elapsed);
         //petManager.stealItem();
         View.update(controller.getCameraXMovement(), controller.getCameraYMovement(), elapsed);
         aem.checkTile();

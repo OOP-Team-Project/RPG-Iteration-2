@@ -57,36 +57,49 @@ public class PetManager {
     }
 
 
-    public void updatePetPos(long elapsed){
+    public void updatePetPos(int contX, int contY, long elapsed){
 
             Location nextLocation = new Location(0, 0, 0);
             nextLocation.setX(pet.getLocation().getX());
             nextLocation.setY(pet.getLocation().getY());
-            nextLocation.incrementX(Math.round(xMov * elapsed * StaticVar.entitySpeed*avatar.getStats().getMovement()));
-            nextLocation.incrementY(Math.round(yMov * elapsed * StaticVar.entitySpeed*avatar.getStats().getMovement()));
+            nextLocation.incrementX(Math.round(contX * elapsed * StaticVar.entitySpeed*avatar.getStats().getMovement()));
+            nextLocation.incrementY(Math.round(contY * elapsed * StaticVar.entitySpeed*avatar.getStats().getMovement()));
             // if next is passable, continue in same direction
             int terrain = map.getTerrainType(LocationConverter.PixelLocationToHex(nextLocation));
+
             int avatarX = avatar.getLocation().getX();
             int avatarY = avatar.getLocation().getY();
+            float angle = getAngleBetween(avatar.getLocation(), pet.getLocation());
+
             double distance = Math.sqrt(Math.pow(avatarX-nextLocation.getX(), 2) + Math.pow(avatarY-nextLocation.getY(), 2));
-            System.out.println(distance);
-            if(terrain == 1) {
+            //System.out.println(distance);
+          /*  if(terrain == 1) {
                 convertDegreesToCoord(pet.getDirection());
-                if(distance < 1000) {
-                    pet.update(xMov, yMov, elapsed);
-                }
+                pet.update(xMov, yMov, elapsed);
             }
             else{
-                // Changes xMov and yMov by random direction
-                if(distance > 200) {
-                    convertDegreesToCoord(avatar.getDirection());
+                if(distance < 500) {
+                    convertDegreesToCoord((int)angle);
                 }
                 else {
                     convertDegreesToCoord(randomDirection());
                 }
                 pet.changeDirection(xMov, yMov);
 
+            }*/
+            if(terrain == 1) {
+                pet.update(contX, contY, elapsed);
             }
+            else {
+                convertDegreesToCoord(randomDirection());
+                nextLocation.incrementX(Math.round(xMov * elapsed * StaticVar.entitySpeed * avatar.getStats().getMovement()));
+                nextLocation.incrementY(Math.round(yMov * elapsed * StaticVar.entitySpeed * avatar.getStats().getMovement()));
+                terrain = map.getTerrainType(LocationConverter.PixelLocationToHex(nextLocation));
+                if(terrain == 1) {
+                    pet.update(xMov, yMov, elapsed);
+                }
+            }
+
 
 
         }
@@ -123,6 +136,25 @@ public class PetManager {
                 rnd = new Random().nextInt(directionArray.length);
             }
             return directionArray[rnd];
+        }
+
+        public float getAngleBetween(Location a, Location b) {
+
+            float angle = (float)Math.toDegrees(Math.atan2((double)a.getX()-b.getX(), (double)a.getY()-b.getY()));
+            if (angle < 0) {
+                angle += 360;
+            }
+            int[] directionArray = new int[]{45, 90, 135, 225, 270, 315};
+            int smallestDistance = 1000;
+            int directionAngle = 45;
+            for(int i = 0; i < directionArray.length; i++) {
+                float distance = Math.abs(angle - directionArray[i]);
+                if(distance < smallestDistance) {
+                    smallestDistance = (int)distance;
+                    directionAngle = directionArray[i];
+                }
+            }
+            return directionAngle;
         }
 
 }
