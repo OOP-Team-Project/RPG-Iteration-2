@@ -83,18 +83,22 @@ public class Controller {
         if(yMovement == 0 || xMovement == 0)
             return 0;
         else if(xMovement < 0)
-            return -1;
+            return -5;
         else
-            return 1;
+            return 5;
     }
 
     public int getyMovement(){
-        if(yMovement < 0)
-            return -1;
+        if(yMovement < 0 && xMovement == 0)
+            return -5;
+        else if(yMovement < 0)
+            return -3;
         else if(yMovement == 0)
             return 0;
+        else if(xMovement == 0)
+            return 5;
         else
-            return 1;
+            return 3;
     }
 
     public int getCameraXMovement(){
