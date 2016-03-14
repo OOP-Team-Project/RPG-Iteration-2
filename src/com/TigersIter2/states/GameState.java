@@ -263,6 +263,7 @@ public class GameState extends State {
 
         }
         petManager.updatePetPos(xMov, yMov, elapsed);
+        petManager.stealItem();
         for(NPCMapInteract npcInteract : npcMapInteract) {
             NPC n = npcInteract.getNpc();
             if (n instanceof Monster) {
