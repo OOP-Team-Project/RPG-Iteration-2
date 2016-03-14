@@ -1,5 +1,5 @@
 Occupation:
-3
+2
 location:
 1050 960
 pixelLocation:
@@ -13,6 +13,7 @@ false
 mountain:
 false
 inventory:
+5 Health_Potion 10
 null
 equipment:
 null

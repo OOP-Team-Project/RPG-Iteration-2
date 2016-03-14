@@ -11,7 +11,7 @@ false
 mountain:
 false
 inventory:
-Potion Health_Potion 10
+5 Health_Potion 10
 null
 equipment:
 null

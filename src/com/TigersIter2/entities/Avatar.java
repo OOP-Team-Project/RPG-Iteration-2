@@ -2,6 +2,9 @@ package com.TigersIter2.entities;
 
 import com.TigersIter2.assets.FileReader;
 import com.TigersIter2.assets.StaticVar;
+import com.TigersIter2.items.Armor;
+import com.TigersIter2.items.Key;
+import com.TigersIter2.items.Potion;
 import com.TigersIter2.items.TakeableItem;
 import com.TigersIter2.location.Location;
 import com.TigersIter2.skills.SkillTree;
@@ -41,7 +44,7 @@ public class Avatar extends Entity{
         //canPassMountain = false; //if anything this should be under skills (Sam)
         //canPassWater = false;
         loadAvatar();
-        inventory = new Inventory();
+        //inventory = new Inventory();
         equipment = new Equipment();
         trading = false;
         //setOccupation();
@@ -226,34 +229,59 @@ public class Avatar extends Entity{
         }
         else System.out.println("Error loading canPassMountain of avatar");
         //load inventory
+        inventory = new Inventory();
+//        if (avatarString[16].equals("inventory:")){
+//            tracker = 16;
+//            tracker++; //tracker now at 17
+//            while(!avatarString[tracker].equals("null")){
+//                tracker++;
+//                switch (FileReader.stringToInt(avatarString[tracker])){
+//                    case StaticVar.armorItemType:
+//                        getInventory().addItem(new Armor(avatarString[tracker+1],FileReader.stringToInt(avatarString[tracker+2]),FileReader.stringToInt(avatarString[tracker+3])));
+//                        tracker+=3;
+//                        break;
+//                    case StaticVar.weaponItemType:
+//
+//                        break;
+//                    case StaticVar.keyItemType:
+//                        getInventory().addItem(new Key(avatarString[tracker+1],FileReader.stringToInt(avatarString[tracker+2])));
+//                        tracker+=2;
+//                        break;
+//                    case StaticVar.potionItemType:
+//                        getInventory().addItem(new Potion(avatarString[tracker+1],FileReader.stringToInt(avatarString[tracker+2])));
+//                        tracker+=2;
+//                        break;
+//
+//                }
+//                //getInventory().addItem();
+//            }
+//        }
         //load equipment
         //load money
-
-
     }
-    private void setOccupation(){
-
-        String[] map1String = FileReader.fileToString(StaticVar.avatarFile).split("\\s+"); //splits up file on any white space
-        int occ = 0;
-        if (map1String[0].equals("Occupation:")) {
-            occ = FileReader.stringToInt(map1String[1]); //first number of file, after occupation
-        }
-        System.out.println("first number of avatar file: " + occ);
-        switch(occ){
-            case 1: occupation = new Smasher();
-                break;
-            case 2: occupation = new Summoner();
-                break;
-            case 3: occupation = new Sneak();
-                break;
-            default: occupation = new Smasher();
-                System.out.println("Error loading occupation");
-                break;
-        }
-        //occupation = o;
-        stats = new PlayerStats(occupation);
-        skills = new SkillTree(stats);
-    }
+//    private void setOccupation(){
+//
+//        String[] map1String = FileReader.fileToString(StaticVar.avatarFile).split("\\s+"); //splits up file on any white space
+//        int occ = 0;
+//        if (map1String[0].equals("Occupation:")) {
+//            occ = FileReader.stringToInt(map1String[1]); //first number of file, after occupation
+//        }
+//        System.out.println("first number of avatar file: " + occ);
+//        switch(occ){
+//            case 1: occupation = new Smasher();
+//                break;
+//            case 2: occupation = new Summoner();
+//                break;
+//            case 3: occupation = new Sneak();
+//                break;
+//            default: occupation = new Smasher();
+//                System.out.println("Error loading occupation");
+//                break;
+//        }
+//        //occupation = o;
+//        stats = new PlayerStats(occupation);
+//        skills = new SkillTree(stats);
+//    }
 
     public Occupation getOccupation(){
         return occupation;
