@@ -10,7 +10,6 @@ import com.TigersIter2.stats.StatsModifier;
 public class Vehicle extends Entity {
     private String name;
     private Location location;
-    private Location pixelLocation;
     private int direction;
     private int movementBonus;
     private boolean canPassWater;
@@ -28,7 +27,6 @@ public class Vehicle extends Entity {
             location = new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight,0);
         else
             location = new Location(10 * StaticVar.terrainImageWidth + 400,10 * StaticVar.terrainImageHeight,0);
-        pixelLocation = location;
         this.movementBonus = movement;
         this.canPassWater = water;
         this.canPassMountain = mountain;
@@ -81,14 +79,6 @@ public class Vehicle extends Entity {
 
     public boolean isCurrentlyMoving() {
         return currentlyMoving;
-    }
-
-    public Location getPixelLocation() {
-        return pixelLocation;
-    }
-
-    public void setPixelLocation(Location pixelLocation) {
-        this.pixelLocation = pixelLocation;
     }
 
     public Location getLocation() {
