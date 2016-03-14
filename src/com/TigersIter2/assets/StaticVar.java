@@ -9,6 +9,8 @@ public class StaticVar {
     public static String map1 = "res/saveFiles/terrainMap.txt";
     public static String avatarFile = "res/saveFiles/avatar.txt";
     public static String avatarNewFile = "res/newGame/avatar.txt";
+    public static String itemManagerFile = "res/saveFiles/itemManager.txt";
+    public static String itemManagerNewFile = "res/newGame/itemManagerNew.txt";
 
     public static final int gameHeight = 720;//720;
     public static final int gameWidth = 1280;//1280;

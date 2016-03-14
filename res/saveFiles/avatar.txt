@@ -1,11 +1,10 @@
 Occupation:
 2
 location:
-1050 960
+1812 1673
 direction:
 270
 water:
 false
-mountain:
+water:
 false
-

@@ -31,42 +31,65 @@ public class ItemManager {
     }
 
     private void loadItems(){
-//        if (avatarString[16].equals("inventory:")) {
-//            System.out.println("Inventory loading in...");
-//            tracker = 16;
-//            tracker++; //tracker now at 17
-//            while (!avatarString[tracker].equals("null")) {
-//
-//                System.out.println("Tracker: " + tracker + ", String: " + avatarString[tracker]);
-//                System.out.println("Tracker: " + tracker + 1 + ", String: " + avatarString[tracker + 1]);
-//                System.out.println("Tracker: " + tracker + 2 + ", String: " + avatarString[tracker + 2]);
-//                switch (FileReader.stringToInt(avatarString[tracker])) {
-//                    case StaticVar.armorItemType:
-//                        getInventory().addItem(new Armor(avatarString[tracker + 1], FileReader.stringToInt(avatarString[tracker + 2]), FileReader.stringToInt(avatarString[tracker + 3])));
-//                        tracker += 3;
-//                        System.out.println("ArmorType loading in...");
-//                        break;
-//                    case StaticVar.weaponItemType:
-//
-//                        System.out.println("WeaponType loading in...");
-//
-//                        break;
-//                    case StaticVar.keyItemType:
-//                        getInventory().addItem(new Key(avatarString[tracker + 1], FileReader.stringToInt(avatarString[tracker + 2])));
-//                        tracker += 2;
-//                        System.out.println("keyItemType loading in...");
-//                        break;
-//                    case StaticVar.potionItemType:
-//                        getInventory().addItem(new Potion(avatarString[tracker + 1], FileReader.stringToInt(avatarString[tracker + 2])));
-//                        tracker += 2;
-//                        System.out.println("potionItemType loading in...");
-//                        break;
-//
-//                }
-//                tracker++;
-//                //getInventory().addItem();
-//            }
+        System.out.println("ItemManager loading in....");
+        String[] itemString = FileReader.fileToString(StaticVar.itemManagerNewFile).split("\\s+"); //splits up file on any white space
+        if (itemString[0].equals("inventory:")) {
+            System.out.println("Inventory loading in...");
+        }
+        int tracker = 1; //just read in at 0
+        while (!itemString[tracker].equals("null")) {
+
+//            System.out.println("Tracker: " + tracker + ", String: " + avatarString[tracker]);
+//            System.out.println("Tracker: " + tracker + 1 + ", String: " + avatarString[tracker + 1]);
+//            System.out.println("Tracker: " + tracker + 2 + ", String: " + avatarString[tracker + 2]);
+            switch (FileReader.stringToInt(itemString[tracker])) {
+                case StaticVar.armorItemType:
+                    TakeableItem armor = new Armor(itemString[tracker + 1], FileReader.stringToInt(itemString[tracker + 2]), FileReader.stringToInt(itemString[tracker + 3]));
+                    //avatar.getInventory().addItem(new Armor(itemString[tracker + 1], FileReader.stringToInt(itemString[tracker + 2]), FileReader.stringToInt(avatarString[tracker + 3])));
+                    tracker += 3;
+                    this.addItem(armor);
+                    avatar.getInventory().addItem(armor);
+                    System.out.println("ArmorType loaded in...");
+                    break;
+                case StaticVar.weaponItemType:
+                    if (itemString[tracker+1].toString().equals("OneHanded")){
+                        TakeableItem weapon = new OneHandedWeaponItem(itemString[tracker+1]);
+                        this.addItem(weapon);
+                    }
+                    else if (itemString[tracker+1].toString().equals("TwoHanded")){
+
+                    }
+                    else if (itemString[tracker+1].toString().equals("Ranged")){
+
+                    }
+                    else if (itemString[tracker+1].toString().equals("Brawling")){
+
+                    }
+                    System.out.println("WeaponType loaded in...");
+
+                    break;
+                case StaticVar.keyItemType:
+                    TakeableItem key = new Key(itemString[tracker + 1], FileReader.stringToInt(itemString[tracker + 2]));
+                    //avatar.getInventory().addItem(new Key(itemString[tracker + 1], FileReader.stringToInt(itemString[tracker + 2])));
+                    tracker += 2;
+                    this.addItem(key);
+                    avatar.getInventory().addItem(key);
+                    System.out.println("keyItemType loaded in...");
+                    break;
+                case StaticVar.potionItemType:
+                    TakeableItem potion = new Potion(itemString[tracker + 1], FileReader.stringToInt(itemString[tracker + 2]));
+                    //avatar.getInventory().addItem(new Potion(itemString[tracker + 1], FileReader.stringToInt(item[tracker + 2])));
+                    tracker += 2;
+                    this.addItem(potion);
+                    avatar.getInventory().addItem(potion);
+                    System.out.println("potionItemType loaded in...");
+                    break;
+
+            }
+            tracker++;
+//            //getInventory().addItem();
 //        }
+        }
     }
 
     public void addItem(Item item) {
