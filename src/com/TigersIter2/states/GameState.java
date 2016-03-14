@@ -130,7 +130,7 @@ public class GameState extends State {
         list.add("I suppose so.");
 
         Item ohSword = new Weapon();
-        ohSword.setLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight - 200,0));
+        ohSword.setLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight - 300,0));
 
         itemManager.addItem(ohSword);
         ant.addVillager(list, true, true, false);
@@ -264,6 +264,7 @@ public class GameState extends State {
         }
         petManager.updatePetPos(xMov, yMov, elapsed);
         petManager.stealItem();
+        petManager.startFight(ant.getNpcList());
         for(NPCMapInteract npcInteract : npcMapInteract) {
             NPC n = npcInteract.getNpc();
             if (n instanceof Monster) {

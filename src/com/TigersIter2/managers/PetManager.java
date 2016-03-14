@@ -4,6 +4,7 @@ import java.util.*;
 
 import com.TigersIter2.entities.Pet;
 import com.TigersIter2.entities.Avatar;
+import com.TigersIter2.entities.NPC;
 import com.TigersIter2.items.Item;
 import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.location.Location;
@@ -38,8 +39,6 @@ public class PetManager {
     public void stealItem() {
         itemList = itemManager.getItemList();
         Iterator<Item> iter = itemList.iterator();
-        int index = 0;
-        System.out.println("Pet's location: " + LocationConverter.PixelLocationToHex(pet.getLocation()).toString());
         while (iter.hasNext()) {
             Item item = iter.next();
             if (item.getLocation() != null) {
@@ -53,7 +52,17 @@ public class PetManager {
                 }
 
             }
-            index++;
+        }
+    }
+
+    public void startFight(List<NPC> npcs) {
+        Iterator<NPC> iter = npcs.iterator();
+        while(iter.hasNext()) {
+            NPC npc = iter.next();
+            if (LocationConverter.PixelLocationToHex(npc.getLocation()).getX() == LocationConverter.PixelLocationToHex(pet.getLocation()).getX() &&
+                    LocationConverter.PixelLocationToHex(npc.getLocation()).getY() == LocationConverter.PixelLocationToHex(pet.getLocation()).getY()) {
+                    npc.setWillAttack(true);
+            }
         }
     }
 
@@ -73,8 +82,6 @@ public class PetManager {
         Location nextAvatarLocation = new Location(avatarX, avatarY, 0);
         if(map.getTerrainType(LocationConverter.PixelLocationToHex(nextAvatarLocation)) != 1)
             return;
-
-        float angle = getAngleBetween(avatar.getLocation(), pet.getLocation());
 
         double distance = Math.sqrt(Math.pow(avatarX-nextLocation.getX(), 2) + Math.pow(avatarY-nextLocation.getY(), 2));
 
@@ -167,34 +174,5 @@ public class PetManager {
                 break;
         }
     }
-
-        public int randomDirection(){
-            int[] directionArray = new int[]{45, 90, 135, 225, 270, 315};
-            int rnd = new Random().nextInt(directionArray.length);
-            // cannot have same direction as previous bc that direction will be impassable
-            while(pet.getDirection() == rnd){
-                rnd = new Random().nextInt(directionArray.length);
-            }
-            return directionArray[rnd];
-        }
-
-        public float getAngleBetween(Location a, Location b) {
-
-            float angle = (float)Math.toDegrees(Math.atan2((double)a.getX()-b.getX(), (double)a.getY()-b.getY()));
-            if (angle < 0) {
-                angle += 360;
-            }
-            int[] directionArray = new int[]{45, 90, 135, 225, 270, 315};
-            int smallestDistance = 1000;
-            int directionAngle = 45;
-            for(int i = 0; i < directionArray.length; i++) {
-                float distance = Math.abs(angle - directionArray[i]);
-                if(distance < smallestDistance) {
-                    smallestDistance = (int)distance;
-                    directionAngle = directionArray[i];
-                }
-            }
-            return directionAngle;
-        }
 
 }
