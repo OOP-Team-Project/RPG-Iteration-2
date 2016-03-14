@@ -66,9 +66,13 @@ public class StaticVar {
 
     //item loading stuff
     public static final int armorItemType = 0;
+    public static final int interactiveItemType = 1;
     public static final int keyItemType = 2;
+    public static final int obstacleItemType = 3;
+    public static final int oneShotItemType = 4;
     public static final int potionItemType = 5;
     public static final int weaponItemType = 6;
+
 
 
     public static enum mapMode {

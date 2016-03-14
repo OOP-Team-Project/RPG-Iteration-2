@@ -1,0 +1,6 @@
+inventory:
+null
+equipment:
+null
+map:
+null;
