@@ -525,7 +525,7 @@ public class AvatarNPCInteract {
             npc.setIsAttacking(false);
         if(npc.getCanAttack() && !avatar.getStats().isDead()) {
             if(playerInRange(npc)) {
-                footerView.setDisplay(false);
+                //footerView.setDisplay(false);
                 footerView.setTradingView(false);
                 avatar.setTrading(trading);
                 npc.setWillAttack(true);
