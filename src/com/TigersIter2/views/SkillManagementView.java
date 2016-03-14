@@ -59,12 +59,9 @@ public class SkillManagementView extends JComponent {
     public void handleInput(int input){
         if(input == 2){
             decrementHighlighted();
-            System.out.println("CH: " + highlighted);
         }
         else if(input == 3){
             incrementHighlighted();
-            System.out.println("CH: " + highlighted);
-
         }
         else if(input == 4 && skillTree.getAbilityPoints() > 0) {
             String occupation = skillTree.toString();
