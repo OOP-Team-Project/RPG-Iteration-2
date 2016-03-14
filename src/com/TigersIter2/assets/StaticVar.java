@@ -42,12 +42,16 @@ public class StaticVar {
     public static final int monsterImageWidth = 100;
     public static final int itemImageHeight = 100;
     public static final int itemImageWidth = 100;
+    public static final int petImageHeight = 100;
+    public static final int petImageWidth = 100;
+
     public static final int areaEffectImageHeight = 100;
     public static final int areaEffectImageWidth = 100;
     public static final int skillImageHeight = 150;
     public static final int skillImageWidth = 150;
     public static final int attackImageHeight = 100;
     public static final int attackImageWidth = 100;
+
 
 
     //MapView Conventional Stuff (Miles)

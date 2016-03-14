@@ -4,6 +4,7 @@ import com.TigersIter2.areaEffects.*;
 import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.items.OneHandedWeaponItem;
 import com.TigersIter2.location.Location;
+import com.TigersIter2.managers.PetManager;
 import com.TigersIter2.location.LocationConverter;
 import com.TigersIter2.managers.*;
 import com.TigersIter2.assets.sprites.*;
@@ -28,9 +29,11 @@ public class GameState extends State {
     //Model Data
     private TerrainMap map;
     private Avatar avatar;
+    private Pet pet;
     private Vehicle vehicle;
     private AvatarNPCInteract ant;
     private ItemManager itemManager;
+    private PetManager petManager;
     private AreaEffectManager aem;
     private AvatarMapInteract avatarMapInteract;
     private List<NPCMapInteract> npcMapInteract;
@@ -38,6 +41,7 @@ public class GameState extends State {
 
     //Views
     private AvatarView avatarView;
+    private PetView petView;
     private MapView mapView;
     private AreaView areaView;
     private List<VehicleView> vehicleViews;
@@ -76,6 +80,11 @@ public class GameState extends State {
 
         ant = new AvatarNPCInteract(avatar, footerView);
         vehicleViews = new ArrayList<VehicleView>();
+        itemManager = new ItemManager(avatar);
+
+        pet = new Pet("Crab", avatar);
+        petManager = new PetManager(pet, itemManager, avatar, map);
+
         SkillTree st = new SkillTree(avatar.getPlayerStats());
         smv = new SkillManagementView(st);
 
@@ -97,33 +106,25 @@ public class GameState extends State {
         oneShot.setLocation(new Location(10 * StaticVar.terrainImageWidth + 200,10 * StaticVar.terrainImageHeight,0));
 
 
-        itemManager = new ItemManager(avatar);
-//        avatar.getInventory().addItem(potion);
-//        itemManager.addItem(potion);
-//        itemManager.addItem(axe);
-//        itemManager.addItem(breastplate);
-//        itemManager.addItem(butterKnife);
-//        itemManager.addItem(ohSword);
-//        itemManager.addItem(obstacle);
-//        itemManager.addItem(item);
-//        itemManager.addItem(interactive);
-//        itemManager.addItem(oneShot);
-        itemManager.addItem(obstacle);
-        itemManager.addItem(item);
-        itemManager.addItem(interactive);
-        itemManager.addItem(oneShot);
-//        avatar.getInventory().addItem(potion);
-//        avatar.getInventory().addItem(potion2);
-//        avatar.getInventory().addItem(potion3);
-//        avatar.getInventory().addItem(butterKnife);
-//        avatar.getInventory().addItem(axe);
-//        avatar.getInventory().addItem(breastplate);
+
+
+
+        itemManager.addItem(potion);
+        itemManager.addItem(butterKnife);
+        itemManager.addItem(axe);
+        itemManager.addItem(breastplate);
+
+        avatar.getInventory().addItem(potion);
+        avatar.getInventory().addItem(potion2);
+        avatar.getInventory().addItem(potion3);
+        avatar.getInventory().addItem(butterKnife);
+        avatar.getInventory().addItem(axe);
+        avatar.getInventory().addItem(breastplate);
 
         //testing for item interactions
 
 
-
-        //avatar.setAttackTime(1000);
+        avatar.setAttackTime(1000);
 
         ant = new AvatarNPCInteract(avatar, footerView);
 
@@ -138,12 +139,20 @@ public class GameState extends State {
         list.add("So many things.");
         list.add("I suppose so.");
 
+
+        Item Sword = new Weapon();
+        Sword.setLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight - 300,0));
+
+        itemManager.addItem(Sword);
+
+
         ant.addVillager(list, true, true, false);
-        ant.getNpcList().get(0).getInventory().addItem(ohSword);
+       // ant.getNpcList().get(0).getInventory().addItem(ohSword);
         ant.addMonster();
         for (NPC n : ant.getNpcList()){
             npcMapInteract.add(new NPCMapInteract(n, map));
         }
+
 
 
 
@@ -168,11 +177,13 @@ public class GameState extends State {
         VillagerSprite.init();
         MonsterSprite.init();
         ItemSprite.init();
+        PetSprite.init();
         AreaEffectSprite.init();
         SkillsSprite.init();
         AttackSprite.init();
 
         avatarView = new AvatarView(avatar, map);
+        petView = new PetView(pet, avatar, map);
         statusView = new StatusView(avatar);
         for(Vehicle vv : ant.getVehicleList()) {
             vehicleViews.add(new VehicleView(vv, avatar, map));
@@ -184,12 +195,17 @@ public class GameState extends State {
             itemViews.add(new ItemView(i, avatar, map));
         }
 
+
+        mapView = new MapView(map, avatar);
+        areaView =  new AreaView(mapView, avatarView, petView, vehicleViews, footerView, statusView, npcViews, controlView, itemViews, areaEffectViews);
+
         for(AreaEffect aEffect : aem.getAreaEffects()){
             areaEffectViews.add(new AreaEffectView(aEffect, avatar, map));
         }
 
         mapView = new MapView(map, avatar);
-        areaView =  new AreaView(mapView,avatarView, vehicleViews, footerView, statusView, npcViews, controlView, itemViews, areaEffectViews);
+        areaView =  new AreaView(mapView, avatarView, petView, vehicleViews, footerView, statusView, npcViews, controlView, itemViews, areaEffectViews);
+
         this.add(messageView);
         this.add(attackIndicatorView);
         this.add(areaView);
@@ -246,15 +262,17 @@ public class GameState extends State {
         boolean avatarCanMove = itemManager.checkTile(elapsed, controller.getXMovement(), controller.getyMovement()); //returns false if item is an obstacle
         if(avatarCanMove && avatarMapInteract.updateAvatarPos(elapsed, xMov, yMov)) {
             avatar.update(xMov, yMov, elapsed);
+
         }
-        // For NPC movements
+        petManager.updatePetPos(xMov, yMov, elapsed);
+        petManager.stealItem();
+        petManager.startFight(ant.getNpcList());
         for(NPCMapInteract npcInteract : npcMapInteract) {
             NPC n = npcInteract.getNpc();
             if (n instanceof Monster) {
                 npcInteract.updateNPCPos(elapsed);
             }
         }
-
         View.update(controller.getCameraXMovement(), controller.getCameraYMovement(), elapsed);
         aem.checkTile();
         ant.checkTile();

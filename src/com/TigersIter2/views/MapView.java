@@ -33,6 +33,7 @@ public class MapView extends View {
         setPreferredSize(new Dimension(StaticVar.gameWidth, StaticVar.gameHeight));
     }
 
+
     public MapView(TerrainMap TerrainMap, Avatar a) {
         setPreferredSize(new Dimension(StaticVar.gameWidth, StaticVar.gameHeight));
         mHandle = TerrainMap;

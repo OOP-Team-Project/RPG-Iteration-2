@@ -38,6 +38,10 @@ public class ItemManager {
         return itemList;
     }
 
+    public void removeItem(int index) {
+        itemList.remove(index);
+    }
+
     /*checks the tile player is moving to to see if there is an item on it
      *Handles the interaction based off the item type, returns false if item is
      *an obstacle*/
