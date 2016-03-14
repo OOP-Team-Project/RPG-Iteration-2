@@ -8,6 +8,7 @@ import com.TigersIter2.assets.sprites.WizardSprite;
 import com.TigersIter2.entities.Avatar;
 import com.TigersIter2.entities.Vehicle;
 import com.TigersIter2.location.Location;
+import com.TigersIter2.location.LocationConverter;
 import com.TigersIter2.maps.TerrainMap;
 
 
@@ -128,7 +129,12 @@ public class VehicleView extends View implements ActionListener{
         //gotta use that AA
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
-        drawVehicle(g2d);
+
+        Location l = LocationConverter.PixelLocationToHex(vHandle.getLocation());
+
+        if (aHandle.canSeeHex(l)) {
+            drawVehicle(g2d);
+        }
         g2d.dispose();
     }
 

@@ -7,7 +7,9 @@ import com.TigersIter2.entities.Avatar;
 import com.TigersIter2.entities.NPC;
 import com.TigersIter2.entities.Villager;
 import com.TigersIter2.location.Location;
+import com.TigersIter2.location.LocationConverter;
 import com.TigersIter2.maps.TerrainMap;
+import sun.awt.image.PixelConverter;
 
 
 import javax.swing.*;
@@ -163,7 +165,10 @@ public class NPCView extends View implements ActionListener{
         //gotta use that AA
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
-        if(vHandle.isAlive()) {
+
+        Location l = LocationConverter.PixelLocationToHex(vHandle.getLocation());
+
+        if (vHandle.isAlive() && aHandle.canSeeHex(l)) {
             if (vHandle.isVillager()) {
                 drawVillager(g2d);
             } else {
