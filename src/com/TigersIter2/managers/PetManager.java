@@ -72,35 +72,39 @@ public class PetManager {
         Location nextLocation = new Location(0, 0);
         nextLocation.setX(pet.getLocation().getX());
         nextLocation.setY(pet.getLocation().getY());
+        int avatarX = avatar.getLocation().getX();
+        int avatarY = avatar.getLocation().getY();
+        Location nextAvatarLocation = new Location(avatarX, avatarY);
+        double distance = Math.sqrt(Math.pow(avatarX-nextLocation.getX(), 2) + Math.pow(avatarY-nextLocation.getY(), 2));
+        distance = Math.floor(distance);
         nextLocation.incrementX(Math.round(contX * elapsed * StaticVar.entitySpeed*avatar.getStats().getMovement()));
         nextLocation.incrementY(Math.round(contY * elapsed * StaticVar.entitySpeed*avatar.getStats().getMovement()));
         // if next is passable, continue in same direction
         int terrain = map.getTerrainType(LocationConverter.PixelLocationToHex(nextLocation));
 
-        int avatarX = avatar.getLocation().getX();
-        int avatarY = avatar.getLocation().getY();
-        Location nextAvatarLocation = new Location(avatarX, avatarY);
         if(map.getTerrainType(LocationConverter.PixelLocationToHex(nextAvatarLocation)) != 1)
             return;
 
-        double distance = Math.sqrt(Math.pow(avatarX-nextLocation.getX(), 2) + Math.pow(avatarY-nextLocation.getY(), 2));
 
-
-        if(terrain == 1 && distance <= 120) {
-            if(!isFollowing) {
+        if(terrain == 1 && distance <= 120 && !isFollowing) {
                 isFollowing = true;
-            }
+                System.out.println("Following!");
         }
         else if(distance > 120 && distance < 250 && isFollowing){
-            if(terrain == 1)
+            if(terrain == 1) {
                 pet.update(contX, contY, elapsed);
+                System.out.println("Move with avatar");
+                System.out.println(distance);
+            }
         }
-        else if(terrain == 1){
-            pet.update(xMov, yMov, elapsed);
-            isFollowing = false;
+        else if(terrain == 1 && isFollowing){
+            //do nothing
         }
         else {
-            randomMovement(nextLocation, elapsed);
+            if(terrain == 1)
+                pet.update(xMov, yMov, elapsed);
+            else
+                randomMovement(nextLocation, elapsed);
             isFollowing = false;
         }
     }
@@ -154,23 +158,23 @@ public class PetManager {
     public void convertDegreesToCoord(int direction){
 
         switch(direction){
-            case 45: xMov = 1;
-                yMov = -1;
+            case 45: xMov = 26;
+                yMov = -15;
                 break;
             case 90: xMov = 0;
-                yMov = -1;
+                yMov = -15;
                 break;
-            case 135: xMov = -1;
-                yMov = -1;
+            case 135: xMov = -26;
+                yMov = -15;
                 break;
-            case 225: xMov = -1;
-                yMov = 1;
+            case 225: xMov = -26;
+                yMov = 15;
                 break;
             case 270: xMov = 0;
-                yMov = 1;
+                yMov = 15;
                 break;
-            case 315: xMov = 1;
-                yMov = 1;
+            case 315: xMov = 26;
+                yMov = 15;
                 break;
         }
     }
