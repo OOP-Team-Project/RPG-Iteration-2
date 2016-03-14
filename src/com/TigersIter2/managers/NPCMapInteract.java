@@ -34,16 +34,6 @@ public class NPCMapInteract {
         if (terrain == 2 || terrain == 3){
             convertDegreesToCoord(randomDirection(npc));
             npc.update(xMov, yMov, elapsed);
-            // For the NPCs to chill for a bit after moving
-            new java.util.Timer().schedule(
-                    new java.util.TimerTask() {
-                        @Override
-                        public void run() {
-                            npc.changeDirection(xMov, yMov);
-                        }
-                    },
-                    2000
-            );
         }
         else if(terrain == 1){
             npc.update(xMov, yMov, elapsed);
@@ -97,6 +87,7 @@ public class NPCMapInteract {
             rnd = new Random().nextInt(directionArray.length);
         }
         return directionArray[rnd];
+
     }
 
     public NPC getNpc(){

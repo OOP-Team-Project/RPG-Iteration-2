@@ -53,7 +53,6 @@ public class GameState extends State {
     private MessageView messageView;
     private AttackIndicatorView attackIndicatorView;
 
-
     public GameState(StateManager stateManager, Controller controller){
         super(stateManager, controller);
     }
@@ -243,6 +242,7 @@ public class GameState extends State {
         map.update();
         int xMov = controller.getXMovement();
         int yMov = controller.getyMovement();
+
         boolean avatarCanMove = itemManager.checkTile(elapsed, controller.getXMovement(), controller.getyMovement()); //returns false if item is an obstacle
         if(avatarCanMove && avatarMapInteract.updateAvatarPos(elapsed, xMov, yMov)) {
             avatar.update(xMov, yMov, elapsed);
@@ -250,15 +250,9 @@ public class GameState extends State {
         // For NPC movements
         for(NPCMapInteract npcInteract : npcMapInteract) {
             NPC n = npcInteract.getNpc();
-//            int npcXmov = npcInteract.getxMov(n);
-//            int npcYmov = npcInteract.getyMov(n);
-//            boolean npcCanMove = itemManager.checkTile(elapsed, npcXmov, npcYmov); //returns false if item is an obstacle
-//            if (npcCanMove){
-//                //npcMapInteract.updateNPCPos(n, elapsed, npcXmov, npcYmov);
-//                npcInteract.updateNPCPos(n, elapsed, npcXmov, npcYmov);
-//                System.out.println(n.getLocation().toString());
-//            }
-            npcInteract.updateNPCPos(elapsed);
+            if (n instanceof Monster) {
+                npcInteract.updateNPCPos(elapsed);
+            }
         }
 
         View.update(controller.getCameraXMovement(), controller.getCameraYMovement(), elapsed);
