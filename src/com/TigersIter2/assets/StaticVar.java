@@ -10,6 +10,8 @@ public class StaticVar {
     public static String map2 = "res/saveFiles/terrainMap2.txt";
     public static String avatarFile = "res/saveFiles/avatar.txt";
     public static String avatarNewFile = "res/newGame/avatar.txt";
+    public static String itemManagerFile = "res/saveFiles/itemManager.txt";
+    public static String itemManagerNewFile = "res/newGame/itemManagerNew.txt";
 
     public static final int gameHeight = 720;//720;
     public static final int gameWidth = 1280;//1280;
@@ -71,9 +73,13 @@ public class StaticVar {
 
     //item loading stuff
     public static final int armorItemType = 0;
+    public static final int interactiveItemType = 1;
     public static final int keyItemType = 2;
+    public static final int obstacleItemType = 3;
+    public static final int oneShotItemType = 4;
     public static final int potionItemType = 5;
     public static final int weaponItemType = 6;
+
 
 
     public static enum mapMode {
