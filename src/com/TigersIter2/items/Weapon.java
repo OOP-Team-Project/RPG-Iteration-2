@@ -1,5 +1,6 @@
 package com.TigersIter2.items;
 
+import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.stats.StatsModifier;
 /**
  * Created by Josh on 2/27/2016.
@@ -16,7 +17,7 @@ public class Weapon extends TakeableItem {
         setEquippable(true); //weapons are equippable
         this.sm = new StatsModifier();
         sm.setAttack(sm.getAttack()+damageModifier); //adds the damage value of the weapon to the attack rating
-        itemType = 6;
+        itemType = StaticVar.weaponItemType;
         equippable = true;
     }
 

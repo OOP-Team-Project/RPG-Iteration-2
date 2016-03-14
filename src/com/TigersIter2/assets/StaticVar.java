@@ -64,6 +64,12 @@ public class StaticVar {
     public static final int summoner = 2;
     public static final int sneak = 3;
 
+    //item loading stuff
+    public static final int armorItemType = 0;
+    public static final int keyItemType = 2;
+    public static final int potionItemType = 5;
+    public static final int weaponItemType = 6;
+
 
     public static enum mapMode {
         PLAYER_FOLLOW_MODE

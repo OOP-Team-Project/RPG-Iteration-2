@@ -1,5 +1,6 @@
 package com.TigersIter2.items;
 
+import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.stats.StatsModifier;
 
 /**
@@ -14,7 +15,7 @@ public class Potion extends TakeableItem {
         setEquippable(false);
         this.sm = new StatsModifier();
         sm.setLife(sm.getLife()+addHealth);
-        itemType = 5;
+        itemType = StaticVar.potionItemType;
         usable = true;
     }
 }
