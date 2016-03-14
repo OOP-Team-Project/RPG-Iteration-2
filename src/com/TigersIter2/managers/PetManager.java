@@ -24,6 +24,7 @@ public class PetManager {
     private int xMov;
     private int yMov;
     private int direction;
+    private boolean isFollowing = false;
 
     public PetManager(Pet pet, ItemManager itemManager, Avatar avatar, TerrainMap map) {
         this.pet = pet;
@@ -59,30 +60,43 @@ public class PetManager {
 
     public void updatePetPos(int contX, int contY, long elapsed){
 
-            Location nextLocation = new Location(0, 0, 0);
-            nextLocation.setX(pet.getLocation().getX());
-            nextLocation.setY(pet.getLocation().getY());
-            nextLocation.incrementX(Math.round(contX * elapsed * StaticVar.entitySpeed*avatar.getStats().getMovement()));
-            nextLocation.incrementY(Math.round(contY * elapsed * StaticVar.entitySpeed*avatar.getStats().getMovement()));
-            // if next is passable, continue in same direction
-            int terrain = map.getTerrainType(LocationConverter.PixelLocationToHex(nextLocation));
+        Location nextLocation = new Location(0, 0, 0);
+        nextLocation.setX(pet.getLocation().getX());
+        nextLocation.setY(pet.getLocation().getY());
+        nextLocation.incrementX(Math.round(contX * elapsed * StaticVar.entitySpeed*avatar.getStats().getMovement()));
+        nextLocation.incrementY(Math.round(contY * elapsed * StaticVar.entitySpeed*avatar.getStats().getMovement()));
+        // if next is passable, continue in same direction
+        int terrain = map.getTerrainType(LocationConverter.PixelLocationToHex(nextLocation));
 
-            int avatarX = avatar.getLocation().getX();
-            int avatarY = avatar.getLocation().getY();
-            float angle = getAngleBetween(avatar.getLocation(), pet.getLocation());
+        int avatarX = avatar.getLocation().getX();
+        int avatarY = avatar.getLocation().getY();
+        Location nextAvatarLocation = new Location(avatarX, avatarY, 0);
+        if(map.getTerrainType(LocationConverter.PixelLocationToHex(nextAvatarLocation)) != 1)
+            return;
 
-            double distance = Math.sqrt(Math.pow(avatarX-nextLocation.getX(), 2) + Math.pow(avatarY-nextLocation.getY(), 2));
+        float angle = getAngleBetween(avatar.getLocation(), pet.getLocation());
+
+        double distance = Math.sqrt(Math.pow(avatarX-nextLocation.getX(), 2) + Math.pow(avatarY-nextLocation.getY(), 2));
 
 
-            if(terrain == 1 && distance <= 120) {
-                pet.update(contX, contY, elapsed);
+        if(terrain == 1 && distance <= 120) {
+            if(!isFollowing) {
+                isFollowing = true;
             }
-            else if(terrain == 1) {
-                pet.update(xMov, yMov, elapsed);
-            }
-            else
-                randomMovement(nextLocation, elapsed);
         }
+        else if(distance > 120 && distance < 250 && isFollowing){
+            if(terrain == 1)
+                pet.update(contX, contY, elapsed);
+        }
+        else if(terrain == 1){
+            pet.update(xMov, yMov, elapsed);
+            isFollowing = false;
+        }
+        else {
+            randomMovement(nextLocation, elapsed);
+            isFollowing = false;
+        }
+    }
 
     private void randomMovement(Location nextLoc, long elapsed){
         int newDir = (pet.getDirection() + 180) % 360;

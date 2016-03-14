@@ -28,15 +28,14 @@ public class NPCMapInteract {
     }
 
     public void updateNPCPos(long elapsed){
-        System.out.println(npc.getIsAttacking());
         if(!npc.getIsAttacking() && npc.isAlive()) {
             npc.setCurrentlyMoving(true);
             // if next is passable, continue in same direction
             int terrain = map.getTerrainType(LocationConverter.PixelLocationToHex(getNextLocation(elapsed)));
             if (terrain == 2 || terrain == 3) {
                 int newDir = (npc.getDirection() + 180) % 360;
-                int val1 = 45;
-                int val2 = -45;
+                int val1 = 0;
+                int val2 = 0;
                 int x1 = LocationConverter.PixelLocationToHex(npc.getLocation()).getX();
                 int x2 = LocationConverter.PixelLocationToHex(getNextLocation(elapsed)).getX();
 
