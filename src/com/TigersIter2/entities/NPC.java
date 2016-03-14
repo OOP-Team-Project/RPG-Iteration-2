@@ -63,8 +63,16 @@ public abstract class NPC extends Entity{
             currentlyMoving = false;
         }
         else{
-            location.incrementX(xMovement);
-            location.incrementY(yMovement);
+            location.incrementX(Math.round(xMovement * elapsed * StaticVar.entitySpeed * stats.getMovement()));
+            location.incrementY(Math.round(yMovement * elapsed * StaticVar.entitySpeed * stats.getMovement()));
+
+            if(yMovement > 0)
+                yMovement = 1;
+            else if(yMovement < 0)
+                yMovement = -1;
+
+            xMovement /= 26;
+
             changeDirection(xMovement, yMovement);
             currentlyMoving = true;
         }
