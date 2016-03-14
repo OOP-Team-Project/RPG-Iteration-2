@@ -10,7 +10,7 @@ import java.io.IOException;
 public class SpriteLoader {
     public static BufferedImage loadImage(String path){
         try {
-            return ImageIO.read(new File("res" + path));
+            return ImageIO.read(new File("../res" + path));
         } catch (IOException e) {
             e.printStackTrace();
         }
