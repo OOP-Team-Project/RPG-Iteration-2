@@ -181,11 +181,11 @@ public class GameState extends State {
 
         //v2
         List<String> list2 = new ArrayList<String>();
-        list.add("My name is John Cena. I'm an internet sensation.");
-        list.add("What does anyone do anywhere?");
-        list.add("The Detroit Tigers?");
-        list.add("So many things.");
-        list.add("I suppose so.");
+        list2.add("My name is John Cena. I'm an internet sensation.");
+        list2.add("What does anyone do anywhere?");
+        list2.add("The Detroit Tigers?");
+        list2.add("So many things.");
+        list2.add("I suppose so.");
 
         TakeableItem dagger = new Dagger("Kujik Dagger");
         TakeableItem bnr = new BowAndArrow("Wind Force", 50, 2, 2);
