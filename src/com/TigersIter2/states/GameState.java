@@ -33,7 +33,6 @@ public class GameState extends State {
     private ItemManager itemManager;
     private AreaEffectManager aem;
     private AvatarMapInteract avatarMapInteract;
-    private AreaEffect effect;
 
     //Views
     private AvatarView avatarView;
@@ -83,16 +82,6 @@ public class GameState extends State {
         itemManager = new ItemManager(avatar);
 
 
-        SkillTree st = new SkillTree(avatar.getPlayerStats());
-        smv = new SkillManagementView(st);
-
-
-       // avatar.getInventory().addItem(new Potion("Health Potion"));
-       // avatar.getInventory().addItem(new Potion("Strength Potion"));
-       // avatar.getInventory().addItem(new Weapon("Battle Axe"));
-
-
-
         itemManager.addItem(potion);
         itemManager.addItem(butterKnife);
         itemManager.addItem(axe);
@@ -104,84 +93,274 @@ public class GameState extends State {
         avatar.getInventory().addItem(axe);
         avatar.getInventory().addItem(breastplate);
 
+        SkillTree st = new SkillTree(avatar.getPlayerStats());
 
-
-        //avatar.setAttackTime(1000);
+        smv = new SkillManagementView(st);
 
         ant = new AvatarNPCInteract(avatar, footerView);
 
-//        //THIS IS ALL FOR TESTING. WILL NOT STAY HERE
-//        ant.addVehicle(new Vehicle("Turtle", 5, true, false));
-//        ant.addVehicle(new Vehicle("Turtle2", 2, true, true));
-//        //ant.addMonster();
-//        List<String> list = new ArrayList<String>();
-//        list.add("My name is John Cena. I'm an internet sensation.");
-//        list.add("What does anyone do anywhere?");
-//        list.add("The Detroit Tigers?");
-//        list.add("So many things.");
-//        list.add("I suppose so.");
-//        TakeableItem ohSword = new Sword("Sword");
-//        itemManager.addItem(ohSword);
-//        ant.addVillager(list, true, true, false);
-//        ant.getNpcList().get(0).getInventory().addItem(ohSword);
-//        ant.addMonster();
-//
-//        //testing for item interactions
-//        Item item = new Key("Key", 1);
-//        item.setLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight + 200,0));
-//        Item obstacle = new Obstacle();
-//        obstacle.setLocation(new Location(10 * StaticVar.terrainImageWidth + 400,10 * StaticVar.terrainImageHeight,0));
-//        Item interactive = new Interactive(1);
-//        interactive.setLocation(new Location(10 * StaticVar.terrainImageWidth + 200,10 * StaticVar.terrainImageHeight + 200,0));
-//        Item oneShot = new OneShot();
-//        oneShot.setLocation(new Location(10 * StaticVar.terrainImageWidth + 200,10 * StaticVar.terrainImageHeight,0));
-//
-//        itemManager.addItem(obstacle);
-//        itemManager.addItem(item);
-//        itemManager.addItem(interactive);
-//        itemManager.addItem(oneShot);
+        aem = new AreaEffectManager(avatar);
+
 
         /**
-         * Rokas's map. First initializing monsters/villages/vehicles
+         * Rokas's map. First initializing monsters/villagers/vehicles
           */
 
+        //vehicles
         Vehicle v1 = new Vehicle("Turtle", 5, true, false);
-        Location l1 = LocationConverter.HexLocationToPixel(new Location(2,1,0));
-        l1.incrementX(+45);
-        l1.incrementY(+35);
-        v1.setLocation(l1);
+        Location vehileLocation1 = LocationConverter.HexLocationToPixel(new Location(2,1,0));
+        vehileLocation1.incrementX(+45);
+        vehileLocation1.incrementY(+35);
+        v1.setLocation(vehileLocation1);
+
         ant.addVehicle(v1);
+
+
+        Vehicle v2 = new Vehicle("Turtle2", 5, true, true);
+        Location vehileLocation0 = LocationConverter.HexLocationToPixel(new Location(18,11,0)); // 18,12,0
+        vehileLocation0.incrementX(+45);
+        vehileLocation0.incrementY(+35);
+        v2.setLocation(vehileLocation0);
+
+        ant.addVehicle(v2);
+
+        //villagers
+        //v1
+        List<String> list = new ArrayList<String>();
+        list.add("My name is John Cena. I'm an internet sensation.");
+        list.add("What does anyone do anywhere?");
+        list.add("The Detroit Tigers?");
+        list.add("So many things.");
+        list.add("I suppose so.");
+
+        TakeableItem ohSword = new Sword("Sword");
+        TakeableItem pot1 = new Potion("HP Potion",50);
+        TakeableItem pot2 = new Potion("HP Potion",25);
+        TakeableItem pot3 = new Potion("HP Potion",25);
+        TakeableItem bn = new BrassKnuckles("Brass Knuckles");
+        itemManager.addItem(ohSword);
+        itemManager.addItem(pot1);
+        itemManager.addItem(pot2);
+        itemManager.addItem(pot3);
+        itemManager.addItem(bn);
+
+        Location villagerLocation1 = LocationConverter.HexLocationToPixel(new Location(8,12,0));
+        villagerLocation1.incrementX(StaticVar.terrainImageWidth/2);
+        villagerLocation1.incrementY(StaticVar.terrainImageHeight/2);
+
+        ant.addVillager(list, true, true, false, villagerLocation1);
+        ant.getNpcList().get(0).getInventory().addItem(ohSword);
+        ant.getNpcList().get(0).getInventory().addItem(pot1);
+        ant.getNpcList().get(0).getInventory().addItem(pot2);
+        ant.getNpcList().get(0).getInventory().addItem(pot3);
+        ant.getNpcList().get(0).getInventory().addItem(bn);
+
+        //v2
+        List<String> list2 = new ArrayList<String>();
+        list.add("My name is John Cena. I'm an internet sensation.");
+        list.add("What does anyone do anywhere?");
+        list.add("The Detroit Tigers?");
+        list.add("So many things.");
+        list.add("I suppose so.");
+
+        TakeableItem dagger = new Dagger("Kujik Dagger");
+        TakeableItem bnr = new BowAndArrow("Wind Force", 50, 2, 2);
+        TakeableItem tk = new ThrowingKnife("Ninja Stars", 25, 2, 2);
+        itemManager.addItem(dagger);
+        itemManager.addItem(bnr);
+
+        Location villagerLocation2 = LocationConverter.HexLocationToPixel(new Location(17,11,0));
+        villagerLocation2.incrementX(StaticVar.terrainImageWidth/2);
+
+        ant.addVillager(list2, true, true, false, villagerLocation2);
+        ant.getNpcList().get(0).getInventory().addItem(dagger);
+
+        //monsters
+        //m1
+        Location monsterLocation1 = LocationConverter.HexLocationToPixel(new Location(2,4,0));
+        monsterLocation1.incrementX(50);
+        monsterLocation1.incrementY(50);
+        ant.addMonster(monsterLocation1);
+
+        //m2
+        Location monsterLocation2 = LocationConverter.HexLocationToPixel(new Location(2,12,0));
+        monsterLocation2.incrementX(50);
+        monsterLocation2.incrementY(50);
+        ant.addMonster(monsterLocation2);
+
+        //m3
+        Location monsterLocation3 = LocationConverter.HexLocationToPixel(new Location(10,17,0));
+        monsterLocation3.incrementX(50);
+        monsterLocation3.incrementY(50);
+        ant.addMonster(monsterLocation3);
+
+        //m4
+        Location monsterLocation4 = LocationConverter.HexLocationToPixel(new Location(18,16,0));
+        monsterLocation4.incrementX(50);
+        monsterLocation4.incrementY(50);
+        ant.addMonster(monsterLocation2);
+
+        //m5
+        Location monsterLocation5 = LocationConverter.HexLocationToPixel(new Location(14,4,0));
+        monsterLocation5.incrementX(50);
+        monsterLocation5.incrementY(50);
+        ant.addMonster(monsterLocation5);
+
+        //m6
+        Location monsterLocation6 = LocationConverter.HexLocationToPixel(new Location(10,2,0));
+        monsterLocation6.incrementX(50);
+        monsterLocation6.incrementY(50);
+        ant.addMonster(monsterLocation6);
+
+        //m7
+        Location monsterLocation7 = LocationConverter.HexLocationToPixel(new Location(8,7,0));
+        monsterLocation7.incrementX(50);
+        monsterLocation7.incrementY(50);
+        ant.addMonster(monsterLocation7);
+
+        //m8
+        Location monsterLocation8 = LocationConverter.HexLocationToPixel(new Location(12,12,0));
+        monsterLocation8.incrementX(50);
+        monsterLocation8.incrementY(50);
+        ant.addMonster(monsterLocation8);
+
+        //m9
+        Location monsterLocation9 = LocationConverter.HexLocationToPixel(new Location(16,15,0));
+        monsterLocation9.incrementX(50);
+        monsterLocation9.incrementY(50);
+        ant.addMonster(monsterLocation9);
+
+
+
         /**
          * Now initializing items
          */
-        Item item = new Key("Key", 1);
-        item.setLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight + 200,0));
-        Item obstacle = new Obstacle();
-        Location l2 = LocationConverter.HexLocationToPixel(new Location(3,5,0));
-        l2.incrementX(-45);
-//        obstacle.setLocation(l2);
-        Item interactive = new Interactive(1);
-        interactive.setLocation(l2);
-        Item oneShot = new OneShot();
-        oneShot.setLocation(new Location(10 * StaticVar.terrainImageWidth + 200,10 * StaticVar.terrainImageHeight,0));
+        //kay to the lock
+        Item key1 = new Key("Key", 1);
+        Location keyLocation = LocationConverter.HexLocationToPixel(new Location(17,18,0));
+        keyLocation.incrementX(+35);
+        keyLocation.incrementY(10);
+        key1.setLocation(keyLocation);
 
-//        itemManager.addItem(obstacle);
-        itemManager.addItem(item);
-        itemManager.addItem(interactive);
-        itemManager.addItem(oneShot);
+        //lock
+        Item interactive1 = new Interactive(1);
+        Location l2 = LocationConverter.HexLocationToPixel(new Location(2,5,0));
+        l2.incrementX(+35);
+        l2.incrementY(60);
+        interactive1.setLocation(l2);
+
+        //obstacles
+        Item obstacle1 = new Obstacle();
+        Location obstacleLocation1 = LocationConverter.HexLocationToPixel(new Location(4,16,0));
+        obstacleLocation1.incrementX(30);
+        obstacleLocation1.incrementY(45);
+        obstacle1.setLocation(obstacleLocation1);
+
+        Item obstacle2 = new Obstacle();
+        Location obstacleLocation2 = LocationConverter.HexLocationToPixel(new Location(3,17,0));
+        obstacleLocation2.incrementX(30);
+        obstacle2.setLocation(obstacleLocation2);
+
+        //one shot
+        Item oneShot1 = new OneShot();
+        Location oneShotLocation1 = LocationConverter.HexLocationToPixel(new Location(2,18,0));
+        oneShotLocation1.incrementX(39);
+        oneShotLocation1.incrementY(60);
+        oneShot1.setLocation(oneShotLocation1);
+
+        itemManager.addItem(key1);
+        itemManager.addItem(interactive1);
+        itemManager.addItem(obstacle1);
+        itemManager.addItem(obstacle2);
+        itemManager.addItem(oneShot1);
+
+        /**
+         * area effects
+         */
+        //trap1
+        AreaEffect trap1 = new Trap();
+        Location trapLocation1 = LocationConverter.HexLocationToPixel(new Location(14,13,0));
+        trapLocation1.incrementX(45);
+        trapLocation1.incrementY(65);
+        trap1.setLocation(trapLocation1);
+        aem.addEffect(trap1);
+
+        //heal damage
+        AreaEffect healDamage = new HealDamage();
+        Location healDamageLocation = LocationConverter.HexLocationToPixel(new Location(18,14,0));
+        healDamageLocation.incrementX(40);
+        healDamageLocation.incrementY(-30);
+        healDamage.setLocation(healDamageLocation);
+        aem.addEffect(healDamage);
+
+        //instadeath
+        AreaEffect instaDeath = new InstantDeath();
+        Location instaDeathLocation = LocationConverter.HexLocationToPixel(new Location(4,11,0));
+        instaDeathLocation.incrementX(40);
+        instaDeathLocation.incrementY(60);
+        instaDeath.setLocation(instaDeathLocation);
+        aem.addEffect(instaDeath);
+
+        //level up
+        AreaEffect levelUp = new LevelUp();
+        Location levelUpLocation = LocationConverter.HexLocationToPixel(new Location(18,12,0));
+        levelUpLocation.incrementX(40);
+        levelUpLocation.incrementY(60);
+        levelUp.setLocation(levelUpLocation);
+        aem.addEffect(levelUp);
+
+        //level up
+        AreaEffect levelUp2 = new LevelUp();
+        Location levelUpLocation2 = LocationConverter.HexLocationToPixel(new Location(2,2,0));
+        levelUpLocation2.incrementX(40);
+        levelUpLocation2.incrementY(60);
+        levelUp2.setLocation(levelUpLocation2);
+        aem.addEffect(levelUp2);
+
+        //take damage
+        AreaEffect takeDamage1 = new TakeDamage();
+        Location takeDamagelocation1 = LocationConverter.HexLocationToPixel(new Location(10,16,0));
+        takeDamagelocation1.incrementX(40);
+        takeDamagelocation1.incrementY(60);
+        takeDamage1.setLocation(takeDamagelocation1);
+        aem.addEffect(takeDamage1);
+
+        //take damage
+        AreaEffect takeDamage2 = new TakeDamage();
+        Location takeDamagelocation2 = LocationConverter.HexLocationToPixel(new Location(10,15,0));
+        takeDamagelocation2.incrementX(40);
+        takeDamagelocation2.incrementY(60);
+        takeDamage2.setLocation(takeDamagelocation2);
+        aem.addEffect(takeDamage2);
+
+        //teleport1
+        Location targetTeleportLoc1 = LocationConverter.HexLocationToPixel(new Location(1,18,0));
+        targetTeleportLoc1.incrementX(30);
+        AreaEffect teleport1 = new Teleport(targetTeleportLoc1);
+        Location sourceTeleportLoc1 = LocationConverter.HexLocationToPixel(new Location(10,1,0));
+        sourceTeleportLoc1.incrementX(40);
+        sourceTeleportLoc1.incrementY(66);
+        teleport1.setLocation(sourceTeleportLoc1);
+        aem.addEffect(teleport1);
+
+        //teleport2
+        Location targetTeleportLoc2 = LocationConverter.HexLocationToPixel(new Location(8,12,0));
+        targetTeleportLoc2.incrementX(30);
+        targetTeleportLoc2.incrementY(40);
+        AreaEffect teleport2 = new Teleport(targetTeleportLoc2);
+        Location sourceTeleportLoc2 = LocationConverter.HexLocationToPixel(new Location(3,18,0));
+        sourceTeleportLoc2.incrementX(40);
+        sourceTeleportLoc2.incrementY(120);
+        teleport2.setLocation(sourceTeleportLoc2);
+        aem.addEffect(teleport2);
 
 
-        // for testing Teleport
-        aem = new AreaEffectManager(avatar);
-        //Location dest = new Location(10 * StaticVar.terrainImageWidth +500,10 * StaticVar.terrainImageHeight+500, 0);
-        //effect = new Teleport(dest);
-        effect = new Trap();
-        effect.setLocation(new Location(10 * StaticVar.terrainImageWidth-200,10 * StaticVar.terrainImageHeight,0));
-        //effect.setPixelLocation(new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight+300,0));
-        aem.addEffect(effect);
-//
-//        //pull in all pictures for GameState
+//        Location monsterLocation10 = LocationConverter.HexLocationToPixel(new Location(15,13,0));
+//        monsterLocation10.incrementX(50);
+//        monsterLocation10.incrementY(50);
+//        ant.addMonster(monsterLocation10);
 
+       //pull in all pictures for GameState
         //Technically only one of these will need to be initialized
         WizardSprite.init();
         SmasherSprite.init();
