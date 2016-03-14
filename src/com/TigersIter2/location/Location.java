@@ -48,9 +48,11 @@ public class Location {
     public String toString() { return "(" + x + ", " + y + ")"; }
 
     public int getDistance(Location l) {
-        int xDistance = Math.abs(l.getX() - x);
-        int yDistance = Math.abs(l.getY() - y);
-        return Math.max(xDistance, yDistance);
+
+        int dx = Math.abs(x - l.x);
+        int dy = Math.abs(getCubeY() - l.getCubeY());
+        int dz = Math.abs(getCubeZ() - l.getCubeZ());
+        return Math.max(dx, Math.max(dy, dz));
     }
 
     public boolean equals(Object o) {
@@ -59,6 +61,13 @@ public class Location {
             return x == location.x && y == location.y;
         }
         return false;
+    }
+
+    private int getCubeY() {
+        return (int)(Math.ceil(x / -2)) + y;
+    }
+    private int getCubeZ() {
+        return -(x + getCubeY());
     }
 
     public int hashCode() {

@@ -43,6 +43,7 @@ public class Avatar extends Entity{
     public Avatar(){
 
         //loads in everything besides equipment and
+
         loadAvatar();
 
     }
@@ -73,7 +74,7 @@ public class Avatar extends Entity{
                 Location l = LocationConverter.PixelLocationToHex(location);
                 l.incrementX(i - viewDistance / 2);
                 l.incrementY(j - viewDistance / 2);
-                exploredTiles.add(l);
+                if (canSeeHex(l)) exploredTiles.add(l);
             }
         }
 
