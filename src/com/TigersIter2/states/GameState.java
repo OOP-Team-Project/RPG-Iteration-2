@@ -280,7 +280,8 @@ public class GameState extends State {
          */
         //trap1
         AreaEffect trap1 = new Trap();
-        Location trapLocation1 = LocationConverter.HexLocationToPixel(new Location(14,13));
+        //Location trapLocation1 = LocationConverter.HexLocationToPixel(new Location(14,13));
+        Location trapLocation1 = LocationConverter.HexLocationToPixel(new Location(8,9));
         trapLocation1.incrementX(45);
         trapLocation1.incrementY(65);
         trap1.setLocation(trapLocation1);
@@ -464,7 +465,7 @@ public class GameState extends State {
         }
         petManager.updatePetPos(xMov, yMov, elapsed);
         petManager.stealItem();
-        petManager.startFight(ant.getNpcList());
+        //petManager.startFight(ant.getNpcList());
         for(NPCMapInteract npcInteract : npcMapInteract) {
             NPC n = npcInteract.getNpc();
             if (n instanceof Monster) {

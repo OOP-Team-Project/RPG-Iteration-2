@@ -56,8 +56,14 @@ public class AreaEffectManager {
                 }
             }
             else{
-                if(entityOnTile instanceof Avatar)
-                    ((Avatar)entityOnTile).setIsTrapped(false);
+                if(entityOnTile instanceof Avatar) {
+                    if(effect instanceof Trap)
+                        if(((Trap) effect).isActive()) {
+                            ((Avatar) entityOnTile).setIsTrapped(false);
+                            ((Trap) effect).setActive(false);
+                        }
+
+                }
             }
         }
     }

@@ -58,6 +58,8 @@ public class Avatar extends Entity{
     //Should be named updatePosition -Sam
     @Override
     public void update(int xMovement, int yMovement, long elapsed) {
+        if(isTrapped)
+            return;
         if(xMovement == 0 && yMovement == 0){
             currentlyMoving = false;
         }
