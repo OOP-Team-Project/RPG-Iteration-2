@@ -23,4 +23,12 @@ public class RangedWeaponItem extends Weapon {
         sm.setInfluenceRadius(range);
         weaponType = "RangedWeapon";
     }
+
+    public int getRange() {
+        return range;
+    }
+
+    public int getAngle() {
+        return angle;
+    }
 }

@@ -22,4 +22,8 @@ public class TwoHandedWeaponItem extends Weapon{
         sm.setMovement(sm.getMovement()-decreaseMovement);
         weaponType = "TwoHandedWeapon";
     }
+
+    public int getDecreaseMovement() {
+        return decreaseMovement;
+    }
 }

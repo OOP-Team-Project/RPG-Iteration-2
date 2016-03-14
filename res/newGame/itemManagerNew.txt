@@ -1,6 +1,23 @@
 inventory:
+0 BreastPlate 2 4
+5 Potion10 10
+2 Key 1
+6 OneHanded SmallSword
+6 TwoHanded BigSword 1
+6 Ranged Crossbow3 1 1 0
+6 Brawling BoxingGloves
 null
 equipment:
+0 BreastPlate 2 4
 null
 map:
-null;
+0 BreastPlate 2 4 500 500
+5 Potion10 10 450 450
+2 Key 1 300 300
+6 OneHanded SmallSword 200 200
+6 TwoHanded BigSword 1 100 100
+6 Ranged Crossbow3 1 1 0 50 50
+6 Brawling BoxingGloves 600 600
+3 2000 1000
+4 1200 1200
+null
