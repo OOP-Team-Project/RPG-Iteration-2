@@ -31,6 +31,7 @@ public abstract class NPC extends Entity{
     protected boolean isVillager;
     private boolean canAttack = true;
     private boolean onTileWithAvatar = false;
+    private boolean isAttacking = false;
 
 
     public NPC(){
@@ -141,6 +142,18 @@ public abstract class NPC extends Entity{
 
     public boolean isCurrentlyMoving() {
         return currentlyMoving;
+    }
+
+    public void setCurrentlyMoving(boolean b){
+        currentlyMoving = b;
+    }
+
+    public boolean getIsAttacking(){
+        return isAttacking;
+    }
+
+    public void setIsAttacking(boolean b){
+        isAttacking = b;
     }
 
     public boolean willTalk(){
