@@ -33,7 +33,7 @@ public class GameState extends State {
     private ItemManager itemManager;
     private AreaEffectManager aem;
     private AvatarMapInteract avatarMapInteract;
-    private NPCMapInteract npcMapInteract;
+    private List<NPCMapInteract> npcMapInteract;
     private AreaEffect effect;
 
     //Views
@@ -69,6 +69,7 @@ public class GameState extends State {
         npcViews = new ArrayList<NPCView>();
         itemViews = new ArrayList<ItemView>();
         areaEffectViews = new ArrayList<AreaEffectView>();
+        npcMapInteract = new ArrayList<NPCMapInteract>();
         map = new TerrainMap(StaticVar.map1);
         avatar = new Avatar();
         avatarMapInteract = new AvatarMapInteract(avatar, map);
@@ -127,7 +128,7 @@ public class GameState extends State {
         ant.getNpcList().get(0).getInventory().addItem(ohSword);
         ant.addMonster();
         for (NPC n : ant.getNpcList()){
-            npcMapInteract = new NPCMapInteract(n, map);
+            npcMapInteract.add(new NPCMapInteract(n, map));
         }
 
         //testing for item interactions
@@ -247,15 +248,17 @@ public class GameState extends State {
             avatar.update(xMov, yMov, elapsed);
         }
         // For NPC movements
-        for(NPC n : ant.getNpcList()) {
-            int npcXmov = npcMapInteract.getxMov(n);
-            int npcYmov = npcMapInteract.getyMov(n);
-            boolean npcCanMove = itemManager.checkTile(elapsed, npcXmov, npcYmov); //returns false if item is an obstacle
-            if (npcCanMove){
-                //npcMapInteract.updateNPCPos(n, elapsed, npcXmov, npcYmov);
-                npcMapInteract.updateNPCPos(n, elapsed, npcXmov, npcYmov);
-                System.out.println(n.getLocation().toString());
-            }
+        for(NPCMapInteract npcInteract : npcMapInteract) {
+            NPC n = npcInteract.getNpc();
+//            int npcXmov = npcInteract.getxMov(n);
+//            int npcYmov = npcInteract.getyMov(n);
+//            boolean npcCanMove = itemManager.checkTile(elapsed, npcXmov, npcYmov); //returns false if item is an obstacle
+//            if (npcCanMove){
+//                //npcMapInteract.updateNPCPos(n, elapsed, npcXmov, npcYmov);
+//                npcInteract.updateNPCPos(n, elapsed, npcXmov, npcYmov);
+//                System.out.println(n.getLocation().toString());
+//            }
+            npcInteract.updateNPCPos(elapsed);
         }
 
         View.update(controller.getCameraXMovement(), controller.getCameraYMovement(), elapsed);

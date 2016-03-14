@@ -13,54 +13,44 @@ import java.util.Random;
  */
 public class NPCMapInteract {
 
-    //private NPC npc;
+    private NPC npc;
     private TerrainMap map;
     private int direction;
     private int xMov;
     private int yMov;
 
     public NPCMapInteract(NPC npc, TerrainMap map){
-        //this.npc = npc;
+        this.npc = npc;
         this.map = map;
         direction = npc.getDirection();
         // this initiates xMov and yMov
         convertDegreesToCoord(direction);
     }
 
-    public void updateNPCPos(NPC npc, long elapsed, int xMov, int yMov){
-
-        //Location nextLocation = new Location(avatar.getLocation());
-        Location nextLocation = new Location(0, 0, 0);
-        nextLocation.setX(npc.getLocation().getX());
-        nextLocation.setY(npc.getLocation().getY());
-
-        nextLocation.incrementX(Math.round(xMov * elapsed * StaticVar.entitySpeed*npc.getStats().getMovement()));
-        nextLocation.incrementY(Math.round(yMov * elapsed * StaticVar.entitySpeed*npc.getStats().getMovement()));
+    public void updateNPCPos(long elapsed){
 
         // if next is passable, continue in same direction
-        int terrain = map.getTerrainType(LocationConverter.PixelLocationToHex(nextLocation));
-        if (terrain == 1){
-            convertDegreesToCoord(npc.getDirection());
-            npc.update(xMov, yMov, elapsed);
-        }
-        else{
-            // Changes xMov and yMov by random direction
+        int terrain = map.getTerrainType(LocationConverter.PixelLocationToHex(getNextLocation(elapsed)));
+        if (terrain == 2 || terrain == 3){
             convertDegreesToCoord(randomDirection(npc));
+            npc.update(xMov, yMov, elapsed);
             npc.changeDirection(xMov, yMov);
-            System.out.println("Moving in different direction");
+        }
+        else if(terrain == 1){
+            npc.update(xMov, yMov, elapsed);
         }
 
     }
 
     public int getxMov(NPC npc){
-        direction = npc.getDirection();
+        //direction = npc.getDirection();
         // this initiates xMov and yMov
         convertDegreesToCoord(direction);
         return xMov;
     }
 
     public int getyMov(NPC npc){
-        direction = npc.getDirection();
+//        direction = npc.getDirection();
         // this initiates xMov and yMov
         convertDegreesToCoord(direction);
         return yMov;
@@ -100,9 +90,11 @@ public class NPCMapInteract {
         return directionArray[rnd];
     }
 
+    public NPC getNpc(){
+        return npc;
+    }
 
-
-    public Location getNextLocation(NPC npc, long elapsed){
+    public Location getNextLocation(long elapsed){
         Location nextLocation = new Location(0, 0, 0);
         nextLocation.setX(npc.getLocation().getX());
         nextLocation.setY(npc.getLocation().getY());
