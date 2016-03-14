@@ -75,8 +75,8 @@ public class GameState extends State {
         npcMapInteract = new ArrayList<NPCMapInteract>();
         map = new TerrainMap(StaticVar.map2);
         avatar = new Avatar();
-        Location avatarLoc = LocationConverter.HexLocationToPixel(new Location(8,11));
-        avatar.setLocation(avatarLoc);
+        //Location avatarLoc = LocationConverter.HexLocationToPixel(new Location(8,11));
+        //avatar.setLocation(avatarLoc);
         View.setAvatar(avatar);
         avatarMapInteract = new AvatarMapInteract(avatar, map);
 
@@ -509,6 +509,7 @@ public class GameState extends State {
 
         if (controller.getKeyPressed() == KeyEvent.VK_SPACE) {
             avatar.saveAvatar();
+            itemManager.saveItems();
             stateManager.setState(StateManager.MAINMENU);
         }
     }

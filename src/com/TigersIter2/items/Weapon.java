@@ -21,5 +21,7 @@ public class Weapon extends TakeableItem {
         equippable = true;
     }
 
-
+    public int getDamageModifier() {
+        return damageModifier;
+    }
 }

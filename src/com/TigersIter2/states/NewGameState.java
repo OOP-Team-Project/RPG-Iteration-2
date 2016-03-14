@@ -50,6 +50,9 @@ public class NewGameState extends State {
             FileWriter.stringToFile(StaticVar.avatarFile,("Occupation:\n" + avatarSel));
             String additionalAvatarinfo = FileReader.fileToString(StaticVar.avatarNewFile);
             FileWriter.stringToAppendFile(StaticVar.avatarFile,additionalAvatarinfo);
+
+            FileWriter.stringToFile(StaticVar.itemManagerFile, FileReader.fileToString(StaticVar.itemManagerNewFile));
+
             stateManager.setState(StateManager.GAME);
         }
     }

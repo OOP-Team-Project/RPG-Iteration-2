@@ -3,6 +3,7 @@ package com.TigersIter2.managers;
 import java.util.*;
 
 import com.TigersIter2.assets.FileReader;
+import com.TigersIter2.assets.FileWriter;
 import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.entities.Avatar;
 import com.TigersIter2.items.*;
@@ -301,6 +302,94 @@ public class ItemManager {
             }
             tracker++;
         }
+    }
+
+    public void saveHelperFunction(StringBuilder saveString, Item item){
+        saveString.append(item.getItemType() + " ");
+        switch (item.getItemType()) {
+            case StaticVar.armorItemType:
+                Armor newArmor = (Armor) item;
+                saveString.append(newArmor.toString() + " " + newArmor.getStatsModifier().getArmor() + " " + newArmor.getArmorSlot());
+                break;
+            case StaticVar.weaponItemType:
+
+                if (((TakeableItem) item).getWeaponType().equals("OneHandedWeapon")){
+                    saveString.append("OneHanded ");
+                    saveString.append(item.toString() );
+                }
+                else if (((TakeableItem) item).getWeaponType().equals("TwoHandedWeapon")){
+                    saveString.append("TwoHanded ");
+                    TwoHandedWeaponItem newTHW = (TwoHandedWeaponItem) item;
+                    saveString.append(item.toString() + " " + newTHW.getDecreaseMovement() );
+                }
+                else if (((TakeableItem) item).getWeaponType().equals("RangedWeapon")){
+                    saveString.append("Ranged ");
+                    RangedWeaponItem newRW = (RangedWeaponItem) item;
+                    saveString.append(newRW.toString() + " " + newRW.getDamageModifier() + " " + newRW.getRange() + " " + newRW.getAngle() );
+                }
+                else if (((TakeableItem) item).getWeaponType().equals("Brawling")){
+                    saveString.append("Brawling ");
+                    saveString.append(item.toString() );
+                }
+                else{
+                    saveString.append(item.toString() );
+                }
+                break;
+            case StaticVar.keyItemType:
+                Key newKey = (Key) item;
+                saveString.append(newKey.toString() + " " + newKey.getItemCode() );
+                break;
+            case StaticVar.potionItemType:
+                Potion newPotion = (Potion) item;
+                saveString.append(newPotion.toString() + " " + newPotion.getStatsModifier().getLife() );
+                break;
+            case StaticVar.interactiveItemType:
+                Interactive newI = (Interactive) item;
+                saveString.append(newI.getItemCode() );
+                break;
+            case StaticVar.obstacleItemType:
+                break;
+            case StaticVar.oneShotItemType:
+                break;
+            default:
+                break;
+
+        }
+    }
+
+    public void saveItems(){
+        StringBuilder saveString = new StringBuilder();
+
+        saveString.append("inventory:\n");
+
+        //read in inventory
+        for(int i = 0; i < avatarInventory.getItems().size(); i++) {
+            saveHelperFunction(saveString, avatarInventory.getItemAtIndex(i));
+            saveString.append("\n");
+        }
+        saveString.append("null\n");
+
+        //saves equipment
+        saveString.append("equipment:\n");
+        for(int i = 0; i < avatar.getEquipment().getItems().size(); i++) {
+            saveHelperFunction(saveString, avatar.getEquipment().getItemAtIndex(i));
+            saveString.append("\n");
+        }
+
+        saveString.append("null\n");
+
+
+        //save map items
+
+        saveString.append("map:\n");
+        for(int i = (avatarInventory.getItems().size() + avatar.getEquipment().getItems().size()); i < itemList.size(); i++){
+            saveHelperFunction(saveString, itemList.get(i));
+            saveString.append(" " + itemList.get(i).getLocation().getX() + " " + itemList.get(i).getLocation().getY() + "\n");
+        }
+
+        saveString.append("null\n");
+
+        FileWriter.stringToFile(StaticVar.itemManagerFile, saveString.toString());
     }
 
 
