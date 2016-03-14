@@ -9,11 +9,12 @@ public class StaticVar {
     public static String map1 = "res/saveFiles/terrainMap.txt";
     public static String map2 = "res/saveFiles/terrainMap2.txt";
     public static String avatarFile = "res/saveFiles/avatar.txt";
+    public static String avatarNewFile = "res/newGame/avatar.txt";
 
     public static final int gameHeight = 720;//720;
     public static final int gameWidth = 1280;//1280;
 
-    public static final int fps = 30;
+    public static final int fps = 60;
 
 
     public static final int terrainImageHeight = 96;    //Was 64 before evil Miles Came
@@ -23,7 +24,7 @@ public class StaticVar {
     public static final int entityImageHeight = 128;
     public static final int entityImageWidth = 128;
 
-    public static final float entitySpeed = .02f;
+    public static final float entitySpeed = .001f;
     public static final float cameraSpeed = .7f;
 
 
@@ -42,12 +43,16 @@ public class StaticVar {
     public static final int monsterImageWidth = 100;
     public static final int itemImageHeight = 100;
     public static final int itemImageWidth = 100;
+    public static final int petImageHeight = 100;
+    public static final int petImageWidth = 100;
+
     public static final int areaEffectImageHeight = 100;
     public static final int areaEffectImageWidth = 100;
     public static final int skillImageHeight = 150;
     public static final int skillImageWidth = 150;
     public static final int attackImageHeight = 100;
     public static final int attackImageWidth = 100;
+
 
 
     //MapView Conventional Stuff (Miles)
@@ -63,6 +68,12 @@ public class StaticVar {
     public static final int smasher = 1;
     public static final int summoner = 2;
     public static final int sneak = 3;
+
+    //item loading stuff
+    public static final int armorItemType = 0;
+    public static final int keyItemType = 2;
+    public static final int potionItemType = 5;
+    public static final int weaponItemType = 6;
 
 
     public static enum mapMode {

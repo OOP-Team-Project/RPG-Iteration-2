@@ -415,11 +415,13 @@ public class AvatarNPCInteract {
 
     private void useBoon(String spellName){
         if(((Boon)avatar.getSkills().getSkill(spellName)).activate());
+        avatar.resetTimeUntilAttack();
     }
 
     private void useEnchantment(String spellName){
         if(playerCanAttack) {
             playerCanAttack = false;
+            avatar.resetTimeUntilAttack();
             //Check your position/direction/range against the NPC's in the list
             Iterator<NPC> iter = npcList.iterator();
             while (iter.hasNext()) {
@@ -443,6 +445,7 @@ public class AvatarNPCInteract {
         int error = getObservationError();
         if(playerCanAttack) {
             playerCanAttack = false;
+            avatar.resetTimeUntilAttack();
             //Check your position/direction/range against the NPC's in the list
             Iterator<NPC> iter = npcList.iterator();
             while (iter.hasNext()) {
@@ -499,10 +502,33 @@ public class AvatarNPCInteract {
         return damage;
     }
 
+    private void setDirectionTowardsPlayer(NPC npc){
+        int x = LocationConverter.PixelLocationToHex(avatar.getLocation()).getX() - LocationConverter.PixelLocationToHex(npc.getLocation()).getX();
+        int y = LocationConverter.PixelLocationToHex(avatar.getLocation()).getY() - LocationConverter.PixelLocationToHex(npc.getLocation()).getY();
+        if(LocationConverter.PixelLocationToHex(npc.getLocation()).getY() % 2 == 1) {
+            if (y == 0)
+                npc.changeDirection(x, 1);
+            else
+                npc.changeDirection(x, y);
+        }
+        else{
+            if (y == 0)
+                npc.changeDirection(x, -1);
+            else
+                npc.changeDirection(x, y);
+        }
+    }
+
     private void retaliate(NPC npc){
+        if(playerInRange(npc)) {
+            npc.setIsAttacking(true);
+            setDirectionTowardsPlayer(npc);
+        }
+        else
+            npc.setIsAttacking(false);
         if(npc.getCanAttack() && !avatar.getStats().isDead()) {
             if(playerInRange(npc)) {
-                footerView.setDisplay(false);
+                //footerView.setDisplay(false);
                 footerView.setTradingView(false);
                 avatar.setTrading(trading);
                 npc.setWillAttack(true);

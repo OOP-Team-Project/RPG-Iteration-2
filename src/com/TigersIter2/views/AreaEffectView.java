@@ -8,6 +8,7 @@ import com.TigersIter2.entities.Avatar;
 import com.TigersIter2.items.Interactive;
 import com.TigersIter2.items.Item;
 import com.TigersIter2.location.Location;
+import com.TigersIter2.location.LocationConverter;
 import com.TigersIter2.maps.TerrainMap;
 import java.awt.*;
 
@@ -83,8 +84,10 @@ public class AreaEffectView extends View {
             //gotta use that AA
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                     RenderingHints.VALUE_ANTIALIAS_ON);
-
-            drawItem(g2d);
+            Location location = LocationConverter.PixelLocationToHex(pixelLocation);
+            if (aHandle.canSeeHex(location)) {
+                drawItem(g2d);
+            }
 
             g2d.dispose();
         }

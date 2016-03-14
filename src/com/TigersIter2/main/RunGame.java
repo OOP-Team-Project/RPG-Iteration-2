@@ -26,7 +26,7 @@ public class RunGame extends JFrame {
 
         //runGame.setLocationRelativeTo(null); //doesn't work here, added to loadGame(SL)
         runGame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //process quits when x button is pressed
-        runGame.setResizable(true); //Was False but I like to resize things (Miles)
+        runGame.setResizable(false);
         runGame.runGameLoop();
 
 

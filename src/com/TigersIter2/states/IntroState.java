@@ -47,7 +47,7 @@ public class IntroState extends State {
     @Override
     public void update(long elapsed) {
         counter2++;
-        if (counter2>4){
+        if (counter2>8){
             counter2 =0;
             counter1++;
             if (counter1>3) counter1=0;

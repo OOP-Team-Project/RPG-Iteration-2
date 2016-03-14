@@ -4,6 +4,7 @@ import com.TigersIter2.areaEffects.*;
 import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.items.OneHandedWeaponItem;
 import com.TigersIter2.location.Location;
+import com.TigersIter2.managers.PetManager;
 import com.TigersIter2.location.LocationConverter;
 import com.TigersIter2.managers.*;
 import com.TigersIter2.assets.sprites.*;
@@ -28,14 +29,20 @@ public class GameState extends State {
     //Model Data
     private TerrainMap map;
     private Avatar avatar;
+    private Pet pet;
     private Vehicle vehicle;
     private AvatarNPCInteract ant;
     private ItemManager itemManager;
+    private PetManager petManager;
     private AreaEffectManager aem;
     private AvatarMapInteract avatarMapInteract;
+    private List<NPCMapInteract> npcMapInteract;
+
+
 
     //Views
     private AvatarView avatarView;
+    private PetView petView;
     private MapView mapView;
     private AreaView areaView;
     private List<VehicleView> vehicleViews;
@@ -50,7 +57,6 @@ public class GameState extends State {
 
     private MessageView messageView;
     private AttackIndicatorView attackIndicatorView;
-
 
     public GameState(StateManager stateManager, Controller controller){
         super(stateManager, controller);
@@ -67,31 +73,45 @@ public class GameState extends State {
         npcViews = new ArrayList<NPCView>();
         itemViews = new ArrayList<ItemView>();
         areaEffectViews = new ArrayList<AreaEffectView>();
+        npcMapInteract = new ArrayList<NPCMapInteract>();
         map = new TerrainMap(StaticVar.map2);
         avatar = new Avatar();
+        Location avatarLoc = LocationConverter.HexLocationToPixel(new Location(8,11,0));
+        avatar.setLocation(avatarLoc);
         View.setAvatar(avatar);
         avatarMapInteract = new AvatarMapInteract(avatar, map);
-        TakeableItem potion = new Potion("Health Potion", 10);
-        TakeableItem potion2 = new Potion("Health Potion", 10);
-        TakeableItem potion3 = new Potion("Health Potion", 10);
-        TakeableItem butterKnife = new RangedWeaponItem("Crossbow", 1, 1, 0);
-        TakeableItem axe = new SpikedGlove("Battle Axe");
-        TakeableItem breastplate = new Armor("Breastplate", 2, 4);
+
         ant = new AvatarNPCInteract(avatar, footerView);
         vehicleViews = new ArrayList<VehicleView>();
         itemManager = new ItemManager(avatar);
 
+        pet = new Pet("Crab", avatar);
+        petManager = new PetManager(pet, itemManager, avatar, map);
+
+
+
+        TakeableItem potion = new Potion("Health Potion0", 10);
+        TakeableItem potion2 = new Potion("Health Potion1", 10);
+        TakeableItem potion3 = new Potion("Health Potion2", 10);
+        TakeableItem butterKnife = new RangedWeaponItem("Crossbow", 1, 1, 0);
+        TakeableItem axe = new SpikedGlove("Battle Axe");
+        TakeableItem breastplate = new Armor("Breastplate", 2, 4);
+
 
         itemManager.addItem(potion);
+        itemManager.addItem(potion2);
+        itemManager.addItem(potion3);
         itemManager.addItem(butterKnife);
         itemManager.addItem(axe);
         itemManager.addItem(breastplate);
+
         avatar.getInventory().addItem(potion);
         avatar.getInventory().addItem(potion2);
         avatar.getInventory().addItem(potion3);
         avatar.getInventory().addItem(butterKnife);
         avatar.getInventory().addItem(axe);
         avatar.getInventory().addItem(breastplate);
+
 
         SkillTree st = new SkillTree(avatar.getPlayerStats());
 
@@ -155,6 +175,11 @@ public class GameState extends State {
         ant.getNpcList().get(0).getInventory().addItem(pot3);
         ant.getNpcList().get(0).getInventory().addItem(bn);
 
+
+
+
+
+
         //v2
         List<String> list2 = new ArrayList<String>();
         list.add("My name is John Cena. I'm an internet sensation.");
@@ -168,6 +193,7 @@ public class GameState extends State {
         TakeableItem tk = new ThrowingKnife("Ninja Stars", 25, 2, 2);
         itemManager.addItem(dagger);
         itemManager.addItem(bnr);
+        itemManager.addItem(tk);
 
         Location villagerLocation2 = LocationConverter.HexLocationToPixel(new Location(17,11,0));
         villagerLocation2.incrementX(StaticVar.terrainImageWidth/2);
@@ -355,6 +381,10 @@ public class GameState extends State {
         aem.addEffect(teleport2);
 
 
+        for (NPC n : ant.getNpcList()){
+            npcMapInteract.add(new NPCMapInteract(n, map));
+        }
+
 //        Location monsterLocation10 = LocationConverter.HexLocationToPixel(new Location(15,13,0));
 //        monsterLocation10.incrementX(50);
 //        monsterLocation10.incrementY(50);
@@ -366,14 +396,17 @@ public class GameState extends State {
         SmasherSprite.init();
         SneakSprite.init();
         VehicleSprite.init();
+        VehicleSprite2.init();
         VillagerSprite.init();
         MonsterSprite.init();
         ItemSprite.init();
+        PetSprite.init();
         AreaEffectSprite.init();
         SkillsSprite.init();
         AttackSprite.init();
 
         avatarView = new AvatarView(avatar, map);
+        petView = new PetView(pet, avatar, map);
         statusView = new StatusView(avatar);
         for(Vehicle vv : ant.getVehicleList()) {
             vehicleViews.add(new VehicleView(vv, avatar, map));
@@ -385,22 +418,24 @@ public class GameState extends State {
             itemViews.add(new ItemView(i, avatar, map));
         }
 
+
+        mapView = new MapView(map, avatar);
+        areaView =  new AreaView(mapView, avatarView, petView, vehicleViews, footerView, statusView, npcViews, controlView, itemViews, areaEffectViews);
+
         for(AreaEffect aEffect : aem.getAreaEffects()){
             areaEffectViews.add(new AreaEffectView(aEffect, avatar, map));
         }
 
         mapView = new MapView(map, avatar);
-        areaView =  new AreaView(mapView,avatarView, vehicleViews, footerView, statusView, npcViews, controlView, itemViews, areaEffectViews);
+        areaView =  new AreaView(mapView, avatarView, petView, vehicleViews, footerView, statusView, npcViews, controlView, itemViews, areaEffectViews);
+
         this.add(messageView);
         this.add(attackIndicatorView);
         this.add(areaView);
 
-
         areaView.add(smv, 0);
 
-
         System.out.println("GameState initialized");
-
 
     }
 
@@ -446,14 +481,26 @@ public class GameState extends State {
         map.update();
         int xMov = controller.getXMovement();
         int yMov = controller.getyMovement();
+
         boolean avatarCanMove = itemManager.checkTile(elapsed, controller.getXMovement(), controller.getyMovement()); //returns false if item is an obstacle
         if(avatarCanMove && avatarMapInteract.updateAvatarPos(elapsed, xMov, yMov)) {
             avatar.update(xMov, yMov, elapsed);
+
+        }
+        petManager.updatePetPos(xMov, yMov, elapsed);
+        petManager.stealItem();
+        petManager.startFight(ant.getNpcList());
+        for(NPCMapInteract npcInteract : npcMapInteract) {
+            NPC n = npcInteract.getNpc();
+            if (n instanceof Monster) {
+                npcInteract.updateNPCPos(elapsed);
+            }
         }
         View.update(controller.getCameraXMovement(), controller.getCameraYMovement(), elapsed);
         aem.checkTile();
         ant.checkTile();
         handleControllerInput();
+
 
         if(controlView.getDisplay()) {
             int input = controller.getTradeMenuInput();
@@ -486,7 +533,7 @@ public class GameState extends State {
 
 
         if (controller.getKeyPressed() == KeyEvent.VK_SPACE) {
-            stateManager.setState(StateManager.INTRO);
+            stateManager.setState(StateManager.MAINMENU);
         }
     }
 

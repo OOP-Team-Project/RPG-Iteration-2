@@ -12,6 +12,7 @@ public class NPCStats extends Stats {
 
     public NPCStats() {
         super();
+        movement = 4;
         mods = new ArrayList<>();
         influenceRadius = 0;
     }

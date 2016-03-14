@@ -26,6 +26,7 @@ public class ItemManager {
         avatarInventory = avatar.getInventory();
         playerStats = avatar.getPlayerStats();
         itemList = new ArrayList<Item>();
+        //avatar.getInventory().getItems();
     }
 
     public void addItem(Item item) {
@@ -35,6 +36,10 @@ public class ItemManager {
 
     public List<Item> getItemList(){
         return itemList;
+    }
+
+    public void removeItem(int index) {
+        itemList.remove(index);
     }
 
     /*checks the tile player is moving to to see if there is an item on it

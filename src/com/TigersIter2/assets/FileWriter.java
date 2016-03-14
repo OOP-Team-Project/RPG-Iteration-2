@@ -16,12 +16,20 @@ public class FileWriter {
             e.printStackTrace();
         }
     }
+
+    //will cause errors if file doesn't already exist, super inefficient
+    public static void stringToAppendFile(String fileName, String addContent){
+        StringBuilder content = new StringBuilder(FileReader.fileToString(fileName));
+        content.append(addContent);
+        FileWriter.stringToFile(fileName, content.toString());
+    }
+
     public static String intToString(int val){
         try{
             return Integer.toString(val);
         }catch(NumberFormatException e){
             e.printStackTrace();
-            return "0";
+            return "-1";
         }
     }
 }

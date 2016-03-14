@@ -1,5 +1,6 @@
 package com.TigersIter2.items;
 
+import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.stats.StatsModifier;
 
 /**
@@ -15,7 +16,7 @@ public class Armor extends TakeableItem {
         setEquippable(true);
         this.sm = new StatsModifier();
         sm.setArmor(sm.getArmor() + increaseDefense); //increases the defense of the player
-        itemType = 0;
+        itemType = StaticVar.armorItemType;
         equippable = true;
     }
 
