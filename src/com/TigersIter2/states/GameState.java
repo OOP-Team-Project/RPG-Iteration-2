@@ -33,6 +33,7 @@ public class GameState extends State {
     private ItemManager itemManager;
     private AreaEffectManager aem;
     private AvatarMapInteract avatarMapInteract;
+    private List<NPCMapInteract> npcMapInteract;
     private AreaEffect effect;
 
     //Views
@@ -52,7 +53,6 @@ public class GameState extends State {
     private MessageView messageView;
     private AttackIndicatorView attackIndicatorView;
 
-
     public GameState(StateManager stateManager, Controller controller){
         super(stateManager, controller);
     }
@@ -68,10 +68,12 @@ public class GameState extends State {
         npcViews = new ArrayList<NPCView>();
         itemViews = new ArrayList<ItemView>();
         areaEffectViews = new ArrayList<AreaEffectView>();
+        npcMapInteract = new ArrayList<NPCMapInteract>();
         map = new TerrainMap(StaticVar.map1);
         avatar = new Avatar();
         View.setAvatar(avatar);
         avatarMapInteract = new AvatarMapInteract(avatar, map);
+
         TakeableItem potion = new Potion("Health Potion", 10);
         TakeableItem potion2 = new Potion("Health Potion", 10);
         TakeableItem potion3 = new Potion("Health Potion", 10);
@@ -125,6 +127,9 @@ public class GameState extends State {
         ant.addVillager(list, true, true, false);
         ant.getNpcList().get(0).getInventory().addItem(ohSword);
         ant.addMonster();
+        for (NPC n : ant.getNpcList()){
+            npcMapInteract.add(new NPCMapInteract(n, map));
+        }
 
         //testing for item interactions
         Item item = new Key("Key", 1);
@@ -186,12 +191,9 @@ public class GameState extends State {
         this.add(attackIndicatorView);
         this.add(areaView);
 
-
         areaView.add(smv, 0);
 
-
         System.out.println("GameState initialized");
-
 
     }
 
@@ -237,14 +239,24 @@ public class GameState extends State {
         map.update();
         int xMov = controller.getXMovement();
         int yMov = controller.getyMovement();
+
         boolean avatarCanMove = itemManager.checkTile(elapsed, controller.getXMovement(), controller.getyMovement()); //returns false if item is an obstacle
         if(avatarCanMove && avatarMapInteract.updateAvatarPos(elapsed, xMov, yMov)) {
             avatar.update(xMov, yMov, elapsed);
         }
+        // For NPC movements
+        for(NPCMapInteract npcInteract : npcMapInteract) {
+            NPC n = npcInteract.getNpc();
+            if (n instanceof Monster) {
+                npcInteract.updateNPCPos(elapsed);
+            }
+        }
+
         View.update(controller.getCameraXMovement(), controller.getCameraYMovement(), elapsed);
         aem.checkTile();
         ant.checkTile();
         handleControllerInput();
+
 
         if(controlView.getDisplay()) {
             int input = controller.getTradeMenuInput();

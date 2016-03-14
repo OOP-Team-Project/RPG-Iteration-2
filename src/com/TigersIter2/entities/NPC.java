@@ -62,8 +62,8 @@ public abstract class NPC extends Entity{
             currentlyMoving = false;
         }
         else{
-            location.incrementX(xMovement * 5);
-            location.incrementY(yMovement * 5);
+            location.incrementX(xMovement);
+            location.incrementY(yMovement);
             changeDirection(xMovement, yMovement);
             currentlyMoving = true;
         }
@@ -118,7 +118,7 @@ public abstract class NPC extends Entity{
         return location;
     }
 
-    private void changeDirection(int x, int y){
+    public void changeDirection(int x, int y){
         if(x == 0){
             if(y == 1)
                 direction = 270;
