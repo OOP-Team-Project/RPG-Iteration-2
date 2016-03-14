@@ -17,7 +17,6 @@ public class Vehicle extends Entity {
     private boolean currentlyMoving;
     private StatsModifier sm;
 
-
     public Vehicle(String name, int movement, boolean water, boolean mountain){
         this.name = name;
 

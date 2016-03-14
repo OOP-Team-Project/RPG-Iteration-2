@@ -1,10 +1,7 @@
 package com.TigersIter2.views;
 
 import com.TigersIter2.assets.StaticVar;
-import com.TigersIter2.assets.sprites.SmasherSprite;
-import com.TigersIter2.assets.sprites.SneakSprite;
-import com.TigersIter2.assets.sprites.VehicleSprite;
-import com.TigersIter2.assets.sprites.WizardSprite;
+import com.TigersIter2.assets.sprites.*;
 import com.TigersIter2.entities.Avatar;
 import com.TigersIter2.entities.Vehicle;
 import com.TigersIter2.location.Location;
@@ -16,6 +13,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 
 /**
  * Created by slichtenheld on 2/25/2016.
@@ -54,41 +52,71 @@ public class VehicleView extends View implements ActionListener{
     }
 
     private void drawVehicle(Graphics2D g2d){
-        if (vHandle.getDirection() == 45) {
-            if(currentAnimationFrame == 0 || !vHandle.isCurrentlyMoving())
-                g2d.drawImage(VehicleSprite.vehicleUpRight1, pixelLocation.getX(), pixelLocation.getY(), null);
-            else
-                g2d.drawImage(VehicleSprite.vehicleUpRight2, pixelLocation.getX(), pixelLocation.getY(), null);
+        if (vHandle.getCanPassWater()) {        // For the water turtle
+            if (vHandle.getDirection() == 45) {
+                if (currentAnimationFrame == 0 || !vHandle.isCurrentlyMoving())
+                    g2d.drawImage(VehicleSprite.vehicleUpRight1, pixelLocation.getX(), pixelLocation.getY(), null);
+                else
+                    g2d.drawImage(VehicleSprite.vehicleUpRight2, pixelLocation.getX(), pixelLocation.getY(), null);
+            } else if (vHandle.getDirection() == 90) {
+                if (currentAnimationFrame == 0 || !vHandle.isCurrentlyMoving())
+                    g2d.drawImage(VehicleSprite.vehicleUp1, pixelLocation.getX(), pixelLocation.getY(), null);
+                else
+                    g2d.drawImage(VehicleSprite.vehicleUp2, pixelLocation.getX(), pixelLocation.getY(), null);
+            } else if (vHandle.getDirection() == 135) {
+                if (currentAnimationFrame == 0 || !vHandle.isCurrentlyMoving())
+                    g2d.drawImage(VehicleSprite.vehicleUpLeft1, pixelLocation.getX(), pixelLocation.getY(), null);
+                else
+                    g2d.drawImage(VehicleSprite.vehicleUpLeft2, pixelLocation.getX(), pixelLocation.getY(), null);
+            } else if (vHandle.getDirection() == 225) {
+                if (currentAnimationFrame == 0 || !vHandle.isCurrentlyMoving())
+                    g2d.drawImage(VehicleSprite.vehicleDownLeft1, pixelLocation.getX(), pixelLocation.getY(), null);
+                else
+                    g2d.drawImage(VehicleSprite.vehicleDownLeft2, pixelLocation.getX(), pixelLocation.getY(), null);
+            } else if (vHandle.getDirection() == 270) {
+                if (currentAnimationFrame == 0 || !vHandle.isCurrentlyMoving())
+                    g2d.drawImage(VehicleSprite.vehicleDown1, pixelLocation.getX(), pixelLocation.getY(), null);
+                else
+                    g2d.drawImage(VehicleSprite.vehicleDown2, pixelLocation.getX(), pixelLocation.getY(), null);
+            } else if (vHandle.getDirection() == 315) {
+                if (currentAnimationFrame == 0 || !vHandle.isCurrentlyMoving())
+                    g2d.drawImage(VehicleSprite.vehicleDownRight1, pixelLocation.getX(), pixelLocation.getY(), null);
+                else
+                    g2d.drawImage(VehicleSprite.vehicleDownRight2, pixelLocation.getX(), pixelLocation.getY(), null);
+            }
         }
-        else if (vHandle.getDirection() == 90) {
-            if(currentAnimationFrame == 0 || !vHandle.isCurrentlyMoving())
-                g2d.drawImage(VehicleSprite.vehicleUp1, pixelLocation.getX(), pixelLocation.getY(), null);
-            else
-                g2d.drawImage(VehicleSprite.vehicleUp2, pixelLocation.getX(), pixelLocation.getY(), null);
-        }
-        else if (vHandle.getDirection() == 135) {
-            if(currentAnimationFrame == 0 || !vHandle.isCurrentlyMoving())
-                g2d.drawImage(VehicleSprite.vehicleUpLeft1, pixelLocation.getX(), pixelLocation.getY(), null);
-            else
-                g2d.drawImage(VehicleSprite.vehicleUpLeft2, pixelLocation.getX(), pixelLocation.getY(), null);
-        }
-        else if (vHandle.getDirection() == 225) {
-            if(currentAnimationFrame == 0 || !vHandle.isCurrentlyMoving())
-                g2d.drawImage(VehicleSprite.vehicleDownLeft1, pixelLocation.getX(), pixelLocation.getY(), null);
-            else
-                g2d.drawImage(VehicleSprite.vehicleDownLeft2, pixelLocation.getX(), pixelLocation.getY(), null);
-        }
-        else if (vHandle.getDirection() == 270) {
-            if(currentAnimationFrame == 0 || !vHandle.isCurrentlyMoving())
-                g2d.drawImage(VehicleSprite.vehicleDown1, pixelLocation.getX(), pixelLocation.getY(), null);
-            else
-                g2d.drawImage(VehicleSprite.vehicleDown2, pixelLocation.getX(), pixelLocation.getY(), null);
-        }
-        else if (vHandle.getDirection() == 315) {
-            if(currentAnimationFrame == 0 || !vHandle.isCurrentlyMoving())
-                g2d.drawImage(VehicleSprite.vehicleDownRight1, pixelLocation.getX(), pixelLocation.getY(), null);
-            else
-                g2d.drawImage(VehicleSprite.vehicleDownRight2, pixelLocation.getX(), pixelLocation.getY(), null);
+        else if(vHandle.getCanPassMountain()){      //  For the mountain turtle
+            if (vHandle.getDirection() == 45) {
+                if (currentAnimationFrame == 0 || !vHandle.isCurrentlyMoving())
+                    g2d.drawImage(VehicleSprite2.vehicleUpRight1, pixelLocation.getX(), pixelLocation.getY(), null);
+                else
+                    g2d.drawImage(VehicleSprite2.vehicleUpRight2, pixelLocation.getX(), pixelLocation.getY(), null);
+            } else if (vHandle.getDirection() == 90) {
+                if (currentAnimationFrame == 0 || !vHandle.isCurrentlyMoving())
+                    g2d.drawImage(VehicleSprite2.vehicleUp1, pixelLocation.getX(), pixelLocation.getY(), null);
+                else
+                    g2d.drawImage(VehicleSprite2.vehicleUp2, pixelLocation.getX(), pixelLocation.getY(), null);
+            } else if (vHandle.getDirection() == 135) {
+                if (currentAnimationFrame == 0 || !vHandle.isCurrentlyMoving())
+                    g2d.drawImage(VehicleSprite2.vehicleUpLeft1, pixelLocation.getX(), pixelLocation.getY(), null);
+                else
+                    g2d.drawImage(VehicleSprite2.vehicleUpLeft2, pixelLocation.getX(), pixelLocation.getY(), null);
+            } else if (vHandle.getDirection() == 225) {
+                if (currentAnimationFrame == 0 || !vHandle.isCurrentlyMoving())
+                    g2d.drawImage(VehicleSprite2.vehicleDownLeft1, pixelLocation.getX(), pixelLocation.getY(), null);
+                else
+                    g2d.drawImage(VehicleSprite2.vehicleDownLeft2, pixelLocation.getX(), pixelLocation.getY(), null);
+            } else if (vHandle.getDirection() == 270) {
+                if (currentAnimationFrame == 0 || !vHandle.isCurrentlyMoving())
+                    g2d.drawImage(VehicleSprite2.vehicleDown1, pixelLocation.getX(), pixelLocation.getY(), null);
+                else
+                    g2d.drawImage(VehicleSprite2.vehicleDown2, pixelLocation.getX(), pixelLocation.getY(), null);
+            } else if (vHandle.getDirection() == 315) {
+                if (currentAnimationFrame == 0 || !vHandle.isCurrentlyMoving())
+                    g2d.drawImage(VehicleSprite2.vehicleDownRight1, pixelLocation.getX(), pixelLocation.getY(), null);
+                else
+                    g2d.drawImage(VehicleSprite2.vehicleDownRight2, pixelLocation.getX(), pixelLocation.getY(), null);
+            }
         }
     }
 
@@ -141,4 +169,5 @@ public class VehicleView extends View implements ActionListener{
     public void setPixelLocation(Location pixelLocation) {
         this.pixelLocation = pixelLocation;
     }
+
 }
