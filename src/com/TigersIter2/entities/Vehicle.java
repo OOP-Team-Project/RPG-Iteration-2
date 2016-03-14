@@ -23,9 +23,9 @@ public class Vehicle extends Entity {
 
         //Position will be configurable later. This is just a hacky way to make them start in different places for testing
         if(!mountain)
-            location = new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight,0);
+            location = new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight);
         else
-            location = new Location(10 * StaticVar.terrainImageWidth + 400,10 * StaticVar.terrainImageHeight,0);
+            location = new Location(10 * StaticVar.terrainImageWidth + 400,10 * StaticVar.terrainImageHeight);
         this.movementBonus = movement;
         this.canPassWater = water;
         this.canPassMountain = mountain;

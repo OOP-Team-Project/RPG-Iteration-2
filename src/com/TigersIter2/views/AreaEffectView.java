@@ -3,10 +3,7 @@ package com.TigersIter2.views;
 import com.TigersIter2.areaEffects.AreaEffect;
 import com.TigersIter2.assets.StaticVar;
 import com.TigersIter2.assets.sprites.AreaEffectSprite;
-import com.TigersIter2.assets.sprites.ItemSprite;
 import com.TigersIter2.entities.Avatar;
-import com.TigersIter2.items.Interactive;
-import com.TigersIter2.items.Item;
 import com.TigersIter2.location.Location;
 import com.TigersIter2.location.LocationConverter;
 import com.TigersIter2.maps.TerrainMap;
@@ -28,7 +25,7 @@ public class AreaEffectView extends View {
         aEffectHandle = ae;
         mapXLength = map.getMapWidth();
         mapYLength = map.getMapHeight();
-        pixelLocation = new Location(-1, -1, -1);
+        pixelLocation = new Location(-1, -1);
 
         setPreferredSize(new Dimension(StaticVar.gameWidth, StaticVar.gameHeight));
     }
@@ -64,20 +61,20 @@ public class AreaEffectView extends View {
 
             //For calculating X Stuff
             if ((float) (View.cameraLocation.getX()) / StaticVar.terrainImageWidth < ((float) StaticVar.xTilesFromEdge)) {
-                pixelLocation = (new Location(Math.round(aEffectHandle.getLocation().getX() * .75f - 80), pixelLocation.getY(), 0));
+                pixelLocation = (new Location(Math.round(aEffectHandle.getLocation().getX() * .75f - 80), pixelLocation.getY()));
             } else if ((float) (View.cameraLocation.getX()) / StaticVar.terrainImageWidth > (mapXLength - StaticVar.xTilesFromEdge + 1)) {
-                pixelLocation = (new Location(Math.round((aEffectHandle.getLocation().getX() - ((mapXLength - StaticVar.xTilesFromEdge * 2 + 1) * StaticVar.terrainImageWidth)) * .75f - 80), pixelLocation.getY(), 0));
+                pixelLocation = (new Location(Math.round((aEffectHandle.getLocation().getX() - ((mapXLength - StaticVar.xTilesFromEdge * 2 + 1) * StaticVar.terrainImageWidth)) * .75f - 80), pixelLocation.getY()));
             } else {
-                pixelLocation = (new Location(Math.round((aEffectHandle.getLocation().getX() - View.cameraLocation.getX() + StaticVar.xTilesFromEdge * StaticVar.terrainImageWidth) * .75f) - 80, pixelLocation.getY(), 0));
+                pixelLocation = (new Location(Math.round((aEffectHandle.getLocation().getX() - View.cameraLocation.getX() + StaticVar.xTilesFromEdge * StaticVar.terrainImageWidth) * .75f) - 80, pixelLocation.getY()));
             }
 
             //For calculating Y Stuff Below
             if ((float) (View.cameraLocation.getY()) / StaticVar.terrainImageHeight < (float) StaticVar.yTilesFromEdge) {
-                pixelLocation = (new Location(pixelLocation.getX(), Math.round(aEffectHandle.getLocation().getY() - Math.round(StaticVar.terrainImageHeight * 1.2f)), 0));
+                pixelLocation = (new Location(pixelLocation.getX(), Math.round(aEffectHandle.getLocation().getY() - Math.round(StaticVar.terrainImageHeight * 1.2f))));
             } else if ((float) (View.cameraLocation.getY()) / StaticVar.terrainImageHeight > (mapYLength - StaticVar.yTilesFromEdge)) {
-                pixelLocation = (new Location(pixelLocation.getX(), Math.round((aEffectHandle.getLocation().getY() - ((mapYLength - StaticVar.yTilesFromEdge * 2) * StaticVar.terrainImageHeight)) - Math.round(StaticVar.terrainImageHeight * 1.2f)), 0));
+                pixelLocation = (new Location(pixelLocation.getX(), Math.round((aEffectHandle.getLocation().getY() - ((mapYLength - StaticVar.yTilesFromEdge * 2) * StaticVar.terrainImageHeight)) - Math.round(StaticVar.terrainImageHeight * 1.2f))));
             } else {
-                pixelLocation = (new Location(pixelLocation.getX(), aEffectHandle.getLocation().getY() - View.cameraLocation.getY() + Math.round(StaticVar.yTilesFromEdge * StaticVar.terrainImageHeight) - StaticVar.terrainImageHeight - 20, 0));
+                pixelLocation = (new Location(pixelLocation.getX(), aEffectHandle.getLocation().getY() - View.cameraLocation.getY() + Math.round(StaticVar.yTilesFromEdge * StaticVar.terrainImageHeight) - StaticVar.terrainImageHeight - 20));
             }
 
             Graphics2D g2d = (Graphics2D) g.create();

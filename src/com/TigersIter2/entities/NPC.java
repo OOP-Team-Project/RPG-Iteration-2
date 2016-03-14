@@ -1,7 +1,6 @@
 package com.TigersIter2.entities;
 
 import com.TigersIter2.assets.StaticVar;
-import com.TigersIter2.items.Item;
 import com.TigersIter2.items.TakeableItem;
 import com.TigersIter2.location.Location;
 import com.TigersIter2.stats.NPCStats;
@@ -35,7 +34,7 @@ public abstract class NPC extends Entity{
 
 
     public NPC(){
-        location = new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight,0);
+        location = new Location(10 * StaticVar.terrainImageWidth,10 * StaticVar.terrainImageHeight);
         direction = 270;
         canPassMountain = false; //if anything this should be under skills (Sam)
         canPassWater = false;
@@ -91,7 +90,7 @@ public abstract class NPC extends Entity{
             TakeableItem item = iter.next();
             int xLoc = location.getX();
             int yLoc = location.getY()+100;
-            item.setLocation(new Location(xLoc, yLoc, 0));
+            item.setLocation(new Location(xLoc, yLoc));
             item.setDisplay(true);
             iter.remove();
         }
@@ -101,7 +100,7 @@ public abstract class NPC extends Entity{
             TakeableItem item = iter.next();
             int xLoc = location.getX();
             int yLoc = location.getY()+100;
-            item.setLocation(new Location(xLoc, yLoc, 0));
+            item.setLocation(new Location(xLoc, yLoc));
             item.setDisplay(true);
             iter.remove();
         }

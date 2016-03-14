@@ -2,7 +2,6 @@ package com.TigersIter2.states;
 
 import com.TigersIter2.areaEffects.*;
 import com.TigersIter2.assets.StaticVar;
-import com.TigersIter2.items.OneHandedWeaponItem;
 import com.TigersIter2.location.Location;
 import com.TigersIter2.managers.PetManager;
 import com.TigersIter2.location.LocationConverter;
@@ -76,7 +75,7 @@ public class GameState extends State {
         npcMapInteract = new ArrayList<NPCMapInteract>();
         map = new TerrainMap(StaticVar.map2);
         avatar = new Avatar();
-        Location avatarLoc = LocationConverter.HexLocationToPixel(new Location(8,11,0));
+        Location avatarLoc = LocationConverter.HexLocationToPixel(new Location(8,11));
         avatar.setLocation(avatarLoc);
         View.setAvatar(avatar);
         avatarMapInteract = new AvatarMapInteract(avatar, map);
@@ -128,7 +127,7 @@ public class GameState extends State {
 
         //vehicles
         Vehicle v1 = new Vehicle("Turtle", 5, true, false);
-        Location vehileLocation1 = LocationConverter.HexLocationToPixel(new Location(2,1,0));
+        Location vehileLocation1 = LocationConverter.HexLocationToPixel(new Location(2,1));
         vehileLocation1.incrementX(+45);
         vehileLocation1.incrementY(+35);
         v1.setLocation(vehileLocation1);
@@ -137,7 +136,7 @@ public class GameState extends State {
 
 
         Vehicle v2 = new Vehicle("Turtle2", 5, true, true);
-        Location vehileLocation0 = LocationConverter.HexLocationToPixel(new Location(18,11,0)); // 18,12,0
+        Location vehileLocation0 = LocationConverter.HexLocationToPixel(new Location(18,11)); // 18,12,0
         vehileLocation0.incrementX(+45);
         vehileLocation0.incrementY(+35);
         v2.setLocation(vehileLocation0);
@@ -164,7 +163,7 @@ public class GameState extends State {
         itemManager.addItem(pot3);
         itemManager.addItem(bn);
 
-        Location villagerLocation1 = LocationConverter.HexLocationToPixel(new Location(8,12,0));
+        Location villagerLocation1 = LocationConverter.HexLocationToPixel(new Location(8,12));
         villagerLocation1.incrementX(StaticVar.terrainImageWidth/2);
         villagerLocation1.incrementY(StaticVar.terrainImageHeight/2);
 
@@ -195,7 +194,7 @@ public class GameState extends State {
         itemManager.addItem(bnr);
         itemManager.addItem(tk);
 
-        Location villagerLocation2 = LocationConverter.HexLocationToPixel(new Location(17,11,0));
+        Location villagerLocation2 = LocationConverter.HexLocationToPixel(new Location(17,11));
         villagerLocation2.incrementX(StaticVar.terrainImageWidth/2);
 
         ant.addVillager(list2, true, true, false, villagerLocation2);
@@ -203,55 +202,55 @@ public class GameState extends State {
 
         //monsters
         //m1
-        Location monsterLocation1 = LocationConverter.HexLocationToPixel(new Location(2,4,0));
+        Location monsterLocation1 = LocationConverter.HexLocationToPixel(new Location(2,4));
         monsterLocation1.incrementX(50);
         monsterLocation1.incrementY(50);
         ant.addMonster(monsterLocation1);
 
         //m2
-        Location monsterLocation2 = LocationConverter.HexLocationToPixel(new Location(2,12,0));
+        Location monsterLocation2 = LocationConverter.HexLocationToPixel(new Location(2,12));
         monsterLocation2.incrementX(50);
         monsterLocation2.incrementY(50);
         ant.addMonster(monsterLocation2);
 
         //m3
-        Location monsterLocation3 = LocationConverter.HexLocationToPixel(new Location(10,17,0));
+        Location monsterLocation3 = LocationConverter.HexLocationToPixel(new Location(10,17));
         monsterLocation3.incrementX(50);
         monsterLocation3.incrementY(50);
         ant.addMonster(monsterLocation3);
 
         //m4
-        Location monsterLocation4 = LocationConverter.HexLocationToPixel(new Location(18,16,0));
+        Location monsterLocation4 = LocationConverter.HexLocationToPixel(new Location(18,16));
         monsterLocation4.incrementX(50);
         monsterLocation4.incrementY(50);
         ant.addMonster(monsterLocation2);
 
         //m5
-        Location monsterLocation5 = LocationConverter.HexLocationToPixel(new Location(14,4,0));
+        Location monsterLocation5 = LocationConverter.HexLocationToPixel(new Location(14,4));
         monsterLocation5.incrementX(50);
         monsterLocation5.incrementY(50);
         ant.addMonster(monsterLocation5);
 
         //m6
-        Location monsterLocation6 = LocationConverter.HexLocationToPixel(new Location(10,2,0));
+        Location monsterLocation6 = LocationConverter.HexLocationToPixel(new Location(10,2));
         monsterLocation6.incrementX(50);
         monsterLocation6.incrementY(50);
         ant.addMonster(monsterLocation6);
 
         //m7
-        Location monsterLocation7 = LocationConverter.HexLocationToPixel(new Location(8,7,0));
+        Location monsterLocation7 = LocationConverter.HexLocationToPixel(new Location(8,7));
         monsterLocation7.incrementX(50);
         monsterLocation7.incrementY(50);
         ant.addMonster(monsterLocation7);
 
         //m8
-        Location monsterLocation8 = LocationConverter.HexLocationToPixel(new Location(12,12,0));
+        Location monsterLocation8 = LocationConverter.HexLocationToPixel(new Location(12,12));
         monsterLocation8.incrementX(50);
         monsterLocation8.incrementY(50);
         ant.addMonster(monsterLocation8);
 
         //m9
-        Location monsterLocation9 = LocationConverter.HexLocationToPixel(new Location(16,15,0));
+        Location monsterLocation9 = LocationConverter.HexLocationToPixel(new Location(16,15));
         monsterLocation9.incrementX(50);
         monsterLocation9.incrementY(50);
         ant.addMonster(monsterLocation9);
@@ -263,33 +262,33 @@ public class GameState extends State {
          */
         //kay to the lock
         Item key1 = new Key("Key", 1);
-        Location keyLocation = LocationConverter.HexLocationToPixel(new Location(17,18,0));
+        Location keyLocation = LocationConverter.HexLocationToPixel(new Location(17,18));
         keyLocation.incrementX(+35);
         keyLocation.incrementY(10);
         key1.setLocation(keyLocation);
 
         //lock
         Item interactive1 = new Interactive(1);
-        Location l2 = LocationConverter.HexLocationToPixel(new Location(2,5,0));
+        Location l2 = LocationConverter.HexLocationToPixel(new Location(2,5));
         l2.incrementX(+35);
         l2.incrementY(60);
         interactive1.setLocation(l2);
 
         //obstacles
         Item obstacle1 = new Obstacle();
-        Location obstacleLocation1 = LocationConverter.HexLocationToPixel(new Location(4,16,0));
+        Location obstacleLocation1 = LocationConverter.HexLocationToPixel(new Location(4,16));
         obstacleLocation1.incrementX(30);
         obstacleLocation1.incrementY(45);
         obstacle1.setLocation(obstacleLocation1);
 
         Item obstacle2 = new Obstacle();
-        Location obstacleLocation2 = LocationConverter.HexLocationToPixel(new Location(3,17,0));
+        Location obstacleLocation2 = LocationConverter.HexLocationToPixel(new Location(3,17));
         obstacleLocation2.incrementX(30);
         obstacle2.setLocation(obstacleLocation2);
 
         //one shot
         Item oneShot1 = new OneShot();
-        Location oneShotLocation1 = LocationConverter.HexLocationToPixel(new Location(2,18,0));
+        Location oneShotLocation1 = LocationConverter.HexLocationToPixel(new Location(2,18));
         oneShotLocation1.incrementX(39);
         oneShotLocation1.incrementY(60);
         oneShot1.setLocation(oneShotLocation1);
@@ -305,7 +304,7 @@ public class GameState extends State {
          */
         //trap1
         AreaEffect trap1 = new Trap();
-        Location trapLocation1 = LocationConverter.HexLocationToPixel(new Location(14,13,0));
+        Location trapLocation1 = LocationConverter.HexLocationToPixel(new Location(14,13));
         trapLocation1.incrementX(45);
         trapLocation1.incrementY(65);
         trap1.setLocation(trapLocation1);
@@ -313,7 +312,7 @@ public class GameState extends State {
 
         //heal damage
         AreaEffect healDamage = new HealDamage();
-        Location healDamageLocation = LocationConverter.HexLocationToPixel(new Location(18,14,0));
+        Location healDamageLocation = LocationConverter.HexLocationToPixel(new Location(18,14));
         healDamageLocation.incrementX(40);
         healDamageLocation.incrementY(-30);
         healDamage.setLocation(healDamageLocation);
@@ -321,7 +320,7 @@ public class GameState extends State {
 
         //instadeath
         AreaEffect instaDeath = new InstantDeath();
-        Location instaDeathLocation = LocationConverter.HexLocationToPixel(new Location(4,11,0));
+        Location instaDeathLocation = LocationConverter.HexLocationToPixel(new Location(4,11));
         instaDeathLocation.incrementX(40);
         instaDeathLocation.incrementY(60);
         instaDeath.setLocation(instaDeathLocation);
@@ -329,7 +328,7 @@ public class GameState extends State {
 
         //level up
         AreaEffect levelUp = new LevelUp();
-        Location levelUpLocation = LocationConverter.HexLocationToPixel(new Location(18,12,0));
+        Location levelUpLocation = LocationConverter.HexLocationToPixel(new Location(18,12));
         levelUpLocation.incrementX(40);
         levelUpLocation.incrementY(60);
         levelUp.setLocation(levelUpLocation);
@@ -337,7 +336,7 @@ public class GameState extends State {
 
         //level up
         AreaEffect levelUp2 = new LevelUp();
-        Location levelUpLocation2 = LocationConverter.HexLocationToPixel(new Location(2,2,0));
+        Location levelUpLocation2 = LocationConverter.HexLocationToPixel(new Location(2,2));
         levelUpLocation2.incrementX(40);
         levelUpLocation2.incrementY(60);
         levelUp2.setLocation(levelUpLocation2);
@@ -345,7 +344,7 @@ public class GameState extends State {
 
         //take damage
         AreaEffect takeDamage1 = new TakeDamage();
-        Location takeDamagelocation1 = LocationConverter.HexLocationToPixel(new Location(10,16,0));
+        Location takeDamagelocation1 = LocationConverter.HexLocationToPixel(new Location(10,16));
         takeDamagelocation1.incrementX(40);
         takeDamagelocation1.incrementY(60);
         takeDamage1.setLocation(takeDamagelocation1);
@@ -353,28 +352,28 @@ public class GameState extends State {
 
         //take damage
         AreaEffect takeDamage2 = new TakeDamage();
-        Location takeDamagelocation2 = LocationConverter.HexLocationToPixel(new Location(10,15,0));
+        Location takeDamagelocation2 = LocationConverter.HexLocationToPixel(new Location(10,15));
         takeDamagelocation2.incrementX(40);
         takeDamagelocation2.incrementY(60);
         takeDamage2.setLocation(takeDamagelocation2);
         aem.addEffect(takeDamage2);
 
         //teleport1
-        Location targetTeleportLoc1 = LocationConverter.HexLocationToPixel(new Location(1,18,0));
+        Location targetTeleportLoc1 = LocationConverter.HexLocationToPixel(new Location(1,18));
         targetTeleportLoc1.incrementX(30);
         AreaEffect teleport1 = new Teleport(targetTeleportLoc1);
-        Location sourceTeleportLoc1 = LocationConverter.HexLocationToPixel(new Location(10,1,0));
+        Location sourceTeleportLoc1 = LocationConverter.HexLocationToPixel(new Location(10,1));
         sourceTeleportLoc1.incrementX(40);
         sourceTeleportLoc1.incrementY(66);
         teleport1.setLocation(sourceTeleportLoc1);
         aem.addEffect(teleport1);
 
         //teleport2
-        Location targetTeleportLoc2 = LocationConverter.HexLocationToPixel(new Location(8,12,0));
+        Location targetTeleportLoc2 = LocationConverter.HexLocationToPixel(new Location(8,12));
         targetTeleportLoc2.incrementX(30);
         targetTeleportLoc2.incrementY(40);
         AreaEffect teleport2 = new Teleport(targetTeleportLoc2);
-        Location sourceTeleportLoc2 = LocationConverter.HexLocationToPixel(new Location(3,18,0));
+        Location sourceTeleportLoc2 = LocationConverter.HexLocationToPixel(new Location(3,18));
         sourceTeleportLoc2.incrementX(40);
         sourceTeleportLoc2.incrementY(120);
         teleport2.setLocation(sourceTeleportLoc2);
