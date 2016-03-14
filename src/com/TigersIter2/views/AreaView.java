@@ -31,7 +31,6 @@ public class AreaView extends View {
             this.add(i);
         for(AreaEffectView ae : aev)
             this.add(ae);
-        //MapView is fucked up - Sam
         this.add(mapView);
     }
 

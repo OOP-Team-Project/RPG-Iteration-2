@@ -147,7 +147,7 @@ public class AvatarNPCInteract {
         }
 
         if(ret)
-            AttackIndicatorView.addIndicator(attackType, npc.getPixelLocation().getX(), npc.getPixelLocation().getY());
+            AttackIndicatorView.addIndicator(attackType, npc.getLocation().getX(), npc.getLocation().getY());
         AttackIndicatorView.drawIndicator();
         return ret;
     }
@@ -284,7 +284,7 @@ public class AvatarNPCInteract {
         }
 
         if(ret)
-            AttackIndicatorView.addIndicator(attackType, npc.getPixelLocation().getX(), npc.getPixelLocation().getY());
+            AttackIndicatorView.addIndicator(attackType, npc.getLocation().getX(), npc.getLocation().getY());
         AttackIndicatorView.drawIndicator();
         return ret;
     }
@@ -308,7 +308,7 @@ public class AvatarNPCInteract {
         xDist = Math.abs(xDist);
         yDist = Math.abs(yDist);
         if(xDist <= range && yDist <= range){
-            AttackIndicatorView.addIndicator(attackType, npc.getPixelLocation().getX(), npc.getPixelLocation().getY());
+            AttackIndicatorView.addIndicator(attackType, npc.getLocation().getX(), npc.getLocation().getY());
             if(xDist >= yDist)
                 ret = xDist;
             else
@@ -369,7 +369,7 @@ public class AvatarNPCInteract {
                                     killNPC(npc);
                                     resetOptions();
                                 }
-                                MessageView.addMessage("Backstabbed!", npc.getPixelLocation().getX(), npc.getPixelLocation().getY()-20);
+                                MessageView.addMessage("Backstabbed!", npc.getLocation().getX(), npc.getLocation().getY()-20);
                             }
                             else
                                 System.out.println("Not holding a weapon, can't attack");
@@ -378,10 +378,10 @@ public class AvatarNPCInteract {
                             if (inLinearRange(npc, "range")) {
                                 observed = attackEnemy(npc);
                                 if(observed == 0)
-                                    MessageView.addMessage("MISS", npc.getPixelLocation().getX(), npc.getPixelLocation().getY());
+                                    MessageView.addMessage("MISS", npc.getLocation().getX(), npc.getLocation().getY());
                                 else {
                                     observed += error;
-                                    MessageView.addMessage("-" + Integer.toString(observed), npc.getPixelLocation().getX(), npc.getPixelLocation().getY());
+                                    MessageView.addMessage("-" + Integer.toString(observed), npc.getLocation().getX(), npc.getLocation().getY());
                                 }
                             }
                         }else if(weaponType.equals("Staff")){
@@ -389,10 +389,10 @@ public class AvatarNPCInteract {
                                 // Melee attack
                                 observed = attackEnemy(npc);
                                 if(observed == 0)
-                                    MessageView.addMessage("MISS", npc.getPixelLocation().getX(), npc.getPixelLocation().getY());
+                                    MessageView.addMessage("MISS", npc.getLocation().getX(), npc.getLocation().getY());
                                 else {
                                     observed += error;
-                                    MessageView.addMessage("-" + Integer.toString(observed), npc.getPixelLocation().getX(), npc.getPixelLocation().getY());
+                                    MessageView.addMessage("-" + Integer.toString(observed), npc.getLocation().getX(), npc.getLocation().getY());
                                 }
                             }
                         }
@@ -400,10 +400,10 @@ public class AvatarNPCInteract {
                             // Melee attack
                             observed = attackEnemy(npc);
                             if(observed == 0)
-                                MessageView.addMessage("MISS", npc.getPixelLocation().getX(), npc.getPixelLocation().getY());
+                                MessageView.addMessage("MISS", npc.getLocation().getX(), npc.getLocation().getY());
                             else {
                                 observed += error;
-                                MessageView.addMessage("-" + Integer.toString(observed), npc.getPixelLocation().getX(), npc.getPixelLocation().getY());
+                                MessageView.addMessage("-" + Integer.toString(observed), npc.getLocation().getX(), npc.getLocation().getY());
                             }
                         }
                     }
@@ -455,7 +455,7 @@ public class AvatarNPCInteract {
                         Random rand = new Random();
                         if (damage > 0) {
                             damage = rand.nextInt(damage);
-                            MessageView.addMessage("-"+Integer.toString(damage + error), npc.getPixelLocation().getX(), npc.getPixelLocation().getY());
+                            MessageView.addMessage("-"+Integer.toString(damage + error), npc.getLocation().getX(), npc.getLocation().getY());
                             npc.getStats().decreaseCurrentLife(damage);
                             System.out.println("Dealt " + damage + " damage");
                         } else {
@@ -834,7 +834,7 @@ public class AvatarNPCInteract {
                 if(avatar.getOnTileWithNPC()) {
                     int current = npcOnTile.getStats().getCurrentLife() + getObservationError();
                     int total = npcOnTile.getStats().getLife() + getObservationError();
-                    MessageView.addMessage(Integer.toString(current) + "/" + Integer.toString(total), npcOnTile.getPixelLocation().getX(), npcOnTile.getPixelLocation().getY());
+                    MessageView.addMessage(Integer.toString(current) + "/" + Integer.toString(total), npcOnTile.getLocation().getX(), npcOnTile.getLocation().getY());
                 }
             }
             else if(selected == 3){

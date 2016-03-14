@@ -46,8 +46,39 @@ public class MessageView extends View {
 
     public static void addMessage(String msg, int x, int y){
         messageList.add(msg);
-        xPos.add(x);
-        yPos.add(y);
+        int translatedX, translatedY;
+
+        if((float) (View.cameraLocation.getX())/StaticVar.terrainImageWidth < ((float) StaticVar.xTilesFromEdge)) {
+            translatedX = Math.round(x*.75f - 80);
+        }
+        else if((float) (View.cameraLocation.getX())/StaticVar.terrainImageWidth > (mapXLength - StaticVar.xTilesFromEdge + 1)) {
+
+            translatedX = Math.round((x - ((mapXLength - StaticVar.xTilesFromEdge*2 + 1) * StaticVar.terrainImageWidth))*.75f - 80);
+        }
+        else {
+            translatedX = Math.round((StaticVar.xTilesFromEdge*StaticVar.terrainImageWidth - View.cameraLocation.getX() + x*.75f - 80));
+        }
+
+        //Y Stuff Below
+        if((float) (View.cameraLocation.getY())/StaticVar.terrainImageHeight < (float) StaticVar.yTilesFromEdge) {
+            //tileViews.get(i).get(j).setCurrentYLocation(j);
+            //((TileView) getComponent((i * tileViews.get(0).size()) + j)).setCurrentYLocation(j);
+            translatedY = Math.round(y - Math.round(StaticVar.terrainImageHeight*1.2f));
+        }
+        else if((float) (View.cameraLocation.getY())/StaticVar.terrainImageHeight > (mapYLength - StaticVar.yTilesFromEdge)) {
+            //tileViews.get(i).get(j).setCurrentYLocation(j - tileViews.get(0).size() + StaticVar.yTilesFromEdge*2);
+            //((TileView) getComponent((i * tileViews.get(0).size()) + j)).setCurrentYLocation(j - tileViews.get(0).size() + StaticVar.yTilesFromEdge*2);
+            translatedY = Math.round((y - ((mapYLength - StaticVar.yTilesFromEdge*2) * StaticVar.terrainImageHeight)) - Math.round(StaticVar.terrainImageHeight*1.2f));
+        }
+        else {
+            //tileViews.get(i).get(j).setCurrentYLocation(j - (float) (View.cameraLocation.getY()) / StaticVar.terrainImageHeight + StaticVar.yTilesFromEdge);
+            translatedY = Math.round(StaticVar.yTilesFromEdge*StaticVar.terrainImageHeight - Math.round(StaticVar.terrainImageHeight*1.2f)) - View.cameraLocation.getY() + y;
+            //((TileView) getComponent((i * tileViews.get(0).size()) + j)).setCurrentYLocation(j - (float) (aHandle.getLocation().getY()) / StaticVar.terrainImageHeight + StaticVar.yTilesFromEdge);
+        }
+
+
+        xPos.add(translatedX);
+        yPos.add(translatedY);
     }
 
     public static void drawMessage(){
