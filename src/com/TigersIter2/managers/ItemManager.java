@@ -28,20 +28,21 @@ public class ItemManager {
         playerStats = avatar.getPlayerStats();
         itemList = new ArrayList<Item>();
         //avatar.getInventory().getItems();
+        loadItems();
     }
 
     private void loadItems(){
         System.out.println("ItemManager loading in....");
-        String[] itemString = FileReader.fileToString(StaticVar.itemManagerNewFile).split("\\s+"); //splits up file on any white space
+        String[] itemString = FileReader.fileToString(StaticVar.itemManagerFile).split("\\s+"); //splits up file on any white space
         if (itemString[0].equals("inventory:")) {
             System.out.println("Inventory loading in...");
         }
         int tracker = 1; //just read in at 0
         while (!itemString[tracker].equals("null")) {
 
-//            System.out.println("Tracker: " + tracker + ", String: " + avatarString[tracker]);
-//            System.out.println("Tracker: " + tracker + 1 + ", String: " + avatarString[tracker + 1]);
-//            System.out.println("Tracker: " + tracker + 2 + ", String: " + avatarString[tracker + 2]);
+            System.out.println("Tracker: " + tracker + ", String: " + itemString[tracker]);
+            System.out.println("Tracker: " + (tracker + 1) + ", String: " + itemString[tracker + 1]);
+            System.out.println("Tracker: " + (tracker + 2) + ", String: " + itemString[tracker + 2]);
             switch (FileReader.stringToInt(itemString[tracker])) {
                 case StaticVar.armorItemType:
                     TakeableItem armor = new Armor(itemString[tracker + 1], FileReader.stringToInt(itemString[tracker + 2]), FileReader.stringToInt(itemString[tracker + 3]));
@@ -52,20 +53,36 @@ public class ItemManager {
                     System.out.println("ArmorType loaded in...");
                     break;
                 case StaticVar.weaponItemType:
-                    if (itemString[tracker+1].toString().equals("OneHanded")){
+                    tracker++;
+                    if (itemString[tracker].equals("OneHanded")){
                         TakeableItem weapon = new OneHandedWeaponItem(itemString[tracker+1]);
                         this.addItem(weapon);
+                        avatar.getInventory().addItem(weapon);
+                        tracker+=1;
+                        System.out.println("OneHandedWeapon loaded in...");
                     }
-                    else if (itemString[tracker+1].toString().equals("TwoHanded")){
-
+                    else if (itemString[tracker].equals("TwoHanded")){
+                        TakeableItem weapon = new TwoHandedWeaponItem(itemString[tracker+1], FileReader.stringToInt(itemString[tracker+2]));
+                        this.addItem(weapon);
+                        avatar.getInventory().addItem(weapon);
+                        tracker+=2;
+                        System.out.println("TwoHandedWeapon loaded in...");
                     }
-                    else if (itemString[tracker+1].toString().equals("Ranged")){
-
+                    else if (itemString[tracker].equals("Ranged")){
+                        TakeableItem weapon = new RangedWeaponItem(itemString[tracker+1], FileReader.stringToInt(itemString[tracker+2]), FileReader.stringToInt(itemString[tracker+3]), FileReader.stringToInt(itemString[tracker+4]));
+                        this.addItem(weapon);
+                        avatar.getInventory().addItem(weapon);
+                        System.out.println("RangedWeapon loaded in...");
+                        tracker+=4;
                     }
-                    else if (itemString[tracker+1].toString().equals("Brawling")){
-
+                    else if (itemString[tracker].equals("Brawling")){
+                        TakeableItem weapon = new BrawlingWeaponItem(itemString[tracker+1]);
+                        this.addItem(weapon);
+                        avatar.getInventory().addItem(weapon);
+                        tracker+=1;
+                        System.out.println("BrawlingWeapon loaded in...");
                     }
-                    System.out.println("WeaponType loaded in...");
+                    //System.out.println("WeaponType loaded in...");
 
                     break;
                 case StaticVar.keyItemType:
@@ -87,8 +104,7 @@ public class ItemManager {
 
             }
             tracker++;
-//            //getInventory().addItem();
-//        }
+
         }
     }
 

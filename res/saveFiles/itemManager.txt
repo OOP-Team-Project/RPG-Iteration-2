@@ -1,6 +1,6 @@
 inventory:
 0 BreastPlate 2 4
-5 Potion+10 10
+5 Potion10 10
 2 Key 1
 6 OneHanded SmallSword
 6 TwoHanded BigSword 1

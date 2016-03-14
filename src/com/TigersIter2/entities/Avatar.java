@@ -172,7 +172,7 @@ public class Avatar extends Entity{
         //saves water ability
         saveString.append("water:\n" + canPassWater+ "\n");
         //saves mountain ability
-        saveString.append("water:\n"+ canPassMountain + "\n");
+        saveString.append("mountain:\n"+ canPassMountain + "\n");
 
         FileWriter.stringToFile(StaticVar.avatarFile, saveString.toString());
 
