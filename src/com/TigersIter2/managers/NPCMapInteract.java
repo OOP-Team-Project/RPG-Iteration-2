@@ -32,7 +32,55 @@ public class NPCMapInteract {
         // if next is passable, continue in same direction
         int terrain = map.getTerrainType(LocationConverter.PixelLocationToHex(getNextLocation(elapsed)));
         if (terrain == 2 || terrain == 3){
-            convertDegreesToCoord(randomDirection(npc));
+            int newDir = (npc.getDirection() + 180) % 360;
+            int val1 = 45;
+            int val2 = -45;
+            int x1 = LocationConverter.PixelLocationToHex(npc.getLocation()).getX();
+            int x2 = LocationConverter.PixelLocationToHex(getNextLocation(elapsed)).getX();
+
+            if((newDir == 270 && x1 > x2) || (newDir == 90 && x1 < x2)){
+                val1 = -45;
+                val2 = -90;
+            }
+            else if((newDir == 270 && x1 < x2) || (newDir == 90 && x1 > x2)){
+                val1 = 45;
+                val2 = 90;
+            }
+            else if((newDir == 135 && x1 == x2) || (newDir == 315 && x1 == x2)){
+                val1 = -45;
+                val2 = -45;
+            }
+            else if((newDir == 225 && x1 == x2) || (newDir == 45 && x1 == x2)){
+                val1 = 45;
+                val2 = 45;
+            }
+            else if(x1 == x2 && (newDir == 90 || newDir == 270)){
+                val1 = 45;
+                val2 = -45;
+            }
+            else if((newDir == 45 && x1 < x2) || (newDir == 225 && x1 > x2)){
+                val1 = 45;
+                val2 = 45;
+            }
+            else if((newDir == 315 && x1 < x2) || (newDir == 135 && x1 > x2)){
+                val1 = -45;
+                val2 = -45;
+            }
+
+
+
+            double rand = Math.random();
+            if(rand < 0.33)
+                newDir = (newDir + val1) % 360;
+            else if(rand < 0.67)
+                newDir = (newDir + val2) % 360;
+
+
+
+            if(newDir % 180 == 0)     //just make sure we don't try to move horizontal
+                newDir = (newDir + 45) % 360;
+
+            convertDegreesToCoord(newDir);
             npc.update(xMov, yMov, elapsed);
         }
         else if(terrain == 1){
